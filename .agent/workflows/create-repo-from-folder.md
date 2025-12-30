@@ -53,6 +53,7 @@ git commit -m "🎉 Initial commit"
 
 ## Step 4: GitHubリポジトリの作成 // turbo
 `gh repo create` を実行します。
+- **重要**: 必ず `--private` フラグを使用すること。
 - デフォルトで **Private** リポジトリとして作成（`--private`）
 - ソースは現在のディレクトリ（`--source=.`）
 - リモート名は `origin`
