@@ -26,5 +26,8 @@ yarn-error.log*
 
 # Agent
 .gemini/
-.agent/
+
 ANTIGRAVITY_AGENT_CONTROL_SPEC.MD
+
+ZG_PROJECT/
+.SourceSageAssets/
