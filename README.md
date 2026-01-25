@@ -33,6 +33,26 @@ Webアプリ、API、ランディングページ、Chrome拡張……何でも�
 
 ## ✨ 特徴
 
+### 🆕 prompt/方式（プロジェクト管理）
+
+新規プロジェクト作成時に `prompt/` フォルダが自動生成されて、完璧にプロジェクトを管理できるよ！
+
+```
+prompt/
+├── PROJECT_SPECIFIC.yaml     # プロジェクト固有設定
+├── WORKFLOW.yaml             # 進捗・決定事項（セーブデータ）
+├── SYSTEM_PROMPT.yaml        # AIの振る舞い
+├── ARCHITECTURE.yaml         # 実装済み機能
+└── DATABASE.md               # DB設計（必要な場合）
+```
+
+| ファイル | 役割 | 更新タイミング |
+|----------|------|---------------|
+| `WORKFLOW.yaml` | **セーブデータ**（進捗・決定事項） | 毎セッション |
+| `PROJECT_SPECIFIC.yaml` | プロジェクト固有の設定 | 要件定義時 |
+| `SYSTEM_PROMPT.yaml` | AIの振る舞い・開発プロセス | 最初のみ |
+| `ARCHITECTURE.yaml` | 実装済み機能の仕様書 | 機能完了時 |
+
 ### 対応工程
 
 | 工程 | 説明 | コマンド |
@@ -43,7 +63,7 @@ Webアプリ、API、ランディングページ、Chrome拡張……何でも�
 | 💻 実装 | コードを書く（1ファイル1ターン） | `/implement` |
 | 🧪 テスト | 動作確認 | `/test-debug` |
 | 🐛 デバッグ | バグを直す（仮説→検証→修正） | `/bug-fix` |
-| 📊 進捗管理 | セッション間の情報を保持 | `/update-progress` |
+| 💾 保存 | セッション終了時に進捗を保存 | `/save-session` |
 
 ### 対応プロジェクトタイプ
 
@@ -65,21 +85,24 @@ rina-zero-gravity/
 │   │   ├── 10-character-rules-rina.md  # りなちーのキャラ設定
 │   │   ├── 20-project-lifecycle.md     # プロジェクトライフサイクル
 │   │   ├── 25-tech-selector.md         # 技術選定ルール
-│   │   ├── 26-template-definitions.md  # テンプレート定義
-│   │   ├── 27-progress-management.md   # 進捗管理ルール
 │   │   └── ...
 │   ├── workflows/             # ワークフロー
 │   │   ├── start-project.md   # 統合開始コマンド
-│   │   ├── implement.md       # 実装（1ファイル1ターン）
 │   │   ├── resume-session.md  # セッション再開
+│   │   ├── save-session.md    # セッション保存 🆕
+│   │   ├── implement.md       # 実装（1ファイル1ターン）
 │   │   └── ...
-│   └── templates/             # プロジェクトテンプレート
+│   └── templates/
+│       ├── prompt/            # prompt/テンプレート 🆕
+│       │   ├── PROJECT_SPECIFIC.yaml.template
+│       │   ├── WORKFLOW.yaml.template
+│       │   ├── SYSTEM_PROMPT.yaml.template
+│       │   ├── ARCHITECTURE.yaml.template
+│       │   └── DATABASE.md.template
 │       ├── web-app/
 │       ├── simple-site/
-│       ├── landing-page/
-│       ├── api-server/
-│       ├── data-dashboard/
-│       └── chrome-extension/
+│       └── ...
+├── prompt/                    # このプロジェクトの管理ファイル 🆕
 ├── projects/                  # 作成したプロジェクト
 ├── RINA.md                    # 完全統合ドキュメント
 └── README.md                  # このファイル
@@ -93,11 +116,23 @@ rina-zero-gravity/
 /start-project
 ```
 
+→ `prompt/` フォルダが自動生成されて、プロジェクト管理が始まるよ！
+
 ### 続きからやる
 
 ```bash
 /resume-session
 ```
+
+→ `prompt/WORKFLOW.yaml` を読み込んで、前回の続きから完璧に再開！
+
+### セッション終了時
+
+```bash
+/save-session
+```
+
+→ 進捗を `prompt/WORKFLOW.yaml` に保存！次回も完璧に再開できる！
 
 ### 機能を追加する
 
@@ -109,6 +144,26 @@ rina-zero-gravity/
 
 ```bash
 /bug-fix
+```
+
+## 💾 セッション管理の流れ
+
+```
+【セッション開始】
+    ↓
+/resume-session
+    ↓
+prompt/WORKFLOW.yaml 読み込み
+    ↓
+「前回の続きからやるね！」
+    ↓
+作業
+    ↓
+/save-session
+    ↓
+prompt/WORKFLOW.yaml 更新
+    ↓
+「次回も完璧に再開できる！」
 ```
 
 ## 💅 りなちーの鉄則

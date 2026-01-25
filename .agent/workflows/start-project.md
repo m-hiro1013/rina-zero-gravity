@@ -1,5 +1,5 @@
 ---
-description: プロジェクトの新規作成を開始する統合コマンド。要件定義から環境構築まで一気通貫で行う。
+description: プロジェクトの新規作成を開始する統合コマンド。要件定義から環境構築まで一気通貫で行い、prompt/フォルダでプロジェクト管理を開始する。
 ---
 # /start-project - 統合開始コマンド
 
@@ -29,7 +29,7 @@ description: プロジェクトの新規作成を開始する統合コマンド�
 
 `/define-requirements` ワークフローを実行
 
-以下を聞き取る：
+以下を聞き取る（1問1答で）：
 1. プロジェクト名
 2. 目的（何を作る？）
 3. ターゲットユーザー
@@ -52,35 +52,44 @@ description: プロジェクトの新規作成を開始する統合コマンド�
 2. テンプレートの内容を説明
 3. 確認を取る
 
-## Step 5: PROJECT.md 生成
+## Step 5: prompt/フォルダ作成 🆕
 
-以下の内容で PROJECT.md を作成：
+プロジェクトルートに `prompt/` フォルダを作成し、以下のファイルを生成：
 
-```markdown
-# プロジェクト: {{project_name}}
+### 5-1: PROJECT_SPECIFIC.yaml
+`.agent/templates/prompt/PROJECT_SPECIFIC.yaml.template` をベースに、
+聞き取った要件を埋めて作成。
 
-作成日: {{date}}
+```yaml
+project:
+  name: "{{project_name}}"
+  purpose:
+    primary: "{{purpose}}"
+  success_criteria:
+    - "{{criteria_1}}"
+    - "{{criteria_2}}"
 
-## 📋 要件定義
-
-### 目的
-{{purpose}}
-
-### ターゲットユーザー
-{{target_users}}
-
-### 主な機能
-{{features}}
-
-### 技術スタック
-- 言語: {{language}}
-- フレームワーク: {{framework}}
-- データベース: {{database}}
-- デプロイ: {{deploy}}
-
-### 制約条件
-{{constraints}}
+tech_stack:
+  language: "{{language}}"
+  framework: "{{framework}}"
+  # ...
 ```
+
+### 5-2: WORKFLOW.yaml
+`.agent/templates/prompt/WORKFLOW.yaml.template` をベースに作成。
+初期状態のセーブデータ。
+
+### 5-3: SYSTEM_PROMPT.yaml
+`.agent/templates/prompt/SYSTEM_PROMPT.yaml.template` をコピー。
+ユーザー名を埋める。
+
+### 5-4: ARCHITECTURE.yaml
+`.agent/templates/prompt/ARCHITECTURE.yaml.template` をベースに作成。
+初期状態は空に近い状態。
+
+### 5-5: DATABASE.md（必要な場合）
+データベースを使用する場合のみ、
+`.agent/templates/prompt/DATABASE.md.template` をコピー。
 
 ## Step 6: 環境構築
 
@@ -96,22 +105,43 @@ description: プロジェクトの新規作成を開始する統合コマンド�
 `/create-plan` ワークフローを実行
 
 1. 機能をタスクに分解
-2. TODO.md を作成
+2. WORKFLOW.yaml の features に追加
 
 ## Step 8: 実装開始確認
 
 ```
 環境構築完了！プランもできたよ〜！✨
 
+📁 prompt/フォルダも作ったよ！
+これでプロジェクトの進捗が完璧に記録される！
+
 準備万端だね！
 実装始める？「次いこ！」って言ってくれたら1ファイルずつ作っていくよ！
 ```
 
 ## 完了条件
-- PROJECT.md が作成されている
-- TODO.md が作成されている
+- prompt/フォルダが作成されている
+  - PROJECT_SPECIFIC.yaml
+  - WORKFLOW.yaml
+  - SYSTEM_PROMPT.yaml
+  - ARCHITECTURE.yaml
 - 開発環境が動作する
 - ユーザーが実装開始に同意
+
+## prompt/フォルダの配置
+
+```
+プロジェクトルート/
+├── prompt/                        # 🆕 プロジェクト管理
+│   ├── PROJECT_SPECIFIC.yaml      # プロジェクト固有設定
+│   ├── WORKFLOW.yaml              # 進捗・決定事項（セーブデータ）
+│   ├── SYSTEM_PROMPT.yaml         # AIの振る舞い
+│   ├── ARCHITECTURE.yaml          # 実装済み機能
+│   └── DATABASE.md                # DB設計（必要な場合）
+├── src/                           # ソースコード
+├── .gitignore
+└── ...
+```
 
 ## エラー時の対応
 - 依存関係インストール失敗 → エラーメッセージを分析して解決策を提示
@@ -120,5 +150,11 @@ description: プロジェクトの新規作成を開始する統合コマンド�
 ## 所要時間目安
 - 要件定義: 5-10分
 - 環境構築: 2-5分
+- prompt/作成: 1-2分
 - プラン作成: 2-5分
 - 合計: 10-20分
+
+## 次のステップ
+- 実装開始 → `/implement`
+- セッション再開 → `/resume-session`
+- 進捗保存 → `/save-session`

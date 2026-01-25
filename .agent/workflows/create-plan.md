@@ -1,18 +1,18 @@
 ---
-description: PROJECT.mdを読み込み、機能をタスクに分解してTODO.mdを作成する。
+description: PROJECT_SPECIFIC.yamlを読み込み、機能をタスクに分解してWORKFLOW.yamlを更新する。
 ---
 # /create-plan - プラン作成ワークフロー
 
-要件をタスクに分解して、TODO.md を作成するよ！
+要件をタスクに分解して、WORKFLOW.yaml を更新するよ！
 
 ## 前提条件
-- PROJECT.md が存在する
+- prompt/PROJECT_SPECIFIC.yaml が存在する
 - 要件定義が完了している
 
-## Step 1: PROJECT.md を読み込む
+## Step 1: PROJECT_SPECIFIC.yaml を読み込む
 
 ```
-PROJECT.md から要件を読み込む:
+PROJECT_SPECIFIC.yaml から要件を読み込む:
 - 目的
 - 主な機能
 - 技術スタック
@@ -65,59 +65,69 @@ Phase 4: 仕上げ
 - パフォーマンス最適化
 ```
 
-## Step 5: TODO.md 生成
+## Step 5: WORKFLOW.yaml を更新
 
-```markdown
-# TODO: {{project_name}}
+```yaml
+workflow:
+  version: "1.0"
+  last_updated: "{{datetime}}"
 
-最終更新: {{datetime}}
+  progress:
+    current_phase:
+      number: 1
+      name: "基盤構築"
+      status: "not_started"
+    
+    next_tasks:
+      - "Phase 1: 基盤構築を開始"
+      - "共通レイアウト作成"
+      - "グローバルスタイル設定"
 
----
-
-## 🎯 現在のフェーズ
-**Phase 1: 基盤構築**
-
-進捗率: 0%
-
----
-
-## 📋 タスクリスト
-
-### Phase 1: 基盤構築
-- [ ] [P0] プロジェクトセットアップ
-- [ ] [P0] 共通レイアウト作成 (`src/app/layout.tsx`)
-- [ ] [P1] グローバルスタイル設定 (`src/styles/globals.css`)
-- [ ] [P1] 共通コンポーネント: ボタン (`src/components/Button.tsx`)
-
-### Phase 2: 主要機能
-- [ ] [P0] メインページ作成 (`src/app/page.tsx`)
-- [ ] [P1] 機能1: {{feature_1}}
-  - [ ] UI作成
-  - [ ] ロジック実装
-  - [ ] API連携
-- [ ] [P1] 機能2: {{feature_2}}
-  - [ ] UI作成
-  - [ ] ロジック実装
-
-### Phase 3: 補助機能
-- [ ] [P2] エラーハンドリング
-- [ ] [P2] ローディング状態
-- [ ] [P2] レスポンシブ対応
-
-### Phase 4: 仕上げ
-- [ ] [P2] 単体テスト作成
-- [ ] [P3] E2Eテスト作成
-- [ ] [P3] パフォーマンス最適化
-
----
-
-## 🐛 現在の課題
-（なし）
-
----
-
-## 📝 次のセッションでやること
-1. Phase 1 のタスクを完了
+  features:
+    planned:
+      # Phase 1: 基盤構築
+      - id: "F001"
+        name: "プロジェクトセットアップ"
+        status: "planned"
+        priority: "P0"
+        phase: 1
+        sub_tasks:
+          - "ディレクトリ構成"
+          - "依存関係インストール"
+          - "Git初期化"
+      
+      - id: "F002"
+        name: "共通レイアウト"
+        status: "planned"
+        priority: "P0"
+        phase: 1
+        files:
+          - "src/app/layout.tsx"
+      
+      # Phase 2: 主要機能
+      - id: "F003"
+        name: "{{feature_1}}"
+        status: "planned"
+        priority: "P1"
+        phase: 2
+        sub_tasks:
+          - "UI作成"
+          - "ロジック実装"
+          - "API連携"
+      
+      # Phase 3: 補助機能
+      - id: "F004"
+        name: "エラーハンドリング"
+        status: "planned"
+        priority: "P2"
+        phase: 3
+      
+      # Phase 4: 仕上げ
+      - id: "F005"
+        name: "テスト"
+        status: "planned"
+        priority: "P2"
+        phase: 4
 ```
 
 ## Step 6: 確認
@@ -127,34 +137,46 @@ Phase 4: 仕上げ
 
 ---
 
-**全タスク数**: {{total_tasks}}
+**全機能数**: {{total_features}}
 **フェーズ数**: 4
 
-### Phase 1: 基盤構築（{{phase1_tasks}}タスク）
-- 共通レイアウト
-- グローバルスタイル
-- 共通コンポーネント
+### Phase 1: 基盤構築（{{phase1_features}}機能）
+- プロジェクトセットアップ [P0]
+- 共通レイアウト [P0]
+- グローバルスタイル [P1]
 
-### Phase 2: 主要機能（{{phase2_tasks}}タスク）
-- {{feature_1}}
-- {{feature_2}}
+### Phase 2: 主要機能（{{phase2_features}}機能）
+- {{feature_1}} [P1]
+- {{feature_2}} [P1]
 
-### Phase 3: 補助機能（{{phase3_tasks}}タスク）
-- エラーハンドリング
-- ローディング状態
+### Phase 3: 補助機能（{{phase3_features}}機能）
+- エラーハンドリング [P2]
+- ローディング状態 [P2]
 
-### Phase 4: 仕上げ（{{phase4_tasks}}タスク）
-- テスト
-- 最適化
+### Phase 4: 仕上げ（{{phase4_features}}機能）
+- テスト [P2]
+- 最適化 [P3]
 
 ---
+
+📁 prompt/WORKFLOW.yaml を更新したよ！
 
 この計画でOK？修正あったら言ってね！
 ```
 
+## Step 7: 実装開始確認
+
+```
+準備完了！✨
+
+Phase 1 から始める？
+「次いこ！」って言ってくれたら実装始めるよ！
+```
+
 ## 完了条件
-- TODO.md が作成されている
+- WORKFLOW.yaml が更新されている
+- features に全機能が登録されている
 - ユーザーが計画を承認
 
 ## 出力
-- TODO.md（プロジェクトルートに配置）
+- 更新された prompt/WORKFLOW.yaml

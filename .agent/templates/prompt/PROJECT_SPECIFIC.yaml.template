@@ -1,0 +1,179 @@
+# =====================================
+# 📋 PROJECT_SPECIFIC.yaml テンプレート
+# =====================================
+#
+# 【使い方】
+# /start-project 実行時に、このテンプレートがプロジェクトルートの
+# prompt/PROJECT_SPECIFIC.yaml にコピーされ、対話的に埋められる。
+#
+# 【このファイルに書くこと】
+# - プロジェクト基本情報（名前、目的、成功基準）
+# - ユーザー情報（開発者、ターゲットユーザー）
+# - 技術スタック（言語、フレームワーク、DB等）
+# - 環境情報（GitHub URL、本番URL等）
+# - データ構造（ドメインモデル）
+# - ビジネスロジック（計算式、ルール）
+# - 外部連携（API、インポート/エクスポート）
+#
+# =====================================
+
+project_specific:
+  version: "1.0"
+  last_updated: "{{date}}"
+
+# =====================================
+# 1. プロジェクト基本情報
+# =====================================
+project:
+  name: "{{project_name}}"
+  codename: "{{codename}}"
+  description: |
+    {{description}}
+  
+  purpose:
+    primary: "{{primary_purpose}}"
+    secondary:
+      - "{{secondary_purpose_1}}"
+      - "{{secondary_purpose_2}}"
+  
+  success_criteria:
+    - "{{criteria_1}}"
+    - "{{criteria_2}}"
+    - "{{criteria_3}}"
+  
+  created_at: "{{date}}"
+
+# =====================================
+# 2. ユーザー情報
+# =====================================
+user:
+  developer:
+    name: "{{developer_name}}"
+    github: "{{github_username}}"
+  
+  target_users:
+    - role: "{{role_1}}"
+      description: "{{role_1_description}}"
+    - role: "{{role_2}}"
+      description: "{{role_2_description}}"
+
+# =====================================
+# 3. 技術スタック
+# =====================================
+tech_stack:
+  # 言語
+  language: "{{language}}"  # TypeScript, JavaScript, Python, etc.
+  
+  # フレームワーク
+  framework: "{{framework}}"  # Next.js, FastAPI, etc.
+  
+  # UI
+  ui_library: "{{ui_library}}"  # React, Vue, etc.
+  
+  # スタイリング
+  styling: "{{styling}}"  # Tailwind CSS, CSS Modules, etc.
+  
+  # データベース
+  database: "{{database}}"  # Supabase, PostgreSQL, etc.
+  
+  # 認証
+  auth: "{{auth}}"  # Supabase Auth, NextAuth, etc.
+  
+  # パッケージマネージャー
+  package_manager: "{{package_manager}}"  # pnpm, npm, yarn
+  
+  # テスト
+  testing: "{{testing}}"  # Vitest, Jest, pytest
+  
+  # Lint/Format
+  lint: "{{lint}}"  # ESLint, Prettier, ruff
+  
+  # デプロイ
+  deploy: "{{deploy}}"  # Vercel, Cloudflare, etc.
+
+# =====================================
+# 4. 環境情報
+# =====================================
+environment:
+  local:
+    project_path: "{{project_path}}"
+    dev_command: "{{dev_command}}"  # npm run dev, etc.
+    dev_url: "{{dev_url}}"  # http://localhost:3000
+  
+  github:
+    repository: "{{github_repository}}"
+    branch: "{{branch}}"  # main
+  
+  production:
+    url: "{{production_url}}"
+    auto_deploy: true
+  
+  environment_variables:
+    - name: "{{env_var_1}}"
+      description: "{{env_var_1_description}}"
+    - name: "{{env_var_2}}"
+      description: "{{env_var_2_description}}"
+
+# =====================================
+# 5. データ構造
+# =====================================
+data_structure:
+  description: "{{data_structure_description}}"
+  
+  entities:
+    - name: "{{entity_1}}"
+      description: "{{entity_1_description}}"
+      key_attributes:
+        - "{{attr_1}}"
+        - "{{attr_2}}"
+    
+    - name: "{{entity_2}}"
+      description: "{{entity_2_description}}"
+      key_attributes:
+        - "{{attr_1}}"
+        - "{{attr_2}}"
+  
+  relationships:
+    - from: "{{entity_1}}"
+      to: "{{entity_2}}"
+      type: "{{relationship_type}}"  # 1:1, 1:N, N:M
+      description: "{{relationship_description}}"
+
+# =====================================
+# 6. ビジネスロジック
+# =====================================
+business_logic:
+  calculations:
+    - name: "{{calculation_name}}"
+      formula: "{{formula}}"
+      example: "{{example}}"
+  
+  rules:
+    - name: "{{rule_name}}"
+      description: "{{rule_description}}"
+
+# =====================================
+# 7. 外部連携
+# =====================================
+external_integrations:
+  apis:
+    - name: "{{api_name}}"
+      purpose: "{{api_purpose}}"
+      auth: "{{api_auth}}"
+  
+  imports:
+    - name: "{{import_name}}"
+      format: "{{import_format}}"
+      frequency: "{{import_frequency}}"
+
+# =====================================
+# 8. 制約条件
+# =====================================
+constraints:
+  technical:
+    - "{{technical_constraint_1}}"
+    - "{{technical_constraint_2}}"
+  
+  business:
+    - "{{business_constraint_1}}"
+    - "{{business_constraint_2}}"

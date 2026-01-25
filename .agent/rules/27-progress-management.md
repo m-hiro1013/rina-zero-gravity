@@ -6,78 +6,135 @@ slug: progress-management
 
 セッション間で情報を保持するための進捗管理ルールだよ！
 
-## 進捗管理ファイル
+## prompt/方式（推奨）
+
+### 進捗管理ファイル
 
 | ファイル | 役割 | 更新タイミング |
 |---------|------|---------------|
-| `PROJECT.md` | 要件定義・設計を保存 | 要件変更時 |
-| `TODO.md` | タスク一覧・チェックボックス | タスク完了時 |
-| `CHANGELOG.md` | 変更履歴 | ファイル追加・変更時 |
+| `prompt/WORKFLOW.yaml` | **セーブデータ**（進捗・決定事項） | 毎セッション |
+| `prompt/PROJECT_SPECIFIC.yaml` | プロジェクト固有設定 | 要件変更時 |
+| `prompt/ARCHITECTURE.yaml` | 実装済み機能の仕様書 | 機能完了時 |
+| `prompt/SYSTEM_PROMPT.yaml` | AIの振る舞い | 最初のみ |
+| `prompt/DATABASE.md` | DB設計 | DB変更時 |
+
+### WORKFLOW.yaml の重要性
+
+**WORKFLOW.yaml はセーブデータ**。ここに全ての進捗が記録される：
+
+```yaml
+workflow:
+  last_session_summary: |
+    【前回やったこと】
+    - タスク1完了
+    - タスク2完了
+    
+    【次にやること】
+    - タスク3
+  
+  progress:
+    current_phase:
+      number: 2
+      name: "主要機能"
+      status: "in_progress"
+    
+    completed_phases:
+      - phase: 1
+        name: "基盤構築"
+        completed_at: "2026-01-25"
+  
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "決定内容"
+        reason: "理由"
+  
+  features:
+    completed:
+      - id: "F001"
+        name: "完了した機能"
+        status: "done"
+    
+    in_progress:
+      - id: "F002"
+        name: "実装中の機能"
+        status: "in_progress"
+```
 
 ## セッション開始時（必ず実行）
 
-### Step 1: ファイル存在確認
+### Step 1: prompt/フォルダ確認
 ```
-[ ] PROJECT.md が存在するか確認
-[ ] TODO.md が存在するか確認
-[ ] CHANGELOG.md が存在するか確認
+[ ] prompt/WORKFLOW.yaml が存在するか確認
+[ ] prompt/PROJECT_SPECIFIC.yaml が存在するか確認
 ```
 
 ### Step 2: 読み込み
 ```
-→ いずれかが存在する場合:
+→ prompt/フォルダが存在する場合:
   「続きからやるね！」と宣言
-  ファイルを読み込んで現状を把握
+  WORKFLOW.yaml を読み込んで現状を把握
+  last_session_summary で前回の内容を確認
 
-→ いずれも存在しない場合:
+→ prompt/フォルダが存在しない場合:
   「新規プロジェクトだね！」と宣言
   /start-project へ誘導
 ```
 
+### Step 3: 状況報告
+```
+📂 セーブデータ読み込み完了
+━━━━━━━━━━━━━━━━━━━━
+📍 現在地: Phase {{number}}: {{name}}
+📝 前回やったこと: {{summary}}
+🎯 次にやること: {{next_tasks}}
+━━━━━━━━━━━━━━━━━━━━
+```
+
 ## タスク完了時
 
-### TODO.md 更新
-```markdown
-// 変更前
-- [ ] ログイン機能の実装
-
-// 変更後
-- [x] ログイン機能の実装 ← 完了日時: 2026-01-25
+### WORKFLOW.yaml 更新
+```yaml
+# features.in_progress から features.completed に移動
+features:
+  completed:
+    - id: "F001"
+      name: "機能名"
+      status: "done"
+      completed_at: "{{datetime}}"
 ```
 
-### 自動計算
-```
-進捗率 = 完了タスク数 / 全タスク数 × 100
-```
-
-## ファイル追加・変更時
-
-### CHANGELOG.md 更新
-```markdown
-## [Unreleased]
-
-### Added
-- `src/app/page.tsx`: メインページを追加
-
-### Changed
-- `src/components/Button.tsx`: スタイルを修正
-
-### Fixed
-- `src/lib/api.ts`: エラーハンドリングを修正
+### 機能完了時は ARCHITECTURE.yaml も更新
+```yaml
+# ARCHITECTURE.yaml に移動
+completed_features:
+  phase1:
+    features:
+      - id: "F001"
+        name: "機能名"
+        status: "done"
 ```
 
 ## セッション終了時
 
-### チェックリスト
-```
-[ ] 今日やったことを CHANGELOG.md に記録した？
-[ ] 完了タスクを TODO.md でチェックした？
-[ ] 次回やることを TODO.md に書いた？
+### WORKFLOW.yaml を更新
+```yaml
+workflow:
+  last_updated: "{{datetime}}"
+  
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    - {{やったこと1}}
+    - {{やったこと2}}
+    
+    【次にやること】
+    - {{やること1}}
+    - {{やること2}}
 ```
 
 ### 終了メッセージ
 ```
-「今日はここまで！お疲れ様〜✨
+💾 セーブしたよ！
 
 ## 今日やったこと
 - {{やったこと1}}
@@ -87,7 +144,7 @@ slug: progress-management
 - {{やること1}}
 - {{やること2}}
 
-次回は `/resume-session` で続きからやろうね！」
+次回は `/resume-session` で続きからやろうね！
 ```
 
 ## 情報欠落防止
@@ -96,9 +153,21 @@ slug: progress-management
 ❌ 「前回何やったっけ？」とユーザーに聞く
 ❌ 記憶に頼る
 ❌ ファイルを読まずに作業を始める
+❌ WORKFLOW.yaml を更新せずにセッション終了
 
 ### 必ずやること
-✅ セッション開始時に PROJECT.md を読む
-✅ セッション開始時に TODO.md を読む
-✅ タスク完了ごとに TODO.md を更新
-✅ ファイル変更ごとに CHANGELOG.md を更新
+✅ セッション開始時に WORKFLOW.yaml を読む
+✅ タスク完了ごとに WORKFLOW.yaml を更新
+✅ 決定事項は decisions.adopted に記録
+✅ セッション終了時に last_session_summary を更新
+
+## 旧方式との互換性
+
+旧方式（PROJECT.md + TODO.md）のプロジェクトも引き続きサポート：
+
+```
+prompt/フォルダがない場合:
+→ PROJECT.md, TODO.md を確認
+→ 「prompt/方式に移行する？」と確認
+→ ユーザーが希望すれば移行をサポート
+```

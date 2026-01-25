@@ -1,0 +1,238 @@
+# =====================================
+# 🏛️ ARCHITECTURE.yaml
+# =====================================
+#
+# 実装済み機能の仕様書。
+# 完成した機能の仕様・設計を保存し、システム全体の理解に使用する。
+#
+# =====================================
+
+architecture:
+  version: "1.1"
+  last_updated: "2026-01-25T19:35:00+09:00"
+
+  # =====================================
+  # 1. プロジェクト概要
+  # =====================================
+  project:
+    name: "ZERO_GRAVITY GA-Workspace 拡張"
+    goal:
+      primary: "エージェントが完璧にプロジェクト管理できる環境を作る"
+      target_user: "ひろきくん（および将来的にこのフレームワークを使うユーザー）"
+      success_criteria:
+        - "/start-project で prompt/ フォルダが自動生成される ✅"
+        - "セッション再開時に完璧に前回の状態を復元できる ✅"
+        - "フェーズごとの進め方が明確に定義されている ✅"
+        - "決定事項・進捗が確実に記録される ✅"
+
+  # =====================================
+  # 2. 実装済み機能一覧
+  # =====================================
+  completed_features:
+
+    # ---------------------------------
+    # Phase 1-2: prompt/基盤構築
+    # ---------------------------------
+    phase1_2:
+      name: "prompt/基盤構築"
+      status: "done"
+      completed_at: "2026-01-25T18:45:00+09:00"
+      features:
+        - id: "F001"
+          name: "prompt/基本ファイル"
+          description: "プロジェクト管理用の4ファイルを作成"
+          status: "done"
+          files:
+            - file: "prompt/PROJECT_SPECIFIC.yaml"
+              role: "プロジェクト固有設定"
+            - file: "prompt/WORKFLOW.yaml"
+              role: "進捗・決定事項（セーブデータ）"
+            - file: "prompt/SYSTEM_PROMPT.yaml"
+              role: "AIの振る舞い・開発プロセス"
+            - file: "prompt/ARCHITECTURE.yaml"
+              role: "実装済み機能の仕様書"
+        
+        - id: "F002"
+          name: "prompt/テンプレート"
+          description: "新規プロジェクト用のテンプレート5ファイルを作成"
+          status: "done"
+          files:
+            - file: ".agent/templates/prompt/PROJECT_SPECIFIC.yaml.template"
+            - file: ".agent/templates/prompt/WORKFLOW.yaml.template"
+            - file: ".agent/templates/prompt/SYSTEM_PROMPT.yaml.template"
+            - file: ".agent/templates/prompt/ARCHITECTURE.yaml.template"
+            - file: ".agent/templates/prompt/DATABASE.md.template"
+
+    # ---------------------------------
+    # Phase 4: ワークフロー・ルール更新
+    # ---------------------------------
+    phase4:
+      name: "ワークフロー・ルール更新"
+      status: "done"
+      completed_at: "2026-01-25T19:35:00+09:00"
+      features:
+        - id: "F004"
+          name: "コアワークフロー更新"
+          description: "prompt/方式に対応した6つのワークフロー"
+          status: "done"
+          files:
+            - file: ".agent/workflows/start-project.md"
+              change: "prompt/フォルダ自動生成を追加"
+            - file: ".agent/workflows/resume-session.md"
+              change: "prompt/ファイル読み込みに変更"
+            - file: ".agent/workflows/save-session.md"
+              change: "新規作成（セッション保存）"
+            - file: ".agent/workflows/define-requirements.md"
+              change: "PROJECT_SPECIFIC.yaml生成に変更"
+            - file: ".agent/workflows/create-plan.md"
+              change: "WORKFLOW.yaml更新に変更"
+            - file: ".agent/workflows/update-progress.md"
+              change: "WORKFLOW.yaml更新に変更"
+        
+        - id: "F006"
+          name: "進捗管理ルール更新"
+          description: "prompt/方式に対応"
+          status: "done"
+          files:
+            - file: ".agent/rules/27-progress-management.md"
+              change: "WORKFLOW.yaml方式に完全対応、旧方式互換性維持"
+        
+        - id: "F007"
+          name: "README.md更新"
+          description: "prompt/方式の説明を追加"
+          status: "done"
+          files:
+            - file: "README.md"
+
+  # =====================================
+  # 3. アーキテクチャ設計
+  # =====================================
+  architecture_design:
+    overview: |
+      GA-Workspace（フレームワーク）+ prompt/（プロジェクト状態管理）
+      のハイブリッド方式
+    
+    layers:
+      - layer: "L0: コア"
+        content: "AIの振る舞い・キャラ・開発プロセス"
+        location: "prompt/SYSTEM_PROMPT.yaml"
+      
+      - layer: "L1: フレームワーク"
+        content: "汎用ルール・ワークフロー"
+        location: ".agent/rules/, .agent/workflows/"
+      
+      - layer: "L2: プロジェクト"
+        content: "プロジェクト固有設定・進捗"
+        location: "prompt/"
+      
+      - layer: "L3: 実装詳細"
+        content: "実装済み機能・DB設計"
+        location: "prompt/ARCHITECTURE.yaml, prompt/DATABASE.md"
+    
+    file_structure:
+      prompt_folder:
+        description: "プロジェクトルートに配置"
+        files:
+          - file: "SYSTEM_PROMPT.yaml"
+            role: "AIの振る舞い・開発プロセス"
+            update_frequency: "低い"
+          
+          - file: "PROJECT_SPECIFIC.yaml"
+            role: "プロジェクト固有設定"
+            update_frequency: "低い"
+          
+          - file: "WORKFLOW.yaml"
+            role: "進捗・決定事項（セーブデータ）"
+            update_frequency: "毎セッション"
+          
+          - file: "ARCHITECTURE.yaml"
+            role: "実装済み機能の仕様書"
+            update_frequency: "機能完了時"
+          
+          - file: "DATABASE.md"
+            role: "DB設計（必要な場合）"
+            update_frequency: "DB変更時"
+      
+      templates_folder:
+        description: ".agent/templates/prompt/ に配置"
+        purpose: "新規プロジェクト作成時にコピーされる"
+        files:
+          - "PROJECT_SPECIFIC.yaml.template"
+          - "WORKFLOW.yaml.template"
+          - "SYSTEM_PROMPT.yaml.template"
+          - "ARCHITECTURE.yaml.template"
+          - "DATABASE.md.template"
+
+  # =====================================
+  # 4. セッションフロー設計
+  # =====================================
+  session_flow:
+    new_project:
+      command: "/start-project"
+      flow:
+        - "要件定義（1問1答）"
+        - "技術選定"
+        - "prompt/フォルダ作成"
+        - "テンプレート展開"
+        - "環境構築"
+        - "プラン作成"
+    
+    resume:
+      command: "/resume-session"
+      flow:
+        - "prompt/フォルダ確認"
+        - "WORKFLOW.yaml読み込み"
+        - "進捗確認・報告"
+        - "必要ファイルのリクエスト"
+        - "作業開始"
+    
+    save:
+      command: "/save-session"
+      flow:
+        - "今回のセッションをまとめる"
+        - "WORKFLOW.yaml更新"
+        - "セーブデータ出力"
+    
+    update_progress:
+      command: "/update-progress"
+      flow:
+        - "完了タスク確認"
+        - "WORKFLOW.yaml更新"
+        - "必要ならARCHITECTURE.yaml更新"
+        - "進捗報告"
+
+  # =====================================
+  # 5. 統合仕様
+  # =====================================
+  integration_spec:
+    neo_rina_md:
+      description: "NEO-RINA.mdの知見を統合"
+      mapping:
+        - source: "セッション種別"
+          target: "SYSTEM_PROMPT.yaml → session_types"
+          status: "done"
+        
+        - source: "5フェーズワークフロー"
+          target: "SYSTEM_PROMPT.yaml → development_phases"
+          status: "done"
+        
+        - source: "TDD・カバレッジ目標"
+          target: "SYSTEM_PROMPT.yaml → testing_strategy"
+          status: "done"
+        
+        - source: "SOLID原則"
+          target: "SYSTEM_PROMPT.yaml → design_principles"
+          status: "done"
+        
+        - source: "セキュリティルール"
+          target: "SYSTEM_PROMPT.yaml → security_rules"
+          status: "done"
+        
+        - source: "コーディングスタイル"
+          target: "SYSTEM_PROMPT.yaml → coding_style"
+          status: "done"
+    
+    existing_ga_workspace:
+      description: "既存GA-Workspaceとの連携"
+      approach: "共存（prompt/ + .agent/）"
+      compatibility: "旧方式（PROJECT.md + TODO.md）もサポート"

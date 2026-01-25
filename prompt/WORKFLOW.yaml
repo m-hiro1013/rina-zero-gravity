@@ -1,0 +1,333 @@
+# =====================================
+# 💾 WORKFLOW.yaml
+# =====================================
+#
+# プロジェクト: ZERO_GRAVITY GA-Workspace 拡張
+# このファイルはセーブデータ。セッション間で情報を完全保持する。
+#
+# =====================================
+
+workflow:
+  version: "1.2"
+  last_updated: "2026-01-25T19:35:00+09:00"
+
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    
+    ## Phase 0-2: 基盤構築完了 ✅
+    1. プロジェクトの全体像を把握
+       - 既存GA-Workspace（28ルール、36ワークフロー）を確認
+       - NEO-RINA.md の完全理解
+       - prompt/ファイル群（5ファイル）の理解
+    
+    2. 統合方針の決定
+       - ハイブリッド方式: GA-Workspace + prompt/管理
+       - このプロジェクト自体をprompt/方式で進める
+    
+    3. prompt/基本ファイル作成（完了）
+       - prompt/PROJECT_SPECIFIC.yaml ✅
+       - prompt/WORKFLOW.yaml ✅
+       - prompt/SYSTEM_PROMPT.yaml ✅
+       - prompt/ARCHITECTURE.yaml ✅
+    
+    4. prompt/テンプレート作成（完了）
+       - .agent/templates/prompt/ に5ファイル作成 ✅
+    
+    5. ワークフロー更新（完了）
+       - /start-project 更新（prompt/生成追加）✅
+       - /resume-session 更新（prompt/読み込み）✅
+       - /save-session 新規作成 ✅
+       - /define-requirements 更新 ✅
+       - /create-plan 更新 ✅
+       - /update-progress 更新 ✅
+    
+    6. ルール更新（完了）
+       - 27-progress-management.md 更新 ✅
+    
+    7. ドキュメント整備（完了）
+       - README.md 更新 ✅
+    
+    【主要な成果】
+    - /start-project で prompt/ フォルダが自動生成される
+    - /resume-session で完璧にセッション復元
+    - /save-session で進捗を確実に保存
+    - 既存GA-Workspaceとの完全互換性
+    
+    【次にやること】
+    - RINA.md の更新（詳細ドキュメント）
+    - 動作テスト（新規プロジェクト作成テスト）
+    - 必要に応じて既存ルールの追加強化
+
+  # =====================================
+  # 1. 現在の進捗
+  # =====================================
+  progress:
+    current_phase:
+      number: 6
+      name: "ドキュメント整備"
+      status: "in_progress"
+    
+    current_task:
+      description: "README.md更新完了。RINA.md更新は次のタスク。"
+      started_at: "2026-01-25T19:30:00+09:00"
+    
+    completed_phases:
+      - phase: 0
+        name: "要件定義"
+        completed_at: "2026-01-25T18:35:00+09:00"
+        deliverables:
+          - "統合方針の決定（ハイブリッド方式）"
+          - "成功基準の定義"
+          - "フェーズ定義"
+      
+      - phase: 1
+        name: "設計"
+        completed_at: "2026-01-25T18:36:00+09:00"
+        deliverables:
+          - "prompt/フォルダ構成決定"
+          - "各ファイルの役割定義"
+      
+      - phase: 2
+        name: "実装（テンプレート）"
+        completed_at: "2026-01-25T18:45:00+09:00"
+        deliverables:
+          - "prompt/基本ファイル4つ作成"
+          - ".agent/templates/prompt/ テンプレート5つ作成"
+      
+      - phase: 4
+        name: "実装（ワークフロー）"
+        completed_at: "2026-01-25T19:35:00+09:00"
+        deliverables:
+          - "/start-project 更新"
+          - "/resume-session 更新"
+          - "/save-session 新規作成"
+          - "/define-requirements 更新"
+          - "/create-plan 更新"
+          - "/update-progress 更新"
+          - "27-progress-management.md 更新"
+    
+    next_tasks:
+      - "RINA.md の更新（prompt/方式の詳細説明追加）"
+      - "動作テスト（新規プロジェクト作成してみる）"
+      - "必要に応じてルール追加（オプション）"
+
+  # =====================================
+  # 2. 決定事項
+  # =====================================
+  decisions:
+    adopted:
+      - id: "D001"
+        date: "2026-01-25"
+        decision: "ハイブリッド方式を採用"
+        reason: "GA-Workspaceのワークフロー機能 + prompt/のセッション管理を両立"
+      
+      - id: "D002"
+        date: "2026-01-25"
+        decision: "このプロジェクト自体をprompt/方式で進める"
+        reason: "実際にやりながら仕組みを完成させる（メタ的アプローチ）"
+      
+      - id: "D003"
+        date: "2026-01-25"
+        decision: "prompt/は新規プロジェクト作成時に自動生成"
+        reason: "/start-project ワークフローに組み込み"
+      
+      - id: "D004"
+        date: "2026-01-25"
+        decision: "既存のPROJECT.md + TODO.md方式はprompt/方式に置換"
+        reason: "より詳細な管理が可能、YAML形式で構造化"
+      
+      - id: "D005"
+        date: "2026-01-25"
+        decision: "NEO-RINA.mdの知見は適切なファイルに分散統合"
+        reason: "一箇所に集約するより、責務ごとに分離した方が管理しやすい"
+      
+      - id: "D006"
+        date: "2026-01-25"
+        decision: "prompt/はプロジェクトルートに配置"
+        reason: "ユーザーが直接編集・確認しやすい場所"
+      
+      - id: "D007"
+        date: "2026-01-25"
+        decision: "/save-session ワークフローを新規作成"
+        reason: "セッション終了時の進捗保存を明確化"
+      
+      - id: "D008"
+        date: "2026-01-25"
+        decision: "旧方式（PROJECT.md + TODO.md）との互換性を維持"
+        reason: "既存プロジェクトもサポートし、移行を促す"
+    
+    postponed:
+      - id: "P001"
+        idea: "CI/CDテンプレートの作成"
+        trigger: "実際のプロジェクトで必要になったら"
+      
+      - id: "P002"
+        idea: "Repositoryパターンの詳細ルール"
+        trigger: "実際のプロジェクトで必要になったら"
+      
+      - id: "P003"
+        idea: "RINA.md の大規模更新"
+        trigger: "時間がある時、または要望があった時"
+
+  # =====================================
+  # 3. 実装中・計画中の機能
+  # =====================================
+  features:
+    in_progress: []
+    
+    completed:
+      - id: "F001"
+        name: "prompt/基本ファイル作成"
+        status: "done"
+        completed_at: "2026-01-25T18:40:00+09:00"
+        files:
+          - "prompt/PROJECT_SPECIFIC.yaml"
+          - "prompt/WORKFLOW.yaml"
+          - "prompt/SYSTEM_PROMPT.yaml"
+          - "prompt/ARCHITECTURE.yaml"
+      
+      - id: "F002"
+        name: "prompt/テンプレート作成"
+        status: "done"
+        completed_at: "2026-01-25T18:42:00+09:00"
+        files:
+          - ".agent/templates/prompt/PROJECT_SPECIFIC.yaml.template"
+          - ".agent/templates/prompt/WORKFLOW.yaml.template"
+          - ".agent/templates/prompt/SYSTEM_PROMPT.yaml.template"
+          - ".agent/templates/prompt/ARCHITECTURE.yaml.template"
+          - ".agent/templates/prompt/DATABASE.md.template"
+      
+      - id: "F004"
+        name: "ワークフロー更新"
+        status: "done"
+        completed_at: "2026-01-25T19:35:00+09:00"
+        files:
+          - ".agent/workflows/start-project.md"
+          - ".agent/workflows/resume-session.md"
+          - ".agent/workflows/save-session.md"
+          - ".agent/workflows/define-requirements.md"
+          - ".agent/workflows/create-plan.md"
+          - ".agent/workflows/update-progress.md"
+      
+      - id: "F006"
+        name: "ルール更新"
+        status: "done"
+        completed_at: "2026-01-25T19:35:00+09:00"
+        files:
+          - ".agent/rules/27-progress-management.md"
+      
+      - id: "F007"
+        name: "README.md更新"
+        status: "done"
+        completed_at: "2026-01-25T19:32:00+09:00"
+        files:
+          - "README.md"
+    
+    planned:
+      - id: "F005"
+        name: "RINA.md更新"
+        description: "prompt/方式の詳細説明を追加"
+        status: "planned"
+      
+      - id: "F008"
+        name: "動作テスト"
+        description: "新規プロジェクト作成してprompt/生成を確認"
+        status: "planned"
+
+  # =====================================
+  # 4. ファイル構成
+  # =====================================
+  file_structure:
+    created:
+      - path: "prompt/PROJECT_SPECIFIC.yaml"
+        description: "プロジェクト固有設定"
+        created_at: "2026-01-25T18:35:00+09:00"
+      
+      - path: "prompt/WORKFLOW.yaml"
+        description: "進捗・決定事項（このファイル）"
+        created_at: "2026-01-25T18:36:00+09:00"
+      
+      - path: "prompt/SYSTEM_PROMPT.yaml"
+        description: "AIの振る舞い・開発プロセス"
+        created_at: "2026-01-25T18:37:00+09:00"
+      
+      - path: "prompt/ARCHITECTURE.yaml"
+        description: "実装済み機能の仕様書"
+        created_at: "2026-01-25T18:38:00+09:00"
+      
+      - path: ".agent/templates/prompt/PROJECT_SPECIFIC.yaml.template"
+        description: "新規プロジェクト用テンプレート"
+        created_at: "2026-01-25T18:40:00+09:00"
+      
+      - path: ".agent/templates/prompt/WORKFLOW.yaml.template"
+        description: "新規プロジェクト用テンプレート"
+        created_at: "2026-01-25T18:41:00+09:00"
+      
+      - path: ".agent/templates/prompt/SYSTEM_PROMPT.yaml.template"
+        description: "新規プロジェクト用テンプレート"
+        created_at: "2026-01-25T18:41:00+09:00"
+      
+      - path: ".agent/templates/prompt/ARCHITECTURE.yaml.template"
+        description: "新規プロジェクト用テンプレート"
+        created_at: "2026-01-25T18:42:00+09:00"
+      
+      - path: ".agent/templates/prompt/DATABASE.md.template"
+        description: "新規プロジェクト用テンプレート"
+        created_at: "2026-01-25T18:42:00+09:00"
+      
+      - path: ".agent/workflows/save-session.md"
+        description: "セッション保存ワークフロー（新規）"
+        created_at: "2026-01-25T18:45:00+09:00"
+    
+    modified:
+      - path: ".agent/workflows/start-project.md"
+        description: "prompt/生成を追加"
+        modified_at: "2026-01-25T18:44:00+09:00"
+      
+      - path: ".agent/workflows/resume-session.md"
+        description: "prompt/読み込みに変更"
+        modified_at: "2026-01-25T18:44:00+09:00"
+      
+      - path: ".agent/workflows/define-requirements.md"
+        description: "PROJECT_SPECIFIC.yaml生成に変更"
+        modified_at: "2026-01-25T19:32:00+09:00"
+      
+      - path: ".agent/workflows/create-plan.md"
+        description: "WORKFLOW.yaml更新に変更"
+        modified_at: "2026-01-25T19:32:00+09:00"
+      
+      - path: ".agent/workflows/update-progress.md"
+        description: "WORKFLOW.yaml更新に変更"
+        modified_at: "2026-01-25T19:30:00+09:00"
+      
+      - path: ".agent/rules/27-progress-management.md"
+        description: "prompt/方式に対応"
+        modified_at: "2026-01-25T19:35:00+09:00"
+      
+      - path: "README.md"
+        description: "prompt/方式の説明を追加"
+        modified_at: "2026-01-25T19:32:00+09:00"
+
+  # =====================================
+  # 5. 注意点・学び
+  # =====================================
+  cautions:
+    - id: "C001"
+      category: "設計"
+      content: "prompt/はプロジェクトルートに配置（.agent/内ではない）"
+      reason: "ユーザーが直接編集・確認しやすい場所"
+    
+    - id: "C002"
+      category: "運用"
+      content: "WORKFLOW.yamlはセッション終了時に必ず更新・保存"
+      reason: "次回セッションで完璧に復元するため"
+    
+    - id: "C003"
+      category: "実装"
+      content: "テンプレートファイルは .template 拡張子を付ける"
+      reason: "実ファイルと区別するため"
+    
+    - id: "C004"
+      category: "互換性"
+      content: "旧方式（PROJECT.md + TODO.md）も引き続きサポート"
+      reason: "既存プロジェクトの移行をスムーズに"

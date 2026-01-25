@@ -1,0 +1,161 @@
+# =====================================
+# 📋 PROJECT_SPECIFIC.yaml
+# =====================================
+#
+# プロジェクト: ZERO_GRAVITY GA-Workspace 拡張
+# 目的: NEO-RINA + prompt/管理方式 + 既存GA-Workspaceの統合
+# 作成日: 2026-01-25
+#
+# =====================================
+
+project_specific:
+  version: "1.0"
+  last_updated: "2026-01-25"
+
+# =====================================
+# 1. プロジェクト基本情報
+# =====================================
+project:
+  name: "ZERO_GRAVITY GA-Workspace 拡張"
+  codename: "rina-zero-gravity"
+  description: |
+    NEO-RINA.md の知見 + prompt/管理方式 + 既存GA-Workspaceを統合し、
+    新規プロジェクト作成時に完璧な管理体制を自動構築するフレームワーク
+  
+  purpose:
+    primary: "エージェントが完璧にプロジェクト管理できる環境を作る"
+    secondary:
+      - "複雑化を防ぐ"
+      - "フェーズごとの進め方を明確にする"
+      - "決定事項・進捗を確実に記録する"
+      - "セッション間で情報を完全保持する"
+  
+  created_at: "2026-01-25"
+
+# =====================================
+# 2. ユーザー情報
+# =====================================
+user:
+  developer:
+    name: "ひろきくん"
+    github: "Sunwood-ai-labs"
+
+# =====================================
+# 3. 技術スタック
+# =====================================
+tech_stack:
+  framework: "GA-Workspace"
+  file_format:
+    rules: "Markdown (.md)"
+    workflows: "Markdown (.md)"
+    project_management: "YAML + Markdown"
+  
+  structure:
+    - name: ".agent/rules/"
+      description: "静的ルール群（キャラ、セキュリティ等）"
+    - name: ".agent/workflows/"
+      description: "コマンドベースの作業手順"
+    - name: ".agent/templates/"
+      description: "プロジェクトテンプレート"
+    - name: "prompt/"
+      description: "プロジェクト状態管理（セーブデータ）"
+
+# =====================================
+# 4. 統合対象
+# =====================================
+integration_targets:
+  - name: "NEO-RINA.md"
+    description: "ギャルエンジニアりなちーのPro版プロンプト"
+    key_features:
+      - "セッション種別（要件定義/実装/バグ修正/リファクタ）"
+      - "TDD・カバレッジ目標80%"
+      - "Repositoryパターン"
+      - "エラーハンドリング統一"
+      - "SOLID原則解説"
+      - "CI/CD設定"
+  
+  - name: "prompt/ファイル群"
+    description: "YAML/MDベースのプロジェクト管理方式"
+    files:
+      - file: "SYSTEM_PROMPT.yaml"
+        role: "AIの振る舞い・開発プロセス"
+      - file: "PROJECT_SPECIFIC.yaml"
+        role: "プロジェクト固有設定"
+      - file: "WORKFLOW.yaml"
+        role: "進捗・決定事項（セーブデータ）"
+      - file: "ARCHITECTURE.yaml"
+        role: "実装済み機能の仕様書"
+      - file: "DATABASE.md"
+        role: "DB設計（必要な場合）"
+  
+  - name: "既存GA-Workspace"
+    description: "rina-zero-gravityの現在の構成"
+    current_files:
+      rules: 28
+      workflows: 36
+      templates: "6種類"
+
+# =====================================
+# 5. 成功基準
+# =====================================
+success_criteria:
+  - "/start-project で prompt/ フォルダが自動生成される"
+  - "セッション再開時に完璧に前回の状態を復元できる"
+  - "フェーズごとの進め方が明確に定義されている"
+  - "決定事項・進捗が確実に記録される"
+  - "複雑化を防ぐシンプルな構造"
+  - "既存GA-Workspaceのワークフローと連携動作"
+
+# =====================================
+# 6. フェーズ定義
+# =====================================
+phases:
+  - phase: 0
+    name: "要件定義"
+    description: "何を作るか、どう統合するか決める"
+    deliverables:
+      - "PROJECT_SPECIFIC.yaml 完成"
+      - "統合方針の決定"
+  
+  - phase: 1
+    name: "設計"
+    description: "ファイル構成、各ファイルの役割を設計"
+    deliverables:
+      - "prompt/テンプレート設計"
+      - "既存ファイルとの対応関係"
+  
+  - phase: 2
+    name: "実装（テンプレート）"
+    description: "prompt/のテンプレートファイル群を作成"
+    deliverables:
+      - ".agent/templates/prompt/ 作成"
+      - "各テンプレートファイル完成"
+  
+  - phase: 3
+    name: "実装（ルール統合）"
+    description: "NEO-RINA.mdの知見を既存ルールに統合"
+    deliverables:
+      - "ルールファイルの更新"
+      - "新規ルールファイルの作成"
+  
+  - phase: 4
+    name: "実装（ワークフロー）"
+    description: "prompt/方式に対応したワークフロー更新"
+    deliverables:
+      - "/start-project 更新"
+      - "/resume-session 更新"
+      - "/save-session 新規作成"
+  
+  - phase: 5
+    name: "テスト・検証"
+    description: "実際にプロジェクトを作成して動作確認"
+    deliverables:
+      - "テストプロジェクト作成"
+      - "セッション再開テスト"
+  
+  - phase: 6
+    name: "ドキュメント"
+    description: "README、使い方の整備"
+    deliverables:
+      - "RINA.md 更新"
+      - "README.md 更新"
