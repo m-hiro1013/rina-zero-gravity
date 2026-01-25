@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{project_name}}</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div class="popup-container">
+        <header class="popup-header">
+            <h1>{{project_name}}</h1>
+        </header>
+
+        <main class="popup-content">
+            <div class="status-card">
+                <span class="status-indicator active"></span>
+                <span class="status-text">有効</span>
+            </div>
+
+            <div class="actions">
+                <button id="action-btn" class="btn btn-primary">
+                    アクション実行
+                </button>
+            </div>
+
+            <div class="settings">
+                <label class="setting-item">
+                    <span>機能を有効化</span>
+                    <input type="checkbox" id="toggle-feature" checked>
+                </label>
+            </div>
+
+            <div id="result" class="result hidden">
+                <p id="result-text"></p>
+            </div>
+        </main>
+
+        <footer class="popup-footer">
+            <small>v1.0.0</small>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

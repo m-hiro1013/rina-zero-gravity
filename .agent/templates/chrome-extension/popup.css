@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Chrome Extension Popup Styles
+   ========================================================================== */
+
+:root {
+    --color-primary: #3b82f6;
+    --color-primary-dark: #2563eb;
+    --color-success: #22c55e;
+    --color-background: #ffffff;
+    --color-surface: #f8fafc;
+    --color-text: #1e293b;
+    --color-text-light: #64748b;
+    --border-radius: 0.5rem;
+    --transition: all 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--color-text);
+    background: var(--color-background);
+}
+
+.popup-container {
+    width: 320px;
+    min-height: 200px;
+}
+
+/* Header */
+.popup-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.popup-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Content */
+.popup-content {
+    padding: 1rem;
+}
+
+/* Status Card */
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--color-surface);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #94a3b8;
+}
+
+.status-indicator.active {
+    background: var(--color-success);
+    box-shadow: 0 0 8px var(--color-success);
+}
+
+.status-text {
+    font-weight: 500;
+}
+
+/* Actions */
+.actions {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Settings */
+.settings {
+    margin-bottom: 1rem;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.setting-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Result */
+.result {
+    padding: 0.75rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: var(--border-radius);
+    color: #166534;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Footer */
+.popup-footer {
+    padding: 0.75rem;
+    text-align: center;
+    color: var(--color-text-light);
+    border-top: 1px solid #e2e8f0;
+}

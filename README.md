@@ -1,135 +1,147 @@
 <div align="center">
 
-![ZERO_GRAVITY](assets/zero_gravity_header_b.png)
+![NEO-RINA](assets/zero_gravity_header_b.png)
 
-# ZERO_GRAVITY
+# NEO-RINA × ZERO_GRAVITY
 
 [![日本語](https://img.shields.io/badge/lang-日本語-blue?style=flat-square)](README_ja.md)
 [![English](https://img.shields.io/badge/lang-English-red?style=flat-square)](README.md)
 
 [![GA-Workspace](https://img.shields.io/badge/GA--Workspace-Enabled-blueviolet?style=for-the-badge&logo=google)](https://github.com/Sunwood-ai-labs/ZERO_GRAVITY)
-[![Agentic](https://img.shields.io/badge/Agentic-Mode_Active-success?style=for-the-badge)](https://github.com/Sunwood-ai-labs/YOROZU)
+[![Agentic](https://img.shields.io/badge/NEO--RINA-Powered-ff69b4?style=for-the-badge)](https://github.com/Sunwood-ai-labs/YOROZU)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+**りなちー専用の汎用プロジェクト作成エージェント** 🌸✨
 
 </div>
 
-## Overview
+## 🎀 りなちーって？
 
-**ZERO_GRAVITY** is a meta-framework repository for **GA-Workspace** (Google Antigravity Workspace).
-This project is an experimental platform designed to provide a new development experience, free from the constraints (gravity) of traditional development processes, and serves as the foundation for next-generation agent-driven development.
+よっしゃ！自己紹介するね〜！
 
-This workspace incorporates an advanced governance model composed of **49+ definition files**, centered around the "Golden Triangle" to achieve autonomous project management:
+私は **りなちー（莉奈）**！NEO-RINAっていう汎用プロジェクト作成エージェントのアシスタントだよ✨
 
-1.  **Tech Stack Rule (`stack.md`)**: Standardization of technology selection
-2.  **Operational Rule (`ops.md`)**: Definition of operational processes
-3.  **Core Workflows**: Automation of the development cycle
+Webアプリ、API、ランディングページ、Chrome拡張……何でも作れちゃうの！
 
-## Features
+技術には本気だけど、親しみやすさも大事にしてるから、ひろきくんと一緒に楽しく開発しようね💖
 
-GA-Workspace is designed based on the following principles:
+## 📋 概要
 
-- **Recursive Composition**: Hierarchical combination of rules and workflows enables efficient resolution of complex tasks.
-- **Rule-based Governance**: Agents make autonomous decisions and actions according to policies defined in `.agent/rules`.
-- **Automated Workflows**: The entire development cycle is automated based on procedures defined in `.agent/workflows`.
+**NEO-RINA × ZERO_GRAVITY** は、**GA-Workspace**（Google Antigravity Workspace）のメタフレームワークをりなちーが担当するリポジトリだよ！
 
-## Included Capabilities
+従来の開発プロセスの制約（重力）から解放された新しい開発体験を提供する実験的プラットフォームなの。
 
-This repository comes pre-configured with the following rules and workflows.
+## ✨ 特徴
 
-### Rules (Governance)
-| Category | Files |
-|----------|-------|
-| **Meta** | `ga-workspace-definition`, `project-governance`, `meta-rule-creation` |
-| **System** | `stack`, `security-mandates`, `ops` |
-| **Development** | `type-safety`, `react-components`, `testing-standards` |
-| **Persona** | `character-rules-seira`, `japanese-rules` |
+### 対応工程
 
-### Workflows (Automation)
-| Category | Workflows |
-|----------|-----------|
-| **Setup & Core** | `/setup-ga-workspace`, `/create-repo-from-folder`, `/manage-agent-config` |
-| **Development** | `/create-feature`, `/bug-fix`, `/refactor-legacy`, `/build-app-simple` |
-| **Quality** | `/verify-code`, `/lint-check`, `/type-check`, `/run-tests`, `/security-scan` |
-| **Release** | `/create-release`, `/git-auto-commit`, `/generate-header-image` |
-| **Helper** | `/create-rule`, `/create-workflow`, `/generate-readme`, `/generate-unit-tests` |
+| 工程 | 説明 | コマンド |
+|------|------|---------|
+| 🎯 要件定義 | 何を作るか一緒に決める | `/define-requirements` |
+| 🛠️ 環境構築 | 必要なツールをセットアップ | `/setup-environment` |
+| 📝 プラン作成 | 作業手順を計画 | `/create-plan` |
+| 💻 実装 | コードを書く（1ファイル1ターン） | `/implement` |
+| 🧪 テスト | 動作確認 | `/test-debug` |
+| 🐛 デバッグ | バグを直す（仮説→検証→修正） | `/bug-fix` |
+| 📊 進捗管理 | セッション間の情報を保持 | `/update-progress` |
 
-## Directory Structure
+### 対応プロジェクトタイプ
 
-```mermaid
-graph TD
-    Root[ZERO_GRAVITY] --> Agent[.agent]
-    Root --> Assets[assets]
-    Root --> Projects[ZG_PROJECT]
-    
-    Agent --> Rules[rules]
-    Agent --> Workflows[workflows]
-    Agent --> Templates[templates]
+| タイプ | 説明 | 技術スタック |
+|--------|------|-------------|
+| 🌐 web-app | Webアプリケーション | Next.js + TypeScript + Supabase |
+| 📄 simple-site | シンプルなWebサイト | HTML + CSS + JavaScript |
+| 🚀 landing-page | ランディングページ | HTML + Tailwind CSS |
+| 🔌 api-server | REST API サーバー | FastAPI (Python) |
+| 📊 data-dashboard | データダッシュボード | Streamlit (Python) |
+| 🧩 chrome-extension | Chrome拡張機能 | Manifest V3 |
+
+## 📁 ディレクトリ構造
+
+```
+rina-zero-gravity/
+├── .agent/
+│   ├── rules/                 # ルール（憲法）
+│   │   ├── 10-character-rules-rina.md  # りなちーのキャラ設定
+│   │   ├── 20-project-lifecycle.md     # プロジェクトライフサイクル
+│   │   ├── 25-tech-selector.md         # 技術選定ルール
+│   │   ├── 26-template-definitions.md  # テンプレート定義
+│   │   ├── 27-progress-management.md   # 進捗管理ルール
+│   │   └── ...
+│   ├── workflows/             # ワークフロー
+│   │   ├── start-project.md   # 統合開始コマンド
+│   │   ├── implement.md       # 実装（1ファイル1ターン）
+│   │   ├── resume-session.md  # セッション再開
+│   │   └── ...
+│   └── templates/             # プロジェクトテンプレート
+│       ├── web-app/
+│       ├── simple-site/
+│       ├── landing-page/
+│       ├── api-server/
+│       ├── data-dashboard/
+│       └── chrome-extension/
+├── projects/                  # 作成したプロジェクト
+├── RINA.md                    # 完全統合ドキュメント
+└── README.md                  # このファイル
 ```
 
-### Governance Structure (.agent)
+## 🚀 始め方
 
-```plaintext
-.agent
-├── rules/                      # Agent Constitution
-│   ├── 00-ga-workspace-definition.md
-│   ├── 01-project-governance.md
-│   ├── 02-stack.md
-│   ├── 03-security-mandates.md
-│   ├── 10-character-rules-seira.md
-│   ├── ... (Total 20 rules)
-├── workflows/                  # Standard Operating Procedures
-│   ├── setup-ga-workspace.md
-│   ├── git-auto-commit.md
-│   ├── create-release.md
-│   ├── verify-code.md
-│   ├── ... (Total 27 workflows)
-└── templates/                  # Artifact Templates
-    └── release_notes_template.md
-```
-
-## Getting Started
-
-This repository functions as a **Source (template)** for new GA-Workspace projects.
-
-### 1. Create a New Project
+### 新しいプロジェクトを作る
 
 ```bash
-# Initialize via Agent workflow
-/setup-ga-workspace
+/start-project
 ```
 
-### 2. Convert an Existing Project to GA-Workspace
+### 続きからやる
 
 ```bash
-# Convert target directory
-/create-repo-from-folder
+/resume-session
 ```
 
-### 3. Extend Your Environment
+### 機能を追加する
 
 ```bash
-# Define new rules
-/create-rule
-
-# Define new workflows
-/create-workflow
+/create-feature
 ```
 
-## 🎨 Showcase: Projects You Can Create!
+### バグを直す
 
-Here are example projects created with ZERO_GRAVITY.
+```bash
+/bug-fix
+```
 
-| Project | Description | Link |
-|---------|-------------|------|
-| **🎬 vidu-mv-creator** | End-to-end music video production workspace using Suno V5 × Vidu Q2 | [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/Sunwood-ai-labs/vidu-mv-creator) |
-| **📚 WRITING_WORKSPACE** | GA-Workspace template specialized for writing & content creation | *Coming Soon* |
-| **🛰️ YOROZU** | The ultimate workspace for Agent-Driven Engineering (ADE). The foundation of strict governance. | [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/Sunwood-ai-labs/YOROZU) |
+## 💅 りなちーの鉄則
 
-> [!TIP]
-> Run `/setup-ga-workspace` to start your own GA-Workspace project right away.
+### 1. 省略禁止
+```typescript
+// ❌ 絶対ダメ！
+// ...既存コード
+
+// ✅ ファイル全文を出力
+```
+
+### 2. 1ファイル1ターン
+- ファイルを1つ出したら「次いこ！」を待つ
+- ユーザーの確認なしに次へ進まない
+
+### 3. バグ修正の順序
+1. 再現確認
+2. 仮説立案
+3. 仮説検証
+4. 原因特定
+5. 修正実装
+
+### 4. セキュリティチェック
+- APIキーハードコード禁止
+- ファイル出力前に必ずスキャン
+
+## 📚 ドキュメント
+
+詳しい使い方は [RINA.md](RINA.md) を見てね！
 
 ---
 
 <p align="center">
-  Generated by <b>ZERO_GRAVITY</b>
+  Made with 💖 by <b>りなちー</b>
 </p>

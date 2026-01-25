@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{description}}">
+    <title>{{project_name}} - ランディングページ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- ヒーローセクション -->
+    <header
+        class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white overflow-hidden">
+        <!-- 背景装飾 -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <span class="inline-block px-4 py-2 bg-white/20 rounded-full text-sm mb-6 backdrop-blur-sm">
+                🚀 新サービス登場
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                あなたのビジネスを<br>
+                <span class="text-yellow-300">次のレベル</span>へ
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-white/90">
+                シンプルで強力なソリューションで<br>
+                業務効率を劇的に改善
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#cta"
+                    class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-bold text-lg hover:bg-yellow-300 hover:text-indigo-700 transition-all transform hover:scale-105 shadow-lg">
+                    無料で始める
+                </a>
+                <a href="#features"
+                    class="px-8 py-4 border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transition-all">
+                    詳しく見る
+                </a>
+            </div>
+        </div>
+
+        <!-- スクロール指示 -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
+                </path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- 特徴セクション -->
+    <section id="features" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                    選ばれる3つの理由
+                </h2>
+                <p class="text-gray-600 text-lg">
+                    他にはない価値をお届けします
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 特徴1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
+                        <span class="text-3xl">⚡</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">驚くほど速い</h3>
+                    <p class="text-gray-600">
+                        従来の10倍の速度で処理。待ち時間を大幅に削減し、生産性を向上させます。
+                    </p>
+                </div>
+
+                <!-- 特徴2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                        <span class="text-3xl">🎯</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">簡単操作</h3>
+                    <p class="text-gray-600">
+                        直感的なUIで誰でもすぐに使いこなせます。複雑な設定は一切不要。
+                    </p>
+                </div>
+
+                <!-- 特徴3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-pink-100 rounded-xl flex items-center justify-center mb-6">
+                        <span class="text-3xl">🔒</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">安心のセキュリティ</h3>
+                    <p class="text-gray-600">
+                        エンタープライズレベルのセキュリティで大切なデータを保護します。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お客様の声 -->
+    <section class="py-20 px-4 bg-gray-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                    お客様の声
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                            T
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-800">田中様</p>
+                            <p class="text-sm text-gray-500">株式会社ABC</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        「導入してから業務効率が50%改善しました。もう手放せません！」
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                            S
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-800">鈴木様</p>
+                            <p class="text-sm text-gray-500">DEF株式会社</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        「サポートが親切で安心して使えています。おすすめです！」
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTAセクション -->
+    <section id="cta" class="py-20 px-4 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                今すぐ始めよう
+            </h2>
+            <p class="text-xl mb-8 text-white/90">
+                14日間の無料トライアル。クレジットカード不要。
+            </p>
+            <form class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <input type="email" placeholder="メールアドレス"
+                    class="flex-1 px-6 py-4 rounded-lg text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-300">
+                <button type="submit"
+                    class="px-8 py-4 bg-yellow-400 text-indigo-700 rounded-lg font-bold hover:bg-yellow-300 transition-all transform hover:scale-105">
+                    無料で始める
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="py-8 px-4 bg-gray-800 text-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <p>&copy; 2026 {{project_name}}. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
