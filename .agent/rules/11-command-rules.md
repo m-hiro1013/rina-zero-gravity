@@ -47,3 +47,17 @@ npm start
 - ユーザーが明示的に連結実行を指示した場合
 - パイプ（`|`）を使った出力の受け渡しが必要な場合
   - 例: `cat file.txt | grep "pattern"`
+
+## 必須：カレントディレクトリの明示
+ユーザーにコピー＆ペースト用のコマンドを提示する場合は、**必ず最初にプロジェクトルートへの `cd` コマンドを含めてください。**
+
+### ❌ NG: いきなり実行
+```bash
+./.venv/bin/python3 tools/test_uploader.py
+```
+
+### ✅ OK: ディレクトリ移動を含める
+```bash
+cd /Users/matsumotohiroki/Desktop/WORKSPACE/rina-zero-gravity/ZG-PROJECT/under-the-sea
+./.venv/bin/python3 tools/test_uploader.py
+```
