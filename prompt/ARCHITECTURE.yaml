@@ -104,6 +104,74 @@ architecture:
           files:
             - file: "README.md"
 
+    # ---------------------------------
+    # Phase 7: エージェント進化 & 目次ファースト設計 🆕
+    # ---------------------------------
+    phase7:
+      name: "エージェント進化 & 目次ファースト設計"
+      status: "done"
+      completed_at: "2026-01-27T12:15:00+09:00"
+      features:
+        - id: "F008"
+          name: "Micro-Agent Architecture (MAA)"
+          description: "100%管理領域と自律領域の分離"
+          status: "done"
+          files:
+            - file: ".agent/micro-agents/core/orchestrator.md"
+              role: "全体の指揮者"
+            - file: ".agent/micro-agents/core/bookkeeper.md"
+              role: "情報の管理者"
+            - file: ".agent/micro-agents/core/db-manager.md"
+              role: "データベースの管理者"
+            - file: ".agent/micro-agents/core/growth-monitor.md"
+              role: "進化の管理者"
+            - file: ".agent/templates/prompt/BOOK.yaml.template"
+              role: "エージェントレジストリ"
+            - file: ".agent/rules/40-micro-agent-architecture.md"
+              role: "MAAルール"
+        
+        - id: "F009"
+          name: "知見蓄積システム"
+          description: "Goku-Style Knowledge Base"
+          status: "done"
+          files:
+            - file: "prompt/references/goku.md"
+              role: "知見データベース"
+            - file: ".agent/templates/prompt/KNOWLEDGE.md.template"
+              role: "知見テンプレート"
+            - file: ".agent/workflows/learn-and-grow.md"
+              role: "知見蓄積ワークフロー"
+            - file: ".agent/workflows/update-rina-skills.md"
+              role: "自己進化ワークフロー"
+        
+        - id: "F010"
+          name: "目次ファースト設計"
+          description: "INDEXベースの効率的な情報アクセス"
+          status: "done"
+          files:
+            - file: ".agent/INDEX.md"
+              role: "MASTER INDEX"
+            - file: ".agent/rules/INDEX.md"
+              role: "Rules INDEX"
+            - file: ".agent/workflows/INDEX.md"
+              role: "Workflows INDEX"
+            - file: ".agent/micro-agents/INDEX.md"
+              role: "Agents INDEX"
+            - file: ".agent/templates/prompt/FILES.md.template"
+              role: "Files INDEX テンプレート"
+            - file: ".agent/rules/00-index-first.md"
+              role: "目次ファースト原則"
+            - file: ".agent/workflows/update-index.md"
+              role: "INDEX更新ワークフロー"
+        
+        - id: "F011"
+          name: "セルフチェック機構"
+          description: "原則遵守の自動確認"
+          status: "done"
+          files:
+            - file: ".agent/workflows/self-check.md"
+              role: "セルフチェックワークフロー"
+
   # =====================================
   # 3. アーキテクチャ設計
   # =====================================
@@ -124,8 +192,12 @@ architecture:
       - layer: "L2: プロジェクト"
         content: "プロジェクト固有設定・進捗"
         location: "prompt/"
+
+      - layer: "L3: マイクロエージェント"
+        content: "機能特化型エージェント群（Core + Work）"
+        location: ".agent/micro-agents/"
       
-      - layer: "L3: 実装詳細"
+      - layer: "L4: 実装詳細"
         content: "実装済み機能・DB設計"
         location: "prompt/ARCHITECTURE.yaml, prompt/DATABASE.md"
     
@@ -202,7 +274,47 @@ architecture:
         - "進捗報告"
 
   # =====================================
-  # 5. 統合仕様
+  # 5. マイクロエージェント設計 (Micro-Agent Architecture)
+  # =====================================
+  micro_agent_architecture:
+    principle: |
+      全ての機能を小さなエージェントに分解し、
+      オーケストレーションによって連携させる。
+      「100%管理領域」と「自律領域」を明確に分離する。
+    
+    core_agents_mandatory: # 100%管理領域（絶対に外せない）
+      - agent: "Orchestrator Agent"
+        role: "全体の指揮者。エージェントを集めて方向性を決める"
+        responsibility: "Plan, Assign, Review"
+      
+      - agent: "BookKeeper Agent"
+        role: "情報の管理者。エージェントの居場所、内容、戻り値をbookにまとめる"
+        responsibility: "Maintain Registry, Update Status"
+      
+      - agent: "DBManager Agent"
+        role: "データベースの管理者。構造やアクセスを一元管理"
+        responsibility: "Schema Management, Access Control"
+      
+      - agent: "GrowthMonitor Agent"
+        role: "進化の管理者。サイクルごとの反省・改善をプロセスに組み込む"
+        responsibility: "Feedback Loop, Knowledge Integration"
+
+    work_agents_dynamic: # 自律領域（必要に応じて増減）
+      - "Planner"
+      - "Coder"
+      - "Reviewer"
+      - "Tester"
+      - "And dynamic agents created by Rina..."
+
+    orchestration_flow:
+      1_gather: "OrchestratorがCore Agentsを招集"
+      2_decide: "方向性と必要なWork Agentsを決定"
+      3_execute: "Work Agentsに指示出し & 実行"
+      4_reflect: "GrowthMonitorが結果を評価・知見化"
+      5_improve: "プロセス自体を改善して次のサイクルへ"
+
+  # =====================================
+  # 6. 統合仕様
   # =====================================
   integration_spec:
     neo_rina_md:
@@ -236,3 +348,7 @@ architecture:
       description: "既存GA-Workspaceとの連携"
       approach: "共存（prompt/ + .agent/）"
       compatibility: "旧方式（PROJECT.md + TODO.md）もサポート"
+
+    goku_knowledge_base:
+      description: "知見蓄積システム"
+      integration_point: "GrowthMonitor Agent"

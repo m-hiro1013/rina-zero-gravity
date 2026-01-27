@@ -20,7 +20,8 @@ project:
   codename: "rina-zero-gravity"
   description: |
     NEO-RINA.md の知見 + prompt/管理方式 + 既存GA-Workspaceを統合し、
-    新規プロジェクト作成時に完璧な管理体制を自動構築するフレームワーク
+    さらに Goku-Style Knowledge Base (goku.md) を採用することで、
+    自己進化し続けるエージェントシステムを構築するフレームワーク
   
   purpose:
     primary: "エージェントが完璧にプロジェクト管理できる環境を作る"
@@ -95,6 +96,15 @@ integration_targets:
       workflows: 36
       templates: "6種類"
 
+  - name: "Goku-Style Knowledge Base"
+    description: "みんなの知恵を集めて強くなる学習システム"
+    reference: "prompt/references/goku.md"
+    key_features:
+      - "知見（技）と人格（魂）の分離"
+      - "ウェイトシステムによる重要度評価"
+      - "抽象化によるプライバシー保護"
+      - "セッションごとの統合フロー"
+
 # =====================================
 # 5. 成功基準
 # =====================================
@@ -105,6 +115,8 @@ success_criteria:
   - "決定事項・進捗が確実に記録される"
   - "複雑化を防ぐシンプルな構造"
   - "既存GA-Workspaceのワークフローと連携動作"
+  - "Goku形式で知見が体系的に蓄積され、プロジェクトを跨いで活用できる"
+  - "Rina自身が最適な開発環境を自動判断・提案できる"
 
 # =====================================
 # 6. フェーズ定義
@@ -132,19 +144,21 @@ phases:
       - "各テンプレートファイル完成"
   
   - phase: 3
-    name: "実装（ルール統合）"
-    description: "NEO-RINA.mdの知見を既存ルールに統合"
+    name: "実装（ルール統合＆学習システム）"
+    description: "NEO-RINAの知見統合とGoku形式学習システムの導入"
     deliverables:
       - "ルールファイルの更新"
       - "新規ルールファイルの作成"
+      - "prompt/KNOWLEDGE.md テンプレート作成"
+      - "/learn-and-grow ワークフロー作成（知見統合）"
   
   - phase: 4
     name: "実装（ワークフロー）"
     description: "prompt/方式に対応したワークフロー更新"
     deliverables:
-      - "/start-project 更新"
+      - "/start-project 更新（KNOWLEDGE.md生成追加）"
       - "/resume-session 更新"
-      - "/save-session 新規作成"
+      - "/save-session 更新（学習フロー統合）"
   
   - phase: 5
     name: "テスト・検証"
@@ -157,5 +171,12 @@ phases:
     name: "ドキュメント"
     description: "README、使い方の整備"
     deliverables:
-      - "RINA.md 更新"
+      - "RINA.md 更新（学習システムの解説）"
       - "README.md 更新"
+
+  - phase: 7
+    name: "エージェント進化"
+    description: "自分自身を更新する機能の実装"
+    deliverables:
+      - "/update-rina-skills ワクフロー作成"
+      - "プロジェクトタイプ判定ロジックの実装"
