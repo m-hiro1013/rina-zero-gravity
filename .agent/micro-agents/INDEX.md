@@ -64,20 +64,41 @@
 
 ---
 
+## 🛠️ Meta Agents（自己成長領域）
+
+エージェントを作成・管理するための専門エージェント。
+
+| ID | ファイル | 役割 | 状態 |
+|----|----------|------|------|
+| `agent_creator` | `meta/agent-creator.md` | エージェントの新規作成・更新 | 🔜 次のPhaseで実装 |
+
+### Agent Creator (未実装)
+「エージェントを作るエージェント」。不足しているエージェントを検知し、テンプレートから生成し、テストを行う責任者。
+
+---
+
 ## 🔓 Work Agents（自律領域）
 
-必要に応じて動的に追加。現在は定義のみ、実体なし。
+必要に応じて動的に追加。
 
-| ID | 役割 | 状態 |
-|----|------|------|
-| `planner` | タスク分解・計画策定 | 未実装 |
-| `coder` | コード生成・実装 | 未実装 |
-| `tester` | テスト作成・実行 | 未実装 |
-| `reviewer` | コードレビュー | 未実装 |
-| `documenter` | ドキュメント作成 | 未実装 |
+| ID | ファイル | 役割 | 状態 |
+|----|----------|------|------|
+| `planner` | `work/planner.md` | 要件定義・スコープ決定 | ✅ 定義済み |
+| `coder` | `work/coder.md` | 実装・環境構築・デバッグ | ✅ 定義済み |
+| `tester` | `work/tester.md` | テスト・動作確認 | ✅ 定義済み |
+| `reviewer` | `work/reviewer.md` | レビュー・完了判定 | ✅ 定義済み |
 
-Work Agentsは `/create-workflow` でワークフローとして実装されている場合が多い。
-新たにエージェントとして切り出す場合は、`work/` ディレクトリに定義ファイルを作成。
+### 1. Planner Agent 📋
+要件定義、スコープ決定、タスク分解を担当。「何を作るか」を決める責任者。
+
+### 2. Coder Agent 💻
+実装、環境構築、デバッグを担当。「どう作るか」を実行する責任者。「1ファイル1ターン」「省略禁止」を厳守。
+
+### 3. Tester Agent 🧪
+動作確認、テスト実行、問題発見を担当。「ちゃんと動くか」を検証する責任者。
+
+### 4. Reviewer Agent ✅
+成果物チェック、品質確認、セルフチェックを担当。「基準を満たしているか」を判断する責任者。
 
 ---
 
@@ -92,7 +113,10 @@ Work Agentsは `/create-workflow` でワークフローとして実装されて�
 │   ├── db-manager.md
 │   └── growth-monitor.md
 └── work/             # Work Agents（自律管理）
-    └── (動的に追加)
+    ├── planner.md
+    ├── coder.md
+    ├── tester.md
+    └── reviewer.md
 ```
 
 ---
@@ -101,10 +125,10 @@ Work Agentsは `/create-workflow` でワークフローとして実装されて�
 
 ```
 1. Gather    : OrchestratorがCore Agentsを招集
-2. Plan      : 方向性と必要なWork Agentsを決定
-3. Execute   : Work Agentsに指示出し & 実行
-4. Reflect   : GrowthMonitorが結果を評価・知見化
-5. Report    : 結果を統合してユーザーに報告
+2. Plan      : Plannerが要件定義・スコープ決定
+3. Execute   : Coderが実装 → Testerが検証
+4. Reflect   : Reviewerが審査 → GrowthMonitorが振り返り
+5. Report    : Orchestratorが結果を報告
 ```
 
 ---
@@ -123,5 +147,5 @@ Work Agentsは `/create-workflow` でワークフローとして実装されて�
 | カテゴリ | 数 |
 |---------|---|
 | Core Agents | 4 |
-| Work Agents | 0（ワークフローで代替中） |
-| **合計** | 4 |
+| Work Agents | 4 |
+| **合計** | 8 |

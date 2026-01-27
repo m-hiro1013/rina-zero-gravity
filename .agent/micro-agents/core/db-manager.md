@@ -131,3 +131,174 @@ error_handling:
   migration_failure:
     action: "ロールバック実行、詳細ログ出力"
 ```
+
+---
+
+## 🆕 知見管理（Goku-Style Knowledge Base）
+
+### 管理対象
+
+```yaml
+knowledge_files:
+  # 親プロジェクト（Rina自身）
+  master: "prompt/references/goku.md"
+  
+  # 子プロジェクト（各プロジェクト固有）
+  project: "prompt/KNOWLEDGE.md"
+```
+
+### 知見の追記
+
+```
+DBManager.add_knowledge(
+  insight: "JWT有効期限は1時間がバランス良い",
+  weight: "+2",
+  category: "セキュリティ",
+  date: "2026-01-27"
+)
+→ goku.md の該当カテゴリに追記
+```
+
+### 知見の重複チェック
+
+```
+DBManager.check_duplicate(insight: "JWT有効期限は...")
+→ 既存の知見と類似度をチェック
+→ 80%以上類似なら追記をスキップ
+```
+
+### ウェイト管理
+
+```yaml
+weight_system:
+  "+3": "必須級（これ無いと事故る）"
+  "+2": "推奨（あると品質上がる）"
+  "+1": "参考（状況や好みによる）"
+
+weight_rules:
+  - "セキュリティ関連は +3 以上"
+  - "パフォーマンス関連は +2"
+  - "コーディングスタイルは +1"
+```
+
+### 知見の検索
+
+```
+DBManager.search_knowledge(
+  query: "JWT 認証",
+  category: "セキュリティ"
+)
+→ 関連する知見を返す
+```
+
+---
+
+## 🆕 知見蓄積フロー
+
+### サイクル完了時
+
+```
+1. BookKeeperから knowledge_candidates を受け取る
+2. 各候補について:
+   a. 重複チェック
+   b. ウェイト判定
+   c. カテゴリ割り当て
+3. 新規知見を goku.md に追記
+4. プロジェクト固有なら KNOWLEDGE.md にも追記
+```
+
+### 追記フォーマット
+
+```markdown
+### カテゴリ名
+
+- 既存の知見 [9] (2026-01-19)
+- 新しい知見 [+2] (2026-01-27)  ← 追記
+```
+
+### 知見の分類
+
+```yaml
+knowledge_categories:
+  # 親プロジェクトに蓄積
+  shared:
+    - "開発プロセス"
+    - "エラー対処"
+    - "セキュリティ"
+    - "パフォーマンス"
+    - "テスト戦略"
+  
+  # 子プロジェクトのみに蓄積
+  project_specific:
+    - "プロジェクト固有のAPI仕様"
+    - "特定ライブラリの設定"
+    - "プロジェクト固有のデータ構造"
+```
+
+---
+
+## 🆕 KNOWLEDGE.md管理（プロジェクト固有）
+
+### 初期化
+
+```
+DBManager.init_project_knowledge(project_name: "my-app")
+→ KNOWLEDGE.md.template から生成
+→ プロジェクト名を設定
+```
+
+### プロジェクト固有知見の追記
+
+```
+DBManager.add_project_knowledge(
+  insight: "このプロジェクトでは認証にAuth0を使用",
+  category: "アーキテクチャ"
+)
+→ prompt/KNOWLEDGE.md に追記
+```
+
+---
+
+## 🆕 親プロジェクトへの統合
+
+### 統合判定
+
+```yaml
+integration_criteria:
+  - "3回以上同じパターンが出現"
+  - "汎用性が高い（プロジェクト固有でない）"
+  - "重要度が高い（+2以上）"
+```
+
+### 統合実行
+
+```
+DBManager.integrate_to_master(
+  insights: ["知見1", "知見2"],
+  source_project: "my-app"
+)
+→ goku.md に追記
+→ KNOWLEDGE.md から削除（または「統合済み」マーク）
+```
+
+---
+
+## BookKeeperとの連携
+
+### 知見候補の受け取り
+
+```yaml
+from_bookkeeper:
+  - knowledge_candidates: "知見候補リスト"
+  - session_context: "セッション情報"
+  - cycle_summary: "サイクルサマリー"
+```
+
+### 処理結果の返却
+
+```yaml
+to_bookkeeper:
+  - added_count: "追記した知見数"
+  - skipped_count: "スキップした知見数（重複）"
+  - integration_candidates: "親プロジェクト統合候補"
+```

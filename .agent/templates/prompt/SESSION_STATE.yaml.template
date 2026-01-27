@@ -1,0 +1,179 @@
+# =====================================
+# 💾 SESSION_STATE.yaml
+# =====================================
+#
+# セッション状態を管理するファイル。
+# Orchestratorが読み書きし、エージェント間で共有する。
+#
+# =====================================
+
+session:
+  # ---------------------------------
+  # 基本情報
+  # ---------------------------------
+  id: "{{SESSION_ID}}"
+  started_at: "{{DATETIME}}"
+  last_updated: "{{DATETIME}}"
+
+  # ---------------------------------
+  # Commit情報
+  # ---------------------------------
+  commit:
+    original_request: |
+      {{ユーザーからの元のリクエスト}}
+    
+    pattern: "新規開発 | 修正・改善 | 情報取得 | セッション管理"
+    pattern_confidence: 0.95  # パターン判定の確信度
+    
+    classified_at: "{{DATETIME}}"
+    classified_by: "Orchestrator"
+
+  # ---------------------------------
+  # ワークフロー設計
+  # ---------------------------------
+  workflow:
+    template: "新規開発ワークフロー | 修正・改善ワークフロー | 情報取得ワークフロー | セッション管理ワークフロー"
+    
+    initial_phases:
+      - name: "要件定義"
+        status: "done | in_progress | pending"
+        completed_at: "{{DATETIME}}"
+      
+      - name: "環境構築"
+        status: "done | in_progress | pending"
+        completed_at: "{{DATETIME}}"
+    
+    iterative_phases:
+      - "最小開発"
+      - "テスト"
+      - "デバッグ"
+      - "完了"
+      - "セルフチェック"
+      - "記憶の管理"
+
+  # ---------------------------------
+  # サイクル進捗
+  # ---------------------------------
+  cycle:
+    estimated_total: 5           # 見積もり反復回数
+    current: 1                   # 現在のサイクル番号
+    
+    current_phase: "最小開発"    # 現在サイクル内のフェーズ
+    phase_started_at: "{{DATETIME}}"
+    
+    history:
+      - cycle_number: 1
+        started_at: "{{DATETIME}}"
+        completed_at: "{{DATETIME}}"
+        summary: "認証機能を実装"
+        files_modified:
+          - "src/auth/login.ts"
+          - "src/auth/middleware.ts"
+        issues_found: 0
+        
+      # 以下、サイクルごとに追加
+
+  # ---------------------------------
+  # セッション情報 (Orchestratorが管理)
+  # ---------------------------------
+  session_info:
+    phase: "{{current_phase}}"
+    cycle: {{current_cycle}}
+    status: "active"
+    start_time: "{{start_time}}"
+  
+  # ---------------------------------
+  # 自己成長・依存関係管理用 (new)
+  # ---------------------------------
+  self_growth:
+    original_commit: "{{original_commit}}"  # 元のCommit内容
+    current_context: "{{current_context}}"  # 現在何をしているか
+    
+    dependency_stack: []  # 依存関係スタック
+      # - id: "task_1"
+      #   agent: "ChatApp"
+      #   status: "pending"
+      #   waiting_for: "SQLOperator"
+    
+    missing_agents: []  # 不足エージェント一覧
+    agents_in_creation: []  # 作成中エージェント一覧
+    
+    preparation_status: "pending"  # pending | in_progress | completed
+
+  # ---------------------------------
+  # フェーズ状態
+  # ---------------------------------
+  phase:
+    current: "最小開発"
+    status: "in_progress"
+    started_at: "{{DATETIME}}"
+    
+    # 現在フェーズの詳細
+    details:
+      agent: "Coder"
+      scope: "認証ミドルウェアの実装"
+      files_in_scope:
+        - "src/auth/middleware.ts"
+      progress: 50  # パーセント
+
+  # ---------------------------------
+  # エージェント状態
+  # ---------------------------------
+  agents:
+    active:
+      - agent: "Coder"
+        task: "middleware.ts の実装"
+        started_at: "{{DATETIME}}"
+    
+    waiting:
+      - agent: "Tester"
+        waiting_for: "Coderの完了"
+    
+    completed:
+      - agent: "Planner"
+        task: "スコープ定義"
+        completed_at: "{{DATETIME}}"
+        result: "success"
+
+  # ---------------------------------
+  # ユーザー確認ポイント
+  # ---------------------------------
+  checkpoint:
+    next_checkpoint: "見積もりサイクル完了後"
+    cycles_until_checkpoint: 4
+    
+    last_checkpoint:
+      at: "{{DATETIME}}"
+      reason: "セッション開始"
+      user_response: "続行"
+    
+    pending_confirmations: []
+
+  # ---------------------------------
+  # エラー履歴
+  # ---------------------------------
+  errors:
+    - timestamp: "{{DATETIME}}"
+      phase: "テスト"
+      cycle: 1
+      severity: "warning | error | critical"
+      description: "テスト失敗: auth.test.ts"
+      resolution: "デバッグで修正済み"
+
+  # ---------------------------------
+  # 知見候補
+  # ---------------------------------
+  knowledge_candidates:
+    - insight: "JWTの有効期限は短めに設定すると安全"
+      weight: "+2"
+      category: "セキュリティ"
+      should_persist: true
+
+  # ---------------------------------
+  # メタ情報
+  # ---------------------------------
+  meta:
+    project_name: "{{PROJECT_NAME}}"
+    project_path: "{{PROJECT_PATH}}"
+    workflow_yaml: "prompt/WORKFLOW.yaml"
+    knowledge_md: "prompt/KNOWLEDGE.md"

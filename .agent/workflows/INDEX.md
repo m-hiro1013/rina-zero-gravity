@@ -15,6 +15,7 @@
 | **ドキュメント** | README・画像生成 | `/generate-readme`, `/generate-header-image` |
 | **メタ** | ルール・ワークフロー作成 | `/create-rule`, `/create-workflow` |
 | **進化** | 学習・自己更新 | `/learn-and-grow`, `/update-rina-skills` |
+| **Orchestrator制御** 🆕 | ワークフローテンプレート | `workflow-templates` |
 
 ---
 

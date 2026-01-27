@@ -74,6 +74,15 @@
 |---------|---------|------|
 | `40-micro-agent-architecture.md` | model_decision | MAA設計、Core/Work Agents |
 
+### 50-59: 最上位レイヤー（Orchestrator制御）✅ COMPLETE
+
+| ファイル | トリガー | 概要 |
+|---------|---------|------|
+| `50-commit-patterns.md` | always_on | ✅ Commitパターン分類（4パターン） |
+| `51-phase-definitions.md` | always_on | ✅ フェーズ定義（初期/反復） |
+| `52-agent-assignment.md` | always_on | ✅ フェーズ×エージェント割り当て |
+| `53-user-checkpoint.md` | always_on | ✅ ユーザー確認条件 |
+
 ---
 
 ## 🔥 重要度別クイックガイド
