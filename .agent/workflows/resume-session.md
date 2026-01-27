@@ -9,6 +9,16 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 - 以前のセッションでプロジェクトが作成されている
 - prompt/フォルダが存在する
 
+## Step 0: 目次確認（目次ファースト原則） 🆕
+
+**まず目次を見る！**
+
+1. `.agent/INDEX.md` （MASTER INDEX）を確認
+2. プロジェクトの `prompt/FILES.md` があれば確認
+3. 必要に応じて Rules INDEX, Workflows INDEX を確認
+
+→ 全体像を把握してから次のステップへ
+
 ## Step 1: prompt/フォルダ確認
 
 以下のファイルの存在を確認:
@@ -16,6 +26,9 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 - [ ] prompt/WORKFLOW.yaml
 - [ ] prompt/SYSTEM_PROMPT.yaml
 - [ ] prompt/ARCHITECTURE.yaml
+- [ ] prompt/KNOWLEDGE.md 🆕
+- [ ] prompt/BOOK.yaml 🆕
+- [ ] prompt/FILES.md 🆕
 - [ ] prompt/DATABASE.md（オプション）
 
 ## Step 2: ファイル読み込み

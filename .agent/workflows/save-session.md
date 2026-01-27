@@ -1,5 +1,5 @@
 ---
-description: セッション終了時にWORKFLOW.yamlを更新し、進捗を保存する。
+description: セッション終了時にWORKFLOW.yamlを更新し、進捗を保存する。同時に学習フローを実行し知見を蓄積する。
 ---
 # /save-session - セッション保存ワークフロー
 
@@ -8,6 +8,7 @@ description: セッション終了時にWORKFLOW.yamlを更新し、進捗を保
 ## 前提条件
 - prompt/フォルダが存在する
 - WORKFLOW.yaml が存在する
+- KNOWLEDGE.md が存在する（学習フロー用）
 
 ## Step 1: 今回のセッションをまとめる
 
@@ -143,6 +144,54 @@ completed_features:
 ---
 ```
 
+## Step 6: 学習フローの実行 🆕
+
+`/learn-and-grow` ワークフローを実行し、今回のセッションで得た知見を蓄積する。
+
+### 6-1: セッションを振り返る
+
+```
+🌱 今回のセッションを振り返るよ！
+
+1. うまくいったことは？
+2. ハマったことは？
+3. 新しく学んだことは？
+```
+
+### 6-2: 知見の抽出とウェイト付与
+
+```yaml
+# +3 = 必須級
+# +2 = 推奨
+# +1 = 参考
+```
+
+### 6-3: KNOWLEDGE.md 更新
+
+セッションで得た知見を `prompt/KNOWLEDGE.md` に追記。
+
+### 6-4: 統合判断
+
+汎用的な知見は `rina-zero-gravity/prompt/references/goku.md` へ統合を検討。
+
+## Step 7: 最終報告
+
+```
+💾 セーブ完了！✨
+
+━━━━━━━━━━━━━━━━━━━━
+📍 現在地: Phase {{phase_number}}: {{phase_name}}
+📊 進捗: {{progress_summary}}
+📝 決定事項: {{decisions_count}}件
+📁 作成ファイル: {{files_count}}件
+🌱 学んだこと: {{lessons_count}}件 🆕
+━━━━━━━━━━━━━━━━━━━━
+
+次回は `/resume-session` で続きからやろうね！
+
+お疲れ様〜！💖
+```
+
 ## 更新トリガー一覧
 
 | タイミング | 更新対象 | 更新内容 |
@@ -152,6 +201,7 @@ completed_features:
 | ファイル作成時 | WORKFLOW.yaml | file_structure.created に追加 |
 | 機能完了時 | ARCHITECTURE.yaml | completed_features に移動 |
 | 注意点発見時 | WORKFLOW.yaml | cautions に追加 |
+| 知見莲得時 | KNOWLEDGE.md | セッションログに追加 🆕 |
 | セッション終了時 | WORKFLOW.yaml | last_session_summary を更新 |
 
 ## 注意事項
@@ -162,5 +212,6 @@ completed_features:
 
 ## 完了条件
 - WORKFLOW.yaml が更新されている
+- KNOWLEDGE.md が更新されている 🆕
 - ユーザーにセーブ内容を報告している
 - 次回の再開方法を案内している

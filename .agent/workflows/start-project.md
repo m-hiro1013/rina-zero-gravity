@@ -91,6 +91,14 @@ tech_stack:
 データベースを使用する場合のみ、
 `.agent/templates/prompt/DATABASE.md.template` をコピー。
 
+### 5-6: KNOWLEDGE.md 🆕
+`.agent/templates/prompt/KNOWLEDGE.md.template` をベースに作成。
+GrowthMonitor Agentが知見を蓄積するファイル。
+
+### 5-7: BOOK.yaml 🆕
+`.agent/templates/prompt/BOOK.yaml.template` をベースに作成。
+BookKeeper Agentがエージェントを管理するファイル。
+
 ## Step 6: 環境構築
 
 `/setup-environment` ワークフローを実行
@@ -125,6 +133,8 @@ tech_stack:
   - WORKFLOW.yaml
   - SYSTEM_PROMPT.yaml
   - ARCHITECTURE.yaml
+  - KNOWLEDGE.md 🆕
+  - BOOK.yaml 🆕
 - 開発環境が動作する
 - ユーザーが実装開始に同意
 
@@ -137,6 +147,8 @@ tech_stack:
 │   ├── WORKFLOW.yaml              # 進捗・決定事項（セーブデータ）
 │   ├── SYSTEM_PROMPT.yaml         # AIの振る舞い
 │   ├── ARCHITECTURE.yaml          # 実装済み機能
+│   ├── KNOWLEDGE.md               # 🆕 知見蓄積
+│   ├── BOOK.yaml                  # 🆕 エージェント管理
 │   └── DATABASE.md                # DB設計（必要な場合）
 ├── src/                           # ソースコード
 ├── .gitignore
@@ -158,3 +170,4 @@ tech_stack:
 - 実装開始 → `/implement`
 - セッション再開 → `/resume-session`
 - 進捗保存 → `/save-session`
+- 知見蓄積 → `/learn-and-grow` 🆕
