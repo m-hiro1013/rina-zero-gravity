@@ -83,6 +83,20 @@
 | `52-agent-assignment.md` | always_on | ✅ フェーズ×エージェント割り当て |
 | `53-user-checkpoint.md` | always_on | ✅ ユーザー確認条件 |
 
+### 60-69: 自己成長・依存管理
+
+| ファイル | トリガー | 概要 |
+|---------|---------|------|
+| `60-self-growth-rules.md` | model_decision | 自己成長メカニズム |
+| `61-index-update-rules.md` | always_on | INDEX更新ルール |
+| `62-dependency-management.md` | always_on | 依存関係管理（スタック構造） |
+
+### 90-99: 品質保証ルール
+
+| ファイル | トリガー | 概要 |
+|---------|---------|------|
+| `95-refactoring-policy.md` | always_on | 🆕 リファクタリング時の機能等価性維持 |
+
 ---
 
 ## 🔥 重要度別クイックガイド
@@ -117,8 +131,8 @@
 
 ## 📊 統計
 
-- **総ルール数**: 31
-- **always_on**: 13
+- **総ルール数**: 35
+- **always_on**: 17
 - **model_decision**: 16
 - **glob**: 1
 - **manual**: 1
