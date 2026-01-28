@@ -31,6 +31,7 @@
 | `02-stack.md` | always_on | 技術スタック（テンプレート） |
 | `03-security-mandates.md` | always_on | セキュリティ必須事項 |
 | `05-process-governance.md` | always_on | 自動化vs手動介入の判断基準 |
+| `06-mistake-reflection.md` | always_on | 🆕 ミス・失敗時の反省プロトコル |
 
 ### 10-19: キャラクター・運用ルール
 
