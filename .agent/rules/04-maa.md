@@ -1,7 +1,9 @@
 ---
-description: Micro-Agent Architecture (MAA) のルールと運用方針
+trigger: always_on
+slug: micro-agent-architecture
+inheritance: core
+scope: global
 ---
-
 # Micro-Agent Architecture ルール
 
 > 全ての機能を小さなエージェントに分解し、オーケストレーションによって連携させる。
@@ -11,7 +13,7 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 ### 1.1 分離の原則
 
 ```
-全ての機能 = 小さなエージェントの集合
+全機能 = 小さなエージェントの集合
 ```
 
 複雑なタスクも、中身はシンプルなエージェントの組み合わせで解決する。
@@ -43,13 +45,8 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 **役割**: 情報の管理者
 
 - エージェントの居場所、状態、成果物を一元管理
-- BOOK.yaml を常に最新に保つ
+- WORKFLOW.yaml を常に最新に保つ
 - Orchestratorに情報を提供
-
-**責務**:
-- Maintain Registry: エージェント一覧の管理
-- Update Status: 各エージェントの状態更新
-- Provide Info: 情報提供
 
 ### 2.3 DBManager Agent 🗄️
 
@@ -59,15 +56,6 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 - アクセス制御の番人
 - データ整合性の保証
 
-**責務**:
-- Schema Management: DB構造の管理
-- Access Control: 読み書き権限の制御
-- Migration: スキーマ変更の管理
-
-**禁止事項**:
-- DELETE操作は原則禁止（論理削除推奨）
-- 本番DBへの直接アクセスはユーザー承認必須
-
 ### 2.4 GrowthMonitor Agent 🌱
 
 **役割**: 進化の管理者
@@ -75,11 +63,6 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 - セッションごとの振り返り
 - 知見のKNOWLEDGE.mdへの蓄積
 - プロセス自体の改善提案
-
-**責務**:
-- Feedback Loop: 結果の評価
-- Knowledge Integration: 知見の蓄積
-- Process Improvement: 改善提案
 
 ## 3. Work Agents（自律領域）
 
@@ -146,7 +129,7 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 
 1. `.agent/micro-agents/work/` にファイル作成
 2. 単体テスト実施
-3. BOOK.yaml に追記
+3. INDEX.md に追記
 4. 連携テスト実施
 
 ### 6.2 エラー発生時
@@ -155,7 +138,7 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 |-----------|------|
 | 一時的（タイムアウト等） | リトライ（最大3回） |
 | 致命的（認証エラー等） | 停止してエスカレーション |
-| 予期しない | セバスチャン/Rinaが判断 |
+| 予期しない | Rinaが判断 |
 
 ### 6.3 学習サイクル
 
@@ -171,5 +154,5 @@ description: Micro-Agent Architecture (MAA) のルールと運用方針
 |---------|------|
 | `.agent/micro-agents/core/` | Core Agents定義 |
 | `.agent/micro-agents/work/` | Work Agents定義 |
-| `prompt/BOOK.yaml` | エージェントレジストリ |
+| `prompt/WORKFLOW.yaml` | ステータス管理 |
 | `prompt/KNOWLEDGE.md` | 知見蓄積 |

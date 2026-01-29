@@ -14,32 +14,18 @@ workflow:
   last_session_summary: |
     【今回のセッションでやったこと】
     
-    ## 1. Micro-Agent Architecture (MAA) 最上位レイヤー実装完了 🎉
-    - 全41サイクルを完走！
-    - Phase A: 定義ファイル群（5サイクル）
-    - Phase B: 状態管理（3サイクル）
-    - Phase C: Core Agents拡張（4サイクル）
-    - Phase D: Work Agents新規（4サイクル）
-    - Phase E: 統合テスト（5サイクル）
-    - Phase F: ドキュメント整備（3サイクル）
-    - Phase G: 自己成長機構（11サイクル）✅
-    - Phase H: 自己成長機構検証（6サイクル）✅
+    ## 1. アプリケーション共通ルール 「gemini.md」 参照設定の導入 🆕
+    - `00-definition.md` の「知恵の同期 (Synchronization)」プロトコルに `gemini.md` の確認ステップを追加。
+    - `SYSTEM_PROMPT.yaml` のセッション開始手順 (start_procedure) に `gemini.md` の参照を義務化。
+    - 以降、セッション開始時には必ず `gemini.md` を確認し、その指示を最優先で遵守する。
     
-    ## 2. 自己成長機構 (Self-Growth) 🆕
-    - エージェント作成ワークフロー化 (agent-creation-workflow)
-    - 完全準備原則の導入 (60-self-growth-rules)
-    - 再帰的エージェント作成対応 (62-dependency-management)
-    - Agent Creator エージェントの実装
-    
-    ## 3. インフラ整備 🆕
-    - Agents INDEX 拡張（Meta Agentsカテゴリ追加）
-    - SESSION_STATE.yaml への自己成長コンテキスト追加
-    - Orchestrator への準備完了チェック機能追加
+    ## 2. プロジェクト全体像の把握 🧠
+    - MAA (Micro-Agent Architecture) と進化したルール構造を再確認。
     
     【次のステップ】
+    - `gemini.md` の作成（必要な場合）
     - 自己成長機構の動作検証
     - 新しいアーキテクチャでの開発実践
-    - 知見の継続的蓄積と改善
 
   # =====================================
   # 1. 現在の進捗

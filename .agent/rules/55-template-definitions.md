@@ -1,6 +1,8 @@
 ---
-trigger: always_on
+trigger: model_decision
 slug: template-definitions
+inheritance: selective
+scope: project_local
 ---
 # テンプレート定義 (Template Definitions)
 

@@ -1,6 +1,8 @@
 ---
 trigger: always_on
 slug: user-profile-rules
+inheritance: core
+scope: project_local
 ---
 # ユーザープロファイルルール (User Profile Rules)
 

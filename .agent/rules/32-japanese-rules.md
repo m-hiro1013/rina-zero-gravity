@@ -1,7 +1,9 @@
 ---
 trigger: always_on
+slug: japanese-language-rules
+inheritance: core
+scope: project_local
 ---
-
 # 日本語ルール (Japanese Language Rules)
 
 ## 言語設定

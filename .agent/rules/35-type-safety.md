@@ -1,7 +1,8 @@
 ---
 trigger: always_on
 slug: type-safety
-description: TypeScriptコードにおける型定義の厳格な基準を強制する。
+inheritance: core
+scope: project_local
 ---
 # 型安全性基準 (Type Safety Standards)
 
@@ -10,7 +11,7 @@ description: TypeScriptコードにおける型定義の厳格な基準を強制
 ## 必須事項 (MUST)
 
 ### 1. 完全な型アノテーション
-すべての関数シグネチャに型注釈を付与すること。
+すべての関数シグネチャに型注釈を付与すること.
 
 ```typescript
 // ✅ 正しい例

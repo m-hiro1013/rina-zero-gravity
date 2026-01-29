@@ -2,6 +2,12 @@
 trigger: always_on
 slug: security-mandates
 ---
+---
+trigger: always_on
+slug: security-mandates
+inheritance: core
+scope: global
+---
 # セキュリティ義務 (Security Mandates)
 
 すべてのコードは以下のセキュリティ基準を満たすこと。
