@@ -1,7 +1,9 @@
 ---
-description: フェーズごとに起動するWork Agentsとその実行順序を定義する。
+trigger: always_on
+slug: agent-assignment
+inheritance: core
+scope: project_local
 ---
-
 # エージェント割り当て定義 (Agent Assignment)
 
 > どのフェーズで誰が動くか
@@ -148,7 +150,7 @@ handoff:
   
   references:
     - "prompt/PROJECT_SPECIFIC.yaml"
-    - ".agent/rules/21-type-safety.md"
+    - ".agent/rules/35-type-safety.md"
   
   cautions:
     - "APIキーはハードコード禁止"

@@ -32,6 +32,11 @@ slug: tech-stack
 
 ## Template 2: セキュリティ基準 (Security)
 
+> [!CAUTION]
+> 以下の内容はあくまでテンプレート（見本）だよ！
+> 実際のプロジェクトでのセキュリティ必須事項は、必ず **`@rules/03-security-mandates.md`** を参照して、そっちを最優先して守ってね！🔒✨
+
+### 見本ファイル: `03-security-mandates.md`
 ```markdown
 ---
 trigger: always_on

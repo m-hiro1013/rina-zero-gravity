@@ -1,7 +1,9 @@
 ---
-description: 目次ファースト原則。情報にアクセスする前に必ず目次を見ることを徹底する。
+trigger: always_on
+slug: index-first
+inheritance: core
+scope: project_local
 ---
-
 # 目次ファースト原則 (Index-First Principle)
 
 > **「情報にアクセスする前に、必ず目次を見る」**
@@ -31,7 +33,7 @@ description: 目次ファースト原則。情報にアクセスする前に必�
 | INDEX | 場所 | いつ見るか |
 |-------|------|-----------|
 | **MASTER INDEX** | `.agent/INDEX.md` | 作業開始時 |
-| **Rules INDEX** | `.agent/rules/INDEX.md` | ルール適用を検討する時 |
+| **Rules INDEX** | `.agent/rules/99-index.md` | ルール適用を検討する時 |
 | **Workflows INDEX** | `.agent/workflows/INDEX.md` | コマンド実行を検討する時 |
 | **Agents INDEX** | `.agent/micro-agents/INDEX.md` | エージェント連携を検討する時 |
 | **Files INDEX** | `prompt/FILES.md` | ファイル操作を検討する時 |
@@ -154,7 +156,7 @@ description: 目次ファースト原則。情報にアクセスする前に必�
 
 2. Rules INDEX を見る
    → 適用すべきルールを特定
-   → 21-type-safety.md, 22-react-components.md など
+   → 35-type-safety.md, 60-react-components.md など
 
 3. Agents INDEX を見る
    → Orchestrator経由で進めるべきとわかる

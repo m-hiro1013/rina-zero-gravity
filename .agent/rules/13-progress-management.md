@@ -1,6 +1,8 @@
 ---
 trigger: always_on
 slug: progress-management
+inheritance: core
+scope: project_local
 ---
 # 進捗管理ルール (Progress Management)
 

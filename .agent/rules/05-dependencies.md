@@ -1,7 +1,9 @@
 ---
-description: 依存関係の解決と再帰的管理ルール。
+trigger: always_on
+slug: dependency-management
+inheritance: core
+scope: global
 ---
-
 # 依存関係管理ルール (Dependency Management Rules)
 
 > 複雑な問題も、小さな問題の積み重ね。

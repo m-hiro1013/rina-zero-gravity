@@ -214,6 +214,10 @@ prohibitions:
 # =====================================
 session_management:
   start_procedure:
+    - step: 0
+      action: "アプリケーション全体の基本ルール gemini.md を確認"
+      requirement: "存在する場合は最優先で内容を遵守"
+    
     - step: 1
       action: "prompt/フォルダを確認"
       if_exists: "セーブデータ読み込み → 続きから"
