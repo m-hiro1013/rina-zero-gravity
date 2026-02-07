@@ -16,3 +16,11 @@
     - [Verification] コードを書いた後、必ず「画面で動かして確認」するステップを入れる。ビルド通過≠動作OK。 [+4]
     - [Self-Judgment-Danger] 「複雑だから」「使われてなさそう」で自己判断で省略するのは機能劣化の始まり。迷ったら全部移植。 [+5]
 
+
+- セッション: 10 (RINA System Protocol Integration & Global Wisdom Sync)
+  - date: 2026-02-06
+  - insights:
+    - [Protocol] エージェント定義を詳細な行動規範（RINA.md）に完全準拠させることで、人格の一貫性と運用レベルの確実性が保証される。 [+3]
+    - [Wisdom-Link] グローバルな知見ベースへのパスをハードコードすることで、子プロジェクトにおける知見の「断絶」を物理的に解決できる。 [+3]
+    - [Safety] 権限エラー（Operation not permitted）に対して「2回失敗でユーザー依頼」を定義し、AIの迷走時間をゼロにする。 [+3]
+    - [Orchestration] Startup フェーズでの Commit 分類と Readiness Check を形式化し、プロジェクトの「初動の迷い」を排除する。 [+2]
