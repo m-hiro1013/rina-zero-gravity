@@ -1,0 +1,23 @@
+architecture:
+  style: "Modern Single Page Application"
+  frontend: "React (TypeScript)"
+  styling: "Tailwind CSS"
+
+parsing_engine:
+  name: "Universal ToonParser"
+  design: "Context-aware greedy parser"
+  features:
+    - "Dynamic Table Resolution: 解析中にヘッダーと行数を動的に読み取り、型定義なしで新規データの取り込みが可能"
+    - "Hierarchical Store: 店舗 (shops) およびメディア詳細 (media_data) を階層的にオブジェクト化"
+    - "Data Path Resolution: React 側でのパス指定（shop.media_data.path.to.item）による直感的なデータアクセスの実現"
+
+data_flow:
+  - "public/toon.txt -> fetch(URL) -> parseToon() -> React State -> Selected Store Components"
+
+status:
+  completed_features:
+    - "Universal Toon Parsing Engine"
+    - "Store Navigation & Selection"
+  pending_features:
+    - "Integrated Visualizations (Recharts)"
+    - "Single-file Single-Page Export logic"

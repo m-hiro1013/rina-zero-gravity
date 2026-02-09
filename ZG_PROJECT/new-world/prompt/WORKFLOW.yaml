@@ -1,0 +1,51 @@
+workflow:
+  last_updated: "2026-02-09T23:50:00Z"
+  current_phase:
+    number: 2
+    name: "Toon 解析基盤の実装"
+    status: "in_progress"
+  
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    - プロジェクト「new-world」のセットアップと Tailwind CSS 設定完了
+    - 最初の Toon Parser (初期版) を実装
+    - Recharts を使用したダッシュボードのプロトタイプを作成
+    - root の toon.txt を public 配下にコピーし、ブラウザから取得可能に設定
+  
+  progress:
+    phases:
+      - number: 1
+        name: "環境構築"
+        status: "done"
+      - number: 2
+        name: "Toon 解析基盤の実装"
+        status: "in_progress"
+      - number: 3
+        name: "ダッシュボード可視化実装"
+        status: "not_started"
+      - number: 4
+        name: "エクスポート機能実装"
+        status: "not_started"
+  
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "React + Vite + Tailwind CSS を採用"
+        reason: "爆速開発とモダンで美しい UI/UX 実現のため"
+      - id: "D002"
+        decision: "データソースとして toon.txt を直接読み書きする"
+        reason: "データ提供と表示の直結による開発効率最大化のため"
+      - id: "D003"
+        decision: "グラフライブラリに Recharts を採用"
+        reason: "React との親和性が高く、レスポンシブ対応が容易なため"
+
+  features:
+    completed: []
+    in_progress:
+      - id: "F001"
+        name: "Toon Data Integration"
+    not_started:
+      - id: "F002"
+        name: "Dynamic Dashboard"
+      - id: "F003"
+        name: "Single-File HTML Export"
