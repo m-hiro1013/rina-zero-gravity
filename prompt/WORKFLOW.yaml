@@ -8,321 +8,114 @@
 # =====================================
 
 workflow:
-  version: "1.4"
-  last_updated: "2026-01-27T13:48:00+09:00"
+  version: "1.6"
+  last_updated: "2026-02-07T09:30:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    
-    ## 1. アプリケーション共通ルール 「gemini.md」 参照設定の導入 🆕
-    - `00-definition.md` の「知恵の同期 (Synchronization)」プロトコルに `gemini.md` の確認ステップを追加。
-    - `SYSTEM_PROMPT.yaml` のセッション開始手順 (start_procedure) に `gemini.md` の参照を義務化。
-    - 以降、セッション開始時には必ず `gemini.md` を確認し、その指示を最優先で遵守する。
-    
-    ## 2. プロジェクト全体像の把握 🧠
-    - MAA (Micro-Agent Architecture) と進化したルール構造を再確認。
-    
-    【次のステップ】
-    - `gemini.md` の作成（必要な場合）
-    - 自己成長機構の動作検証
-    - 新しいアーキテクチャでの開発実践
+    - Uber Eats データの「精製(uber-data) → 集約(s-tock)」のパイプラインを完全自動化。
+    - s-tockからuber-data側のマスタ・DBを遠隔操作する「リモート名寄せ管理機能」をUI付きで実装。
+    - 蓄積データ内の「未登録店舗」を自動検知し、UI上で赤バッジ警告を出すインテリジェンスなUXを構築。
+    - s-tockマスタに存在しないコードの登録を禁じるバリデーション(整合性ガード)をサーバー側に実装。
+    - 全プロジェクトの依存関係を詳細にスキャンし、ARCHITECTURE.yaml を最新化。
 
-  # =====================================
-  # 1. 現在の進捗
-  # =====================================
   progress:
     current_phase:
-      number: 8
-      name: "最上位レイヤー実装"
-      status: "completed"
+      number: 10
+      name: "Uber Data Pipeline 統合 & 高度化"
+      status: "done"
     
-    # 41サイクル実装計画の進捗
-    implementation_plan:
-      total_cycles: 41
-      completed_cycles: 41
-      current_phase: "ALL_COMPLETE"
-      current_cycle: "DONE"
-      plan_document: "prompt/IMPLEMENTATION_PLAN.md"
-      
-      cycle_history: # 簡略化して最新のみ表示
-        - note: "A-F (24 cycles) completed"
-        - phase: "G"
-          name: "自己成長機構"
-          status: "done"
-          count: 11
-        - phase: "H"
-          name: "自己成長機構検証"
-          status: "done"
-          count: 6
-
     current_task:
-      description: "セッション保存 (Grand Finale)"
-      started_at: "2026-01-27T13:48:00+09:00"
+      description: "セッション保存 (Uber Integration Complete)"
+      started_at: "2026-02-07T09:00:00+09:00"
     
     completed_phases:
-      - phase: 8
-        name: "最上位レイヤー実装"
-        completed_at: "2026-01-27T13:45:00+09:00"
-        deliverables:
-          - "Micro-Agent Architecture 完全実装"
-          - "Self-Growth Mechanism 実装"
-          - "Implementation Plan 41/41 完了"
-      - phase: 0
-        name: "要件定義"
-        completed_at: "2026-01-25T18:35:00+09:00"
-        deliverables:
-          - "統合方針の決定（ハイブリッド方式）"
-          - "成功基準の定義"
-          - "フェーズ定義"
-      
-      - phase: 1
-        name: "設計"
-        completed_at: "2026-01-25T18:36:00+09:00"
-        deliverables:
-          - "prompt/フォルダ構成決定"
-          - "各ファイルの役割定義"
-      
-      - phase: 2
-        name: "実装（テンプレート）"
-        completed_at: "2026-01-25T18:45:00+09:00"
-        deliverables:
-          - "prompt/基本ファイル4つ作成"
-          - ".agent/templates/prompt/ テンプレート5つ作成"
-      
-      - phase: 4
-        name: "実装（ワークフロー）"
-        completed_at: "2026-01-25T19:35:00+09:00"
-        deliverables:
-          - "/start-project 更新"
-          - "/resume-session 更新"
-          - "/save-session 新規作成"
-          - "/define-requirements 更新"
-          - "/create-plan 更新"
-          - "/update-progress 更新"
-          - "27-progress-management.md 更新"
+      - phase: 9
+        name: "プロトコル完全統合・検証"
+        completed_at: "2026-02-06"
+      - phase: 10
+        name: "Uber Data Pipeline 統合"
+        completed_at: "2026-02-07"
     
     next_tasks:
-      - "RINA.md の更新（prompt/方式の詳細説明追加）"
-      - "動作テスト（新規プロジェクト作成してみる）"
-      - "必要に応じてルール追加（オプション）"
+      - "toon_world へのデータ供給確認"
+      - "AI分析プロンプトのUber対応微調整"
+      - "グローバル知見の最終統合"
 
-  # =====================================
-  # 2. 決定事項
-  # =====================================
   decisions:
     adopted:
-      - id: "D001"
-        date: "2026-01-25"
-        decision: "ハイブリッド方式を採用"
-        reason: "GA-Workspaceのワークフロー機能 + prompt/のセッション管理を両立"
+      - id: "D009"
+        date: "2026-02-06"
+        decision: "エージェント定義を RINA.md プロトコルに完全準拠させる"
+        reason: "開発の確実性と人格（Persona）の一貫性を最大化するため"
       
-      - id: "D002"
-        date: "2026-01-25"
-        decision: "このプロジェクト自体をprompt/方式で進める"
-        reason: "実際にやりながら仕組みを完成させる（メタ的アプローチ）"
+      - id: "D010"
+        date: "2026-02-06"
+        decision: "グローバル知見ベースへのパスを絶対パスでハードコード"
+        reason: "子プロジェクトからの参照不備を防ぎ、確実に全プロジェクトの知見を集約するため"
+
+      - id: "D011"
+        date: "2026-02-07"
+        decision: "マスタからの物理削除機能を廃止し、不整合をゼロにする運用ルールを適用"
+        reason: "データ整合性の維持と、過去レポートとの齟齬を防ぐため"
       
-      - id: "D003"
-        date: "2026-01-25"
-        decision: "prompt/は新規プロジェクト作成時に自動生成"
-        reason: "/start-project ワークフローに組み込み"
-      
-      - id: "D004"
-        date: "2026-01-25"
-        decision: "既存のPROJECT.md + TODO.md方式はprompt/方式に置換"
-        reason: "より詳細な管理が可能、YAML形式で構造化"
-      
-      - id: "D005"
-        date: "2026-01-25"
-        decision: "NEO-RINA.mdの知見は適切なファイルに分散統合"
-        reason: "一箇所に集約するより、責務ごとに分離した方が管理しやすい"
-      
-      - id: "D006"
-        date: "2026-01-25"
-        decision: "prompt/はプロジェクトルートに配置"
-        reason: "ユーザーが直接編集・確認しやすい場所"
-      
-      - id: "D007"
-        date: "2026-01-25"
-        decision: "/save-session ワークフローを新規作成"
-        reason: "セッション終了時の進捗保存を明確化"
-      
-      - id: "D008"
-        date: "2026-01-25"
-        decision: "旧方式（PROJECT.md + TODO.md）との互換性を維持"
-        reason: "既存プロジェクトもサポートし、移行を促す"
-    
-    postponed:
-      - id: "P001"
-        idea: "CI/CDテンプレートの作成"
-        trigger: "実際のプロジェクトで必要になったら"
-      
-      - id: "P002"
-        idea: "Repositoryパターンの詳細ルール"
-        trigger: "実際のプロジェクトで必要になったら"
-      
-      - id: "P003"
-        idea: "RINA.md の大規模更新"
-        trigger: "時間がある時、または要望があった時"
+      - id: "D012"
+        date: "2026-02-07"
+        decision: "s-tock側のuber_dataシートは『システム専用』とし、手出し厳禁とする"
+        reason: "プル型同期によるデータ上書きからユーザーのメモ等を保護するため（運用ルール）"
 
   # =====================================
   # 3. 実装中・計画中の機能
   # =====================================
   features:
-    in_progress: []
+    in_progress:
+      - id: "F009"
+        name: "エージェント定義の RINA 化"
+        status: "done"
+        completed_at: "2026-02-06T16:30:00+09:00"
     
     completed:
       - id: "F001"
         name: "prompt/基本ファイル作成"
         status: "done"
-        completed_at: "2026-01-25T18:40:00+09:00"
-        files:
-          - "prompt/PROJECT_SPECIFIC.yaml"
-          - "prompt/WORKFLOW.yaml"
-          - "prompt/SYSTEM_PROMPT.yaml"
-          - "prompt/ARCHITECTURE.yaml"
-      
-      - id: "F002"
-        name: "prompt/テンプレート作成"
-        status: "done"
-        completed_at: "2026-01-25T18:42:00+09:00"
-        files:
-          - ".agent/templates/prompt/PROJECT_SPECIFIC.yaml.template"
-          - ".agent/templates/prompt/WORKFLOW.yaml.template"
-          - ".agent/templates/prompt/SYSTEM_PROMPT.yaml.template"
-          - ".agent/templates/prompt/ARCHITECTURE.yaml.template"
-          - ".agent/templates/prompt/DATABASE.md.template"
-      
-      - id: "F004"
-        name: "ワークフロー更新"
-        status: "done"
-        completed_at: "2026-01-25T19:35:00+09:00"
-        files:
-          - ".agent/workflows/start-project.md"
-          - ".agent/workflows/resume-session.md"
-          - ".agent/workflows/save-session.md"
-          - ".agent/workflows/define-requirements.md"
-          - ".agent/workflows/create-plan.md"
-          - ".agent/workflows/update-progress.md"
-      
-      - id: "F006"
-        name: "ルール更新"
-        status: "done"
-        completed_at: "2026-01-25T19:35:00+09:00"
-        files:
-          - ".agent/rules/27-progress-management.md"
-      
-      - id: "F007"
-        name: "README.md更新"
-        status: "done"
-        completed_at: "2026-01-25T19:32:00+09:00"
-        files:
-          - "README.md"
-    
-    planned:
-      - id: "F005"
-        name: "RINA.md更新"
-        description: "prompt/方式の詳細説明を追加"
-        status: "planned"
-      
-      - id: "F008"
-        name: "動作テスト"
-        description: "新規プロジェクト作成してprompt/生成を確認"
-        status: "planned"
+      # ... (以前の完了機能はアーカイブ)
 
   # =====================================
   # 4. ファイル構成
   # =====================================
+  # (最新の変更のみ追記)
   file_structure:
-    created:
-      - path: "prompt/PROJECT_SPECIFIC.yaml"
-        description: "プロジェクト固有設定"
-        created_at: "2026-01-25T18:35:00+09:00"
-      
-      - path: "prompt/WORKFLOW.yaml"
-        description: "進捗・決定事項（このファイル）"
-        created_at: "2026-01-25T18:36:00+09:00"
-      
-      - path: "prompt/SYSTEM_PROMPT.yaml"
-        description: "AIの振る舞い・開発プロセス"
-        created_at: "2026-01-25T18:37:00+09:00"
-      
-      - path: "prompt/ARCHITECTURE.yaml"
-        description: "実装済み機能の仕様書"
-        created_at: "2026-01-25T18:38:00+09:00"
-      
-      - path: ".agent/templates/prompt/PROJECT_SPECIFIC.yaml.template"
-        description: "新規プロジェクト用テンプレート"
-        created_at: "2026-01-25T18:40:00+09:00"
-      
-      - path: ".agent/templates/prompt/WORKFLOW.yaml.template"
-        description: "新規プロジェクト用テンプレート"
-        created_at: "2026-01-25T18:41:00+09:00"
-      
-      - path: ".agent/templates/prompt/SYSTEM_PROMPT.yaml.template"
-        description: "新規プロジェクト用テンプレート"
-        created_at: "2026-01-25T18:41:00+09:00"
-      
-      - path: ".agent/templates/prompt/ARCHITECTURE.yaml.template"
-        description: "新規プロジェクト用テンプレート"
-        created_at: "2026-01-25T18:42:00+09:00"
-      
-      - path: ".agent/templates/prompt/DATABASE.md.template"
-        description: "新規プロジェクト用テンプレート"
-        created_at: "2026-01-25T18:42:00+09:00"
-      
-      - path: ".agent/workflows/save-session.md"
-        description: "セッション保存ワークフロー（新規）"
-        created_at: "2026-01-25T18:45:00+09:00"
-    
     modified:
+      - path: ".agent/micro-agents/core/orchestrator.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/core/bookkeeper.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/core/db-manager.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/core/growth-monitor.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/work/coder.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/work/planner.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/work/tester.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/micro-agents/work/reviewer.md"
+        description: "RINA プロトコル対応"
+      - path: ".agent/workflows/save-session.md"
+        description: "グローバル知見パスハードコード"
+      - path: ".agent/workflows/learn-and-grow.md"
+        description: "グローバル知見パスハードコード"
       - path: ".agent/workflows/start-project.md"
-        description: "prompt/生成を追加"
-        modified_at: "2026-01-25T18:44:00+09:00"
-      
+        description: "グローバル知見パスハードコード"
       - path: ".agent/workflows/resume-session.md"
-        description: "prompt/読み込みに変更"
-        modified_at: "2026-01-25T18:44:00+09:00"
-      
-      - path: ".agent/workflows/define-requirements.md"
-        description: "PROJECT_SPECIFIC.yaml生成に変更"
-        modified_at: "2026-01-25T19:32:00+09:00"
-      
-      - path: ".agent/workflows/create-plan.md"
-        description: "WORKFLOW.yaml更新に変更"
-        modified_at: "2026-01-25T19:32:00+09:00"
-      
-      - path: ".agent/workflows/update-progress.md"
-        description: "WORKFLOW.yaml更新に変更"
-        modified_at: "2026-01-25T19:30:00+09:00"
-      
-      - path: ".agent/rules/27-progress-management.md"
-        description: "prompt/方式に対応"
-        modified_at: "2026-01-25T19:35:00+09:00"
-      
-      - path: "README.md"
-        description: "prompt/方式の説明を追加"
-        modified_at: "2026-01-25T19:32:00+09:00"
+        description: "グローバル知見パスハードコード"
 
   # =====================================
   # 5. 注意点・学び
   # =====================================
   cautions:
-    - id: "C001"
-      category: "設計"
-      content: "prompt/はプロジェクトルートに配置（.agent/内ではない）"
-      reason: "ユーザーが直接編集・確認しやすい場所"
-    
-    - id: "C002"
+    - id: "C005"
       category: "運用"
-      content: "WORKFLOW.yamlはセッション終了時に必ず更新・保存"
-      reason: "次回セッションで完璧に復元するため"
-    
-    - id: "C003"
-      category: "実装"
-      content: "テンプレートファイルは .template 拡張子を付ける"
-      reason: "実ファイルと区別するため"
-    
-    - id: "C004"
-      category: "互換性"
-      content: "旧方式（PROJECT.md + TODO.md）も引き続きサポート"
-      reason: "既存プロジェクトの移行をスムーズに"
+      content: "グローバル知見へのアクセス権限不足に注意"
+      reason: "絶対パスを使用するため、環境が変わった場合に修正が必要になる可能性がある"

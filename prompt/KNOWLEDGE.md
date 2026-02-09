@@ -24,3 +24,17 @@
     - [Wisdom-Link] グローバルな知見ベースへのパスをハードコードすることで、子プロジェクトにおける知見の「断絶」を物理的に解決できる。 [+3]
     - [Safety] 権限エラー（Operation not permitted）に対して「2回失敗でユーザー依頼」を定義し、AIの迷走時間をゼロにする。 [+3]
     - [Orchestration] Startup フェーズでの Commit 分類と Readiness Check を形式化し、プロジェクトの「初動の迷い」を排除する。 [+2]
+
+- セッション: 11 (Ultimate Chat Revitalization & SDK v6 Transition)
+  - date: 2026-02-08
+  - insights:
+    - [Compatibility] AI SDK v6 の `tool()` と TypeScript 型推論の不整合は `(tool as any)` で物理的に解決し、ビルドを安定させる。 [+3]
+    - [Architecture] サーバーサイド（Next.js API Route）からの `IndexedDB` 参照を含むモジュールのインポートは厳禁。フロントエンドに責務を完全に閉じる。 [+3]
+    - [Accuracy] マルチモーダル判定では添付ファイル内容を意図分類プロンプトから除外することで、ユーザーの指示の読み取り精度を最大化できる。 [+3]
+    - [Safety] 巨大なテキストファイルは中間を動的に省略（Truncation）して共有することで、コンテキストの質を落とさず LLM の処理能力を引き出せる。 [+2]
+
+- セッション: 12 (Uber Data Integration & Protocol Optimization)
+  - date: 2026-02-09
+  - insights:
+    - [Protocol] 複雑なネスト構造をJSON文字列化してからTOON変換することで、テーブル形式の整合性を保ちつつデータを運搬できる。 [+5]
+    - [Refactoring] 共通のデータ構築モジュールを修正する際は、既存の全集計項目のサイドエフェクトを徹底検証する。 [+4]
