@@ -1,9 +1,25 @@
 import { useState, useEffect, useMemo } from 'react'
 import { parseToon, type ToonData } from './utils/toonParser'
-import { Calendar, ChevronRight, Store, BarChart3 } from 'lucide-react'
+import { Calendar, ChevronRight, Store, BarChart3, TrendingUp, Search, Info } from 'lucide-react'
 
 // toon.txt のパス
 const TOON_URL = '/toon.txt'
+
+/**
+ * 🆕 タブの定義
+ */
+const TABS = [
+  '売り上げ',
+  'toreta',
+  '食べログ',
+  'ホットペッパー',
+  'Retty',
+  'グルナビ',
+  'uber',
+  'LINE'
+] as const
+
+type TabType = typeof TABS[number]
 
 /**
  * YYYYMM形式の文字列リストを生成するよ！
@@ -58,6 +74,9 @@ function App() {
   // 期間選択用の State
   const [startMonth, setStartMonth] = useState<string>('')
   const [endMonth, setEndMonth] = useState<string>('')
+
+  // 🆕 タブ切り替え用の State
+  const [activeTab, setActiveTab] = useState<TabType>('売り上げ')
 
   useEffect(() => {
     fetch(TOON_URL)
@@ -209,39 +228,84 @@ function App() {
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '32px 48px', backgroundColor: 'white' }}>
-        {/* 🆕 最上部に店舗名を表示する Header */}
-        <header style={{ marginBottom: '32px', borderBottom: '1px solid #f3f4f6', paddingBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <div style={{ backgroundColor: '#111827', color: 'white', padding: '8px', borderRadius: '8px' }}>
-              {selectedShop ? <Store size={20} /> : <BarChart3 size={20} />}
-            </div>
-            <div>
-              <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px' }}>
-                {selectedShop ? `Shop Code: ${selectedShop.shop_code}` : 'Global Summary'}
+      <main style={{ flex: 1, overflowY: 'auto', backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+        {/* 🆕 Fixed Header section */}
+        <div style={{ padding: '24px 48px 0 48px', borderBottom: '1px solid #f3f4f6', backgroundColor: '#ffffff', position: 'sticky', top: 0, zIndex: 10 }}>
+          <header style={{ marginBottom: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ backgroundColor: '#111827', color: 'white', padding: '8px', borderRadius: '8px' }}>
+                  {selectedShop ? <Store size={20} /> : <BarChart3 size={20} />}
+                </div>
+                <div>
+                  <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px' }}>
+                    {selectedShop ? `Shop Code: ${selectedShop.shop_code}` : 'Global Summary'}
+                  </div>
+                  <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#111827', margin: 0, letterSpacing: '-0.02em' }}>
+                    {selectedShop ? selectedShop.shop_name : '全店舗サマリー'}
+                  </h1>
+                </div>
               </div>
-              <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#111827', margin: 0, letterSpacing: '-0.02em' }}>
-                {selectedShop ? selectedShop.shop_name : '全店舗サマリー'}
-              </h1>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 'bold', color: '#4338ca', backgroundColor: '#eef2ff', padding: '6px 14px', borderRadius: '999px' }}>
+                <Calendar size={13} />
+                <span>{formatYM(startMonth)}</span>
+                <span style={{ opacity: 0.5 }}>~</span>
+                <span>{formatYM(endMonth)}</span>
+              </div>
+            </div>
+          </header>
+
+          {/* 🆕 Horizontal Tab Navigation */}
+          {selectedShop && (
+            <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '0px' }} className="no-scrollbar">
+              {TABS.map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  style={{
+                    padding: '12px 20px',
+                    fontSize: '12px',
+                    fontWeight: activeTab === tab ? 'bold' : '500',
+                    color: activeTab === tab ? '#111827' : '#6b7280',
+                    borderBottom: `3px solid ${activeTab === tab ? '#111827' : 'transparent'}`,
+                    backgroundColor: 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    whiteSpace: 'nowrap',
+                    borderLeft: 'none',
+                    borderRight: 'none',
+                    borderTop: 'none',
+                    outline: 'none'
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* コンテンツ本体 (タブによって切り替わるよ！) */}
+        <div style={{ padding: '32px 48px' }}>
+          <div style={{ minHeight: '600px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
+            <div style={{ fontSize: '48px' }}>
+              {activeTab === '売り上げ' && <TrendingUp size={48} />}
+              {activeTab === 'toreta' && <Calendar size={48} />}
+              {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}
+              {['uber', 'LINE'].includes(activeTab) && <Info size={48} />}
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
+                {selectedShop ? `[${activeTab}] セクションを構築中...` : '店舗を選択してください'}
+              </div>
+              <div style={{ fontSize: '11px' }}>
+                {activeTab} の詳細データ（{selectedShop?.shop_name}）をここに表示する予定だよ✨
+              </div>
             </div>
           </div>
-
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 'bold', color: '#4338ca', backgroundColor: '#eef2ff', padding: '6px 14px', borderRadius: '999px', marginTop: '12px' }}>
-            <Calendar size={13} />
-            <span>{formatYM(startMonth)}</span>
-            <span style={{ opacity: 0.5 }}>~</span>
-            <span>{formatYM(endMonth)}</span>
-          </div>
-        </header>
-
-        {/* コンテンツ本体 (今後実装していくよ！) */}
-        <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#d1d5db', gap: '12px' }}>
-          <div style={{ fontSize: '32px' }}>🏗️</div>
-          <div style={{ fontSize: '12px', fontWeight: 'medium' }}>Content under construction...</div>
         </div>
       </main>
     </div>
-
   )
 
   // 終了月変更時のハンドラ（シンボル整合性のために分けたよ！）
@@ -251,4 +315,5 @@ function App() {
 }
 
 export default App
+
 

@@ -1,20 +1,17 @@
 workflow:
   version: "1.1.0"
-  last_updated: "2026-02-10T10:45:00+09:00"
+  last_updated: "2026-02-10T11:25:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - プロジェクトの現状と sample/ フォルダの設計思想を完全同期。
-    - サイドバーにレポート期間選択機能（開始月・終了月）を実装。
-    - メインコンテンツ最上部に、選択された店舗名と期間を美しく表示するヘッダーを実装。✨🆕
-    - Reactフックの規則に反していた「早期リターン後の useMemo」を修正し、安定化。🛡️
-    - デフォルト期間を「最新月より12ヶ月間」に自動計算するロジックを導入。
-    - Tailwind v4 + Vite の環境構築不備を解決（@tailwindcss/vite の導入）。
+    - 店舗詳細ページに横並びのタブナビゲーション（売り上げ, toreta, 食べログ等）を実装。✨🆕
+    - タブの切り替え状態を管理し、コンテンツが切り替わる骨組み（Skeleton）を構築。
+    - メインヘッダーとタブ部分を sticky (固定) にし、スクロール時の利便性を向上。
     
     【次にやること】
-    - Phase 2: 各店舗の詳細レポートページ（テーブル・グラフ）の実装を開始。
-    - まずは sample.html にある「売上・予約推移テーブル」から着手。
-    - Recharts を使ったグラフの実装。
+    - Phase 2: 各タブの具体的なコンテンツ実装。
+    - まずは「売り上げ」タブの「売上・予約推移テーブル」の実装から着手。
+    - 次に toreta データの詳細（予約経路等）を実装。
 
   progress:
     current_phase:
@@ -23,7 +20,7 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "各店舗の詳細レポート表示（Skeleton実装）"
+      description: "店舗詳細：各セクション（タブ）の実装"
       started_at: "2026-02-10"
     
     completed_phases:
@@ -33,11 +30,11 @@ workflow:
 
     next_tasks:
       - id: "T005"
-        description: "店舗詳細：売上・予約推移テーブルの実装"
+        description: "店舗詳細：売上・予約推移テーブルの実装（売り上げタブ）"
       - id: "T006"
         description: "店舗詳細：月次推移グラフ（Recharts）の実装"
-      - id: "T007"
-        description: "店舗詳細：予約経路構成テーブルの実装"
+      - id: "T008"
+        description: "店舗詳細：toreta/各媒体セクションのコンテンツ実装"
 
   decisions:
     adopted:
@@ -61,6 +58,10 @@ workflow:
         date: "2026-02-10"
         decision: "すべてのReact Hooksは早期リターン(loading等)の前に定義する"
         reason: "Hooksの呼び出し順序が変化するとReactの内部状態が壊れ、致命的なランタイムエラーが発生するため"
+      - id: "D008"
+        date: "2026-02-10"
+        decision: "店舗詳細に媒体別の横並びタブナビゲーションを設置する"
+        reason: "情報量が多いダッシュボードで、ユーザーが表示したい情報を素早く切り替えられるようにするため"
 
   features:
     in_progress:
@@ -85,3 +86,4 @@ workflow:
   cautions:
     - "toon.txt のデータは YYYYMM 形式だが、JS側で数値として認識される場合があるため型変換に注意。"
     - "Tailwind v4 の @import 構文は Vite プラグインがないと PostCSS でエラーになる。"
+    - "タブ切り替え時のコンテンツ位置がズレないよう、sticky ヘッダーの高さを考慮する。"
