@@ -1,51 +1,78 @@
 workflow:
-  last_updated: "2026-02-09T23:50:00Z"
-  current_phase:
-    number: 2
-    name: "Toon 解析基盤の実装"
-    status: "in_progress"
-  
+  version: "1.1.0"
+  last_updated: "2026-02-10T10:32:00+09:00"
+
   last_session_summary: |
     【今回のセッションでやったこと】
-    - プロジェクト「new-world」のセットアップと Tailwind CSS 設定完了
-    - 最初の Toon Parser (初期版) を実装
-    - Recharts を使用したダッシュボードのプロトタイプを作成
-    - root の toon.txt を public 配下にコピーし、ブラウザから取得可能に設定
-  
+    - プロジェクトの現状と sample/ フォルダの設計思想を完全同期。
+    - サイドバーにレポート期間選択機能（開始月・終了月）を実装。
+    - デフォルト期間を「最新月より12ヶ月間」に自動計算するロジックを導入。
+    - Tailwind v4 + Vite の環境構築不備を解決（@tailwindcss/vite の導入）。
+    - 日付フォーマット関数の型安全性を強化し、ランタイムエラーを解消。
+    
+    【次にやること】
+    - Phase 2: 各店舗の詳細レポートページの実装を開始。
+    - まずは sample.html にある「売上・予約推移テーブル」から着手。
+    - Recharts を使ったグラフの実装。
+
   progress:
-    phases:
-      - number: 1
-        name: "環境構築"
-        status: "done"
-      - number: 2
-        name: "Toon 解析基盤の実装"
-        status: "in_progress"
-      - number: 3
-        name: "ダッシュボード可視化実装"
-        status: "not_started"
-      - number: 4
-        name: "エクスポート機能実装"
-        status: "not_started"
-  
+    current_phase:
+      number: 2
+      name: "Toon 解析基盤の実装"
+      status: "in_progress"
+    
+    current_task:
+      description: "各店舗の詳細レポート表示（Skeleton実装）"
+      started_at: "2026-02-10"
+    
+    completed_phases:
+      - phase: 1
+        name: "環境構築 & ベースSkeleton実装"
+        completed_at: "2026-02-10"
+
+    next_tasks:
+      - id: "T005"
+        description: "店舗詳細：売上・予約推移テーブルの実装"
+      - id: "T006"
+        description: "店舗詳細：月次推移グラフ（Recharts）の実装"
+      - id: "T007"
+        description: "店舗詳細：予約経路構成テーブルの実装"
+
   decisions:
     adopted:
-      - id: "D001"
-        decision: "React + Vite + Tailwind CSS を採用"
-        reason: "爆速開発とモダンで美しい UI/UX 実現のため"
-      - id: "D002"
-        decision: "データソースとして toon.txt を直接読み書きする"
-        reason: "データ提供と表示の直結による開発効率最大化のため"
       - id: "D003"
-        decision: "グラフライブラリに Recharts を採用"
-        reason: "React との親和性が高く、レスポンシブ対応が容易なため"
+        date: "2026-02-10"
+        decision: "Tailwind v4 は Vite プラグイン (@tailwindcss/vite) で処理する"
+        reason: "PostCSS 経由の直接呼び出しだと Vite v7 との相性でエラーが出るため"
+      - id: "D004"
+        date: "2026-02-10"
+        decision: "日付ユーティリティ (formatYM) には必ず String キャストを含める"
+        reason: "JSON/TOONのパース結果が数値として扱われ、substring 等が失敗するのを防ぐため"
+      - id: "D005"
+        date: "2026-02-10"
+        decision: "sample/ フォルダの内容を設計の唯一の正解 (Source of Truth) とする"
+        reason: "完成イメージとロジックが完璧に揃っているため、これをトレースするのが最短ルート"
 
   features:
-    completed: []
     in_progress:
-      - id: "F001"
-        name: "Toon Data Integration"
-    not_started:
       - id: "F002"
-        name: "Dynamic Dashboard"
+        name: "店舗詳細レポート表示"
+        status: "in_progress"
+    
+    planned:
       - id: "F003"
-        name: "Single-File HTML Export"
+        name: "全店舗サマリー表示"
+        status: "pending"
+
+  file_structure:
+    created:
+      - "src/utils/toonParser.ts"
+    to_create:
+      - "src/components/ShopDetail.tsx"
+      - "src/components/Summary.tsx"
+    to_modify:
+      - "src/App.tsx"
+
+  cautions:
+    - "toon.txt のデータは YYYYMM 形式だが、JS側で数値として認識される場合があるため型変換に注意。"
+    - "Tailwind v4 の @import 構文は Vite プラグインがないと PostCSS でエラーになる。"

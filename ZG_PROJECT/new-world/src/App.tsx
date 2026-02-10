@@ -1,13 +1,63 @@
-import { useState, useEffect } from 'react'
-import { parseToon, type ToonData, type Shop } from './utils/toonParser'
+import { useState, useEffect, useMemo } from 'react'
+import { parseToon, type ToonData } from './utils/toonParser'
+import { Calendar, ChevronRight, Store, BarChart3 } from 'lucide-react'
 
 // toon.txt のパス
 const TOON_URL = '/toon.txt'
+
+/**
+ * YYYYMM形式の文字列リストを生成するよ！
+ */
+function getYearMonthList(start: string, end: string) {
+  const months = []
+  let current = parseInt(start)
+  const endNum = parseInt(end)
+
+  while (current <= endNum) {
+    months.push(current.toString())
+
+    let year = Math.floor(current / 100)
+    let month = current % 100
+
+    month++
+    if (month > 12) {
+      month = 1
+      year++
+    }
+    current = year * 100 + month
+  }
+  return months
+}
+
+/**
+ * YYYYMMから12ヶ月前を計算するよ！
+ */
+function getOneYearAgo(ym: string) {
+  let year = Math.floor(parseInt(ym) / 100)
+  let month = parseInt(ym) % 100
+  year--
+  // 12ヶ月前なので月はそのままだけど、データ開始月より前にならないように呼び出し側で制御するよ
+  return (year * 100 + month).toString()
+}
+
+/**
+ * YYYYMMを表示用にフォーマットするよ (例: 202501 -> 2025/01)
+ */
+function formatYM(ym: string | number) {
+  if (!ym) return ''
+  const str = String(ym)
+  if (str.length < 6) return str
+  return `${str.substring(0, 4)}/${str.substring(4)}`
+}
 
 function App() {
   const [data, setData] = useState<ToonData | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedShopCode, setSelectedShopCode] = useState<string | null>(null)
+
+  // 期間選択用の State
+  const [startMonth, setStartMonth] = useState<string>('')
+  const [endMonth, setEndMonth] = useState<string>('')
 
   useEffect(() => {
     fetch(TOON_URL)
@@ -15,11 +65,20 @@ function App() {
       .then(text => {
         const parsed = parseToon(text)
         setData(parsed)
+
+        // デフォルト期間の設定: 最新月(end) と その11ヶ月前（最新含めて1年前）
+        const lastMonth = parsed.export_info.period.end
+        const oneYearAgo = getOneYearAgo(lastMonth)
+
+        // データ開始月より前にならないように調整
+        const initialStart = oneYearAgo < parsed.export_info.period.start
+          ? parsed.export_info.period.start
+          : oneYearAgo
+
+        setEndMonth(lastMonth)
+        setStartMonth(initialStart)
+
         setLoading(false)
-        // 初期選択（最初の店舗）
-        if (parsed.shops.length > 0) {
-          setSelectedShopCode(parsed.shops[0].shop_code)
-        }
       })
       .catch(err => {
         console.error('Failed to load toon.txt', err)
@@ -27,149 +86,136 @@ function App() {
       })
   }, [])
 
-  if (loading) return <div className="p-10 text-center">Loading Skeleton...</div>
-  if (!data) return <div className="p-10 text-center text-red-500">Data Error</div>
+  // 全期間の月リストを生成
+  const allMonths = useMemo(() => {
+    if (!data) return []
+    return getYearMonthList(data.export_info.period.start, data.export_info.period.end)
+  }, [data])
 
-  const selectedShop = data.shops.find(s => s.shop_code === selectedShopCode)
+  if (loading) return <div className="p-10 font-mono text-xs text-gray-400 animate-pulse">Loading Skeleton...</div>
+  if (!data) return <div className="p-10 font-mono text-xs text-red-500">Data Error</div>
+
+  // 店舗コード昇順でソート
+  const sortedShops = [...data.shops].sort((a, b) =>
+    a.shop_code.localeCompare(b.shop_code, undefined, { numeric: true })
+  )
 
   return (
-    <div className="flex h-screen bg-gray-50 text-gray-900 overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-4 border-b border-gray-200 font-bold text-lg bg-gray-800 text-white">
-          TOON DASHBOARD
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: 'white', fontFamily: 'monospace', fontSize: '11px', color: '#374151' }}>
+      {/* 掟：Skeleton Sidebar */}
+      <aside style={{ width: '260px', borderRight: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#f9fafb' }}>
+        <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb', fontWeight: 'bold', letterSpacing: '-0.05em', color: '#111827', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <BarChart3 size={16} />
+          <span>NEW-WORLD SKELETON</span>
         </div>
-        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+
+        {/* 🆕 期間選択セクション */}
+        <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb', backgroundColor: 'white' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', color: '#6b7280', fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' }}>
+            <Calendar size={12} />
+            <span>Report Period</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <select
+                value={startMonth}
+                onChange={(e) => setStartMonth(e.target.value)}
+                style={{ flex: 1, padding: '4px 8px', borderRadius: '4px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', cursor: 'pointer', outline: 'none' }}
+              >
+                {allMonths.map(m => (
+                  <option key={`start-${m}`} value={m} disabled={m > endMonth}>{formatYM(m)}</option>
+                ))}
+              </select>
+              <ChevronRight size={12} color="#d1d5db" />
+              <select
+                value={endMonth}
+                onChange={(e) => setMonthForEnd(e.target.value)}
+                style={{ flex: 1, padding: '4px 8px', borderRadius: '4px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', cursor: 'pointer', outline: 'none' }}
+              >
+                {allMonths.map(m => (
+                  <option key={`end-${m}`} value={m} disabled={m < startMonth}>{formatYM(m)}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <nav style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
+          {/* 全店舗サマリー */}
           <button
             onClick={() => setSelectedShopCode(null)}
-            className={`w-full text-left px-3 py-2 rounded text-sm ${!selectedShopCode ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'}`}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              padding: '10px 12px',
+              marginBottom: '16px',
+              borderRadius: '6px',
+              border: '1px solid',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s',
+              ...(!selectedShopCode
+                ? { backgroundColor: '#111827', color: 'white', borderColor: '#111827', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }
+                : { backgroundColor: 'white', borderColor: '#e5e7eb', color: '#374151' })
+            }}
           >
-            📊 全店舗サマリー
+            <BarChart3 size={14} />
+            <span style={{ fontWeight: !selectedShopCode ? 'bold' : 'normal' }}>全店舗サマリー</span>
           </button>
-          <div className="mt-4 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">店舗リスト</div>
-          {[...data.shops]
-            .sort((a, b) => a.shop_code.localeCompare(b.shop_code, undefined, { numeric: true }))
-            .map(shop => (
+
+          {/* 店舗リスト（コード昇順） */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div style={{ padding: '8px 12px', fontSize: '9px', color: '#9ca3af', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Store size={10} />
+              <span>Store List</span>
+            </div>
+            {sortedShops.map(shop => (
               <button
                 key={shop.shop_code}
                 onClick={() => setSelectedShopCode(shop.shop_code)}
-                className={`w-full text-left px-3 py-2 rounded text-xs truncate ${selectedShopCode === shop.shop_code ? 'bg-indigo-100 text-indigo-700 font-medium' : 'hover:bg-gray-50'}`}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  border: '1px solid',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  fontSize: '10px',
+                  transition: 'all 0.2s',
+                  ...(selectedShopCode === shop.shop_code
+                    ? { backgroundColor: '#eef2ff', borderColor: '#c7d2fe', color: '#4338ca', fontWeight: 'bold' }
+                    : { backgroundColor: 'transparent', borderColor: 'transparent', color: '#4b5563' })
+                }}
               >
-                {shop.shop_name} ({shop.shop_code})
+                <span style={{ opacity: 0.5, marginRight: '4px' }}>[{shop.shop_code}]</span> {shop.shop_name}
               </button>
             ))}
-        </div>
+          </div>
+        </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto bg-gray-50 p-8">
-        {!selectedShop ? (
-          <div>
-            <h1 className="text-3xl font-bold mb-6">全店舗サマリー</h1>
-            <p className="text-gray-600 mb-8">Exported: {data.export_info.exported_at_jst} (Total Shops: {data.export_info.shop_count})</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data.shops.map(shop => (
-                <div key={shop.shop_code} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                  <h3 className="font-bold border-b pb-2 mb-2">{shop.shop_name}</h3>
-                  <div className="text-sm text-gray-500">Code: {shop.shop_code}</div>
-                </div>
-              ))}
-            </div>
+      {/* Main Content (指示待ち) */}
+      <main style={{ flex: 1, overflowY: 'auto', padding: '48px', backgroundColor: 'white' }}>
+        <div style={{ border: '1px dashed #e5e7eb', borderRadius: '12px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', gap: '16px' }}>
+          <div style={{ fontSize: '24px', opacity: 0.2 }}>SELECT: {selectedShopCode || 'ALL_SHOPS'}</div>
+          <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#4338ca', backgroundColor: '#eef2ff', padding: '4px 12px', borderRadius: '999px' }}>
+            PERIOD: {formatYM(startMonth)} ~ {formatYM(endMonth)}
           </div>
-        ) : (
-          <div className="space-y-8">
-            <header className="flex justify-between items-end border-b pb-4">
-              <div>
-                <div className="text-indigo-600 font-bold text-sm uppercase mb-1">Store details</div>
-                <h1 className="text-3xl font-bold">{selectedShop.shop_name}</h1>
-                <div className="text-gray-500">Store Code: {selectedShop.shop_code}</div>
-              </div>
-              <div className="flex gap-4 text-right">
-                <div className="bg-white p-3 rounded shadow-sm border border-gray-200">
-                  <div className="text-xs text-gray-400 uppercase font-bold">Lunch Avg.</div>
-                  <div className="text-xl font-bold">¥{selectedShop.avg_price_lunch?.toLocaleString()}</div>
-                </div>
-                <div className="bg-white p-3 rounded shadow-sm border border-gray-200">
-                  <div className="text-xs text-gray-400 uppercase font-bold">Dinner Avg.</div>
-                  <div className="text-xl font-bold">¥{selectedShop.avg_price_dinner?.toLocaleString()}</div>
-                </div>
-              </div>
-            </header>
-
-            {/* Sales Chart Skeleton */}
-            <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold mb-4">月次売上推移</h2>
-              <div className="flex items-end gap-1 h-48 bg-gray-50 p-4 rounded border border-dashed border-gray-300">
-                {selectedShop.monthly_data.map((m, idx) => (
-                  <div key={idx} className="flex-1 group relative">
-                    <div
-                      className="bg-indigo-400 group-hover:bg-indigo-600 transition-colors rounded-t-sm"
-                      style={{ height: m.sales_amount ? `${(m.sales_amount / 25000000 * 100)}%` : '2px' }}
-                    ></div>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-900 text-white text-[10px] p-1 rounded whitespace-nowrap z-10">
-                      {m.year_month}: ¥{m.sales_amount?.toLocaleString() || 'N/A'}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-between mt-2 text-[10px] text-gray-400 px-2">
-                <span>{selectedShop.monthly_data[0]?.year_month}</span>
-                <span>{selectedShop.monthly_data[selectedShop.monthly_data.length - 1]?.year_month}</span>
-              </div>
-            </section>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Media Reservations */}
-              <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold mb-4 font-mono">media_data.uber_data</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs text-left">
-                    <thead className="bg-gray-50 text-gray-500 uppercase font-bold">
-                      <tr>
-                        <th className="px-2 py-2">YM</th>
-                        <th className="px-2 py-2 text-right">Sales</th>
-                        <th className="px-2 py-2 text-right">Orders</th>
-                        <th className="px-2 py-2 text-right">Final</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {selectedShop.media_data?.uber_data?.slice(-6).map((u: any, i: number) => (
-                        <tr key={i}>
-                          <td className="px-2 py-2 font-medium">{u.year_month}</td>
-                          <td className="px-2 py-2 text-right">¥{u.sales_amount?.toLocaleString() || '0'}</td>
-                          <td className="px-2 py-2 text-right">{u.order_count || 0}</td>
-                          <td className="px-2 py-2 text-right font-bold text-indigo-600">¥{u.final_amount?.toLocaleString() || '0'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              {/* Ad Cost Summary */}
-              <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold mb-4 font-mono">ad_cost_data</h2>
-                <div className="space-y-3">
-                  {selectedShop.ad_cost_data?.slice(-5).map((ad: any, i: number) => (
-                    <div key={i} className="flex justify-between items-center p-3 bg-gray-50 rounded border border-gray-100">
-                      <div>
-                        <div className="font-bold text-sm tracking-tight">{ad.media} / {ad.plan_name}</div>
-                        <div className="text-[10px] text-gray-400 uppercase font-mono">{ad.year_month}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-bold text-gray-700">¥{ad.base_cost?.toLocaleString()}</div>
-                        <div className="text-[9px] text-gray-400">BASE COST</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </div>
-          </div>
-        )}
+        </div>
       </main>
     </div>
   )
+
+  // 終了月変更時のハンドラ（シンボル整合性のために分けたよ！）
+  function setMonthForEnd(val: string) {
+    setEndMonth(val)
+  }
 }
 
 export default App
+

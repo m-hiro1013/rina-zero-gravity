@@ -1,11 +1,26 @@
-- セッション: 1 (Skeleton First Principle)
-  - date: 2026-02-09
-  - insights:
-    - [Design] デザインは最後。開発初期は「骨組み（配置・サイズ・並び）」と「データ」に全集中し、極限までシンプルに保つことで、ロジックの整合性と柔軟性を最大化する。 [+5]
-    - [Process] データ構造の決定と同時にテンプレートドキュメントを更新するサイクルを厳守する。 [+4]
+# 🧠 KNOWLEDGE.md - 知見蓄積メモ
 
-- セッション: 2 (Universal Data Integration)
-  - date: 2026-02-10
-  - insights:
-    - [Infra] Vite環境下でブラウザから動的に取得するデータ (fetch) は `public/` 配下に置くべき。プロジェクト直下との重複は致命的な不一致の原因となるため、物理的に1つに絞る設計が必要。 [+5]
-    - [Parser] 独自形式のパースでは、固定の型定義に基づくよりも「構造パターン (key[count]{headers})」を動的に解決するメタパーサーを実装する方が、将来的なデータ拡張時のメンテナンスコストを劇的に下げる。 [+4]
+## 🛠 技術スタック・ハマりどころ
+
+### Tailwind CSS v4 + Vite
+- **問題**: `tailwindcss` を PostCSS プラグインとして直接使うと、Vite v7 + Node v24 環境で `uv_cwd` エラーや PostCSS 警告が出ることがある。
+- **解決**: `@tailwindcss/vite` をインストールし、`vite.config.ts` の `plugins` に `tailwindcss()` を追加する。
+- **重要**: この場合、`postcss.config.js` の `plugins` 内にある `tailwindcss` 指定は空にする（競合を防ぐため）。
+
+### React / TypeScript Data Handling
+- **問題**: `202601` のような ID や日付データを `toon.txt` (YAML形式) から読み込む際、パーサーが数値（Number）として解釈し、UI側で `.substring()` 等の文字列メソッドが呼べずにクラッシュする。
+- **解決**: UI 側のユーティリティ関数（`formatYM` 等）で `String(val)` による明示的なキャストと、空値ガードを徹底する。
+
+## 🎨 デザイン・UI 設計
+
+### Skeleton First 原則
+- 最初から凝ったデザインを作らず、まずはサイドバーのナビゲーション、データ取得、期間選択などの「骨組み」を完成させる。
+- メインコンテンツはプレースホルダーで「今何を表示しようとしているか」を可視化する。
+
+### 期間選択のデフォルト値
+- ユーザー体験向上のため、レポートのデフォルト表示期間は「最新月」から「1年前」を自動計算してセットする。
+- `toon.txt` の `export_info.period.end` を基準点にする。
+
+## 📍 プロジェクト特有のルール (new-world)
+- **Source of Truth**: `sample/` フォルダ内の `sample.html`, `sample.css`, `sample.txt` が最終成果物の絶対的な指標。
+- **実装順序**: 個別店舗 (Phase 2) -> 全店舗サマリー (Phase 3) の順で実装する。サマリーは個別データの集計になるため。
