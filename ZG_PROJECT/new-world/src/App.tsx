@@ -92,13 +92,22 @@ function App() {
     return getYearMonthList(data.export_info.period.start, data.export_info.period.end)
   }, [data])
 
+  // 選択された店舗オブジェクトを特定するよ
+  const selectedShop = useMemo(() => {
+    if (!data || !selectedShopCode) return null
+    return data.shops.find(s => s.shop_code === selectedShopCode) || null
+  }, [data, selectedShopCode])
+
+  // 店舗コード昇順でソート（サイドバー用）
+  const sortedShops = useMemo(() => {
+    if (!data) return []
+    return [...data.shops].sort((a, b) =>
+      a.shop_code.localeCompare(b.shop_code, undefined, { numeric: true })
+    )
+  }, [data])
+
   if (loading) return <div className="p-10 font-mono text-xs text-gray-400 animate-pulse">Loading Skeleton...</div>
   if (!data) return <div className="p-10 font-mono text-xs text-red-500">Data Error</div>
-
-  // 店舗コード昇順でソート
-  const sortedShops = [...data.shops].sort((a, b) =>
-    a.shop_code.localeCompare(b.shop_code, undefined, { numeric: true })
-  )
 
   return (
     <div style={{ display: 'flex', height: '100vh', backgroundColor: 'white', fontFamily: 'monospace', fontSize: '11px', color: '#374151' }}>
@@ -199,16 +208,40 @@ function App() {
         </nav>
       </aside>
 
-      {/* Main Content (指示待ち) */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '48px', backgroundColor: 'white' }}>
-        <div style={{ border: '1px dashed #e5e7eb', borderRadius: '12px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', gap: '16px' }}>
-          <div style={{ fontSize: '24px', opacity: 0.2 }}>SELECT: {selectedShopCode || 'ALL_SHOPS'}</div>
-          <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#4338ca', backgroundColor: '#eef2ff', padding: '4px 12px', borderRadius: '999px' }}>
-            PERIOD: {formatYM(startMonth)} ~ {formatYM(endMonth)}
+      {/* Main Content */}
+      <main style={{ flex: 1, overflowY: 'auto', padding: '32px 48px', backgroundColor: 'white' }}>
+        {/* 🆕 最上部に店舗名を表示する Header */}
+        <header style={{ marginBottom: '32px', borderBottom: '1px solid #f3f4f6', paddingBottom: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+            <div style={{ backgroundColor: '#111827', color: 'white', padding: '8px', borderRadius: '8px' }}>
+              {selectedShop ? <Store size={20} /> : <BarChart3 size={20} />}
+            </div>
+            <div>
+              <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px' }}>
+                {selectedShop ? `Shop Code: ${selectedShop.shop_code}` : 'Global Summary'}
+              </div>
+              <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#111827', margin: 0, letterSpacing: '-0.02em' }}>
+                {selectedShop ? selectedShop.shop_name : '全店舗サマリー'}
+              </h1>
+            </div>
           </div>
+
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 'bold', color: '#4338ca', backgroundColor: '#eef2ff', padding: '6px 14px', borderRadius: '999px', marginTop: '12px' }}>
+            <Calendar size={13} />
+            <span>{formatYM(startMonth)}</span>
+            <span style={{ opacity: 0.5 }}>~</span>
+            <span>{formatYM(endMonth)}</span>
+          </div>
+        </header>
+
+        {/* コンテンツ本体 (今後実装していくよ！) */}
+        <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#d1d5db', gap: '12px' }}>
+          <div style={{ fontSize: '32px' }}>🏗️</div>
+          <div style={{ fontSize: '12px', fontWeight: 'medium' }}>Content under construction...</div>
         </div>
       </main>
     </div>
+
   )
 
   // 終了月変更時のハンドラ（シンボル整合性のために分けたよ！）
