@@ -4,17 +4,15 @@ workflow:
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - 🔄 /resume-session でRPAプロジェクトを再開、全体状況を把握
-    - 🎀 参考リポジトリ（everything-claude-code）を調査し、Skill Creator等の構造を分析
-    - 🚀 `/sfmaker` ワークフローを新規作成！（`.agent/workflows/sfmaker.md`、約470行）
-      - 全8フェーズ（Phase 0〜8）の完全定義
-      - 1問1答形式のヒアリング、3案+おすすめ提示
-      - DEVELOPMENT_FLOW.md 完全準拠
-    - ✅ Phase 0（前提チェック）を実行し、全条件クリアを確認
-    - 📋 Phase 1 Q1 まで到達（ヒアリング開始）
+    - T015 Act 3 実験成功！ `test_experiment_register_drinks.py` で商品名、キャッチ、価格の登録を実機検証したよ！✨
+    - Skill 強化: `drink_ops.py` に pivot ベースの行特定ロジック (`tr:has`) を実装。
+    - 環境メモ: ユーザー実行時に `PYTHONPATH=.` が必須なことを `PROJECT_SPECIFIC.yaml` に追記。
+    - 新規 Skill: `navigation.py` に店舗選択 (`select_store`) を追加。🏢
+    - ガバナンス: 「推測禁止（b-log優先）」ルールを明文化！💅🔥
 
     【次にやること】
-    - T015: /sfmaker Phase 1 Q1 の回答から続行（実商品の登録Skill作成）
+    - T015 Act 3 本番 Flow の作成。🌊
+    - T016 Act 4 (表示順序設定) の開発。
 
   progress:
     current_phase:
@@ -23,7 +21,7 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "T015: Drinkメニュー用 Skill 動作確認（第三幕：実商品の登録） - /sfmaker Phase 1 ヒアリング中"
+      description: "T015: Drinkメニュー用 Skill 動作確認完了（第三幕：実商品の登録）"
       started_at: "2026-02-11T16:00:00"
     
     completed_phases:
@@ -80,6 +78,18 @@ workflow:
         date: "2026-02-11"
         decision: "/sfmaker ワークフローを新規作成し、RPA開発の標準フローとする"
         reason: "Skill調査→Gap分析→実装プラン→Test→Skill作成→Flow組込の一連を、1問1答ヒアリング形式で確実に進めるため。everything-claude-codeの構造を参考に設計。"
+      - id: "D009"
+        date: "2026-02-11"
+        decision: "Pivot-based row selection in drink_ops.py"
+        reason: "TRのIDが不安定なため、入力フィールドを基準に親要素を特定する"
+      - id: "D010"
+        date: "2026-02-11"
+        decision: "Wait for enablement after UI trigger"
+        reason: "ラジオボタン押下後の disabled 解除にはタイムラグがあるため、明示的な待機が必要"
+      - id: "D011"
+        date: "2026-02-11"
+        decision: "No Guessing Policy (b-log first)"
+        reason: "推測での修正は迷走の元。不明時は必ず b-log の事実を確認する"
 
   file_structure:
     created:

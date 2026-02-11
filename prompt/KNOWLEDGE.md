@@ -65,3 +65,10 @@
     - [RPA-Fallback] ID → ユニークCSS → XPath → テキスト → 座標の5段階フォールバックにより、どんな要素でも確実にアクセスできるSeleniumスクリプトを生成可能。 [+5]
     - [RPA-IframeReturn] iframe内操作後のswitch_to.default_content()忘れは後続の全要素特定を壊す。safe_switch_to_default()でラップすべし。 [+4]
 
+- セッション: 16 (SFmaker Workflow Design & RPA Development Standardization)
+  - date: 2026-02-11
+  - insights:
+    - [Workflow-Design] 1問1答ヒアリング（3案+おすすめ提示）は、ユーザーの認知負荷を下げつつ情報の取りこぼしを防ぐ最適な対話パターン。 [+3]
+    - [Workflow-Design] 実装前のGOサイン方式（プラン先出し→承認→実行）は、「勝手に作って違った」を物理的に防止する。 [+3]
+    - [Workflow-Design] Phase遷移条件と完了条件の明示的定義により、エージェントの迷走を防ぎ、進捗の可視性を確保できる。 [+3]
+    - [Meta-Learning] everything-claude-codeのような先行事例のSkill Creator・Continuous Learning概念を自フレームワークに取り込むことで、車輪の再発明を回避。 [+2]
