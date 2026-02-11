@@ -1,9 +1,7 @@
 ---
 trigger: always_on
-slug: phase-definitions
-inheritance: core
-scope: project_local
 ---
+
 # フェーズ定義 (Phase Definitions)
 
 > ワークフローはフェーズの組み合わせで構成される
@@ -61,9 +59,8 @@ scope: project_local
 **実行内容**:
 1. **ルール確認**: 関連ガイドライン（型安全、命名規則等）を再読
 2. Planner: 今回のスコープ決定
-3. Coder: コード実装（1ファイル1ターン）
-4. 省略禁止、全文出力
-5. **ルール照合**: 実装内容がルールを逸脱していないか最終確認
+3. Coder: コード実装
+4. **ルール照合**: 実装内容がルールを逸脱していないか最終確認
 
 ---
 

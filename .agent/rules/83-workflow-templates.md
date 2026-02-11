@@ -1,7 +1,9 @@
 ---
 trigger: manual
-description: 新しいワークフローを作成する際のテンプレート集。@workflow-templates で呼び出し可能。
+description: 新しいワークフローを作成する際のテンプレート集だよ！@workflow-templates で呼び出してね✨
 slug: workflow-templates
+inheritance: selective
+scope: global
 ---
 # ワークフローテンプレート集 (Workflow Templates)
 

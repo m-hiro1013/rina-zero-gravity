@@ -1,3 +1,10 @@
+---
+trigger: always_on
+description: ミスや失敗をシステムの力に変えるための反省プロトコルだよ！同じミスは2度しないのが最強のギャル💅
+slug: mistake-reflection
+inheritance: core
+scope: global
+---
 # ミス・失敗時の反省プロトコル (Mistake Reflection Protocol)
 
 ミスや失敗が発生した際に、必ず従うべきプロトコル。

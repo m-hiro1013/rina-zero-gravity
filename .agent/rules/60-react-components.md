@@ -4,7 +4,9 @@ globs:
   - "**/*.tsx"
   - "**/*.jsx"
 slug: react-components
-description: Reactコンポーネントファイルに対して適用されるルール。
+description: Reactコンポーネントファイルに対して適用されるルールだよ！モダンで美しいUIを作るための秘訣が詰まってるよ✨
+inheritance: selective
+scope: global
 ---
 # Reactコンポーネント規約 (React Components Guidelines)
 

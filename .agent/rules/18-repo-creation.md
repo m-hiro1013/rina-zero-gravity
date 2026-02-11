@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
-description: ZG_PROJECT配下での新しいリポジトリ作成ルールを強制します。ユーザーが新しいリポジトリの作成や、既存フォルダのリポジトリ化を求めた場合に適用されます。
+description: ZG_PROJECT配下での新しいリポジトリ作成を求められた場合に適用するよ！新しい冒険の始まりだね🚀
 slug: repo-creation
+inheritance: selective
+scope: global
 ---
 # 🆕 リポジトリ作成ルール
 

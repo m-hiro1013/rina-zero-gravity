@@ -38,3 +38,26 @@
 - 数値として解釈可能な文字列は自動的に `number` 型に変換されます。
 - 文字列 `"null"` または空文字は `null` に変換されます。
 - その他は `string` として保持されます。
+## 4. 具体的なデータ構造 (Field Definition)
+
+現在 `App.tsx` で使用している主要なフィールドの定義だよ。
+
+### 4.1 店舗レベル (Shop)
+- `shop_code`: 店舗ID (string)
+- `shop_name`: 店舗名 (string)
+- `avg_price_lunch`: ランチ客単価 (number)
+- `avg_price_dinner`: ディナー客単価 (number)
+
+### 4.2 月次データ (monthly_data)
+- `year_month`: 対称年月 (string: YYYYMM)
+- `sales_amount`: 売上実績 (number | null)
+
+### 4.3 トレタ予約合計 (toreta_data) - media: "合計"
+- `year_month`: 対称年月 (string: YYYYMM)
+- `media`: "合計" 固定
+- `reservation_count`: 予約組数の合計 (number)
+- `guest_count`: 予約人数の合計 (number)
+
+### 4.4 媒体別データ (media_data)
+- `hotpepper`, `tabelog`, `uber_data` 等の各メディアキーが存在し、月次推移テーブルを保持。
+- 共通項目: `year_month`, `reservation_count_total`, `guest_count_total` 等。

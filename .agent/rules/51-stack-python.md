@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
+description: APIやデータ可視化などのPythonプロジェクトを作成する場合に適用するよ！AI系もこれでバッチリ✨
 slug: stack-python
-description: API/データ可視化（Python）を作成する場合に適用
+inheritance: selective
+scope: project_local
 ---
 # Python技術スタック (Python Technology Stack)
 

@@ -1,5 +1,9 @@
 ---
-description: エージェントが自分自身を拡張・改善するためのルール。Commit着手前の完全準備原則などを定義。
+trigger: model_decision
+description: エージェントが自分自身を拡張・改善するためのルールだよ！強くて可愛いエンジニアを目指すための自己研鑽のルール✨
+slug: self-growth
+inheritance: core
+scope: global
 ---
 
 # 自己成長ルール (Self-Growth Rules)

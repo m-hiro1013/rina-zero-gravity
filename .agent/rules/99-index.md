@@ -47,8 +47,8 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 | `12-agent-assignment.md` | フェーズ×エージェント割り当て、引き継ぎ | core |
 | `13-progress-management.md` | 進捗管理（prompt/方式）、セーブデータ | core |
 | `14-commit-patterns.md` | Commitパターン分類とワークフロー選定 | core |
-| `15-user-checkpoint.md` | ユーザー確認条件と合意形成 | core |
-| `16-ops.md` | ビルド・テスト・デプロイ運用 | selective |
+| `15-user-checkpoint.md` | 自動継続とユーザー確認の境界定義 | core |
+| `16-ops.md` | ビルド、テスト、デプロイ、運用手順 | selective |
 | `17-git-workflow.md` | Git操作、コミット・ブランチ戦略 | core |
 | `18-repo-creation.md` | 新規リポジトリ作成ルール | selective |
 
@@ -81,16 +81,16 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 | ファイル | 概要 | Inheritance |
 |:---|:---|:---|
 | `70-mistake-reflection.md` | ミス・失敗時の反省プロトコル | core |
-| `71-self-growth.md` | 自己成長、エージェント作成ワークフロー | core |
+| `71-self-growth.md` | 自己成長ルール、エージェント改善 | core |
 | `80-rule-creation.md` | 新規ルール作成ガイドライン | selective |
 | `81-workflow-creation.md` | ワークフロー作成ガイドライン | selective |
-| `82-rule-templates.md` | ルールの書き方テンプレート | selective |
-| `83-workflow-templates.md` | ワークフローの書き方テンプレート | selective |
+| `82-rule-templates.md` | ルールの書き方テンプレート集 | selective |
+| `83-workflow-templates.md` | ワークフローの書き方テンプレート集 | selective |
 
 ### 🛡️ Layer 6: Integrity (90-99) — 整合性管理
 | ファイル | 概要 | Inheritance |
 |:---|:---|:---|
-| `90-index-update.md` | INDEX更新ルール、CRUDの作法 | core |
+| `90-index-update.md` | INDEX群の自動更新ルール | core |
 | `99-index.md` | このファイル（神の目次） | core |
 
 ---

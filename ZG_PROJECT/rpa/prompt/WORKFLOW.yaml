@@ -1,0 +1,111 @@
+workflow:
+  version: "1.1"
+  last_updated: "2026-02-11T15:37:00+09:00"
+
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    - 🎯 b-log進化版（iframe情報付き）を活用し、`setup_headings()` のiframe切り替え処理を完璧に実装！
+    - 🎭 カテゴリー設定画面が iframe 'sb-player' 内にあることを特定し、iframe切り替えロジックを追加。
+    - 📝 b-logの実際の操作フロー（クリック → 空にする → 新しい値を入力）を完全トレース。
+    - ✅ `test_blog_perfect.py` を作成し、既存スキル（login, navigate_to_drink, setup_headings）の動作を検証。
+    - 🚀 テスト成功！カテゴリー設定が完璧に動作することを確認！
+    - �️ 不要なテストファイル5つを削除し、testsフォルダを整理。
+    - 📂 `drink_ops.py` をドリンク処理とカテゴリー処理に分割。`category_ops.py` を新規作成。
+    - 📖 **DEVELOPMENT_FLOW.md** を作成し、今後の開発フローを完全文書化！
+      - Skill優先、Test実験、Workflow作成の順序を明確化
+      - ファイル管理ルール、ドキュメント記載ルールを徹底的に定義
+      - 全てのプロジェクトで再利用可能なガイドラインを確立
+
+
+
+  progress:
+    current_phase:
+      number: 2
+      name: "主要 Skill 実装 & 動作確認"
+      status: "in_progress"
+    
+    current_task:
+      description: "カテゴリー再構築（第二幕）の完走テストとb-log強化検討"
+      started_at: "2026-02-11T00:10:00"
+    
+    completed_phases:
+      - phase: 0
+        name: "要件定義"
+        completed_at: "2026-02-10"
+      - phase: 1
+        name: "管理体制の構築 & 構造化"
+        completed_at: "2026-02-10"
+
+    tasks:
+      - id: "T005"
+        description: "Drinkメニュー用 Skill 実装：navigate_to_drink (ナビゲーション)"
+        status: "done"
+      - id: "T012"
+        description: "Drinkメニュー用 Skill 実装：clear_some_items (極小削除テスト)"
+        status: "done"
+      - id: "T013"
+        description: "Drinkメニュー用 Skill 実装：setup_headings (見出し一括作成)"
+        status: "done"
+      - id: "T014"
+        description: "Drinkメニュー用 Skill 動作確認（第二幕：見出し再構築のみ）+ b-log進化版活用"
+        status: "done"
+        completed_at: "2026-02-11T10:52:00"
+        note: "iframe切り替え処理を完璧に実装。test_blog_perfect.py で動作確認完了。"
+      - id: "T015"
+        description: "Drinkメニュー用 Skill 動作確認（第三幕：実商品の登録）"
+        status: "planned"
+
+  decisions:
+    adopted:
+      - id: "D001"
+        date: "2026-02-10"
+        decision: "媒体/skill と 媒体/flow の二層管理を採用"
+        reason: "再利用性と保守性を高め、莉奈が迷わず自動化を進められるようにするため"
+      - id: "D004"
+        date: "2026-02-11"
+        decision: "「商品削除 → 保存(確定)」を独立した第一幕とする"
+        reason: "DBの状態を一旦クリーンに固定してから見出しを弄る方が、ホットペッパーの仕様上安全なため"
+      - id: "D005"
+        date: "2026-02-11"
+        decision: "「削除」ボタンの検索に完全一致（exact=True）を使用"
+        reason: "「削除を取り消す」ボタンの誤爆を防ぐため"
+      - id: "D006"
+        date: "2026-02-11"
+        decision: "b-log進化版（iframe情報付き）を活用してiframe切り替え処理を実装"
+        reason: "カテゴリー設定画面が iframe 'sb-player' 内にあることが判明。b-logの詳細情報により正確な実装が可能になった"
+      - id: "D007"
+        date: "2026-02-11"
+        decision: "DEVELOPMENT_FLOW.mdを作成し、開発フローを完全文書化"
+        reason: "Skill優先、Test実験、Workflow作成の順序を明確化。今後の全プロジェクトで再利用可能なガイドラインを確立するため"
+
+  file_structure:
+    created:
+      - path: "DEVELOPMENT_FLOW.md"
+        description: "RPA開発フロー完全ガイド（Skill優先、Test実験、Workflow作成の順序を完全文書化）"
+        note: "今後の全てのプロジェクトで参照すべきガイドライン"
+      - path: "tests/test_blog_perfect.py"
+        description: "b-log進化版を活用した完全トレーステスト（最新）"
+      - path: "tests/test_drink_skills.py"
+        description: "統合テスト（全体の動作確認用）"
+      - path: "hotpepper/skill/category_ops.py"
+        description: "カテゴリー操作に特化したskill（iframe切り替え処理含む）"
+        note: "drink_ops.pyから分離。clear_all_headings(), setup_headings()を含む"
+    
+    deleted:
+      - path: "tests/test_tiny_clear.py"
+        reason: "極小削除テスト（動作確認完了により不要）"
+      - path: "tests/test_step3_clear_all.py"
+        reason: "全削除テスト（動作確認完了により不要）"
+      - path: "tests/test_step4_headings.py"
+        reason: "見出し設定テスト（動作確認完了により不要）"
+      - path: "tests/test_step4_headings_only.py"
+        reason: "見出し設定のみテスト（動作確認完了により不要）"
+      - path: "tests/test_prep_drink_ground.py"
+        reason: "地盤固めテスト（動作確認完了により不要）"
+
+  cautions:
+    - "モーダル消去後の透明オーバーレイに注意。click(force=True) で対応する。"
+    - "画面遷移後（保存後など）は、莉奈が自力で元の画面に戻るまでを1つの Skill にすること。"
+    - "ボタンの文言は環境によって揺れるため、* 検索や複数パターンを locator に含める。"
+    - "iframe内の要素を操作する場合は、必ず page.frame(name='iframe名') で切り替えてから操作すること。"
+    - "b-logの isInIframe, iframeName 情報を活用して、iframe切り替えの必要性を判断すること。"

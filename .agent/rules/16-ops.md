@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
-description: ビルド、テスト、デプロイ、運用に関する質問や作業を行う場合に適用する。
+description: ビルド、テスト、デプロイ、運用に関する質問や作業を行う場合に適用するよ！プロジェクトを動かすための大事な手順だよ✨
 slug: ops
+inheritance: selective
+scope: project_local
 ---
 # 運用手順 (Operational Procedures)
 

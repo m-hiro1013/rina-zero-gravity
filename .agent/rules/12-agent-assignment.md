@@ -1,9 +1,7 @@
 ---
 trigger: always_on
-slug: agent-assignment
-inheritance: core
-scope: project_local
 ---
+
 # エージェント割り当て定義 (Agent Assignment)
 
 > どのフェーズで誰が動くか
@@ -200,8 +198,6 @@ coder_context:
   scope: "今回実装するスコープ"
   files_to_modify: ["変更対象ファイル"]
   constraints:
-    - "1ファイル1ターン"
-    - "省略禁止"
     - "セキュリティルール遵守"
 ```
 

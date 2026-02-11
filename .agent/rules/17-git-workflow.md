@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
-description: Git操作、コミット、ブランチ作成、マージについて言及された場合に適用する。
+description: Git操作、コミット、ブランチ作成、マージについて言及された場合に適用するよ！記録をきれいに残すためのギャルのたしなみだよ💅
 slug: git-workflow
+inheritance: core
+scope: global
 ---
 # Gitワークフロー (Git Workflow)
 
@@ -27,6 +29,5 @@ slug: git-workflow
 - `test`: テストの追加・修正
 - `chore`: ビルドプロセスや補助ツールの変更
 
-## コミットの粒度
-- 1つのコミットには1つの論理的な変更のみを含める
-- レビュー可能な小さな単位でコミットすること
+## 🛡️ Git操作が制限される場合
+シェル経由でのGit操作が `Operation not permitted` 等で拒否される場合は、自律的な解決を試みるのではなく、実行すべきGitコマンドを整理して**ユーザーに代行を依頼してください**。

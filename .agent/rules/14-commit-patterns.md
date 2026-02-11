@@ -1,5 +1,9 @@
 ---
-description: ユーザーからのCommit（依頼・指示）を4つのパターンに分類するためのルール
+trigger: model_decision
+description: ユーザーからの依頼（Commit）を「新規開発」「修正・改善」「情報取得」「セッション管理」の4パターンに分類するための判定ルールだよ！
+slug: commit-patterns
+inheritance: core
+scope: global
 ---
 
 # Commitパターン定義 (Commit Patterns)

@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
+description: Webアプリ（Next.js）を作成する場合に適用するよ！モダンなWeb開発のテンプレだね🚀
 slug: stack-web
-description: Webアプリ（Next.js）を作成する場合に適用
+inheritance: selective
+scope: project_local
 ---
 # Web技術スタック (Web Technology Stack)
 

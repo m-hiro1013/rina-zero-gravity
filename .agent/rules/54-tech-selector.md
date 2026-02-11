@@ -1,6 +1,9 @@
 ---
 trigger: model_decision
+description: プロジェクトタイプに応じて最適な技術スタックを選定するためのルールだよ！ひろきくんにぴったりのスタックを見つけるね✨
 slug: tech-selector
+inheritance: core
+scope: global
 ---
 # 技術選定ルール (Tech Selector)
 

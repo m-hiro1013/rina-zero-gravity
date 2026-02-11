@@ -1,5 +1,9 @@
 ---
-description: INDEX群（Agents INDEX含む）の自動更新ルール。
+trigger: model_decision
+description: ファイル・ルール・ワークフロー・エージェントを追加・削除した時に、関連するINDEXを更新するためのルールだよ！整合性は命✨
+slug: index-update
+inheritance: core
+scope: global
 ---
 
 # INDEX更新ルール (Index Update Rules)

@@ -64,3 +64,8 @@ npm start
 cd /Users/matsumotohiroki/Desktop/WORKSPACE/rina-zero-gravity/ZG-PROJECT/under-the-sea
 ./.venv/bin/python3 tools/test_uploader.py
 ```
+
+### 🛡️ 権限エラー (Operation not permitted) への対応
+macOSのセキュリティ制約等により、シェル経由でディレクトリにアクセスできない（`Operation not permitted`）場合は、無理にリトライせず、速やかに**ユーザーにコマンドの実行を依頼してください**。
+その際、コピー＆ペーストで実行可能なコマンド一式を提示すること。
+

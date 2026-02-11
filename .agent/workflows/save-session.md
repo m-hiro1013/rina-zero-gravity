@@ -171,8 +171,9 @@ completed_features:
 セッションで得た知見を `prompt/KNOWLEDGE.md` に追記。
 
 ### 6-4: 統合判断
-
-汎用的な知見は `rina-zero-gravity/prompt/references/goku.md` へ統合を検討。
+汎用的な知見は以下のグローバルファイルへ統合を徹底するよ！✨
+- `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md`
+- `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md`
 
 ## Step 7: 最終報告
 
@@ -186,6 +187,15 @@ completed_features:
 📁 作成ファイル: {{files_count}}件
 🌱 学んだこと: {{lessons_count}}件 🆕
 ━━━━━━━━━━━━━━━━━━━━
+
+GitHubへの反映も忘れずにね！🚀
+
+```bash
+cd {{project_path}}
+git add .
+git commit -m "feat: {{accomplished_tasks_summary}}"
+git push
+```
 
 次回は `/resume-session` で続きからやろうね！
 

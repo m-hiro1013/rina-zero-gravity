@@ -1,3 +1,10 @@
+---
+trigger: model_decision
+description: 機能等価性維持、リファクタリングの鉄則に関するルールだよ！「前と同じに動く」ことへのガチなこだわり💅
+slug: refactoring-policy
+inheritance: core
+scope: global
+---
 # リファクタリング・移行ポリシー (Refactoring & Migration Policy)
 
 既存コードを新しい技術スタック（Vue.js, Reactなど）に移行、またはリファクタリングする際に **絶対に守るべき基準** です。

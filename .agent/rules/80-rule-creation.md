@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
-description: 新しいルールの作成、ルールファイルの設計、エージェント制約の定義について言及された場合に適用する。
-slug: meta-rule-creation
+description: 新しいルールの作成、ルールファイルの設計、エージェント制約の定義について言及された場合に適用するよ！最高の「憲法」を作っちゃお⚖️
+slug: rule-creation
+inheritance: selective
+scope: global
 ---
 # ルール作成ガイドライン (Rule Creation Guidelines)
 

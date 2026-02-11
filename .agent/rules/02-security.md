@@ -1,10 +1,6 @@
 ---
 trigger: always_on
 slug: security-mandates
----
----
-trigger: always_on
-slug: security-mandates
 inheritance: core
 scope: global
 ---

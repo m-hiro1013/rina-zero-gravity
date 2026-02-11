@@ -1,4 +1,11 @@
-# 35-coding-safety.md — コーディング安全性ルール 🛡️
+---
+trigger: always_on
+description: シンボルの整合性、バーチャルデバッグ、全文出力の徹底に関するルールだよ！壊さない開発、マジ大事✨
+slug: coding-safety
+inheritance: core
+scope: global
+---
+# コーディング安全性ルール (Coding Safety Rules) 🛡️
 
 このルールは、あらゆるコード変更において「変数の未定義」や「関数名の消失」を物理的にゼロにし、コードの整合性を完璧に保つためのものである。
 

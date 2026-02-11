@@ -59,9 +59,13 @@ description: セッションで得た知見をKNOWLEDGE.mdに蓄積し、必要�
 
 ### Step 4: KNOWLEDGE.md 更新
 
+今回のセッションで得た知見を、プロジェクト固有のものと汎用的なものに分けて保存するよ！✨
+
 // turbo
 ```bash
-# prompt/KNOWLEDGE.md を開いて追記
+# 1. プロジェクト固有の KNOWLEDGE.md に追記
+# 2. グローバルな知見ベースにも追記（重要度が高い場合）
+#    パス: /Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md
 ```
 
 追記フォーマット:
@@ -97,9 +101,9 @@ description: セッションで得た知見をKNOWLEDGE.mdに蓄積し、必要�
 | 他プロジェクトでも再発しそう | ✅ Yes |
 
 統合する場合:
-1. `rina-zero-gravity/prompt/references/goku.md` を参照
-2. 適切なカテゴリに追記
-3. 統合履歴を KNOWLEDGE.md に記録
+1. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md` に追記
+2. **極意（Goku）**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md` に追記
+3. 統合履歴をプロジェクトの KNOWLEDGE.md にも記録
 
 ## 完了条件
 

@@ -1,7 +1,9 @@
 ---
 trigger: model_decision
+description: シンプルなWebサイト（HTML/CSS/JS）を作成する場合に適用するよ！初心者にも優しい爆速スタイル💅
 slug: stack-simple
-description: シンプルなWebサイト（HTML/CSS/JS）を作成する場合に適用
+inheritance: selective
+scope: project_local
 ---
 # シンプルサイト技術スタック (Simple Site Technology Stack)
 

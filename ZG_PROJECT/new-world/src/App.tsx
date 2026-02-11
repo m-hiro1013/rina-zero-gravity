@@ -287,22 +287,105 @@ function App() {
 
         {/* コンテンツ本体 (タブによって切り替わるよ！) */}
         <div style={{ padding: '32px 48px' }}>
-          <div style={{ minHeight: '600px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
-            <div style={{ fontSize: '48px' }}>
-              {activeTab === '売り上げ' && <TrendingUp size={48} />}
-              {activeTab === 'toreta' && <Calendar size={48} />}
-              {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}
-              {['uber', 'LINE'].includes(activeTab) && <Info size={48} />}
+          {selectedShop ? (
+            <div>
+              {activeTab === '売り上げ' && (
+                <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#111827' }}>
+                    <TrendingUp size={18} />
+                    <span>売上・予約推移</span>
+                  </h3>
+                  
+                  <div style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '8px', backgroundColor: 'white' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'right', fontSize: '12px' }}>
+                      <thead>
+                        <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                          <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 'bold', color: '#374151' }}>月</th>
+                          <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#374151' }}>売上 (税込)</th>
+                          <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#374151' }}>予約組数</th>
+                          <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#374151' }}>予約人数</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(() => {
+                          const periodMonths = getYearMonthList(startMonth, endMonth);
+                          let totalSales = 0;
+                          let totalRes = 0;
+                          let totalGuest = 0;
+
+                          return (
+                            <>
+                              {periodMonths.map(ym => {
+                                const monthly = selectedShop.monthly_data?.find(m => String(m.year_month) === ym);
+                                const toreta = selectedShop.toreta_data?.find(t => String(t.year_month) === ym && t.media === '合計');
+                                
+                                const sales = monthly?.sales_amount || 0;
+                                const resCount = toreta?.reservation_count || 0;
+                                const guestCount = toreta?.guest_count || 0;
+
+                                totalSales += sales;
+                                totalRes += resCount;
+                                totalGuest += guestCount;
+
+                                return (
+                                  <tr key={ym} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                                    <td style={{ padding: '10px 16px', textAlign: 'left', fontWeight: 'bold', color: '#111827' }}>{formatYM(ym)}</td>
+                                    <td style={{ padding: '10px 16px' }}>{sales ? `¥${sales.toLocaleString()}` : '-'}</td>
+                                    <td style={{ padding: '10px 16px' }}>{resCount ? `${resCount.toLocaleString()}組` : '-'}</td>
+                                    <td style={{ padding: '10px 16px' }}>{guestCount ? `${guestCount.toLocaleString()}人` : '-'}</td>
+                                  </tr>
+                                );
+                              })}
+                              {/* 合計行 */}
+                              <tr style={{ backgroundColor: '#f9fafb', fontWeight: 'bold', borderTop: '2px solid #e5e7eb' }}>
+                                <td style={{ padding: '12px 16px', textAlign: 'left', color: '#111827' }}>合計</td>
+                                <td style={{ padding: '12px 16px', color: '#111827' }}>¥{totalSales.toLocaleString()}</td>
+                                <td style={{ padding: '12px 16px', color: '#111827' }}>{totalRes.toLocaleString()}組</td>
+                                <td style={{ padding: '12px 16px', color: '#111827' }}>{totalGuest.toLocaleString()}人</td>
+                              </tr>
+                            </>
+                          );
+                        })()}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {activeTab !== '売り上げ' && (
+                <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
+                  <div style={{ fontSize: '48px' }}>
+                    {activeTab === 'toreta' && <Calendar size={48} />}
+                    {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}
+                    {['uber', 'LINE'].includes(activeTab) && <Info size={48} />}
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
+                      {`[${activeTab}] セクションを構築中...`}
+                    </div>
+                    <div style={{ fontSize: '11px' }}>
+                      {activeTab} の詳細データをここに表示する予定だよ✨
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
-                {selectedShop ? `[${activeTab}] セクションを構築中...` : '店舗を選択してください'}
+          ) : (
+            /* 店舗未選択時の表示 */
+            <div style={{ minHeight: '600px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
+              <div style={{ fontSize: '48px' }}>
+                <TrendingUp size={48} />
               </div>
-              <div style={{ fontSize: '11px' }}>
-                {activeTab} の詳細データ（{selectedShop?.shop_name}）をここに表示する予定だよ✨
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
+                  店舗を選択してください
+                </div>
+                <div style={{ fontSize: '11px' }}>
+                  サイドバーから店舗を選ぶと、詳細なレポートが表示されるよ✨
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
     </div>

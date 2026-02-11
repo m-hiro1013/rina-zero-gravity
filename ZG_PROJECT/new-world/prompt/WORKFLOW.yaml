@@ -27,10 +27,11 @@ workflow:
       - phase: 1
         name: "環境構築 & ベースSkeleton実装"
         completed_at: "2026-02-10"
+      - phase: 2-1
+        name: "店舗詳細：売上・予約推移テーブル実装"
+        completed_at: "2026-02-10"
 
     next_tasks:
-      - id: "T005"
-        description: "店舗詳細：売上・予約推移テーブルの実装（売り上げタブ）"
       - id: "T006"
         description: "店舗詳細：月次推移グラフ（Recharts）の実装"
       - id: "T008"

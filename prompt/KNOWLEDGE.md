@@ -38,3 +38,30 @@
   - insights:
     - [Protocol] 複雑なネスト構造をJSON文字列化してからTOON変換することで、テーブル形式の整合性を保ちつつデータを運搬できる。 [+5]
     - [Refactoring] 共通のデータ構築モジュールを修正する際は、既存の全集計項目のサイドエフェクトを徹底検証する。 [+4]
+
+- セッション: 13 (Report Dashboard Skeleton & UI Anchoring)
+  - date: 2026-02-10
+  - insights:
+    - [React] Hooks（useMemo等）は必ず早期リターンの前に配置。呼び出し順序が初期レンダリングと異なると致命的なクラッシュを招く（Rules of Hooks）。 [+3]
+    - [UI-UX] ダッシュボードのメインヘッダーには「選択店舗」と「期間」を常に明示。ユーザーの認知的負荷を下げ、データのコンテキストを保護する。 [+2]
+    - [Environment] Tailwind v4 + Vite v7 環境では `@tailwindcss/vite` プラグインを使用し、PostCSS 経由のパス競合問題を物理的に解決する。 [+3]
+    - [UI-Tab] 情報密度の高いダッシュボードでは、媒体やカテゴリ別の横並びタブを採用することで、ページネーションに近い操作感とデータの見通しの良さを両立できる。 [+2]
+
+- セッション: 14 (b-log RPA Enhancement & Element Identification Strategy)
+  - date: 2026-02-11
+  - insights:
+    - [RPA-Strategy] 複数要素特定の優先順位戦略（親要素ID → インデックス → XPath → 周辺テキスト → 座標）により、99%の状況で確実に要素を特定できる。 [+5]
+    - [RPA-Visibility] zIndex, pointerEvents, isVisible, isClickable, isInViewport を記録することで、「要素はあるのにクリックできない」問題を事前に検知できる。 [+4]
+    - [RPA-Iframe] isInIframe, iframeId, iframeName を記録することで、Selenium で switch_to.frame() を自動挿入できる。 [+3]
+    - [RPA-Context] scrollPosition, viewportSize, loadState を記録することで、操作の再現性が劇的に向上する。 [+3]
+    - [RPA-Pragmatism] 「全ての情報を取る」のではなく、「99%の状況で大丈夫なレベルに絞る」ことで、実用性とパフォーマンスを両立できる。 [+4]
+
+- セッション: 15 (b-log ULTIMATE RPA Edition v2 - Full Event Capture & Fallback Strategy)
+  - date: 2026-02-11
+  - insights:
+    - [RPA-Selector] nth-of-type付きユニークCSSセレクタ生成（5階層遡り＋ID祖先打ち切り）は、XPathよりメンテナブルで安定した一意の要素特定を実現する。 [+5]
+    - [RPA-ShadowDOM] event.composedPath() でShadow DOM内の実ターゲットを捕捉可能。event.targetだけではShadow Hostまでしか取れない。 [+4]
+    - [RPA-Coverage] 100%再現にはCLICK/INPUTに加え、SELECT_CHANGE（選択肢一覧付き）、KEYDOWN（重要キー＋修飾キー）、FOCUS、CONTEXTMENU、DBLCLICK、SCROLL（デバウンス付き）の全イベントが必要。 [+5]
+    - [RPA-Fallback] ID → ユニークCSS → XPath → テキスト → 座標の5段階フォールバックにより、どんな要素でも確実にアクセスできるSeleniumスクリプトを生成可能。 [+5]
+    - [RPA-IframeReturn] iframe内操作後のswitch_to.default_content()忘れは後続の全要素特定を壊す。safe_switch_to_default()でラップすべし。 [+4]
+

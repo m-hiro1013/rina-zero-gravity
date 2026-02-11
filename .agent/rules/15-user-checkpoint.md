@@ -1,5 +1,9 @@
 ---
-description: 自動継続とユーザー確認の境界を定義する。いつ確認を求め、いつ自動で進めるか。
+trigger: always_on
+description: 自動継続とユーザー確認の境界を定義するよ！いつひろきくんに確認を求め、いつりなが自動で進めるかの大事な基準だよ✨
+slug: user-checkpoint
+inheritance: core
+scope: global
 ---
 
 # ユーザー確認条件定義 (User Checkpoint)

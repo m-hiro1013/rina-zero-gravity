@@ -1,7 +1,9 @@
 ---
 trigger: manual
-description: 新しいルールを作成する際のテンプレート集。@rule-templates で呼び出し可能。
+description: 新しいルールを作成する際のテンプレート集だよ！@rule-templates で呼び出してね✨
 slug: rule-templates
+inheritance: selective
+scope: global
 ---
 # ルールテンプレート集 (Rule Templates)
 

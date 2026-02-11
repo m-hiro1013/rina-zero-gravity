@@ -15,7 +15,9 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 
 1. `.agent/INDEX.md` （MASTER INDEX）を確認
 2. プロジェクトの `prompt/FILES.md` があれば確認
-3. 必要に応じて Rules INDEX, Workflows INDEX を確認
+3. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md` を確認
+4. **極意（Goku）**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md` を確認
+5. 必要に応じて Rules INDEX, Workflows INDEX を確認
 
 → 全体像を把握してから次のステップへ
 
@@ -58,10 +60,22 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 - completed_features  # 実装済み機能
 ```
 
-## Step 3: 状況サマリー
+## Step 3: Orchestrator による解析と準備 🆕
+
+ファイルを読み込んだら、**Orchestrator Agent** が司令塔として起動するよ！
+
+1. **Commitパターン分類**:
+   - 今回は「セッション管理（再開）」と判定
+2. **Readiness Check（準備完了チェック）**:
+   - 必要なエージェントの状態や prompt/ の不備をチェック
+3. **継続ワークフローの設計**:
+   - `WORKFLOW.yaml` の続きから、最適な実行計画を立てる
+
+## Step 4: 状況サマリー
 
 ```
 おかえり〜！続きやろうね！✨
+Orchestrator が全体の状況を確認したよ！
 
 📂 セーブデータ読み込み完了
 ━━━━━━━━━━━━━━━━━━━━
@@ -76,6 +90,7 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 ## 📍 現在地
 **フェーズ**: Phase {{phase_number}}: {{phase_name}}
 **ステータス**: {{status}}
+**Orchestrator 実行計画**: {{workflow_template}} に基づき継続
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -94,7 +109,7 @@ description: prompt/フォルダを読み込んで、前回の続きからプロ
 どれからやる？
 ```
 
-## Step 4: 必要ファイルの確認
+## Step 5: 必要ファイルの確認
 
 作業に必要なコードファイルをリクエスト：
 
@@ -130,10 +145,11 @@ WORKFLOW.yaml と実際のファイルで違いがあるみたい：
 2️⃣ WORKFLOW.yaml が正（ファイルを修正）
 ```
 
-## Step 6: 作業開始確認
+## Step 7: 作業開始確認
 
 ```
 🚀 準備完了！
+Orchestrator が今回のフェーズ実行を指揮するよ！
 
 📍 現在地: Phase {{phase_number}}: {{phase_name}}
 🎯 今回の作業: {{current_task}}
