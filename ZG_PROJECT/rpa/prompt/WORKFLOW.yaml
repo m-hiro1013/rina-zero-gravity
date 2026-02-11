@@ -1,22 +1,20 @@
 workflow:
   version: "1.1"
-  last_updated: "2026-02-11T15:37:00+09:00"
+  last_updated: "2026-02-11T16:04:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - 🎯 b-log進化版（iframe情報付き）を活用し、`setup_headings()` のiframe切り替え処理を完璧に実装！
-    - 🎭 カテゴリー設定画面が iframe 'sb-player' 内にあることを特定し、iframe切り替えロジックを追加。
-    - 📝 b-logの実際の操作フロー（クリック → 空にする → 新しい値を入力）を完全トレース。
-    - ✅ `test_blog_perfect.py` を作成し、既存スキル（login, navigate_to_drink, setup_headings）の動作を検証。
-    - 🚀 テスト成功！カテゴリー設定が完璧に動作することを確認！
-    - �️ 不要なテストファイル5つを削除し、testsフォルダを整理。
-    - 📂 `drink_ops.py` をドリンク処理とカテゴリー処理に分割。`category_ops.py` を新規作成。
-    - 📖 **DEVELOPMENT_FLOW.md** を作成し、今後の開発フローを完全文書化！
-      - Skill優先、Test実験、Workflow作成の順序を明確化
-      - ファイル管理ルール、ドキュメント記載ルールを徹底的に定義
-      - 全てのプロジェクトで再利用可能なガイドラインを確立
+    - 🔄 /resume-session でRPAプロジェクトを再開、全体状況を把握
+    - 🎀 参考リポジトリ（everything-claude-code）を調査し、Skill Creator等の構造を分析
+    - 🚀 `/sfmaker` ワークフローを新規作成！（`.agent/workflows/sfmaker.md`、約470行）
+      - 全8フェーズ（Phase 0〜8）の完全定義
+      - 1問1答形式のヒアリング、3案+おすすめ提示
+      - DEVELOPMENT_FLOW.md 完全準拠
+    - ✅ Phase 0（前提チェック）を実行し、全条件クリアを確認
+    - 📋 Phase 1 Q1 まで到達（ヒアリング開始）
 
-
+    【次にやること】
+    - T015: /sfmaker Phase 1 Q1 の回答から続行（実商品の登録Skill作成）
 
   progress:
     current_phase:
@@ -25,8 +23,8 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "カテゴリー再構築（第二幕）の完走テストとb-log強化検討"
-      started_at: "2026-02-11T00:10:00"
+      description: "T015: Drinkメニュー用 Skill 動作確認（第三幕：実商品の登録） - /sfmaker Phase 1 ヒアリング中"
+      started_at: "2026-02-11T16:00:00"
     
     completed_phases:
       - phase: 0
@@ -53,7 +51,8 @@ workflow:
         note: "iframe切り替え処理を完璧に実装。test_blog_perfect.py で動作確認完了。"
       - id: "T015"
         description: "Drinkメニュー用 Skill 動作確認（第三幕：実商品の登録）"
-        status: "planned"
+        status: "in_progress"
+        note: "/sfmaker を使って進行中。Phase 1 Q1 まで到達。"
 
   decisions:
     adopted:
@@ -77,12 +76,19 @@ workflow:
         date: "2026-02-11"
         decision: "DEVELOPMENT_FLOW.mdを作成し、開発フローを完全文書化"
         reason: "Skill優先、Test実験、Workflow作成の順序を明確化。今後の全プロジェクトで再利用可能なガイドラインを確立するため"
+      - id: "D008"
+        date: "2026-02-11"
+        decision: "/sfmaker ワークフローを新規作成し、RPA開発の標準フローとする"
+        reason: "Skill調査→Gap分析→実装プラン→Test→Skill作成→Flow組込の一連を、1問1答ヒアリング形式で確実に進めるため。everything-claude-codeの構造を参考に設計。"
 
   file_structure:
     created:
       - path: "DEVELOPMENT_FLOW.md"
         description: "RPA開発フロー完全ガイド（Skill優先、Test実験、Workflow作成の順序を完全文書化）"
         note: "今後の全てのプロジェクトで参照すべきガイドライン"
+      - path: ".agent/workflows/sfmaker.md"
+        description: "/sfmaker ワークフロー（全8フェーズ、約470行）"
+        note: "RPA開発の標準ワークフロー。1問1答形式でヒアリングしながらSkill&Flowを作成。"
       - path: "tests/test_blog_perfect.py"
         description: "b-log進化版を活用した完全トレーステスト（最新）"
       - path: "tests/test_drink_skills.py"
