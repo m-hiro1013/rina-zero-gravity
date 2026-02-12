@@ -86,6 +86,48 @@ async def setup_headings(page: Page, headings: list):
     num_headings = len(headings)
     print(f"📊 [SKILL] {num_headings} 個のカテゴリを設定するよ！（iframe内）")
     
+    # 🆕 必要な行数を確保（visible な行が足りなければ追加）
+    if num_headings > 0:
+        print(f"🔍 [SKILL] visible な行数を確認中...")
+        
+        # visible な行数をカウント
+        visible_count = 0
+        for i in range(25):  # 最大25行まで確認
+            try:
+                field_id = f"#drinkName{i}"
+                if await iframe.locator(field_id).is_visible(timeout=500):
+                    visible_count += 1
+                else:
+                    break  # 非表示になったら終了
+            except:
+                break
+        
+        print(f"📊 [SKILL] 現在の visible 行数: {visible_count}")
+        print(f"📊 [SKILL] 必要な行数: {num_headings}")
+        
+        # 足りない場合は追加
+        if visible_count < num_headings:
+            add_count = num_headings - visible_count
+            print(f"➕ [SKILL] {add_count} 行追加するよ！")
+            
+            # 追加ボタンをクリック
+            add_button = iframe.locator("a:has-text('追加')")
+            
+            for i in range(add_count):
+                try:
+                    if await add_button.is_visible(timeout=1000):
+                        await add_button.click()
+                        await page.wait_for_timeout(500)  # DOM更新を待つ
+                        print(f"✅ [SKILL] {i+1} 行目を追加")
+                    else:
+                        print(f"⚠️ [SKILL] 追加ボタンが見つからない（{i+1}行目）")
+                        break
+                except Exception as e:
+                    print(f"⚠️ [SKILL] {i+1} 行目の追加でエラー: {e}")
+                    break
+            
+            print(f"✅ [SKILL] 行追加完了！")
+    
     # 🆕 b-logの実際の操作を完全再現:
     # 1. 既存のカテゴリを空にする（必要な分だけ）
     for i in range(num_headings):

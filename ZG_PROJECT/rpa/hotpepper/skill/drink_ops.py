@@ -5,62 +5,44 @@ from typing import Union
 async def update_drink_item(page: Union[Page, Frame], index: int, name: str = None, catch: str = None, price: str = None):
     """
     指定したインデックスのドリンク項目を更新する特技だよ！💅
+    b-log完全再現版：直接IDで指定して、シンプルに入力するよ！
     index: 0から始まる連番（#drinkName0, #drinkPrice0...に対応）
     """
     print(f"✨ [SKILL] ドリンク項目 {index} を更新中...")
     
-    # 🏗️ 行の特定
-    name_id = f"#drinkName{index}"
-    name_field = page.locator(name_id)
-    try:
-        await name_field.wait_for(state="attached", timeout=10000)
-    except:
-        print(f"⚠️ [SKILL] 商品フィールド {name_id} が見つからないよ。")
-
-    row = page.locator(f"tr:has({name_id}), #drinkMenu{index}, {name_id}").first
-    
+    # 🎯 b-logで確認した通り、直接IDで指定！
     # 名前
     if name is not None:
-        target_name_field = row.locator(name_id)
-        await target_name_field.scroll_into_view_if_needed()
-        await target_name_field.fill(name)
+        name_field = page.locator(f"#drinkName{index}")
+        await name_field.click()
+        await name_field.fill(name)
     
     # キャッチ
     if catch is not None:
-        catch_field = row.locator(f"#drinkCatch{index}")
+        catch_field = page.locator(f"#drinkCatch{index}")
+        await catch_field.click()
         await catch_field.fill(catch)
         
     # 価格設定
     if price is not None:
         if price in ["", "空白", "."]:
             print(f"🔗 [SKILL] 価格にドット回避を適用します")
-            radio = row.locator("input.jscSetMenuPriceCheck.jscTxtInput")
-            await radio.click()
+            # b-log完全再現：ラジオボタンを name 属性で特定してクリック
+            radio_button = page.locator(f"input[name='frmDrinkMenuDtoList[{index}].drinkPriceKbn'].jscTxtInput")
+            await radio_button.click()
+            await page.wait_for_timeout(500)  # ラジオボタンクリック後の待機
             
-            price_field = row.locator(f"#drinkPrice{index}")
-            await price_field.wait_for(state="visible")
-            for _ in range(10):
-                if await price_field.is_enabled():
-                    break
-                await asyncio.sleep(0.2)
+            # ドット回避の場合は price フィールドに直接入力
+            price_field = page.locator(f"#drinkPrice{index}")
+            await price_field.click()
             await price_field.fill(".")
         else:
-            radio = row.locator("input.jscSetMenuPriceCheck:not(.jscTxtInput)")
-            await radio.click()
+            # 通常価格の場合は priceNumber フィールドに入力
+            price_number_field = page.locator(f"#drinkPriceNumber{index}")
+            await price_number_field.click()
             
-            price_input_field = row.locator(f"#drinkPriceNumber{index}")
-            await price_input_field.wait_for(state="visible")
-            for _ in range(10):
-                if await price_input_field.is_enabled():
-                    break
-                await asyncio.sleep(0.2)
-                
             numeric_price = "".join(filter(str.isdigit, price))
-            await price_input_field.fill(numeric_price)
-            
-            tax_check = row.locator("input.jscTaxCheckBox")
-            if not await tax_check.is_checked():
-                await tax_check.click()
+            await price_number_field.fill(numeric_price)
 
 async def clear_all_items(page: Union[Page, Frame]):
     """
