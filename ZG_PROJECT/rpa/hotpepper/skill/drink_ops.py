@@ -1,7 +1,6 @@
-from playwright.async_api import Page
-
-from typing import Union
+import asyncio
 from playwright.async_api import Page, Frame
+from typing import Union
 
 async def update_drink_item(page: Union[Page, Frame], index: int, name: str = None, catch: str = None, price: str = None):
     """
@@ -10,24 +9,18 @@ async def update_drink_item(page: Union[Page, Frame], index: int, name: str = No
     """
     print(f"✨ [SKILL] ドリンク項目 {index} を更新中...")
     
-    # 🏗️ 行の特定（超重要！）
-    # 行のIDが #drinkMenu{index} じゃない場合もあるから、商品名フィールドを基準に行(TR)を探すよ！💅
+    # 🏗️ 行の特定
     name_id = f"#drinkName{index}"
-    # まずそのフィールドが存在するか確認（タイムアウト防止）
     name_field = page.locator(name_id)
     try:
         await name_field.wait_for(state="attached", timeout=10000)
     except:
-        print(f"⚠️ [SKILL] 商品フィールド {name_id} が見つからないよ。行 ID を直接試してみるね。")
+        print(f"⚠️ [SKILL] 商品フィールド {name_id} が見つからないよ。")
 
-    # 行スコープの決定（複数のパターンで攻めるよ！）
-    # 1. ズバリそのもののIDがある場合
-    # 2. TRの中にそのIDがある場合（これが一番確実！）
     row = page.locator(f"tr:has({name_id}), #drinkMenu{index}, {name_id}").first
     
     # 名前
     if name is not None:
-        # rowスコープ内でもう一度 locator を作ると確実！
         target_name_field = row.locator(name_id)
         await target_name_field.scroll_into_view_if_needed()
         await target_name_field.fill(name)
@@ -40,29 +33,23 @@ async def update_drink_item(page: Union[Page, Frame], index: int, name: str = No
     # 価格設定
     if price is not None:
         if price in ["", "空白", "."]:
-            # 【ドット回避】自由入力モード(jscTxtInput)
             print(f"🔗 [SKILL] 価格にドット回避を適用します")
-            # rowスコープ内なら、.jscTxtInput が付いているラジオボタンは一つのはず！
             radio = row.locator("input.jscSetMenuPriceCheck.jscTxtInput")
             await radio.click()
             
-            # 有効化されるまで待機（莉奈のこだわり！）
             price_field = row.locator(f"#drinkPrice{index}")
             await price_field.wait_for(state="visible")
             for _ in range(10):
                 if await price_field.is_enabled():
                     break
                 await asyncio.sleep(0.2)
-                
             await price_field.fill(".")
         else:
-            # 通常の数値入力モード
             radio = row.locator("input.jscSetMenuPriceCheck:not(.jscTxtInput)")
             await radio.click()
             
             price_input_field = row.locator(f"#drinkPriceNumber{index}")
             await price_input_field.wait_for(state="visible")
-            # enabled待ち
             for _ in range(10):
                 if await price_input_field.is_enabled():
                     break
@@ -71,130 +58,177 @@ async def update_drink_item(page: Union[Page, Frame], index: int, name: str = No
             numeric_price = "".join(filter(str.isdigit, price))
             await price_input_field.fill(numeric_price)
             
-            # 税込みチェックボックス
             tax_check = row.locator("input.jscTaxCheckBox")
             if not await tax_check.is_checked():
                 await tax_check.click()
 
-async def clear_some_items(page: Union[Page, Frame], count_to_delete: int = 3):
-    """
-    下から指定された数だけ削除！「削除を取り消す」を誤操作しないように完全一致で狙うよ！🎯💅
-    """
-    print(f"🧹 [SKILL] 下から {count_to_delete} 件だけ確実に削除してみるよ！")
-    
-    delete_locator = page.get_by_role("link", name="削除", exact=True).and_(page.locator(":visible"))
-    total_count = await delete_locator.count()
-    
-    if total_count == 0:
-        print("ℹ️ [SKILL] 削除ボタン（完全一致）が一つも見つからないよ！")
-        return
-        
-    actual_delete_count = min(count_to_delete, total_count)
-    print(f"📋 [SKILL] 候補を {total_count} 件発見。下から {actual_delete_count} 件実行するね🚀")
-    
-    for i in range(total_count - 1, total_count - 1 - actual_delete_count, -1):
-        print(f"🗑️ [SKILL] インデックス {i} の『削除』ボタンを狙い撃ち！")
-        try:
-            btn = page.get_by_role("link", name="削除", exact=True).and_(page.locator(":visible")).nth(i)
-            await btn.click(no_wait_after=True)
-            await page.wait_for_timeout(500)
-        except Exception as e:
-            print(f"⚠️ [SKILL] 失敗：{e}")
-            
-    print(f"✅ [SKILL] {actual_delete_count} 件の削除を試みたよ！")
-
 async def clear_all_items(page: Union[Page, Frame]):
     """
-    全商品を「削除」ボタン完全一致でしつこく消し去る特技！🗑️💅
+    【ホットペッパー仕様】標準メニューの行 (tr[id^='drinkMenu']) だけを狙い撃ちして全削除！🗑️💅
+    おすすめやこだわりには指一本触れさせないよ！⚔️
     """
-    print("🧹 [SKILL] ドリンク項目の全削除を開始するよ！")
-    retry_count = 0
-    while retry_count < 5:
-        delete_locator = page.get_by_role("link", name="削除", exact=True).and_(page.locator(":visible"))
+    print("🧹 [SKILL] 標準ドリンク項目の全削除を開始するよ！")
+    for _ in range(5):
+        # スコープを標準メニュー行に限定！🎯
+        delete_locator = page.locator("tr[id^='drinkMenu'], tr[id^='drinkMenuD']").get_by_role("link", name="削除", exact=True).and_(page.locator(":visible"))
         total_count = await delete_locator.count()
         
         if total_count == 0:
-            print("✨ [SKILL] 画面上に削除対象は見当たらないよ！")
+            print("✨ [SKILL] 削除対象（標準メニュー）は見当たらないよ！")
             break
             
-        print(f"📋 [SKILL] {total_count} 件発見！下から順番に消していくね🚀")
+        print(f"📋 [SKILL] 標準メニュー行を {total_count} 件発見。下から順番に消していくね🚀")
         
         for i in range(total_count - 1, -1, -1):
             try:
-                btn = page.get_by_role("link", name="削除", exact=True).and_(page.locator(":visible")).nth(i)
+                # 削除ボタンが確実に行の中にいることを再担保
+                btn = delete_locator.nth(i)
                 if await btn.is_visible(timeout=1000):
                     await btn.click(no_wait_after=True)
                     await page.wait_for_timeout(50)
-            except:
-                pass
-        
+            except: pass
         await page.wait_for_timeout(500)
-        retry_count += 1
-            
-    print("✅ [SKILL] ドリンク項目のクリーンアップ完了！完全更地だよ✨")
 
+async def count_rows_per_category(page: Union[Page, Frame], num_categories: int) -> dict:
+    """
+    各カテゴリーに現在何行あるかをカウントする
+    
+    Args:
+        page: Page or Frame
+        num_categories: カテゴリー数
+    
+    Returns:
+        {0: 3, 1: 5, 2: 2, 3: 1} のような辞書（カテゴリーインデックス: 行数）
+    """
+    print("🔍 [SKILL] 各カテゴリーの既存行数をカウント中...")
+    
+    rows_per_category = {}
+    
+    # 追加ボタンを全て取得（「分類未設定」を含む）
+    add_buttons = await page.locator("a:has-text('メニューを追加する')").all()
+    
+    print(f"📊 [SKILL] 追加ボタンを {len(add_buttons)} 個発見")
+    
+    # 各カテゴリーについて、親テーブル内の drinkName フィールドをカウント
+    for cat_idx in range(num_categories):
+        button_index = cat_idx + 1  # +1 オフセット（最初は「分類未設定」）
+        
+        if button_index >= len(add_buttons):
+            print(f"⚠️ [SKILL] カテゴリー {cat_idx}: 追加ボタンが見つからない")
+            rows_per_category[cat_idx] = 0
+            continue
+        
+        # このカテゴリーの追加ボタンを取得
+        button = add_buttons[button_index]
+        
+        # ボタンの親要素（テーブル）を取得
+        # 追加ボタンは table > tbody > tr > td > div > a の構造なので、
+        # 6階層上がると table になる
+        parent_table = page.locator(f"a:has-text('メニューを追加する')").nth(button_index).locator("xpath=ancestor::table[1]")
+        
+        # このテーブル内の drinkName フィールドをカウント
+        name_fields_in_table = parent_table.locator("textarea[id^='drinkName']")
+        count = await name_fields_in_table.count()
+        
+        rows_per_category[cat_idx] = count
+        print(f"📊 [SKILL] カテゴリー {cat_idx}: {count} 行")
+    
+    print(f"✅ [SKILL] カウント完了: {rows_per_category}")
+    return rows_per_category
 
-async def add_drink_row(page: Union[Page, Frame]):
+async def ensure_rows_for_categories(page: Union[Page, Frame], required_rows: dict):
     """
-    「メニューを追加する」リンクをクリックする特技！💅
+    各カテゴリーに必要な行数を確保する（足りない分を追加）
+    
+    Args:
+        page: Page or Frame
+        required_rows: {0: 1, 1: 6, 2: 3, 3: 4} のような辞書（カテゴリーインデックス: 必要な行数）
     """
-    print("➕ [SKILL] 新しい行を追加中...")
+    print("🏗️ [SKILL] 各カテゴリーに必要な行数を確保中...")
+    
+    # 現在の行数をカウント
+    current_rows = await count_rows_per_category(page, len(required_rows))
+    
+    # 各カテゴリーについて、足りない分を追加
+    for cat_idx, needed in required_rows.items():
+        current = current_rows.get(cat_idx, 0)
+        to_add = needed - current
+        
+        if to_add > 0:
+            print(f"➕ [SKILL] カテゴリー {cat_idx}: {to_add} 行追加が必要 (現在 {current} 行 → {needed} 行)")
+            for _ in range(to_add):
+                await add_drink_row(page, category_index=cat_idx)
+                await page.wait_for_timeout(500)  # 追加後の待機
+        else:
+            print(f"✅ [SKILL] カテゴリー {cat_idx}: 十分な行数があるよ (現在 {current} 行、必要 {needed} 行)")
+    
+    print("✨ [SKILL] 全カテゴリーの行数確保完了！")
+
+async def add_drink_row(page: Union[Page, Frame], category_index: int = 0):
+    """
+    新しいドリンク行を追加する
+    
+    Args:
+        page: Page or Frame
+        category_index: カテゴリーのインデックス（0始まり）。0=最初のカテゴリー、1=2番目...
+    """
+    print(f"➕ [SKILL] カテゴリー {category_index} に新しい行を追加中...")
+    # ホットペッパーの仕様：最初のボタンは「分類未設定」（デフォルト）
+    # 自分で作成したカテゴリーは +1 オフセットが必要
     selector = "a:has-text('メニューを追加する')"
-    await page.locator(selector).scroll_into_view_if_needed()
-    await page.click(selector)
+    button_index = category_index + 1  # 🆕 +1 オフセット
+    await page.locator(selector).nth(button_index).scroll_into_view_if_needed()
+    await page.locator(selector).nth(button_index).click()
+
 
 async def save_drink_draft(page: Page):
     """
-    下書き保存を実行し、完了画面(publishControl)から編集画面に舞い戻る特技！🔄💅
-    iframe内のボタンも考慮するよ！
+    b-log完全トレース版：保存後のURLと行を特定して、誤爆なしでドリンク編集画面に帰還する特技！🔄💅
     """
     print("💾 [SKILL] 下書き保存を実行中...")
-    
-    # 🎭 iframe 内の保存ボタンも探す
     iframe = page.frame(name="sb-player")
     target = iframe if iframe else page
     
-    # セレクタ候補（b-log & category_ops.py 参考）
-    selectors = [
-        "input.tabindex2036",        # b-log実測値
-        "input.tabindex2031",        # メイン編集画面（独自）
-        "input.tabindex142[value='下書き保存する']", # iframe内（実績あり）
-        "input[value*='下書き保存']",
-        "input[type='submit'][value*='保存']"
-    ]
+    save_btn = target.locator("input.tabindex2031, input[value='下書き保存する']").first
+    await save_btn.click(force=True)
     
-    save_found = False
-    for sel in selectors:
-        try:
-            btn = target.locator(sel).first
-            if await btn.is_visible(timeout=3000):
-                print(f"🎯 [SKILL] 保存ボタン発見！ ({sel})")
-                await btn.click(force=True)
-                save_found = True
-                break
-        except:
-            continue
-            
-    if not save_found:
-        print("⚠️ [SKILL] 保存ボタンが見つかりません。直接クリックを試みます。")
-        # 最終手段
-        await page.get_by_role("button", name="下書き保存する").click(force=True)
+    print("⏳ [SKILL] 保存後の挙動を待機中（モーダル or URL変化）...")
     
-    # モーダル突破
     try:
         ok_btn = page.locator("a.jscAlertModalOkBtn:has-text('OK')").first
         if await ok_btn.is_visible(timeout=3000):
+            print("🎯 [SKILL] 確認モーダル発見！OKを押すよ。")
             await ok_btn.click(force=True)
-    except:
-        pass
+    except: pass
         
-    await page.wait_for_url("**/publishControl/**")
-    print("✅ [SKILL] 保存完了画面（ステータス画面）に到着！")
+    try:
+        await page.wait_for_url(lambda url: "publishControl" in url or "drinkInfoEdit" in url, timeout=10000)
+    except: pass
+
+    current_url = page.url
+    print(f"📍 [SKILL] 現在のURL: {current_url}")
+
+    if "publishControl" in current_url:
+        print("✅ [SKILL] 保存完了画面に到着！ドリンク用の『編集』ボタンを狙い撃ちするよ🎯")
+        # 【ホットペッパー仕様】「ドリンク」が含まれる行の編集ボタンのみをクリック！誤爆防止！🛡️
+        back_btn = page.locator("tr:has-text('ドリンク')").locator("input[value='編集'], input[name*='UserDto']").first
+        
+        if await back_btn.is_visible(timeout=5000):
+            print("🎯 [SKILL] ドリンク専用・帰還ボタン発見！ポチるよ。")
+            await back_btn.click()
+        else:
+            print("⚠️ [SKILL] 専用ボタンが見つかりません。バックアップのURL帰還を実行します。")
+            base_match = current_url.split("/publishControl/")[0]
+            await page.goto(f"{base_match}/draft/drinkInfoEdit/")
     
-    back_btn = page.locator("input[value*='ドリンクメニュー'], #article input[type='submit']").first
-    await back_btn.click()
+    elif "drinkInfoEdit" in current_url:
+        print("🏠 [SKILL] すでに編集画面に戻っているよ。")
     
-    await page.wait_for_url("**/draft/drinkInfoEdit/**")
+    else:
+        print("⚠️ [SKILL] 予期せぬ画面のため、URLで強制帰還します。")
+        if "www.cms.hotpepper.jp/CLN/" in current_url:
+            base_url = current_url.split("/CLN/")[0] + "/CLN"
+            await page.goto(f"{base_url}/draft/drinkInfoEdit/")
+    
+    await page.wait_for_url("**/draft/drinkInfoEdit/**", timeout=15000)
     print("🏠 [SKILL] ただいま！ドリンク編集画面に無事帰還したよ！💖✨")
-
-

@@ -1,18 +1,17 @@
 workflow:
   version: "1.1"
-  last_updated: "2026-02-11T16:04:00+09:00"
+  last_updated: "2026-02-12T15:44:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - T015 Act 3 実験成功！ `test_experiment_register_drinks.py` で商品名、キャッチ、価格の登録を実機検証したよ！✨
-    - Skill 強化: `drink_ops.py` に pivot ベースの行特定ロジック (`tr:has`) を実装。
-    - 環境メモ: ユーザー実行時に `PYTHONPATH=.` が必須なことを `PROJECT_SPECIFIC.yaml` に追記。
-    - 新規 Skill: `navigation.py` に店舗選択 (`select_store`) を追加。🏢
-    - ガバナンス: 「推測禁止（b-log優先）」ルールを明文化！💅🔥
-
+    - T018 完全実装！ひろきくん式（カウント→一括追加→上から順番に埋める）を実現！🎉✨
+    - count_rows_per_category: 追加ボタンの親テーブルごとに正確にカウント 📊
+    - ensure_rows_for_categories: 必要な行数を一括で確保 🏗️
+    - Flow 完全書き換え: カテゴリーごとの行数を正確にカウントして、一括追加後に上から順番に埋める方式に変更 💪
+    - 行追加は成功！残りは update_drink_item の入力ロジック修正のみ ✨
+    
     【次にやること】
-    - T015 Act 3 本番 Flow の作成。🌊
-    - T016 Act 4 (表示順序設定) の開発。
+    - T020: update_drink_item の入力ロジック修正（既存の動作確認から引き継ぐ）
 
   progress:
     current_phase:
@@ -21,8 +20,8 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "T015: Drinkメニュー用 Skill 動作確認完了（第三幕：実商品の登録）"
-      started_at: "2026-02-11T16:00:00"
+      description: "T020: update_drink_item の入力ロジック修正"
+      started_at: "2026-02-12T15:44:00"
     
     completed_phases:
       - phase: 0
@@ -33,95 +32,89 @@ workflow:
         completed_at: "2026-02-10"
 
     tasks:
-      - id: "T005"
-        description: "Drinkメニュー用 Skill 実装：navigate_to_drink (ナビゲーション)"
-        status: "done"
-      - id: "T012"
-        description: "Drinkメニュー用 Skill 実装：clear_some_items (極小削除テスト)"
-        status: "done"
-      - id: "T013"
-        description: "Drinkメニュー用 Skill 実装：setup_headings (見出し一括作成)"
-        status: "done"
       - id: "T014"
-        description: "Drinkメニュー用 Skill 動作確認（第二幕：見出し再構築のみ）+ b-log進化版活用"
+        description: "Drinkメニュー用 Skill 動作確認（第二幕：見出し再構築のみ）"
         status: "done"
-        completed_at: "2026-02-11T10:52:00"
-        note: "iframe切り替え処理を完璧に実装。test_blog_perfect.py で動作確認完了。"
       - id: "T015"
-        description: "Drinkメニュー用 Skill 動作確認（第三幕：実商品の登録）"
+        description: "Drinkメニュー用 Skill 動作確認完了（第三幕：実商品の登録）および Flow 実装"
+        status: "done"
+      - id: "T017"
+        description: "T015 Act 3 本編：一括更新 Flow の実戦投入テスト（原子テスト版）"
+        status: "done"
+        completed_at: "2026-02-12T01:10:00"
+        note: "ログインから保存完了、そして編集画面への正確な帰還までを最小データセットでクリア！💅✨"
+      - id: "T018"
+        description: "T015 Act 3 最終確認：複数データセットによるスケールテスト（ひろきくん式実装完了）"
+        status: "done"
+        completed_at: "2026-02-12T15:44:00"
+        note: "ひろきくん式（カウント→一括追加→上から順番に埋める）実装完了。行追加成功、残りは入力ロジック修正のみ。💍✨"
+      - id: "T020"
+        description: "update_drink_item の入力ロジック修正（既存テストから引き継ぐ）"
         status: "in_progress"
-        note: "/sfmaker を使って進行中。Phase 1 Q1 まで到達。"
+      - id: "T019"
+        description: "T016 Act 4 (表示順序設定) の設計と実装"
+        status: "planned"
 
   decisions:
     adopted:
-      - id: "D001"
-        date: "2026-02-10"
-        decision: "媒体/skill と 媒体/flow の二層管理を採用"
-        reason: "再利用性と保守性を高め、莉奈が迷わず自動化を進められるようにするため"
-      - id: "D004"
-        date: "2026-02-11"
-        decision: "「商品削除 → 保存(確定)」を独立した第一幕とする"
-        reason: "DBの状態を一旦クリーンに固定してから見出しを弄る方が、ホットペッパーの仕様上安全なため"
-      - id: "D005"
-        date: "2026-02-11"
-        decision: "「削除」ボタンの検索に完全一致（exact=True）を使用"
-        reason: "「削除を取り消す」ボタンの誤爆を防ぐため"
-      - id: "D006"
-        date: "2026-02-11"
-        decision: "b-log進化版（iframe情報付き）を活用してiframe切り替え処理を実装"
-        reason: "カテゴリー設定画面が iframe 'sb-player' 内にあることが判明。b-logの詳細情報により正確な実装が可能になった"
-      - id: "D007"
-        date: "2026-02-11"
-        decision: "DEVELOPMENT_FLOW.mdを作成し、開発フローを完全文書化"
-        reason: "Skill優先、Test実験、Workflow作成の順序を明確化。今後の全プロジェクトで再利用可能なガイドラインを確立するため"
-      - id: "D008"
-        date: "2026-02-11"
-        decision: "/sfmaker ワークフローを新規作成し、RPA開発の標準フローとする"
-        reason: "Skill調査→Gap分析→実装プラン→Test→Skill作成→Flow組込の一連を、1問1答ヒアリング形式で確実に進めるため。everything-claude-codeの構造を参考に設計。"
-      - id: "D009"
-        date: "2026-02-11"
-        decision: "Pivot-based row selection in drink_ops.py"
-        reason: "TRのIDが不安定なため、入力フィールドを基準に親要素を特定する"
-      - id: "D010"
-        date: "2026-02-11"
-        decision: "Wait for enablement after UI trigger"
-        reason: "ラジオボタン押下後の disabled 解除にはタイムラグがあるため、明示的な待機が必要"
-      - id: "D011"
-        date: "2026-02-11"
-        decision: "No Guessing Policy (b-log first)"
-        reason: "推測での修正は迷走の元。不明時は必ず b-log の事実を確認する"
+      - id: "D012"
+        date: "2026-02-12"
+        decision: "保存完了画面からの帰還に「行特定＋編集ボタン」方式を採用"
+        reason: "他カテゴリ（コース、料理等）の編集ボタンへの誤爆を防ぎ、確実にドリンク編集画面に戻るため"
+      - id: "D013"
+        date: "2026-02-12"
+        decision: "削除対象を tr[id^='drinkMenu'] に限定"
+        reason: "ホットペッパーの仕様上、おすすめやこだわりを巻き添えにしないため。BOOK.mdに禁忌として記録。"
+      - id: "D014"
+        date: "2026-02-12"
+        decision: "プラン提示前の実装禁止（ガバナンス強化）"
+        reason: "自律判断の暴走を防ぎ、ユーザーとの合意に基づいた確実な開発を進めるため。DEVELOPMENT_FLOW.mdに絶対の掟として追加。"
+      - id: "D015"
+        date: "2026-02-12"
+        decision: "永続的記憶（Persistent Memory）の掟の導入"
+        reason: "ユーザーの指示をその場限りにせず、必ずドキュメント化して次セッションに繋げるため。00-definition.mdに追加。"
+      - id: "D016"
+        date: "2026-02-12"
+        decision: "/fact-check ワークフローの導入と必須化"
+        reason: "作業前のプランニングフェーズで仕様理解を一問一答形式で確認し、誤解や推測による実装ミスを物理的に防ぐため。"
+      - id: "D017"
+        date: "2026-02-12"
+        decision: "サンプルデータの反映方法は引数渡しを採用"
+        reason: "柔軟性を確保し、毎回違うデータでテストできるようにするため。"
+      - id: "D018"
+        date: "2026-02-12"
+        decision: "ひろきくん式の実装（カウント→一括追加→上から順番に埋める）"
+        reason: "既存行数を正確に把握し、必要な分だけ追加してから全体の通し番号で入力する方が確実で効率的なため。"
 
   file_structure:
     created:
-      - path: "DEVELOPMENT_FLOW.md"
-        description: "RPA開発フロー完全ガイド（Skill優先、Test実験、Workflow作成の順序を完全文書化）"
-        note: "今後の全てのプロジェクトで参照すべきガイドライン"
-      - path: ".agent/workflows/sfmaker.md"
-        description: "/sfmaker ワークフロー（全8フェーズ、約470行）"
-        note: "RPA開発の標準ワークフロー。1問1答形式でヒアリングしながらSkill&Flowを作成。"
-      - path: "tests/test_blog_perfect.py"
-        description: "b-log進化版を活用した完全トレーステスト（最新）"
-      - path: "tests/test_drink_skills.py"
-        description: "統合テスト（全体の動作確認用）"
-      - path: "hotpepper/skill/category_ops.py"
-        description: "カテゴリー操作に特化したskill（iframe切り替え処理含む）"
-        note: "drink_ops.pyから分離。clear_all_headings(), setup_headings()を含む"
-    
-    deleted:
-      - path: "tests/test_tiny_clear.py"
-        reason: "極小削除テスト（動作確認完了により不要）"
-      - path: "tests/test_step3_clear_all.py"
-        reason: "全削除テスト（動作確認完了により不要）"
-      - path: "tests/test_step4_headings.py"
-        reason: "見出し設定テスト（動作確認完了により不要）"
-      - path: "tests/test_step4_headings_only.py"
-        reason: "見出し設定のみテスト（動作確認完了により不要）"
-      - path: "tests/test_prep_drink_ground.py"
-        reason: "地盤固めテスト（動作確認完了により不要）"
+      - path: "hotpepper/skill/data_parser.py"
+        description: "テキスト形式のメニューデータを構造化データに変換するパーサー。BOOK.md 仕様に完全準拠。"
+      - path: ".agent/workflows/fact-check.md"
+        description: "作業前の仕様理解確認ワークフロー（グローバル）。一問一答形式、3案+おすすめ提示、即時永久保存。"
+    modified:
+      - path: "hotpepper/skill/drink_ops.py"
+        description: "count_rows_per_category, ensure_rows_for_categories を追加。ひろきくん式実装。"
+      - path: "hotpepper/flow/drink_update.py"
+        description: "ひろきくん式に完全書き換え。カウント→一括追加→上から順番に埋める方式。"
+      - path: "BOOK.md"
+        description: "データフォーマット仕様を超詳細に追記（見出し=カテゴリ、説明文不要、価格判定ロジック等）。"
+      - path: "prompt/KNOWLEDGE.md"
+        description: "セッション19-20の知見として、RPA における媒体固有仕様の即時記録、ひろきくん式実装を追加。"
+      - path: ".agent/workflows/resume-session.md"
+        description: "/fact-check を Step 8 として追加。"
+      - path: ".agent/workflows/start-project.md"
+        description: "/fact-check を Step 2.5 として追加。"
+      - path: ".agent/workflows/workflow-templates.md"
+        description: "新規開発・修正改善の初期フェーズに /fact-check を組み込み。"
+      - path: ".agent/workflows/sf-maker.md"
+        description: "Phase 1.5 として /fact-check を追加。フェーズ遷移ルールも更新。"
 
   cautions:
-    - "モーダル消去後の透明オーバーレイに注意。click(force=True) で対応する。"
-    - "画面遷移後（保存後など）は、莉奈が自力で元の画面に戻るまでを1つの Skill にすること。"
-    - "ボタンの文言は環境によって揺れるため、* 検索や複数パターンを locator に含める。"
-    - "iframe内の要素を操作する場合は、必ず page.frame(name='iframe名') で切り替えてから操作すること。"
-    - "b-logの isInIframe, iframeName 情報を活用して、iframe切り替えの必要性を判断すること。"
+    - "ホットペッパーの削除は tr[id^='drinkMenu'] 以外を触らないこと！"
+    - "保存完了画面では「ドリンク」行の編集ボタンを狙い撃つこと！"
+    - "修正前は必ずプランを提示し、GOサインをもらうこと！💅🛡️"
+    - "仕様説明を受けた瞬間、「後で書く」は禁止。その場で BOOK.md or KNOWLEDGE.md に刻むこと！💍"
+    - "作業前のプランニングフェーズでは必ず /fact-check を実施し、仕様理解を100%確定させること！🔍✨"
+    - "既存の動作していたファイルを確認せずに新規作成しない！必ず既存パターンを踏襲すること！⚠️"
+    - "update_drink_item: 次回は test_experiment_register_drinks.py から入力ロジックを確実に引き継ぐ！💪"
