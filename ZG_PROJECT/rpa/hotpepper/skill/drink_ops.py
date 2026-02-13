@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import Page, Frame
 from typing import Union
 
-async def update_drink_item(page: Union[Page, Frame], index: int, name: str = None, catch: str = None, price: str = None):
+async def update_drink_item(page: Union[Page, Frame], index: int, name: str = None, catch: str = None, price: str = None, with_tax: bool = True):
     """
     指定したインデックスのドリンク項目を更新する特技だよ！💅
     b-log完全再現版：直接IDで指定して、シンプルに入力するよ！
@@ -43,6 +43,12 @@ async def update_drink_item(page: Union[Page, Frame], index: int, name: str = No
             
             numeric_price = "".join(filter(str.isdigit, price))
             await price_number_field.fill(numeric_price)
+
+            # 🆕 ユーザー要望：税込チェックボックスをONにする（b-log完全再現）
+            if with_tax:
+                print(f"✅ [SKILL] 税込チェックボックスをONにするよ！")
+                tax_checkbox = page.locator(f"input[name='frmDrinkMenuDtoList[{index}].drinkPriceTaxIncFlg']")
+                await tax_checkbox.check()
 
 async def clear_all_items(page: Union[Page, Frame]):
     """
@@ -214,3 +220,47 @@ async def save_drink_draft(page: Page):
     
     await page.wait_for_url("**/draft/drinkInfoEdit/**", timeout=15000)
     print("🏠 [SKILL] ただいま！ドリンク編集画面に無事帰還したよ！💖✨")
+
+async def get_existing_drink_indices(page: Union[Page, Frame]) -> list[int]:
+    """
+    ドリンク編集画面上の既存行のインデックス一覧を取得する
+    
+    Returns:
+        [1, 2, 5, ...] のようなソート済みインデックスリスト
+    """
+    print("🔢 [SKILL] 既存のドリンク行インデックスを取得中...")
+    
+    # textarea[id^='drinkName'] を全取得
+    textareas = await page.locator("textarea[id^='drinkName']").all()
+    indices = []
+    
+    for ta in textareas:
+        id_attr = await ta.get_attribute("id")
+        if id_attr:
+            # "drinkName5" -> 5
+            try:
+                idx = int(id_attr.replace("drinkName", ""))
+                indices.append(idx)
+            except ValueError:
+                pass
+                
+    indices.sort()
+    print(f"📊 [SKILL] 取得したインデックス: {indices}")
+    return indices
+
+async def get_drink_target(page: Page) -> Union[Page, Frame]:
+    """
+    iframe sb-player の存在を判定し、操作対象（iframe or page）を返す
+    """
+    # iframeのロードを少し待つ
+    try:
+        await page.wait_for_timeout(2000)
+        iframe = page.frame(name="sb-player")
+        if iframe:
+            print("🎭 [SKILL] iframe 'sb-player' を操作対象にするよ！")
+            return iframe
+        else:
+            print("📄 [SKILL] iframeが見つからないので、Pageをそのまま操作するよ！")
+            return page
+    except Exception:
+        return page

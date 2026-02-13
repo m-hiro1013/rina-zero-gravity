@@ -258,34 +258,29 @@ skillが必要分揃ったら、workflowの作成に入る。
 
 ```
 /Users/matsumotohiroki/Desktop/rina-zero-gravity/ZG_PROJECT/rpa/
+├── app.py                      # メインUI
 ├── hotpepper/                  # 媒体フォルダ
 │   ├── skill/                  # 本番Skill（再利用可能）
+│   │   ├── browser.py          # セッション管理
 │   │   ├── auth.py
-│   │   ├── navigation.py
-│   │   ├── drink_ops.py
-│   │   ├── category_ops.py
-│   │   └── ...
-│   └── workflow/               # 本番Workflow（再利用可能）
-│       ├── update_drink_menu.py
+│   │   ├── ...
+│   └── flow/                   # 本番Flow（Skillの組み合わせ）
+│       ├── drink_update.py
 │       └── ...
 ├── tests/                      # 実験用（進行中のタスクのみ）
-│   ├── test_experiment_xxx.py  # 進行中
+│   ├── test_tXXX_xxx.py        # 命名規則: test_{タスクID}_{内容}.py
 │   └── ...
 └── prompt/
-    └── WORKFLOW.yaml           # 進捗管理
+    └── WORKFLOW.yaml           # 進捗管理（テストトラッキング含む）
 ```
 
 ### 🗑️ 削除ルール
 
 **testにあるのは進行中のタスクだけ**
 
-- ✅ 動作確認が完了したら、testから削除
-- ✅ skillに分解したら、testから削除
-- ✅ workflowに統合したら、testから削除
-
-**testに残すのは:**
-- 🚧 進行中のタスク
-- 🚧 動作確認中の実験
+1. **テスト作成時**: `WORKFLOW.yaml` のタスクに `test_files` を追記し、`cleaned: false` に設定。
+2. **完了時**: 動作確認完了後、Skillに分解・Flowに統合。
+3. **削除**: テストファイルを削除し、`WORKFLOW.yaml` の `cleaned` を `true` に更新。
 
 ---
 
@@ -309,11 +304,9 @@ skillが必要分揃ったら、workflowの作成に入る。
 ## 🔧 事前準備
 ### 必要な環境変数（.env）
 - `HOTPEPPER_LOGIN_ID`: ホットペッパーのログインID
-- `HOTPEPPER_PASSWORD`: ホットペッパーのパスワード
 
 ### 必要なパッケージ
 - playwright
-- python-dotenv
 
 ## 💡 使い方
 ```python
@@ -329,74 +322,39 @@ await function_name(page, arg1, arg2)
 
 ## 🔗 関連Skill
 - `auth.py`: ログイン処理
-- `navigation.py`: ナビゲーション
-
-## 📊 動作イメージ
-1. ステップ1の説明
-2. ステップ2の説明
-3. ステップ3の説明
-
-## 🧪 テスト方法
-```python
-# テストコード例
-```
 """
 ```
 
-### 📝 Workflowファイルの冒頭コメント
+### 📝 Flowファイルの冒頭コメント
 
-**全てのWorkflowファイルには、以下の情報を記載すること:**
+**全てのFlowファイルには、以下の情報を記載すること:**
 
 ```python
 """
-[Workflowの名前] - [簡潔な説明]
+[Flowの名前] - [簡潔な説明]
 
 ## 🎯 目的
-このWorkflowが何をするか、どんな業務を自動化するか
+このFlowが何をするか、どんな業務を自動化するか
 
 ## 📋 処理フロー
 1. ステップ1: 説明
 2. ステップ2: 説明
-3. ステップ3: 説明
-
-## 🔧 事前準備
-### 必要な環境変数（.env）
-- `XXX`: 説明
-
-### 必要なファイル
-- `data/input.csv`: 入力データ
 
 ## 💡 使い方
 ```python
-from hotpepper.workflow.xxx import workflow_name
+from hotpepper.flow.xxx import run
 
-# 使用例
-await workflow_name(page, data)
+# app.py からの呼び出し
+async for log in run(inputs):
+    print(log)
 ```
 
 ## 🧩 使用しているSkill
-- `auth.login()`: ログイン処理
-- `navigation.navigate_to_drink()`: ドリンクメニューへ遷移
-- `category_ops.setup_headings()`: カテゴリー設定
+- `browser.create_browser_session()`: セッション作成
+- `drink_ops.update_drink_item()`: ドリンク更新
 
 ## ⚠️ 注意事項
 - 注意点1
-- 注意点2
-
-## 📊 動作イメージ
-1. ログイン
-2. ドリンクメニューへ遷移
-3. カテゴリー設定
-4. 保存
-
-## 🧪 テスト方法
-```python
-# テストコード例
-```
-
-## 🔄 エラー処理
-- エラー1: 対処方法
-- エラー2: 対処方法
 """
 ```
 
@@ -406,25 +364,21 @@ await workflow_name(page, data)
 
 ### ❌ 絶対にやってはいけないこと
 
-1. **testに本番コードを書く**
-   - testは動作確認のみ
-   - 本番コードはskillかworkflowに書く
+1. **Flow内に直接スキルを書く**
+   - `page.click()` などの操作は全てSkillに入れること。
+   - Flowは「手順（アルゴリズム）」のみを記述する。
 
-2. **同じ機能を複数の場所に実装する**
-   - 漏れダブり禁止
-   - 既存skillを確認してから実装
+2. **testに本番コードを書く**
+   - testは動作確認のみ。
 
-3. **workflow内で新しい操作を書く**
-   - workflowは、skillの組み合わせのみ
-   - 新しい操作が必要なら、skillに分解
+3. **同じ機能を複数の場所に実装する**
+   - 漏れダブり禁止。既存Skillを確認すること。
 
-4. **testを削除せずに残す**
-   - 動作確認が完了したら、testから削除
-   - testにあるのは進行中のタスクだけ
+4. **testを削除せずに終了する**
+   - タスク完了時は必ずテストを一掃すること。
 
 5. **ドキュメントを書かない**
-   - 全てのskillとworkflowには、詳細なコメントを記載
-   - 事前準備、使い方、動作イメージを必ず書く
+   - 全てのSkillとFlowには詳細なコメントを記載すること。
 
 ---
 
@@ -439,10 +393,9 @@ await workflow_name(page, data)
 
 ### ✅ Phase 2: Test実験
 
-- [ ] testフォルダに実験用ファイルを作成した
+- [ ] testフォルダに実験用ファイルを作成した（命名規則遵守）
+- [ ] `WORKFLOW.yaml` にテストファイルを登録した
 - [ ] 使えるskillを併用した
-- [ ] 余計なものは作らなかった
-- [ ] 正式なloopや条件分岐は書かなかった
 - [ ] 動作確認が完了した
 
 ### ✅ Phase 3: Skill作成
@@ -456,10 +409,8 @@ await workflow_name(page, data)
 ### ✅ Phase 4: Workflow作成
 
 - [ ] skillが必要分揃っているか確認した
-- [ ] workflowファイルを作成した
-- [ ] 複雑な条件や照合可否をtestで確認した
-- [ ] 実際の動作はskillで完結している
-- [ ] workflow固有のものは作らなかった
+- [ ] flowファイルを作成した（`run(inputs)` 実装）
+- [ ] 実際の動作はskillで完結している（直書き禁止）
 - [ ] 冒頭に詳細なコメントを記載した
 
 ---
@@ -468,10 +419,11 @@ await workflow_name(page, data)
 
 **このフローを徹底することで:**
 
-1. ✅ **再利用性が高まる**: skillとworkflowは、他のプロジェクトでも使える
+1. ✅ **再利用性が高まる**: skillとflowは、他のプロジェクトでも使える
 2. ✅ **保守性が高まる**: 同じ機能が複数の場所にないので、修正が簡単
 3. ✅ **可読性が高まる**: 詳細なコメントがあるので、後から見てもわかる
 4. ✅ **テストが簡単**: 動作確認はtestで行い、本番コードはskillで完結
 5. ✅ **開発が速くなる**: 既存skillを組み合わせるだけで、新しい機能が作れる
 
 **全てのタスクは、この手順に従って進めてください。**
+
