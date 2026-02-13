@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { parseToon, type ToonData } from './utils/toonParser'
+import { TabelogTab } from './components/TabelogTab'
 import { Calendar, ChevronRight, Store, BarChart3, TrendingUp, Search, Info, PieChart } from 'lucide-react'
 import { buildToretaData } from './utils/toretaBuilder'
 import {
@@ -162,6 +163,18 @@ function App() {
     if (!data) return []
     return getYearMonthList(data.export_info.period.start, data.export_info.period.end)
   }, [data])
+
+  /* --------------------------------------------------------------------------------
+   * 🆕 State: 食べログ行ハイライト（タブ切り替えでも維持）
+   * -------------------------------------------------------------------------------- */
+  const [tabelogCheckedRows, setTabelogCheckedRows] = useState<Record<string, boolean>>({})
+
+  const toggleTabelogRow = (key: string) => {
+    setTabelogCheckedRows(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
 
   // 選択された店舗オブジェクトを特定するよ
   const selectedShop = useMemo(() => {
@@ -690,7 +703,7 @@ function App() {
                           ))}
 
                           {/* 1. ネット予約合計: Sticky at bottom-[64px] (Walk-in + Grand Totalの上) */}
-                          <tr className="sticky bottom-[64px] bg-blue-100 text-blue-950 border-t-2 border-b-2 border-blue-400 z-35 shadow-[0_-2px_10px_rgba(59,130,246,0.2)]">
+                          <tr className="sticky bottom-[64px] bg-blue-100 text-blue-950 border shadow-[2px_0_10px_-2px_rgba(0,0,0,0.2)]">
                             <td className="sticky left-0 bg-blue-100 px-3 py-2 text-left border-r-2 border-b-2 border-blue-400 z-10 shadow-[2px_0_10px_-2px_rgba(0,0,0,0.2)]">
                               <span className="text-[11px] font-black uppercase tracking-widest text-blue-900 underline decoration-blue-400 decoration-2">Reserve Total</span>
                             </td>
@@ -925,7 +938,17 @@ function App() {
                 </div>
               )}
 
-              {activeTab !== '売り上げ' && activeTab !== 'toreta' && (
+              {activeTab === '食べログ' && selectedShop && (
+                <TabelogTab
+                  selectedShop={selectedShop}
+                  startMonth={startMonth}
+                  endMonth={endMonth}
+                  checkedRows={tabelogCheckedRows}
+                  onToggleRow={toggleTabelogRow}
+                />
+              )}
+
+              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && (
                 <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
                   <div style={{ fontSize: '48px' }}>
                     {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}

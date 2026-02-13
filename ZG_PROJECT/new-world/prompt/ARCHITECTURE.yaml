@@ -56,3 +56,54 @@
   媒体名称の表示マッピング:
     - "システム内のキー名を表示用の日本語名に変換する"
     - "対応: tabelog -> 食べログ, hotpepper -> ホットペッパー, gurunavi -> ぐるなび, line -> LINE, conetto -> コネット"
+
+  媒体別分析（食べログ）:
+    データソース:
+      - "媒体データ: shop.media_data.tabelog[] — PV、プラン名、ネット予約数、従量課金情報"
+      - "トレタデータ: shop.toreta_data[] の media === '食べログ' 行 — トレタ経由の総予約数（ネット+ノート）"
+
+    PV計算:
+      - "店舗トップPV = pv_sp_top + pv_pc_top（SP版とPC版の合算）"
+      - "合計PV = pv_sp_total + pv_pc_total（SP版とPC版の合算）"
+
+    予約の分解:
+      - "予約件数（親行） = toreta_data[食べログ].reservation_count（ノート含む総数）"
+      - "内）web予約数 = tabelog.reservation_count_total（媒体のネット予約数）"
+      - "内）ノート組数 = max(0, 予約件数 - web予約数)"
+      - "予約人数（親行） = toreta_data[食べログ].guest_count（ノート含む総数）"
+      - "内）web予約人数 = tabelog.guest_count_total（媒体のネット予約人数）"
+      - "内）ノート人数 = max(0, 予約人数 - web予約人数)"
+
+    CVR計算:
+      - "CVR = web予約件数(tabelog.reservation_count_total) / 店舗トップPV × 100"
+      - "分子にトレタの予約件数を使わない理由: PVはweb閲覧数であり、対応する転換もweb予約でなければ指標として不正確になるため"
+      - "表示形式: 小数点第2位まで（例: 3.72%）"
+      - "店舗トップPVが0の月は '-' 表示"
+
+    費用計算:
+      - "費用合計 = base_cost + (unit_cost_lunch × guest_count_lunch) + (unit_cost_dinner × guest_count_dinner)"
+      - "ランチ/ディナー分離データがない場合: base_cost + (unit_cost_dinner × guest_count_total)"
+
+    客単価:
+      - "平均客単価 = (avg_price_lunch + avg_price_dinner) / 2"
+      - "理由: 食べログ経由の予約はランチ・ディナー両方を含むため、両方の平均を採用"
+
+    想定売上:
+      - "想定売上（web予約） = web予約人数(tabelog.guest_count_total) × 平均客単価"
+      - "想定売上（ノート） = ノート人数 × 平均客単価"
+      - "想定売上（合計） = web予約分 + ノート分"
+      - "web予約とノートを分離する理由: 媒体費用の効果測定にはweb予約の貢献を明確にする必要があるため"
+
+    利益額:
+      - "利益額 = (想定売上（合計）× 0.7) - 費用合計"
+      - "※ 0.3は原価とみなして控除する"
+      - "カラーリング: 0以上は緑、負は赤"
+
+    送客コスト:
+      - "送客コスト/人 = Math.floor(費用合計 / web予約人数)"
+      - "分母にweb予約人数を使う理由: 費用はweb予約の仕組みに対して支払っているため"
+      - "web予約人数が0の月は '-' 表示"
+
+    合計列:
+      - "月別の合計/平均列は設けない"
+      - "理由: 期間合計のPVやCVR平均は実務上の意味が薄く、月次推移の把握が本テーブルの目的であるため"

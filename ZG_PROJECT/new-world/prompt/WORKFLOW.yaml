@@ -4,11 +4,11 @@ workflow:
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - Toreta 予約経路分析タブの完全実装（テーブル ＆ 100%積み上げ棒グラフ）。📊✨
-    - 指標切り替えトグルを実装し、「組数 (Groups)」と「人数 (Guests)」を瞬時に切り替え可能に。�
-    - ユーザー要望により、デフォルト表示指標を「人数 (Guests)」に設定。🚀
-    - グラフ詳細を外部パネル化し、ホバーでリアルタイム更新される「Reserve Total」バッジを追加。�
-    - テーブルの視認性向上：gray-300ボーダーの強調、スクロールバー被り防止のpr-12パディング実装。�
+    - Tabelogタブ：行ハイライト機能の実装（state persisted in App.tsx）。✨
+    - Sticky列の背景色透過問題を修正（不透明色 #ffffff / #fed7aa を適用）。
+    - 利益額ロジックの変更：「(売上 * 0.7) - 費用」で原価30%を考慮するように修正。
+    - UI改善：ハイライト色を統一し、利益額ラベルに「(想定原価30%引)」を追記。
+    - ドキュメント更新：ARCHITECTURE.yaml に利益ロジックを反映。
   ステータス:
   完了した機能:
     - "Universal Toon 解析エンジン"
@@ -44,12 +44,18 @@ workflow:
       - phase: 2-3
         name: "店舗詳細：toretaタブ 実装完了（構成比グラフ・詳細テーブル・指標トグル）"
         completed_at: "2026-02-14"
+      - phase: 2-4
+        name: "店舗詳細：食べログタブ 実装完了（コンポーネント分割・ネット/ノート分離）"
+        completed_at: "2026-02-14"
+      - phase: 2-5
+        name: "店舗詳細：食べログタブ 機能強化（行ハイライト・Persistence・利益ロジック更新）"
+        completed_at: "2026-02-14"
 
     next_tasks:
-      - id: "T008"
-        description: "店舗詳細：各媒体セクションのコンテンツ実装（食べログ等）"
-      - id: "T009"
-        description: "全店舗サマリー表示の実装"
+      - id: "T009-1"
+        description: "店舗詳細：食べログタブ グラフ実装（要件定義から開始）"
+      - id: "T009-2"
+        description: "店舗詳細：ホットペッパータブの実装"
 
   decisions:
     adopted:
@@ -106,11 +112,24 @@ workflow:
         date: "2026-02-14"
         decision: "Toretaセクション全体に表示指標トグル（組数/人数）を導入し、デフォルトを人数にする"
         reason: "ビジネスインパクトの大きい人数ベースの分析をデフォルトにしつつ、組数でも深掘りできるようにするため"
+      - id: "D017"
+        date: "2026-02-14"
+        decision: "食べログの行ハイライト状態を App.tsx にリフトアップして管理する"
+        reason: "タブを切り替えても選択状態（ハイライト）を維持するため"
+      - id: "D018"
+        date: "2026-02-14"
+        decision: "利益額の算出ロジックを `(売上 * 0.7) - 費用` に変更する"
+        reason: "売上の30%を原価として控除し、より実態に近い利益指標を表示するため"
+      - id: "D019"
+        date: "2026-02-14"
+        decision: "Sticky列（固定列）の背景色には必ず不透明色（#ffffff/#fed7aa）を使用する"
+        reason: "透過背景だとスクロール時に背面の文字が透けて重なり、可読性が著しく低下するため"
 
   file_structure:
     created:
       - "src/utils/toonParser.ts"
       - "src/utils/toretaBuilder.ts"
+      - "src/components/TabelogTab.tsx"
     to_create:
       - "src/components/ShopDetail.tsx"
       - "src/components/Summary.tsx"
