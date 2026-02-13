@@ -70,9 +70,10 @@ async def setup_headings(page: Page, headings: list):
     print("✅ [SKILL] iframe 'sb-player' に切り替え完了！")
     
     # 🆕 入力フィールドが確実に表示されるまで待つ（iframe内で！）
-    # b-log完全トレース: drinkName0, drinkName1, drinkName2, ... という ID
-    input_selector = "input[type='text'][id^='drinkName']"
-    print(f"🔍 [SKILL] 入力フィールドを探索中... ({input_selector})（iframe内）")
+    # b-log完全トレース: 最初の入力欄 (#drinkName0) が表示されればOK！
+    # 以前は id^='drinkName' で全要素（99個!?）を待っていたためタイムアウトしていた可能性あり
+    input_selector = "#drinkName0"
+    print(f"🔍 [SKILL] 最初の入力フィールドを探索中... ({input_selector})（iframe内）")
     
     try:
         await iframe.wait_for_selector(input_selector, state="visible", timeout=10000)
@@ -87,50 +88,49 @@ async def setup_headings(page: Page, headings: list):
     print(f"📊 [SKILL] {num_headings} 個のカテゴリを設定するよ！（iframe内）")
     
     # 🆕 必要な行数を確保（visible な行が足りなければ追加）
-    if num_headings > 0:
-        print(f"🔍 [SKILL] visible な行数を確認中...")
+    print(f"🔍 [SKILL] visible な行数を確認中...")
+    
+    # visible な行数をカウント
+    visible_count = 0
+    for i in range(25):  # 最大25行まで確認
+        try:
+            field_id = f"#drinkName{i}"
+            if await iframe.locator(field_id).is_visible(timeout=500):
+                visible_count += 1
+            else:
+                break  # 非表示になったら終了
+        except:
+            break
+    
+    print(f"📊 [SKILL] 現在の visible 行数: {visible_count}")
+    print(f"📊 [SKILL] 必要な行数: {num_headings}")
+    
+    # 足りない場合は追加（num_headings > 0 かつ足りない場合のみ）
+    if num_headings > 0 and visible_count < num_headings:
+        add_count = num_headings - visible_count
+        print(f"➕ [SKILL] {add_count} 行追加するよ！")
         
-        # visible な行数をカウント
-        visible_count = 0
-        for i in range(25):  # 最大25行まで確認
+        # 追加ボタンをクリック
+        add_button = iframe.locator("a:has-text('追加')")
+        
+        for i in range(add_count):
             try:
-                field_id = f"#drinkName{i}"
-                if await iframe.locator(field_id).is_visible(timeout=500):
-                    visible_count += 1
+                if await add_button.is_visible(timeout=1000):
+                    await add_button.click()
+                    await page.wait_for_timeout(500)  # DOM更新を待つ
+                    print(f"✅ [SKILL] {i+1} 行目を追加")
                 else:
-                    break  # 非表示になったら終了
-            except:
+                    print(f"⚠️ [SKILL] 追加ボタンが見つからない（{i+1}行目）")
+                    break
+            except Exception as e:
+                print(f"⚠️ [SKILL] {i+1} 行目の追加でエラー: {e}")
                 break
         
-        print(f"📊 [SKILL] 現在の visible 行数: {visible_count}")
-        print(f"📊 [SKILL] 必要な行数: {num_headings}")
-        
-        # 足りない場合は追加
-        if visible_count < num_headings:
-            add_count = num_headings - visible_count
-            print(f"➕ [SKILL] {add_count} 行追加するよ！")
-            
-            # 追加ボタンをクリック
-            add_button = iframe.locator("a:has-text('追加')")
-            
-            for i in range(add_count):
-                try:
-                    if await add_button.is_visible(timeout=1000):
-                        await add_button.click()
-                        await page.wait_for_timeout(500)  # DOM更新を待つ
-                        print(f"✅ [SKILL] {i+1} 行目を追加")
-                    else:
-                        print(f"⚠️ [SKILL] 追加ボタンが見つからない（{i+1}行目）")
-                        break
-                except Exception as e:
-                    print(f"⚠️ [SKILL] {i+1} 行目の追加でエラー: {e}")
-                    break
-            
-            print(f"✅ [SKILL] 行追加完了！")
-    
+        print(f"✅ [SKILL] 行追加完了！")
+
     # 🆕 b-logの実際の操作を完全再現:
-    # 1. 既存のカテゴリを空にする（必要な分だけ）
-    for i in range(num_headings):
+    # 1. 既存の全行をクリア（visible_count 分すべてを空にする）
+    for i in range(visible_count):
         try:
             field_id = f"#drinkName{i}"
             # b-log: クリック → 全選択（Cmd+A） → Backspace → 空文字入力
@@ -142,7 +142,7 @@ async def setup_headings(page: Page, headings: list):
         except Exception as e:
             print(f"⚠️ [SKILL] カテゴリー {i} のクリアでエラー: {e}")
     
-    print("✅ [SKILL] 既存のカテゴリーをクリア完了！（iframe内）")
+    print(f"✅ [SKILL] 既存のカテゴリー {visible_count} 件をクリア完了！（iframe内）")
     
     # 2. 新しい値を入力（必要な分だけ）
     for i, title in enumerate(headings):

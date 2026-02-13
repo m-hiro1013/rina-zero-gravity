@@ -27,16 +27,22 @@ async def update_drink_item(page: Union[Page, Frame], index: int, name: str = No
     if price is not None:
         if price in ["", "空白", "."]:
             print(f"🔗 [SKILL] 価格にドット回避を適用します")
-            # b-log完全再現：ラジオボタンを name 属性で特定してクリック
-            radio_button = page.locator(f"input[name='frmDrinkMenuDtoList[{index}].drinkPriceKbn'].jscTxtInput")
-            await radio_button.click()
-            await page.wait_for_timeout(500)  # ラジオボタンクリック後の待機
+            # 🆕 ユーザー提供データに基づき、'標準' (value="1") のラジオボタンを明示的にクリック
+            standard_radio = page.locator(f"input[name='frmDrinkMenuDtoList[{index}].drinkPriceKbn'][value='1']")
+            await standard_radio.click()
+            await page.wait_for_timeout(300)
             
             # ドット回避の場合は price フィールドに直接入力
             price_field = page.locator(f"#drinkPrice{index}")
             await price_field.click()
             await price_field.fill(".")
         else:
+            # 🆕 ユーザー提供データに基づき、'数値価格' (value="0") のラジオボタンを明示的にクリック
+            # これをしないと、新規追加行などでフィールドが disabled になってエラーになる！🚨
+            price_radio = page.locator(f"input[name='frmDrinkMenuDtoList[{index}].drinkPriceKbn'][value='0']")
+            await price_radio.click()
+            await page.wait_for_timeout(300)
+
             # 通常価格の場合は priceNumber フィールドに入力
             price_number_field = page.locator(f"#drinkPriceNumber{index}")
             await price_number_field.click()
@@ -111,11 +117,10 @@ async def count_rows_per_category(page: Union[Page, Frame], num_categories: int)
         
         # ボタンの親要素（テーブル）を取得
         # 追加ボタンは table > tbody > tr > td > div > a の構造なので、
-        # 6階層上がると table になる
-        parent_table = page.locator(f"a:has-text('メニューを追加する')").nth(button_index).locator("xpath=ancestor::table[1]")
-        
-        # このテーブル内の drinkName フィールドをカウント
-        name_fields_in_table = parent_table.locator("textarea[id^='drinkName']")
+        # XPath ancestor で最も近い table を取得する
+        parent_table = button.locator("xpath=ancestor::table[1]")
+        # このテーブル内の drinkName フィールドをカウント（表示されているものだけ！）
+        name_fields_in_table = parent_table.locator("textarea[id^='drinkName']").and_(page.locator(":visible"))
         count = await name_fields_in_table.count()
         
         rows_per_category[cat_idx] = count
@@ -123,6 +128,50 @@ async def count_rows_per_category(page: Union[Page, Frame], num_categories: int)
     
     print(f"✅ [SKILL] カウント完了: {rows_per_category}")
     return rows_per_category
+
+async def get_drink_indices_per_category(page: Union[Page, Frame], num_categories: int) -> dict:
+    """
+    カテゴリーごとに現在割り当てられている行インデックス（drinkName の番号）を取得する
+    
+    Returns:
+        {0: [1, 2], 1: [3, 4]} のような辞書（カテゴリーインデックス: [行インデックス, ...]）
+    """
+    print("🔍 [SKILL] カテゴリー別の行インデックスを抽出中...")
+    indices_per_category = {}
+    
+    # 追加ボタンを全て取得
+    add_buttons = await page.locator("a:has-text('メニューを追加する')").all()
+    
+    for cat_idx in range(num_categories):
+        # 🆕 ユーザールール: カテゴリー0（分類未設定）は無視、1からが対象
+        # 内部インデックス cat_idx (0, 1...) に対して、
+        # 画面上のボタンインデックスは 1:ビール(btn 1), 2:カクテル(btn 2)... となる
+        button_index = cat_idx + 1
+        
+        if button_index >= len(add_buttons):
+            indices_per_category[cat_idx] = []
+            continue
+            
+        button = add_buttons[button_index]
+        parent_table = button.locator("xpath=ancestor::table[1]")
+        
+        # このテーブル内の drinkName フィールドを取得（表示されているものだけ！）
+        textareas = await parent_table.locator("textarea[id^='drinkName']").and_(page.locator(":visible")).all()
+        indices = []
+        for ta in textareas:
+            id_attr = await ta.get_attribute("id")
+            if id_attr:
+                try:
+                    idx = int(id_attr.replace("drinkName", ""))
+                    if idx != 0: # index 0 はテンプレート
+                        indices.append(idx)
+                except: pass
+        
+        indices.sort()
+        indices_per_category[cat_idx] = indices
+        print(f"📊 [SKILL] カテゴリー {cat_idx} (画面ボタン {button_index}) のインデックス: {indices}")
+        
+    return indices_per_category
 
 async def ensure_rows_for_categories(page: Union[Page, Frame], required_rows: dict):
     """
@@ -177,16 +226,62 @@ async def save_drink_draft(page: Page):
     iframe = page.frame(name="sb-player")
     target = iframe if iframe else page
     
-    save_btn = target.locator("input.tabindex2031, input[value='下書き保存する']").first
-    await save_btn.click(force=True)
+    save_found = False
+    
+    # 📝 莉奈の「本気ボタン」優先リスト（b-logの実績データを最優先！）
+    selectors = [
+        "input.tabindex2103[value='下書き保存する']", # 🆕 b-logで確認された「正解」！
+        "input[value='下書き保存する']",
+        "input[value*='下書き保存']",
+        # 以下バックアップ
+        "input.tabindex2031[value='下書き保存する']",
+        "input.tabindex142[value='下書き保存する']",
+        "input[type='submit'][value*='保存']",
+        "input[value*='登録']",
+        "a:has-text('保存')"
+    ]
+    
+    # 🆕 保存ボタンが表示されるまで待つ（最大10秒）
+    for sel in selectors:
+        try:
+            target_btn = target.locator(sel).first
+            
+            # 🆕 visibility チェック
+            if await target_btn.is_visible(timeout=3000):
+                print(f"🎯 [SKILL] 本命ボタン発見！ ({sel}) をクリックするよ✨")
+                await page.wait_for_timeout(500)
+                await target_btn.click(force=True)
+                save_found = True
+                break
+        except Exception:
+            continue
+            
+    if not save_found:
+        print("😱 [SKILL] 保存ボタンがみつからない…！緊急停止！")
+        # 最後の手段：汎用的な input[type=submit] を探す
+        try:
+            fallback = target.locator("input[type='submit']").first
+            if await fallback.is_visible(timeout=3000):
+                print("🆘 [SKILL] 最後の手段で input[type='submit'] を押すよ！")
+                await fallback.click(force=True)
+                save_found = True
+        except: pass
+
+    if not save_found:
+        await page.pause()
     
     print("⏳ [SKILL] 保存後の挙動を待機中（モーダル or URL変化）...")
     
+    # 🚨 パターン分岐: 削除があった場合のみ確認モーダルが出る
+    # b-log: jscAlertModalOkBtn が出現
     try:
+        # モーダルが出るまで少し待つ（出ない場合はtimeoutでスルー）
         ok_btn = page.locator("a.jscAlertModalOkBtn:has-text('OK')").first
         if await ok_btn.is_visible(timeout=3000):
-            print("🎯 [SKILL] 確認モーダル発見！OKを押すよ。")
+            print("🎯 [SKILL] 削除確認モーダルが出たよ！OKを押すね。")
             await ok_btn.click(force=True)
+        else:
+            print("ℹ️ [SKILL] 確認モーダルは出なかったよ（削除なしパターン）。")
     except: pass
         
     try:
@@ -230,8 +325,9 @@ async def get_existing_drink_indices(page: Union[Page, Frame]) -> list[int]:
     """
     print("🔢 [SKILL] 既存のドリンク行インデックスを取得中...")
     
-    # textarea[id^='drinkName'] を全取得
-    textareas = await page.locator("textarea[id^='drinkName']").all()
+    # textarea[id^='drinkName'] を全取得（表示されているものだけ！）
+    # 🚨 掟: index 0 はテンプレート（非表示）なので絶対に拾わない！
+    textareas = await page.locator("textarea[id^='drinkName']").and_(page.locator(":visible")).all()
     indices = []
     
     for ta in textareas:
@@ -240,6 +336,10 @@ async def get_existing_drink_indices(page: Union[Page, Frame]) -> list[int]:
             # "drinkName5" -> 5
             try:
                 idx = int(id_attr.replace("drinkName", ""))
+                # 🚫 index 0 は物理的に除外（隠し要素対策）
+                if idx == 0:
+                    print("⚠️ [SKILL] index 0 を検知したけど、掟に従ってスキップするよ！🚫")
+                    continue
                 indices.append(idx)
             except ValueError:
                 pass

@@ -12,10 +12,15 @@ workflow:
     - テストライフサイクル管理の導入 (Phase 5)
     - RPA.app のパス問題を解決し再構築
     
+    【今回のセッションでやったこと】
+    - ドリンクメニューのカテゴリー/インデックス不一致問題を解決。カテゴリーごとのテーブル内でのインデックス抽出ロジック（Isolated Indexing）を実装。
+    - 価格入力時の `Locator.click: Timeout` エラーを解決。b-log データを元に、入力前に適切なラジオボタン（数値価格 vs 標準）を自動選択するロジックを実装。
+    - インデックス解析ツール `inspect_drink_indices.py` を作成し、画面上の実数値を可視化。
+    - ユーザールール（カテゴリー0無視、1から対象）の徹底遵守。
+    
     【次にやること】
-    - 実運用フェーズでの安定稼働確認
-    - 他のメニュー種別への展開検討
-    - コース更新フローのスキル分離 (TODO)
+    - 他メニュー（コース、料理等）へのカテゴリー別インデックス方式の横展開。
+    - 実運用データのさらなる投入テスト。
 
   progress:
     current_phase:
@@ -24,8 +29,8 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "実運用フェーズでの安定稼働確認"
-      started_at: "2026-02-13T15:20:00"
+      description: "カテゴリー別インデックス方式の安定稼働確認"
+      started_at: "2026-02-13T17:30:00"
     
     completed_phases:
       - phase: 0
@@ -109,6 +114,18 @@ workflow:
         status: "done"
         completed_at: "2026-02-13T15:20:00"
         note: "スキル/フロー分離、テスト整理、ドキュメント同期を完遂。App起動問題も解決。"
+        cleaned: true
+      - id: "T025_INDEX_FIX"
+        description: "カテゴリー/インデックス不一致問題の根本解決"
+        status: "done"
+        completed_at: "2026-02-13T17:35:00"
+        note: "カテゴリーごとのテーブル内アイソレーションを実装。インデックス解析ツール完備。💅💎"
+        cleaned: true
+      - id: "T026_RADIO_FIX"
+        description: "価格入力時の disabled 解除（ラジオボタン自動選択）"
+        status: "done"
+        completed_at: "2026-02-13T17:35:00"
+        note: "b-logに基づき、数値価格(0)と標準(1)を適切に切り替え。Timeoutエラーを根絶！✨"
         cleaned: true
 
   decisions:
@@ -197,6 +214,14 @@ workflow:
         date: "2026-02-13"
         decision: "start_ui.command を python3 -m streamlit で実行するように変更"
         reason: "Desktop App起動時のPATH環境変数問題を回避するため。"
+      - id: "D033"
+        date: "2026-02-13"
+        decision: "カテゴリー別インデックス・アイソレーション方式の採用"
+        reason: "ページ全体からインデックスを取ると、カテゴリーの境界でズレが生じるため。各テーブル内を独立してスキャンするのが最も確実。"
+      - id: "D034"
+        date: "2026-02-13"
+        decision: "価格入力前のラジオボタン自動選択"
+        reason: "ホットペッパーの仕様上、適切なラジオボタンを選択しないと入力欄が disabled になり Timeout するため。"
 
   file_structure:
     created:
