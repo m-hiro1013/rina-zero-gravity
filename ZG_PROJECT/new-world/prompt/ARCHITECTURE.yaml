@@ -1,23 +1,58 @@
-architecture:
-  style: "Modern Single Page Application"
-  frontend: "React (TypeScript)"
-  styling: "Tailwind CSS"
+アーキテクチャ:
+  スタイル: "モダンなシングルページアプリケーション (SPA)"
+  フロントエンド: "React (TypeScript)"
+  スタイリング: "Tailwind CSS"
 
-parsing_engine:
-  name: "Universal ToonParser"
-  design: "Context-aware greedy parser"
-  features:
-    - "Dynamic Table Resolution: 解析中にヘッダーと行数を動的に読み取り、型定義なしで新規データの取り込みが可能"
-    - "Hierarchical Store: 店舗 (shops) およびメディア詳細 (media_data) を階層的にオブジェクト化"
-    - "Data Path Resolution: React 側でのパス指定（shop.media_data.path.to.item）による直感的なデータアクセスの実現"
+解析エンジン:
+  名称: "Universal ToonParser"
+  設計: "文脈を考慮した欲張り（greedy）パーサー"
+  機能:
+    - "動的テーブル解決: 解析中にヘッダーと行数を動的に読み取り、型定義なしで新規データの取り込みが可能"
+    - "階層構造による保存: 店舗 (shops) およびメディア詳細 (media_data) を階層的にオブジェクト化"
+    - "データパス解決: React 側でのパス指定（shop.media_data.媒体名）による直感的なデータアクセスの実現"
 
-data_flow:
-  - "public/toon.txt -> fetch(URL) -> parseToon() -> React State -> Selected Store Components"
+データフロー:
+  - "public/toon.txt -> fetch(URL) -> parseToon() -> React State -> 選択された店舗コンポーネント"
 
-status:
-  completed_features:
-    - "Universal Toon Parsing Engine"
-    - "Store Navigation & Selection"
-  pending_features:
-    - "Integrated Visualizations (Recharts)"
-    - "Single-file Single-Page Export logic"
+ステータス:
+  完了した機能:
+    - "Universal Toon 解析エンジン"
+    - "店舗ナビゲーションと選択"
+    - "「売り上げ」タブ：税込計算およびウォークインの除外"
+    - "店舗詳細：直近のプラン変更検出（過去6ヶ月分）"
+  未完了の機能:
+    - "グラフ・可視化機能（Recharts）"
+    - "1ファイル構成によるHTMLエクスポート機能"
+
+ビジネスロジック:
+  売上計算:
+    - "売上金額は税込で表示（税抜金額に 1.1 を掛ける）"
+    - "計算式: Math.round(税抜売上 * 1.1)"
+    - "定数 TAX_RATE (1.1) を使用"
+
+  予約指標 (予約組数・人数):
+    - "純粋なネット予約データとして算出するため、来店経路から「ウォークイン」を除外する"
+    - "計算式: トレタ合計データ - ウォークインデータ"
+    - "対象: 予約組数 (reservation_count) および 予約人数 (guest_count)"
+
+  前年同月比 (YoY):
+    - "計算対象: 税込売上、ネット予約組数、ネット予約人数"
+    - "算出式: (当月値 / 前年同月値) * 100"
+    - "表示形式: 小数点第1位まで表示（例: 105.2%）"
+    - "カラーリング: 100%以上は緑 (#10b981)、100%未満は赤 (#ef4444) で強調表示"
+    - "合計行には YoY を表示せず '-' とする"
+
+    - [x] 対象: shop.media_data 内の各媒体の `plan_name` の変化
+    - [x] 除外ノイズ: `ad_cost_data` はプラン名ではない広告費項目のため、検出対象から除外する
+    - [x] 期間: ユーザーが選択した「終了月」から遡って 6ヶ月間を対象とする
+    - [x] 表示: 旧プラン名と新プラン名を時系列でリスト表示
+    - [x] 費用表示: プラン名に加え、月額費用（`base_cost`）を併記する
+    - [x] フィルタリング: `plan_name` が `null` の行は無視される（プランの契約開始/終了そのものは検出せず、名称の変更のみを追う仕様）
+
+  レポート期間の自動設定:
+    - "初期表示: データの最新月（endMonth）と、その11ヶ月前（最新含めて1年前）をデフォルト期間とする"
+    - "下限ガード: 計算された開始月がデータの開始月（startMonth）より前の場合は、データの開始月を優先する"
+
+  媒体名称の表示マッピング:
+    - "システム内のキー名を表示用の日本語名に変換する"
+    - "対応: tabelog -> 食べログ, hotpepper -> ホットペッパー, gurunavi -> ぐるなび, line -> LINE, conetto -> コネット"

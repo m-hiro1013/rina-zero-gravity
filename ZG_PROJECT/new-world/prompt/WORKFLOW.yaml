@@ -1,26 +1,33 @@
 workflow:
   version: "1.1.0"
-  last_updated: "2026-02-10T11:25:00+09:00"
+  last_updated: "2026-02-14T03:50:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - 店舗詳細ページに横並びのタブナビゲーション（売り上げ, toreta, 食べログ等）を実装。✨🆕
-    - タブの切り替え状態を管理し、コンテンツが切り替わる骨組み（Skeleton）を構築。
-    - メインヘッダーとタブ部分を sticky (固定) にし、スクロール時の利便性を向上。
-    
-    【次にやること】
-    - Phase 2: 各タブの具体的なコンテンツ実装。
-    - まずは「売り上げ」タブの「売上・予約推移テーブル」の実装から着手。
-    - 次に toreta データの詳細（予約経路等）を実装。
+    - Recharts 100%積み上げ棒グラフによる予約経路構成比の可視化を実装。📊✨
+    - グラフ詳細パネル（外部パネル）を実装し、ホバーに合わせてリアルタイムに詳細数値を表示。💅
+    - テーブルの視認性爆上げ改修：gray-300境界線の強調、pr-12によるスクロールバーの完全分離。💎
+    - 「Reserve Total」行を拡張し、全体に対するネット予約比率（%）を計算・表示するように変更。🚀
+    ステータス:
+  完了した機能:
+    - "Universal Toon 解析エンジン"
+    - "店舗ナビゲーションと選択"
+    - "「売り上げ」タブ：税込計算およびウォークインの除外"
+    - "店舗詳細：直近のプラン変更検出（過去6ヶ月分）"
+    - "toretaタブ：構成比テーブルと100%積み上げ棒グラフの実装"
+  未完了の機能:
+    - "個別媒体セクション（食べログ・ホットペッパー等）の詳細コンテンツ"
+    - "1ファイル構成によるHTMLエクスポート機能"
+の検討。
 
   progress:
     current_phase:
       number: 2
-      name: "Toon 解析基盤の実装"
+      name: "店舗詳細の実装"
       status: "in_progress"
     
     current_task:
-      description: "店舗詳細：各セクション（タブ）の実装"
+      description: "店舗詳細：各媒体セクションのコンテンツ実装"
       started_at: "2026-02-10"
     
     completed_phases:
@@ -30,12 +37,18 @@ workflow:
       - phase: 2-1
         name: "店舗詳細：売上・予約推移テーブル実装"
         completed_at: "2026-02-10"
+      - phase: 2-2
+        name: "店舗詳細：売上・予約推移テーブル改修（税込・YoY・プラン変更）"
+        completed_at: "2026-02-14"
+      - phase: 2-3
+        name: "店舗詳細：toretaタブ 実装完了（構成比グラフ・詳細テーブル）"
+        completed_at: "2026-02-14"
 
     next_tasks:
-      - id: "T006"
-        description: "店舗詳細：月次推移グラフ（Recharts）の実装"
       - id: "T008"
-        description: "店舗詳細：toreta/各媒体セクションのコンテンツ実装"
+        description: "店舗詳細：各媒体セクションのコンテンツ実装（食べログ等）"
+      - id: "T009"
+        description: "全店舗サマリー表示の実装"
 
   decisions:
     adopted:
@@ -63,21 +76,36 @@ workflow:
         date: "2026-02-10"
         decision: "店舗詳細に媒体別の横並びタブナビゲーションを設置する"
         reason: "情報量が多いダッシュボードで、ユーザーが表示したい情報を素早く切り替えられるようにするため"
-
-  features:
-    in_progress:
-      - id: "F002"
-        name: "店舗詳細レポート表示"
-        status: "in_progress"
-    
-    planned:
-      - id: "F003"
-        name: "全店舗サマリー表示"
-        status: "pending"
+      - id: "D009"
+      - id: "D010"
+        date: "2026-02-14"
+        decision: "構成比の分母はネット予約合計（合計 − ウォークイン）"
+        reason: "sample.htmlの数値と一致。ネット予約の経路構成を見るのが目的"
+      - id: "D011"
+        date: "2026-02-14"
+        decision: "ウォークイン行をテーブル内に表示（合計行の上、グレー背景）"
+        reason: "ウォークイン比率も経営指標として重要。一画面で完結させる"
+      - id: "D012"
+        date: "2026-02-14"
+        decision: "新規タブはTailwind CSSで実装、既存タブのインラインスタイルは触らない"
+        reason: "スコープ・ロック遵守。新規コードから段階的にTailwind移行"
+      - id: "D013"
+        date: "2026-02-14"
+        decision: "タブごとにデータ加工ユーティリティを分離（toretaBuilder.ts等）"
+        reason: "タブ = ファイルの1対1対応で責務を明確化"
+      - id: "D014"
+        date: "2026-02-14"
+        decision: "大規模テーブルのスクロールバー対策として pr-12 以上の特大パディングを確保"
+        reason: "スクロールバー（インジケーター）がデータ数値と被るのを物理的に不可能にするため"
+      - id: "D015"
+        date: "2026-02-14"
+        decision: "グラフ詳細は Recharts Tooltip を使わず、外部の専用 React コンポーネントに逃がす"
+        reason: "狭いキャンバスにグラフを押し込めているため、Tooltip が画面外に消えたりグラフを隠したりするのを防ぐため"
 
   file_structure:
     created:
       - "src/utils/toonParser.ts"
+      - "src/utils/toretaBuilder.ts"
     to_create:
       - "src/components/ShopDetail.tsx"
       - "src/components/Summary.tsx"
@@ -88,3 +116,4 @@ workflow:
     - "toon.txt のデータは YYYYMM 形式だが、JS側で数値として認識される場合があるため型変換に注意。"
     - "Tailwind v4 の @import 構文は Vite プラグインがないと PostCSS でエラーになる。"
     - "タブ切り替え時のコンテンツ位置がズレないよう、sticky ヘッダーの高さを考慮する。"
+    - "ResponsiveContainer を使う際は親要素に必ず具体的な高さ (h-[320px] 等) が必要。"

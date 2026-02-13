@@ -1,7 +1,7 @@
 export_info:
   type: s-tock_aggregated_summary
-  exported_at: "2026-02-09T15:01:26.361Z"
-  exported_at_jst: "2026/02/10 00:01:26"
+  exported_at: "2026-02-13T16:07:01.661Z"
+  exported_at_jst: "2026/02/14 01:07:01"
   period:
     start: "202404"
     end: "202601"
@@ -13,18 +13,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",7055064
+      "202405",7357249
+      "202406",7265534
+      "202407",7966980
+      "202408",7199579
+      "202409",7063206
+      "202410",7149083
+      "202411",6916065
+      "202412",7831786
+      "202501",6880109
+      "202502",6182179
+      "202503",7716106
       "202504",7023918
       "202505",7589092
       "202506",7567185
@@ -34,8 +34,8 @@ shops[22]:
       "202510",7065683
       "202511",6675520
       "202512",8267818
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",7402059
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -237,6 +237,20 @@ shops[22]:
       "202512",合計,841,1895
       "202512",食べログ,242,645
       "202512",電話,123,347
+      "202601",Googleで予約,48,120
+      "202601",Google検索,1,2
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,418,774
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,0,0
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,0,0
+      "202601",一休,0,0
+      "202601",合計,786,1723
+      "202601",食べログ,218,569
+      "202601",電話,101,258
     media_data:
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,373.2,30,115,269,0,0,0,0,0,30
@@ -283,7 +297,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,4706,12018,547,1346,0,0,158,0,0,394
         "202511",旧ベーシック,25000,null,0,0,4678,12046,541,1221,0,0,151,0,0,382
         "202512",旧ベーシック,25000,null,0,0,5437,13613,585,1426,0,0,220,0,0,589
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,5601,14175,719,1632,0,0,161,0,0,453
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -345,18 +359,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",7805110
+      "202405",8997192
+      "202406",8518009
+      "202407",8662522
+      "202408",7811363
+      "202409",8316330
+      "202410",7838055
+      "202411",7646109
+      "202412",9450363
+      "202501",6662766
+      "202502",6756893
+      "202503",8382376
       "202504",8191336
       "202505",9214665
       "202506",9001794
@@ -366,8 +380,8 @@ shops[22]:
       "202510",7979147
       "202511",7845112
       "202512",9417690
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",7700693
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -569,6 +583,20 @@ shops[22]:
       "202512",合計,990,2499
       "202512",食べログ,234,620
       "202512",電話,136,480
+      "202601",Googleで予約,38,84
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,376,756
+      "202601",かんたんネット予約,1,2
+      "202601",ぐるなび,20,48
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,130,360
+      "202601",一休,0,0
+      "202601",合計,859,2103
+      "202601",食べログ,200,556
+      "202601",電話,94,297
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -615,7 +643,7 @@ shops[22]:
         "202510",SSプラン【価格2】,60000,null,10,50,1954,4742,650,1208,0,0,204,0,0,415
         "202511",SSプラン【価格2】,60000,null,10,50,1736,3987,510,1369,0,0,172,0,0,440
         "202512",SSプラン【価格2】,60000,null,10,50,1390,3222,438,1032,0,0,122,0,0,451
-        "202601",SSプラン【価格2】,60000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプラン【価格2】,60000,null,10,50,2446,5541,736,1729,0,0,209,0,0,346
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -638,7 +666,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,5592,14633,687,1561,0,0,145,0,0,410
         "202511",旧ベーシック,25000,null,0,0,5809,14806,710,1784,0,0,172,0,0,432
         "202512",旧ベーシック,25000,null,0,0,6116,15303,709,1740,0,0,192,0,0,518
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,8334,24354,908,2247,91,85,176,296,273,569
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -700,18 +728,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",6288646
+      "202405",7358969
+      "202406",6938644
+      "202407",6856924
+      "202408",6799710
+      "202409",6850211
+      "202410",6282393
+      "202411",5876917
+      "202412",7766953
+      "202501",6355590
+      "202502",5570715
+      "202503",6910251
       "202504",6195647
       "202505",7363053
       "202506",6556041
@@ -721,8 +749,8 @@ shops[22]:
       "202510",6384973
       "202511",6218724
       "202512",7680146
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",5977255
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -924,6 +952,20 @@ shops[22]:
       "202512",合計,785,1976
       "202512",食べログ,142,404
       "202512",電話,127,423
+      "202601",Googleで予約,24,64
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,380,756
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,19,48
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,64,153
+      "202601",一休,0,0
+      "202601",合計,683,1577
+      "202601",食べログ,124,352
+      "202601",電話,72,204
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -970,7 +1012,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,744,1861,290,623,0,0,101,0,0,206
         "202511",ネット予約プラン,0,null,50,150,665,1882,261,692,0,0,82,0,0,175
         "202512",ネット予約プラン,0,null,50,150,582,1489,237,669,0,0,58,0,0,262
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,1025,2665,385,875,0,0,107,0,0,153
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -993,7 +1035,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,3412,9220,512,1270,0,0,104,0,0,284
         "202511",旧ベーシック,25000,null,0,0,3488,9470,572,1494,0,0,96,0,0,280
         "202512",旧ベーシック,25000,null,0,0,3883,9773,561,1255,0,0,127,0,0,362
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,4927,13034,522,1273,0,0,195,0,0,510
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -1055,18 +1097,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",6557402
+      "202405",7296319
+      "202406",6734808
+      "202407",6684566
+      "202408",6124048
+      "202409",6068156
+      "202410",6462946
+      "202411",6164914
+      "202412",7238488
+      "202501",5687162
+      "202502",5107504
+      "202503",6736014
       "202504",6036066
       "202505",6257444
       "202506",6490469
@@ -1076,8 +1118,8 @@ shops[22]:
       "202510",6273755
       "202511",5971809
       "202512",6518022
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",5387139
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -1279,6 +1321,20 @@ shops[22]:
       "202512",合計,682,1787
       "202512",食べログ,105,340
       "202512",電話,50,199
+      "202601",Googleで予約,12,35
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,378,852
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,5,16
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,39,127
+      "202601",一休,0,0
+      "202601",合計,559,1450
+      "202601",食べログ,89,295
+      "202601",電話,36,125
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,347,1046,635,1064,0,0,26,0,0,61
@@ -1302,7 +1358,7 @@ shops[22]:
         "202510",スタート,0,null,50,200,147,342,344,524,0,0,14,0,0,41
         "202511",スタート,0,null,50,200,143,316,353,719,0,0,9,0,0,21
         "202512",スタート,0,null,50,200,110,358,401,645,0,0,8,0,0,24
-        "202601",スタート,0,null,50,200,0,0,0,0,0,0,0,0,0,0
+        "202601",スタート,0,null,50,200,100,371,377,514,0,0,6,0,0,16
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",SSプラン【価格2】,60000,null,10,50,300.3,25,92,157,0,0,0,0,0,27
         "202405",SSプラン【価格2】,60000,null,10,50,430.6,30,104,161,0,0,0,0,0,24
@@ -1325,7 +1381,7 @@ shops[22]:
         "202510",SSプラン【価格2】,60000,null,10,50,744,1929,415,761,0,0,55,0,0,118
         "202511",SSプラン【価格2】,60000,null,10,50,591,1518,304,721,0,0,40,0,0,104
         "202512",SSプラン【価格2】,60000,null,10,50,691,1744,296,671,0,0,53,0,0,183
-        "202601",SSプラン【価格2】,60000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプラン【価格2】,60000,null,10,50,914,2088,447,873,0,0,69,0,0,127
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,4065,12521,614,1362,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,4024,12514,622,1401,0,0,0,0,0,0
@@ -1348,7 +1404,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,3647,9489,451,1140,0,0,94,0,0,286
         "202511",旧ベーシック,25000,null,0,0,3231,8801,390,932,0,0,85,0,0,255
         "202512",旧ベーシック,25000,null,0,0,3037,7898,444,1073,0,0,94,0,0,304
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,3106,8865,425,929,0,0,80,0,0,269
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -1410,18 +1466,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",7958179
+      "202405",9015945
+      "202406",7254466
+      "202407",6924659
+      "202408",5923820
+      "202409",7541947
+      "202410",7155361
+      "202411",6811401
+      "202412",6488884
+      "202501",6160952
+      "202502",5734702
+      "202503",7399608
       "202504",7659399
       "202505",7558167
       "202506",6770711
@@ -1431,8 +1487,8 @@ shops[22]:
       "202510",7318448
       "202511",8268904
       "202512",6144041
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",5604084
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -1634,6 +1690,20 @@ shops[22]:
       "202512",合計,278,1016
       "202512",食べログ,85,314
       "202512",電話,58,321
+      "202601",Googleで予約,11,33
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,113,314
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,6,16
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,19,49
+      "202601",一休,0,0
+      "202601",合計,278,953
+      "202601",食べログ,78,275
+      "202601",電話,51,266
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,178,549,526,835,0,0,25,0,0,73
@@ -1657,7 +1727,7 @@ shops[22]:
         "202510",スタート,0,null,50,200,86,287,381,592,0,0,11,0,0,32
         "202511",スタート,0,null,50,200,89,231,390,761,0,0,9,0,0,31
         "202512",スタート,0,null,50,200,49,139,337,508,0,0,4,0,0,14
-        "202601",スタート,0,null,50,200,0,0,0,0,0,0,0,0,0,0
+        "202601",スタート,0,null,50,200,41,150,325,481,0,0,6,0,0,15
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,407.9,5,138,302,0,0,18,0,0,5
         "202405",ネット予約プラン,0,null,50,150,492.4,4,170,396,0,0,36,0,0,5
@@ -1680,7 +1750,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,283,607,232,427,0,0,28,0,0,58
         "202511",ネット予約プラン,0,null,50,150,244,628,234,440,0,0,22,0,0,52
         "202512",ネット予約プラン,0,null,50,150,161,398,135,369,0,0,17,0,0,56
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,297,663,280,681,0,0,28,0,0,49
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -1703,7 +1773,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,3397,8768,463,1223,0,0,82,0,0,297
         "202511",旧ベーシック,25000,null,0,0,6110,13941,620,1496,0,0,89,0,0,370
         "202512",旧ベーシック,25000,null,0,0,5123,10814,508,1340,0,0,78,0,0,290
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,5602,11559,535,1207,0,0,67,0,0,243
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -1768,18 +1838,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",14670861
+      "202405",16258649
+      "202406",16204144
+      "202407",16178979
+      "202408",15233554
+      "202409",15477791
+      "202410",16101453
+      "202411",15363138
+      "202412",16946359
+      "202501",13252032
+      "202502",13060729
+      "202503",16771276
       "202504",15482391
       "202505",16725820
       "202506",16422513
@@ -1789,8 +1859,8 @@ shops[22]:
       "202510",15668912
       "202511",15545732
       "202512",17549266
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",14920196
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -1992,6 +2062,20 @@ shops[22]:
       "202512",合計,1751,4363
       "202512",食べログ,529,1475
       "202512",電話,168,668
+      "202601",Googleで予約,56,133
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,802,1587
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,13,32
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,184,500
+      "202601",一休,0,0
+      "202601",合計,1611,3806
+      "202601",食べログ,452,1231
+      "202601",電話,104,323
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,399,1347,363,823,0,0,66,0,0,170
@@ -2015,7 +2099,7 @@ shops[22]:
         "202510",スタート,0,null,50,200,244,910,337,634,0,0,43,0,0,107
         "202511",ベーシック,30000,null,10,50,388,1188,484,1047,0,0,28,0,0,85
         "202512",ベーシック,30000,null,10,50,404,1102,284,869,0,0,19,0,0,55
-        "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,30000,null,10,50,263,840,431,823,0,0,14,0,0,36
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",SSプラン【価格2】,60000,null,10,50,1151.2,26,528,1481,0,0,177,0,0,13
         "202405",SSプラン【価格2】,60000,null,10,50,1320,22,659,2248,0,0,239,0,0,8
@@ -2038,7 +2122,7 @@ shops[22]:
         "202510",SSプラン【価格2】,60000,null,10,50,2594,6899,878,1813,0,0,272,0,0,511
         "202511",SSプラン【価格2】,60000,null,10,50,2015,5110,652,1470,0,0,212,0,0,512
         "202512",SSプラン【価格2】,60000,null,10,50,1759,4469,702,1540,0,0,123,0,0,360
-        "202601",SSプラン【価格2】,60000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプラン【価格2】,60000,null,10,50,2661,6599,963,2133,0,0,221,0,0,500
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,11910,32029,1256,2948,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,12393,34395,1426,3516,0,0,0,0,0,0
@@ -2123,18 +2207,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",9333223
+      "202405",10256869
+      "202406",10580460
+      "202407",10706220
+      "202408",9698922
+      "202409",9780486
+      "202410",9928153
+      "202411",9851394
+      "202412",12347738
+      "202501",10113617
+      "202502",8901734
+      "202503",12172244
       "202504",11194918
       "202505",11458738
       "202506",12434331
@@ -2144,8 +2228,8 @@ shops[22]:
       "202510",11927947
       "202511",10161954
       "202512",13067074
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",10201418
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,4,13
@@ -2347,6 +2431,20 @@ shops[22]:
       "202512",合計,460,1929
       "202512",食べログ,171,705
       "202512",電話,59,556
+      "202601",Googleで予約,0,0
+      "202601",Google検索,0,0
+      "202601",OZmall,2,10
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,114,289
+      "202601",かんたんネット予約,1,2
+      "202601",ぐるなび,3,9
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,19,80
+      "202601",一休,21,102
+      "202601",合計,360,1587
+      "202601",食べログ,148,622
+      "202601",電話,52,473
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,63,219,497,867,0,0,11,0,0,55
@@ -2370,7 +2468,7 @@ shops[22]:
         "202510",null,null,null,null,null,93,246,368,611,0,0,6,0,0,15
         "202511",null,null,null,null,null,106,244,434,753,0,0,5,0,0,13
         "202512",null,null,null,null,null,107,293,416,591,0,0,8,0,0,23
-        "202601",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202601",null,null,null,null,null,35,146,411,558,0,0,3,0,0,9
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,200.6,108,147,311,0,0,13,0,0,105
         "202405",ネット予約プラン,0,null,50,150,252.1,118,145,357,0,0,14,0,0,83
@@ -2393,7 +2491,7 @@ shops[22]:
         "202510",Aプラン【価格1】,69000,0,10,50,318,680,325,631,0,0,18,0,0,65
         "202511",Aプラン【価格1】,69000,0,10,50,354,743,357,738,0,0,17,0,0,52
         "202512",Aプラン【価格1】,69000,0,10,50,303,674,274,665,0,0,20,0,0,69
-        "202601",SSプレミアムプラン【価格2】,100000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプレミアムプラン【価格2】,100000,null,10,50,635,1511,475,1156,0,0,27,0,0,80
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,4770,12547,1358,3380,9,74,83,29,261,290
         "202405",null,null,null,null,null,5123,13853,1420,3601,13,89,102,32,288,320
@@ -2478,18 +2576,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",18832113
+      "202405",20709572
+      "202406",20567037
+      "202407",20632113
+      "202408",19203807
+      "202409",19462523
+      "202410",19614913
+      "202411",20088520
+      "202412",22392333
+      "202501",18664326
+      "202502",17817595
+      "202503",22839850
       "202504",21688050
       "202505",25019987
       "202506",24829270
@@ -2499,8 +2597,8 @@ shops[22]:
       "202510",20438534
       "202511",21547942
       "202512",24145544
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",20502733
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,20,75
       "202410",Google検索,1,2
       "202410",OZmall,0,0
@@ -2702,6 +2800,20 @@ shops[22]:
       "202512",合計,2258,6169
       "202512",食べログ,544,1695
       "202512",電話,90,459
+      "202601",Googleで予約,21,65
+      "202601",Google検索,3,7
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,70,189
+      "202601",ウォークイン,1041,2311
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,33,96
+      "202601",トレタ予約番,97,312
+      "202601",ホットペッパー,205,571
+      "202601",一休,0,0
+      "202601",合計,2026,5583
+      "202601",食べログ,511,1601
+      "202601",電話,45,431
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,835,2738,555,1143,0,0,16,0,0,40
@@ -2725,7 +2837,7 @@ shops[22]:
         "202510",ライト,10000,null,10,50,493,1662,483,902,0,0,42,0,0,130
         "202511",ベーシック,30000,null,10,50,550,1821,547,1346,0,0,32,0,0,117
         "202512",ベーシック,30000,null,10,50,622,1817,604,1211,0,0,44,0,0,140
-        "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,30000,null,10,50,478,1621,399,927,0,0,45,0,0,148
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,750.2,8,322,676,0,0,91,0,0,2
         "202405",ネット予約プラン,0,null,50,150,1177.8,7,518,1050,0,0,116,0,0,1
@@ -2748,7 +2860,7 @@ shops[22]:
         "202510",SSプラン【価格2】,60000,null,10,50,2394,5480,899,1682,0,0,291,0,0,544
         "202511",SSプラン【価格2】,60000,null,10,50,2069,4501,740,1367,0,0,228,0,0,557
         "202512",SSプラン【価格2】,60000,null,10,50,1514,3235,591,1068,0,0,170,0,0,697
-        "202601",SSプラン【価格2】,60000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプラン【価格2】,60000,null,10,50,3000,6567,1047,1935,0,0,325,0,0,532
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -2771,7 +2883,7 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,16935,43234,1967,4590,210,218,428,576,656,1232
         "202511",プレミアム5,50000,null,100,200,16696,40816,1841,4316,258,215,473,702,692,1394
         "202512",プレミアム5,50000,null,100,200,17455,41775,2050,4325,203,254,457,600,864,1464
-        "202601",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",プレミアム5,50000,null,100,200,13221,27453,1276,2926,64,67,131,199,279,478
       retty[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -2856,18 +2968,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",18192653
+      "202405",18650244
+      "202406",17773952
+      "202407",19749751
+      "202408",18055811
+      "202409",18135334
+      "202410",18778622
+      "202411",17536453
+      "202412",21015839
+      "202501",14711188
+      "202502",14758094
+      "202503",18270705
       "202504",18269720
       "202505",18451526
       "202506",18631120
@@ -2877,8 +2989,8 @@ shops[22]:
       "202510",17293895
       "202511",16205614
       "202512",21663472
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",16934958
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -3080,6 +3192,20 @@ shops[22]:
       "202512",合計,1650,5122
       "202512",食べログ,625,1992
       "202512",電話,92,708
+      "202601",Googleで予約,1,3
+      "202601",Google検索,0,0
+      "202601",OZmall,22,70
+      "202601",PayPayグルメ,1,3
+      "202601",Retty,0,0
+      "202601",ウォークイン,618,1416
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,31,85
+      "202601",トレタ予約番,32,105
+      "202601",ホットペッパー,87,263
+      "202601",一休,62,203
+      "202601",合計,1404,4121
+      "202601",食べログ,506,1564
+      "202601",電話,44,409
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,623,1793,778,2228,0,0,36,0,0,137
@@ -3103,7 +3229,7 @@ shops[22]:
         "202510",ベーシック,30000,null,10,50,497,1357,502,1333,0,0,55,0,0,163
         "202511",ベーシック,30000,null,10,50,496,1306,523,1640,0,0,53,0,0,215
         "202512",ベーシック,30000,null,10,50,397,1225,499,1392,0,0,43,0,0,124
-        "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,30000,null,10,50,428,1220,535,1499,0,0,35,0,0,108
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
         "202405",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
@@ -3126,7 +3252,7 @@ shops[22]:
         "202510",SSプレミアムプラン【価格1】,180000,100000,10,50,1766,4037,994,1860,0,0,87,0,0,262
         "202511",ネット予約プラン,0,null,50,150,899,2156,566,1117,0,0,56,0,0,112
         "202512",ネット予約プラン,0,null,50,150,869,2103,554,1028,0,0,57,0,0,213
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,1432,3576,743,1530,0,0,135,0,0,255
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,18419,50606,3337,8560,242,241,483,643,679,1322
         "202405",null,null,null,null,null,18532,51702,3347,8093,251,255,506,652,760,1412
@@ -3223,18 +3349,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",15986526
+      "202405",16933063
+      "202406",16630364
+      "202407",15056851
+      "202408",14586180
+      "202409",15541467
+      "202410",15421122
+      "202411",15985188
+      "202412",15643196
+      "202501",11400630
+      "202502",10622537
+      "202503",14805408
       "202504",15692042
       "202505",17500249
       "202506",16583281
@@ -3244,8 +3370,8 @@ shops[22]:
       "202510",16034534
       "202511",18254002
       "202512",15070494
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",12106959
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -3447,6 +3573,20 @@ shops[22]:
       "202512",合計,3194,7911
       "202512",食べログ,364,1037
       "202512",電話,72,297
+      "202601",Googleで予約,31,84
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,2112,4867
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,4,11
+      "202601",トレタ予約番,5,11
+      "202601",ホットペッパー,131,364
+      "202601",一休,6,17
+      "202601",合計,2612,6471
+      "202601",食べログ,270,799
+      "202601",電話,53,318
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -3470,7 +3610,7 @@ shops[22]:
         "202510",スタート,0,null,50,200,244,650,365,621,0,0,31,0,0,110
         "202511",ライト,10000,null,10,50,338,917,464,879,0,0,22,0,0,74
         "202512",ライト,10000,null,10,50,192,461,252,674,0,0,6,0,0,26
-        "202601",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ライト,10000,null,10,50,157,452,268,558,0,0,3,0,0,8
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,852.1,78,569,1242,0,0,106,0,0,31
         "202405",null,null,null,null,null,1149.9,68,752,1722,0,0,121,0,0,31
@@ -3493,7 +3633,7 @@ shops[22]:
         "202510",SSプレミアムプラン【価格2】,100000,null,10,50,7626,12151,1021,1936,0,0,200,0,0,373
         "202511",Aプラン【価格2】,30000,null,10,50,2700,6403,1074,2380,0,0,166,0,0,454
         "202512",Aプラン【価格2】,30000,null,10,50,2034,4808,621,1511,0,0,145,0,0,556
-        "202601",Aプラン【価格2】,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",Aプラン【価格2】,30000,null,10,50,4803,9245,1843,3170,0,0,220,0,0,367
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,5725,17133,823,1903,43,47,90,107,136,243
         "202405",null,null,null,null,null,5916,20282,807,2014,56,58,114,148,177,325
@@ -3516,7 +3656,7 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,8685,24590,827,2063,104,65,169,284,213,497
         "202511",ベーシック,25000,null,100,200,12630,32278,1026,2681,115,84,199,340,241,581
         "202512",ベーシック,25000,null,100,200,11544,27850,1053,2618,109,114,223,290,358,648
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,25000,null,100,200,9159,23771,860,2103,83,69,152,234,222,456
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -3595,18 +3735,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",12039836
+      "202405",13566746
+      "202406",13979491
+      "202407",13418540
+      "202408",12580139
+      "202409",12845072
+      "202410",12576646
+      "202411",11951456
+      "202412",11922686
+      "202501",9590455
+      "202502",9578327
+      "202503",12784482
       "202504",13011005
       "202505",12579787
       "202506",13566610
@@ -3616,8 +3756,8 @@ shops[22]:
       "202510",12585663
       "202511",11678553
       "202512",13770229
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",9779602
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -3819,6 +3959,20 @@ shops[22]:
       "202512",合計,868,2890
       "202512",食べログ,132,569
       "202512",電話,87,690
+      "202601",Googleで予約,17,57
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,623,1458
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,2,11
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,10,40
+      "202601",一休,1,3
+      "202601",合計,816,2218
+      "202601",食べログ,94,346
+      "202601",電話,69,303
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -3842,7 +3996,7 @@ shops[22]:
         "202510",スタート,0,null,50,200,54,154,296,518,0,0,9,0,0,49
         "202511",ライト,10000,null,10,50,58,187,238,395,0,0,13,0,0,66
         "202512",ライト,10000,null,10,50,68,206,191,443,0,0,2,0,0,8
-        "202601",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ライト,10000,null,10,50,27,82,182,345,0,0,2,0,0,11
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,3914,10314,783,1847,35,49,84,126,177,303
         "202405",null,null,null,null,null,3701,10438,898,1701,47,54,101,154,212,366
@@ -3865,7 +4019,7 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,3196,8501,583,1520,41,50,91,141,188,329
         "202511",ベーシック,25000,null,100,200,7149,14259,782,1867,57,50,107,201,188,389
         "202512",ベーシック,25000,null,100,200,7136,14121,869,2347,52,67,119,169,349,518
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,25000,null,100,200,15512,39020,1710,3658,244,204,448,728,691,1419
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -3953,18 +4107,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",5407814
+      "202405",5870625
+      "202406",5795138
+      "202407",5772881
+      "202408",5234802
+      "202409",5552111
+      "202410",5257691
+      "202411",6310622
+      "202412",7946475
+      "202501",5655175
+      "202502",5839379
+      "202503",7956183
       "202504",6334967
       "202505",6961481
       "202506",6657890
@@ -3974,8 +4128,8 @@ shops[22]:
       "202510",5506944
       "202511",6083453
       "202512",8798208
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",5160594
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -4177,6 +4331,20 @@ shops[22]:
       "202512",合計,560,1816
       "202512",食べログ,191,548
       "202512",電話,112,590
+      "202601",Googleで予約,20,57
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,111,236
+      "202601",かんたんネット予約,2,6
+      "202601",ぐるなび,17,49
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,60,154
+      "202601",一休,0,0
+      "202601",合計,418,1155
+      "202601",食べログ,155,466
+      "202601",電話,53,187
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4200,7 +4368,7 @@ shops[22]:
         "202510",ライト,10000,null,10,50,284,974,362,655,0,0,35,0,0,98
         "202511",ライト,10000,null,10,50,457,1387,527,966,0,0,22,0,0,81
         "202512",ベーシック,30000,null,10,50,506,1429,366,1066,0,0,16,0,0,60
-        "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,30000,null,10,50,434,1447,636,1078,0,0,23,0,0,62
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,1239.5,12,234,492,0,0,33,0,0,12
         "202405",ネット予約プラン,0,null,50,150,1627.3,12,286,774,0,0,87,0,0,8
@@ -4223,7 +4391,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,904,2181,352,652,0,0,68,0,0,133
         "202511",ネット予約プラン,0,null,50,150,989,2239,325,616,0,0,60,0,0,143
         "202512",ネット予約プラン,0,null,50,150,830,1854,275,674,0,0,55,0,0,220
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,1310,2896,470,1265,0,0,97,0,0,154
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -4246,7 +4414,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,5617,16005,610,1487,0,0,126,0,0,419
         "202511",旧ベーシック,25000,null,0,0,6326,17870,587,1456,0,0,139,0,0,405
         "202512",旧ベーシック,25000,null,0,0,7155,19553,736,1909,0,0,168,0,0,482
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,3304,8864,380,928,0,0,108,0,0,306
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -4308,18 +4476,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",8245900
+      "202405",8413223
+      "202406",8122403
+      "202407",7800078
+      "202408",8353683
+      "202409",8092565
+      "202410",8099687
+      "202411",8564735
+      "202412",9975653
+      "202501",7771789
+      "202502",7400167
+      "202503",9055366
       "202504",8521451
       "202505",9222046
       "202506",8918341
@@ -4329,8 +4497,8 @@ shops[22]:
       "202510",8488308
       "202511",9674199
       "202512",11195973
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",8780168
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -4532,6 +4700,20 @@ shops[22]:
       "202512",合計,1180,2943
       "202512",食べログ,427,1124
       "202512",電話,167,582
+      "202601",Googleで予約,15,40
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,350,695
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,26,64
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,150,396
+      "202601",一休,0,0
+      "202601",合計,983,2399
+      "202601",食べログ,350,940
+      "202601",電話,92,264
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4555,7 +4737,7 @@ shops[22]:
         "202510",null,null,null,null,null,203,594,339,572,0,0,9,0,0,21
         "202511",スタート,0,null,50,200,233,752,364,736,0,0,9,0,0,26
         "202512",スタート,0,null,50,200,176,751,466,794,0,0,25,0,0,60
-        "202601",スタート,0,null,50,200,0,0,0,0,0,0,0,0,0,0
+        "202601",スタート,0,null,50,200,188,757,451,640,0,0,34,0,0,97
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,2847,78,479,1272,0,0,160,0,0,48
         "202405",ネット予約プラン,0,null,50,150,3666.3,80,581,1509,0,0,200,0,0,37
@@ -4578,7 +4760,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,2387,6030,651,1265,0,0,195,0,0,378
         "202511",ネット予約プラン,0,null,50,150,2184,5253,646,1285,0,0,157,0,0,355
         "202512",ネット予約プラン,0,null,50,150,1913,4810,468,1042,0,0,133,0,0,426
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,3443,8922,840,1730,0,0,240,0,0,368
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4601,7 +4783,7 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,12844,35908,1365,3374,120,126,246,300,341,641
         "202511",プレミアム5,50000,null,100,200,15570,43130,1648,4287,157,130,287,405,355,760
         "202512",プレミアム5,50000,null,100,200,18163,49354,1776,4134,155,212,367,405,567,972
-        "202601",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",プレミアム5,50000,null,100,200,5600,11845,777,1859,36,45,81,112,193,305
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -4663,18 +4845,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",11948565
+      "202405",13660493
+      "202406",13642227
+      "202407",12586051
+      "202408",11183767
+      "202409",11379519
+      "202410",12116793
+      "202411",11738557
+      "202412",11987503
+      "202501",9055046
+      "202502",9396569
+      "202503",11824114
       "202504",12125241
       "202505",13671823
       "202506",13743374
@@ -4684,8 +4866,8 @@ shops[22]:
       "202510",13369821
       "202511",12105229
       "202512",14069972
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",10437958
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -4887,6 +5069,20 @@ shops[22]:
       "202512",合計,856,2925
       "202512",食べログ,168,669
       "202512",電話,125,764
+      "202601",Googleで予約,12,52
+      "202601",Google検索,0,0
+      "202601",OZmall,5,24
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,515,1207
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,4,29
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,14,41
+      "202601",一休,6,32
+      "202601",合計,775,2339
+      "202601",食べログ,141,506
+      "202601",電話,78,448
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4910,7 +5106,7 @@ shops[22]:
         "202510",null,null,null,null,null,50,93,297,543,0,0,12,0,0,60
         "202511",スタート,0,null,50,200,115,323,296,489,0,0,8,0,0,51
         "202512",スタート,0,null,50,200,91,297,296,473,0,0,4,0,0,23
-        "202601",スタート,0,null,50,200,0,0,0,0,0,0,0,0,0,0
+        "202601",スタート,0,null,50,200,57,167,298,435,0,0,4,0,0,11
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4933,7 +5129,7 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,11659,26124,1410,3176,71,95,166,239,368,607
         "202511",ベーシック,25000,null,100,200,9972,22555,1371,3033,72,88,160,241,294,535
         "202512",ベーシック,25000,null,100,200,11643,24833,1706,3678,66,96,162,249,392,641
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,25000,null,100,200,14823,42030,1262,3262,138,152,290,357,422,779
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5035,18 +5231,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",8410424
+      "202405",8974526
+      "202406",8098985
+      "202407",7819299
+      "202408",7589992
+      "202409",7683953
+      "202410",7816417
+      "202411",8310016
+      "202412",9533243
+      "202501",8020856
+      "202502",6898798
+      "202503",9236352
       "202504",9111358
       "202505",9305786
       "202506",8420385
@@ -5056,8 +5252,8 @@ shops[22]:
       "202510",8056815
       "202511",8142112
       "202512",10090912
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",8922991
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -5259,6 +5455,20 @@ shops[22]:
       "202512",合計,853,2436
       "202512",食べログ,273,931
       "202512",電話,123,477
+      "202601",Googleで予約,22,71
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,322,674
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,8,21
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,47,157
+      "202601",一休,0,0
+      "202601",合計,741,2156
+      "202601",食べログ,219,719
+      "202601",電話,123,514
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,446,1470,316,746,0,0,36,0,0,123
@@ -5282,7 +5492,7 @@ shops[22]:
         "202510",ライト,10000,null,10,50,240,787,278,654,0,0,8,0,0,27
         "202511",ライト,10000,null,10,50,246,660,256,621,0,0,11,0,0,34
         "202512",ライト,10000,null,10,50,335,932,260,660,0,0,12,0,0,48
-        "202601",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ライト,10000,null,10,50,285,852,297,574,0,0,10,0,0,27
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,409.9,26,134,334,0,0,25,0,0,27
         "202405",ネット予約プラン,0,null,50,150,569.8,19,202,519,0,0,33,0,0,28
@@ -5305,7 +5515,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,472,1471,227,440,0,0,46,0,0,96
         "202511",ネット予約プラン,0,null,50,150,404,1249,196,507,0,0,48,0,0,133
         "202512",ネット予約プラン,0,null,50,150,288,867,198,886,0,0,34,0,0,146
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,599,1696,323,961,0,0,71,0,0,157
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5328,7 +5538,7 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,7286,21236,890,2304,78,100,178,228,313,541
         "202511",ベーシック,25000,null,100,200,7428,21240,1015,2577,71,90,161,223,306,529
         "202512",ベーシック,25000,null,100,200,9619,27615,1004,2509,99,133,232,325,500,825
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,25000,null,100,200,8253,22611,925,2248,0,0,222,0,0,668
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -5390,18 +5600,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",8659990
+      "202405",9516031
+      "202406",8763020
+      "202407",9457242
+      "202408",8741106
+      "202409",8675589
+      "202410",8258543
+      "202411",8710561
+      "202412",9164953
+      "202501",8073873
+      "202502",6796766
+      "202503",8804576
       "202504",7885456
       "202505",8958429
       "202506",8943672
@@ -5411,8 +5621,8 @@ shops[22]:
       "202510",8595902
       "202511",9455337
       "202512",10194204
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",8793306
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -5614,6 +5824,20 @@ shops[22]:
       "202512",合計,946,2504
       "202512",食べログ,248,770
       "202512",電話,102,429
+      "202601",Googleで予約,23,55
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,554,1106
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,5,15
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,2,16
+      "202601",一休,0,0
+      "202601",合計,929,2300
+      "202601",食べログ,243,748
+      "202601",電話,102,360
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,411,1336,324,769,0,0,20,0,0,78
@@ -5637,7 +5861,7 @@ shops[22]:
         "202510",ライト,10000,null,10,50,293,1158,326,679,0,0,31,0,0,103
         "202511",ベーシック,30000,null,10,50,568,1907,443,1069,0,0,18,0,0,55
         "202512",ベーシック,30000,null,10,50,520,1328,349,878,0,0,14,0,0,45
-        "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,30000,null,10,50,374,999,383,696,0,0,7,0,0,21
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",ネット予約プラン,0,null,50,150,1297.7,32,112,172,0,0,0,0,0,37
         "202405",ネット予約プラン,0,null,50,150,1652.7,40,103,148,0,0,0,0,0,35
@@ -5660,7 +5884,7 @@ shops[22]:
         "202510",ネット予約プラン,0,null,50,150,142,245,91,126,0,0,0,0,0,0
         "202511",ネット予約プラン,0,null,50,150,198,335,103,165,0,0,0,0,0,0
         "202512",ネット予約プラン,0,null,50,150,219,513,131,312,0,0,3,0,0,13
-        "202601",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
+        "202601",ネット予約プラン,0,null,50,150,378,979,214,401,0,0,3,0,0,16
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -5683,7 +5907,7 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,7178,20026,963,2342,0,0,140,0,0,362
         "202511",旧ベーシック,25000,null,0,0,8327,22756,1189,2815,0,0,191,0,0,547
         "202512",旧ベーシック,25000,null,0,0,9134,24768,1060,2667,0,0,235,0,0,737
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202601",旧ベーシック,25000,null,0,0,8073,21000,1119,2733,50,138,188,163,415,578
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -5745,18 +5969,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",10496420
+      "202405",11233922
+      "202406",10757280
+      "202407",10114919
+      "202408",9940486
+      "202409",10710870
+      "202410",10256908
+      "202411",10119094
+      "202412",10947708
+      "202501",9298733
+      "202502",9343471
+      "202503",11018917
       "202504",9940443
       "202505",11763330
       "202506",10827678
@@ -5766,8 +5990,8 @@ shops[22]:
       "202510",11571143
       "202511",11620033
       "202512",13341840
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",11340845
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -5969,6 +6193,20 @@ shops[22]:
       "202512",合計,1030,2768
       "202512",食べログ,252,738
       "202512",電話,188,605
+      "202601",Googleで予約,32,93
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,327,712
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,7,54
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,108,329
+      "202601",一休,0,0
+      "202601",合計,807,2230
+      "202601",食べログ,202,623
+      "202601",電話,131,419
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6015,7 +6253,7 @@ shops[22]:
         "202510",SSプラン【価格2】,60000,null,10,50,2234,5216,804,1508,0,0,167,0,0,339
         "202511",SSプラン【価格2】,60000,null,10,50,1952,4380,613,1202,0,0,128,0,0,264
         "202512",SSプラン【価格2】,60000,null,10,50,1730,4007,550,1074,0,0,128,0,0,447
-        "202601",SSプラン【価格2】,60000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプラン【価格2】,60000,null,10,50,2642,6118,993,1998,0,0,169,0,0,314
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6038,7 +6276,7 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,8086,21872,1163,2826,41,152,193,117,428,545
         "202511",ベーシック,25000,null,100,200,8752,23211,1250,3107,45,146,191,123,423,546
         "202512",ベーシック,25000,null,100,200,9924,26666,1332,2981,63,160,223,175,477,652
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",ベーシック,25000,null,100,200,6156,17149,617,1459,0,0,142,0,0,431
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -6100,18 +6338,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",10477959
+      "202405",12152644
+      "202406",12016410
+      "202407",8843613
+      "202408",9322165
+      "202409",10236690
+      "202410",10951337
+      "202411",12298303
+      "202412",12126179
+      "202501",8420062
+      "202502",7663976
+      "202503",10952196
       "202504",11097132
       "202505",13137742
       "202506",10607313
@@ -6121,8 +6359,8 @@ shops[22]:
       "202510",11177220
       "202511",12089831
       "202512",11224449
-      "202601",null
-    toreta_data[201]{year_month,media,reservation_count,guest_count}:
+      "202601",7908848
+    toreta_data[215]{year_month,media,reservation_count,guest_count}:
       "202410",Googleで予約,0,0
       "202410",Google検索,0,0
       "202410",OZmall,0,0
@@ -6324,6 +6562,20 @@ shops[22]:
       "202512",合計,1275,3409
       "202512",食べログ,192,667
       "202512",電話,66,324
+      "202601",Googleで予約,7,29
+      "202601",Google検索,0,0
+      "202601",OZmall,0,0
+      "202601",PayPayグルメ,0,0
+      "202601",Retty,0,0
+      "202601",ウォークイン,690,1516
+      "202601",かんたんネット予約,0,0
+      "202601",ぐるなび,0,0
+      "202601",トレタ予約番,0,0
+      "202601",ホットペッパー,75,225
+      "202601",一休,3,6
+      "202601",合計,964,2451
+      "202601",食べログ,145,514
+      "202601",電話,44,161
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6347,7 +6599,7 @@ shops[22]:
         "202510",null,null,null,null,null,223,689,335,600,0,0,25,0,0,86
         "202511",スタート,0,null,50,200,172,632,384,739,0,0,9,0,0,46
         "202512",スタート,0,null,50,200,121,441,409,684,0,0,7,0,0,15
-        "202601",スタート,0,null,50,200,0,0,0,0,0,0,0,0,0,0
+        "202601",スタート,0,null,50,200,109,399,366,538,0,0,0,0,0,0
       hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",SSプレミアムプラン【価格2】,100000,null,10,50,2108.2,107,416,949,0,0,87,0,0,79
         "202405",SSプレミアムプラン【価格2】,100000,null,10,50,2547.7,79,638,1320,0,0,108,0,0,67
@@ -6370,7 +6622,7 @@ shops[22]:
         "202510",SSプレミアムプラン【価格2】,100000,null,10,50,2159,5131,891,1797,0,0,110,0,0,332
         "202511",SSプレミアムプラン【価格2】,100000,null,10,50,1876,4449,785,1543,0,0,87,0,0,240
         "202512",SSプレミアムプラン【価格2】,100000,null,10,50,1686,4221,528,1270,0,0,89,0,0,355
-        "202601",SSプレミアムプラン【価格2】,100000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",SSプレミアムプラン【価格2】,100000,null,10,50,2414,6285,916,2048,0,0,119,0,0,225
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6479,7 +6731,7 @@ shops[22]:
       "202510",10519701
       "202511",10692859
       "202512",12000126
-      "202601",null
+      "202601",9517404
     toreta_data[0]:
     media_data:
       gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
@@ -6504,7 +6756,7 @@ shops[22]:
         "202510",null,null,null,null,null,131,662,379,826,0,0,6,0,0,22
         "202511",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
         "202512",ライト,10000,null,10,50,164,949,486,962,0,0,18,0,0,67
-        "202601",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
+        "202601",ライト,10000,null,10,50,142,739,404,885,0,0,17,0,0,64
       tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6527,7 +6779,7 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,5164,15243,1365,3075,9,130,139,20,413,433
         "202511",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
         "202512",プレミアム5,50000,null,100,200,6323,19998,1329,3317,17,185,202,54,605,659
-        "202601",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
+        "202601",プレミアム5,50000,null,100,200,4497,14032,1087,2618,20,140,160,53,461,514
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
@@ -6565,18 +6817,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",1208329
+      "202405",1262683
+      "202406",1152126
+      "202407",1379047
+      "202408",1430115
+      "202409",1365937
+      "202410",1850592
+      "202411",1888097
+      "202412",2069804
+      "202501",1448179
+      "202502",1344976
+      "202503",1883562
       "202504",1517704
       "202505",1691020
       "202506",1386818
@@ -6715,18 +6967,18 @@ shops[22]:
     avg_price_lunch: 1800
     avg_price_dinner: 4500
     monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
+      "202404",2973054
+      "202405",3566636
+      "202406",3835135
+      "202407",3834835
+      "202408",3767447
+      "202409",3925225
+      "202410",3939998
+      "202411",4241367
+      "202412",3834881
+      "202501",3832511
+      "202502",3849004
+      "202503",4911391
       "202504",4903477
       "202505",5366475
       "202506",5110835
@@ -6736,7 +6988,7 @@ shops[22]:
       "202510",4960868
       "202511",4513986
       "202512",4179581
-      "202601",null
+      "202601",4225104
     toreta_data[0]:
     media_data:
     uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:

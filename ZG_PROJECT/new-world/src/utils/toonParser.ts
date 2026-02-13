@@ -124,7 +124,7 @@ export const parseToon = (text: string): ToonData => {
             const key = trimmed.substring(0, firstColonIndex).trim();
             const val = trimmed.substring(firstColonIndex + 1).trim().replace(/^"|"$/g, "");
 
-            if (val === "" && key !== "media_data") {
+            if (val === "") {
                 // セクションの開始（ネスト）
                 if (key === "export_info") currentContext = data.export_info;
                 if (key === "media_data" && currentShop) currentContext = currentShop.media_data;
