@@ -126,6 +126,8 @@ function App() {
 
   // 🆕 タブ切り替え用の State
   const [activeTab, setActiveTab] = useState<TabType>('売り上げ')
+  // 🆕 トレタ用表示指標切り替え (組数: 'count', 人数: 'guestCount') 💅
+  const [toretaMetric, setToretaMetric] = useState<'count' | 'guestCount'>('guestCount')
   const [othersOpen, setOthersOpen] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
@@ -233,11 +235,12 @@ function App() {
       const entry: any = { name: `${ym.substring(4)}月`, fullYm: ym }
       toretaTableData.channelRows.forEach(row => {
         const monthData = row.monthlyData.find(d => d.ym === ym)
-        entry[row.channelName] = monthData ? monthData.count : 0
+        // 🆕 指標によって値を切り替えるよ！💅
+        entry[row.channelName] = monthData ? monthData[toretaMetric] : 0
       })
       return entry
     })
-  }, [toretaTableData, startMonth, endMonth])
+  }, [toretaTableData, startMonth, endMonth, toretaMetric])
 
   if (loading) return <div className="p-10 font-mono text-xs text-gray-400 animate-pulse">Loading Skeleton...</div>
   if (!data) return <div className="p-10 font-mono text-xs text-red-500">Data Error</div>
@@ -561,6 +564,23 @@ function App() {
                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none mt-0.5">Reservation Channel Analysis</p>
                       </div>
                     </div>
+
+                    {/* 🆕 表示指標切り替えトグル (セグメントコントロール風) 💅 */}
+                    <div className="flex bg-gray-100 p-0.5 rounded-lg border border-gray-200">
+                      <button
+                        onClick={() => setToretaMetric('count')}
+                        className={`px-3 py-1 text-[10px] font-black rounded-md transition-all ${toretaMetric === 'count' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                      >
+                        組数 (Groups)
+                      </button>
+                      <button
+                        onClick={() => setToretaMetric('guestCount')}
+                        className={`px-3 py-1 text-[10px] font-black rounded-md transition-all ${toretaMetric === 'guestCount' ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                      >
+                        人数 (Guests)
+                      </button>
+                    </div>
+
                     <div className="flex items-center gap-2 px-2.5 py-1 bg-gray-50 rounded-full border border-gray-100">
                       <div className="w-1 h-1 rounded-full bg-indigo-400"></div>
                       <span className="text-[9px] text-gray-500 font-bold">※ % = ネット予約合計に対する構成比</span>
@@ -597,22 +617,35 @@ function App() {
                                     {row.isOthers && <ChevronRight size={12} className={`text-gray-500 transition-transform ${othersOpen[selectedShop.shop_code] ? 'rotate-90 text-indigo-600' : ''}`} />}
                                   </div>
                                 </td>
-                                {row.monthlyData.map(d => (
-                                  <td key={d.ym} className="px-2 py-1.5 border-r border-b border-gray-200">
-                                    {d.count > 0 ? (
-                                      <div className="flex flex-col items-end leading-tight">
-                                        <span className="text-gray-900 font-bold text-base">{d.count}</span>
-                                        <span className="text-[9px] tabular-nums text-indigo-600 font-black">{d.ratio.toFixed(1)}%</span>
-                                      </div>
-                                    ) : (
-                                      <span className="text-gray-300">-</span>
-                                    )}
-                                  </td>
-                                ))}
+                                {row.monthlyData.map((d, i) => {
+                                  const netTotal = toretaTableData.monthTotals[i][toretaMetric];
+                                  const val = d[toretaMetric];
+                                  const ratio = netTotal > 0 ? (val / netTotal * 100) : 0;
+                                  return (
+                                    <td key={d.ym} className="px-2 py-1.5 border-r border-b border-gray-200">
+                                      {val > 0 ? (
+                                        <div className="flex flex-col items-end leading-tight">
+                                          <span className="text-gray-900 font-bold text-base">{val.toLocaleString()}</span>
+                                          <span className="text-[9px] tabular-nums text-indigo-600 font-black">{ratio.toFixed(1)}%</span>
+                                        </div>
+                                      ) : (
+                                        <span className="text-gray-300">-</span>
+                                      )}
+                                    </td>
+                                  );
+                                })}
                                 <td className="px-3 py-1.5 bg-indigo-50/20 font-black border-b border-indigo-200">
                                   <div className="flex flex-col items-center leading-tight">
-                                    <span className="text-indigo-700 font-black text-base">{row.totalCount.toLocaleString()}</span>
-                                    <span className="text-[9px] text-indigo-500 uppercase tracking-tighter">{row.totalRatio}</span>
+                                    <span className="text-indigo-700 font-black text-base">
+                                      {(toretaMetric === 'count' ? row.totalCount : row.totalGuestCount).toLocaleString()}
+                                    </span>
+                                    <span className="text-[9px] text-indigo-500 uppercase tracking-tighter">
+                                      {toretaMetric === 'count'
+                                        ? row.totalRatio
+                                        : (toretaTableData.grandTotalGuestCount > 0
+                                          ? (row.totalGuestCount / toretaTableData.grandTotalGuestCount * 100).toFixed(1) + '%'
+                                          : '0.0%')}
+                                    </span>
                                   </div>
                                 </td>
                               </tr>
@@ -621,24 +654,34 @@ function App() {
                                 const breakdownMonthlyData = toretaTableData.monthTotals.map((mt) => {
                                   const d = selectedShop.toreta_data?.find(t => String(t.year_month) === mt.ym && t.media === channelName);
                                   const count = d ? Number(d.reservation_count) : 0;
-                                  const ratio = mt.count > 0 ? (count / mt.count) * 100 : 0;
-                                  return { count, ratio };
+                                  const guestCount = d ? Number(d.guest_count) : 0;
+                                  return { count, guestCount };
                                 });
                                 const breakdownTotalCount = breakdownMonthlyData.reduce((sum, d) => sum + d.count, 0);
-                                const breakdownTotalRatio = toretaTableData.grandTotalCount > 0 ? (breakdownTotalCount / toretaTableData.grandTotalCount * 100).toFixed(1) + '%' : '0.0%';
+                                const breakdownTotalGuestCount = breakdownMonthlyData.reduce((sum, d) => sum + d.guestCount, 0);
 
                                 return (
                                   <tr key={`breakdown-${channelName}`} className="bg-gray-50/50">
                                     <td className="sticky left-0 bg-[#f8fafc] px-3 py-1 text-left border-r-2 border-b border-gray-200 z-10 pl-8 text-[10px] text-gray-600 font-medium italic shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                                       {channelName}
                                     </td>
-                                    {breakdownMonthlyData.map((d, i) => (
-                                      <td key={i} className="px-2 py-1 border-r border-b border-gray-200 text-[10px] text-gray-500">
-                                        {d.count > 0 ? `${d.count} (${d.ratio.toFixed(1)}%)` : '-'}
-                                      </td>
-                                    ))}
+                                    {breakdownMonthlyData.map((d, i) => {
+                                      const netTotal = toretaTableData.monthTotals[i][toretaMetric];
+                                      const val = d[toretaMetric];
+                                      const ratio = netTotal > 0 ? (val / netTotal * 100) : 0;
+                                      return (
+                                        <td key={i} className="px-2 py-1 border-r border-b border-gray-200 text-[10px] text-gray-500">
+                                          {val > 0 ? `${val.toLocaleString()} (${ratio.toFixed(1)}%)` : '-'}
+                                        </td>
+                                      )
+                                    })}
                                     <td className="px-3 py-1 bg-indigo-50/10 border-b border-indigo-100 text-[10px] text-center text-gray-500 italic">
-                                      {breakdownTotalCount} ({breakdownTotalRatio})
+                                      {(() => {
+                                        const total = toretaMetric === 'count' ? breakdownTotalCount : breakdownTotalGuestCount;
+                                        const grandTotal = toretaMetric === 'count' ? toretaTableData.grandTotalCount : toretaTableData.grandTotalGuestCount;
+                                        const ratio = grandTotal > 0 ? (total / grandTotal * 100).toFixed(1) : '0.0';
+                                        return `${total.toLocaleString()} (${ratio}%)`;
+                                      })()}
                                     </td>
                                   </tr>
                                 );
@@ -653,11 +696,13 @@ function App() {
                             </td>
                             {toretaTableData.monthTotals.map((mt, i) => {
                               const grossTotal = toretaTableData.monthlyGrossTotals[i];
-                              const ratio = grossTotal.count > 0 ? (mt.count / grossTotal.count * 100).toFixed(1) : '0.0';
+                              const val = mt[toretaMetric];
+                              const gVal = grossTotal[toretaMetric];
+                              const ratio = gVal > 0 ? (val / gVal * 100).toFixed(1) : '0.0';
                               return (
                                 <td key={mt.ym} className="px-2 py-2 border-r border-b-2 border-blue-300 font-black text-blue-950">
                                   <div className="flex flex-col items-end leading-none">
-                                    <span className="text-[12px]">{mt.count.toLocaleString()}組</span>
+                                    <span className="text-[12px]">{val.toLocaleString()}{toretaMetric === 'count' ? '組' : '人'}</span>
                                     <span className="text-[8px] text-blue-700 mt-1 font-bold">{ratio}%</span>
                                   </div>
                                 </td>
@@ -665,9 +710,15 @@ function App() {
                             })}
                             <td className="px-3 py-2 bg-blue-200/50 text-center font-black text-blue-950 border-b-2 border-blue-400">
                               <div className="flex flex-col items-center leading-none">
-                                <span className="text-[12px] font-black">{toretaTableData.grandTotalCount.toLocaleString()}組</span>
+                                <span className="text-[12px] font-black">
+                                  {(toretaMetric === 'count' ? toretaTableData.grandTotalCount : toretaTableData.grandTotalGuestCount).toLocaleString()}{toretaMetric === 'count' ? '組' : '人'}
+                                </span>
                                 <span className="text-[8px] text-blue-700 mt-1 font-bold">
-                                  {toretaTableData.grossTotalCount > 0 ? (toretaTableData.grandTotalCount / toretaTableData.grossTotalCount * 100).toFixed(1) : '0.0'}%
+                                  {(() => {
+                                    const total = toretaMetric === 'count' ? toretaTableData.grandTotalCount : toretaTableData.grandTotalGuestCount;
+                                    const gross = toretaMetric === 'count' ? toretaTableData.grossTotalCount : toretaTableData.grossTotalGuestCount;
+                                    return gross > 0 ? (total / gross * 100).toFixed(1) : '0.0';
+                                  })()}%
                                 </span>
                               </div>
                             </td>
@@ -678,18 +729,29 @@ function App() {
                             <td className="sticky left-0 bg-blue-50 px-3 py-1.5 text-left font-black border-r-2 border-b-2 border-blue-300 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                               <span className="text-[11px] font-black text-blue-800 italic">Walk-in</span>
                             </td>
-                            {toretaTableData.walkinRow.map(d => (
-                              <td key={d.ym} className="px-2 py-1.5 border-r border-b-2 border-blue-200 tabular-nums leading-tight font-black text-blue-900">
-                                {d.count > 0 ? (
-                                  <div className="flex flex-col items-end">
-                                    <span className="text-[12px]">{d.count.toLocaleString()}組</span>
-                                    <span className="text-[9px] text-blue-600 font-black">{d.ratio.toFixed(1)}%</span>
-                                  </div>
-                                ) : '-'}
-                              </td>
-                            ))}
+                            {toretaTableData.walkinRow.map((d, i) => {
+                              const grossTotal = toretaTableData.monthlyGrossTotals[i];
+                              const val = d[toretaMetric];
+                              const gVal = grossTotal[toretaMetric];
+                              const ratio = gVal > 0 ? (val / gVal * 100).toFixed(1) : '0.0';
+                              return (
+                                <td key={d.ym} className="px-2 py-1.5 border-r border-b-2 border-blue-200 tabular-nums leading-tight font-black text-blue-900">
+                                  {val > 0 ? (
+                                    <div className="flex flex-col items-end">
+                                      <span className="text-[12px]">{val.toLocaleString()}{toretaMetric === 'count' ? '組' : '人'}</span>
+                                      <span className="text-[9px] text-blue-600 font-black">{ratio}%</span>
+                                    </div>
+                                  ) : '-'}
+                                </td>
+                              );
+                            })}
                             <td className="px-3 py-1.5 bg-blue-100/40 font-black text-center text-blue-900 text-[11px] border-b-2 border-blue-300">
-                              {toretaTableData.walkinGrandTotal.count.toLocaleString()}組 ({toretaTableData.walkinGrandTotal.ratio.toFixed(1)}%)
+                              {(() => {
+                                const val = toretaMetric === 'count' ? toretaTableData.walkinGrandTotal.count : toretaTableData.walkinGrandTotal.guestCount;
+                                const total = toretaMetric === 'count' ? (toretaTableData.grandTotalCount + toretaTableData.walkinGrandTotal.count) : (toretaTableData.grandTotalGuestCount + toretaTableData.walkinGrandTotal.guestCount);
+                                const ratio = total > 0 ? (val / total * 100).toFixed(1) : '0.0';
+                                return `${val.toLocaleString()}${toretaMetric === 'count' ? '組' : '人'} (${ratio}%)`;
+                              })()}
                             </td>
                           </tr>
 
@@ -701,15 +763,23 @@ function App() {
                             {toretaTableData.monthlyGrossTotals.map(gt => (
                               <td key={gt.ym} className="px-2 py-3 border-r border-blue-500/20">
                                 <div className="flex flex-col items-end leading-none">
-                                  <span className="text-[14px] font-black text-white">{gt.count.toLocaleString()}組</span>
-                                  <span className="text-[8px] text-blue-400 font-bold mt-1 tracking-wider">{gt.guestCount.toLocaleString()} GUESTS</span>
+                                  <span className="text-[14px] font-black text-white">
+                                    {gt[toretaMetric].toLocaleString()}{toretaMetric === 'count' ? '組' : '人'}
+                                  </span>
+                                  <span className="text-[8px] text-blue-400 font-bold mt-1 tracking-wider uppercase">
+                                    {toretaMetric === 'count' ? 'Total Groups' : 'Total Guests'}
+                                  </span>
                                 </div>
                               </td>
                             ))}
                             <td className="px-3 py-3 bg-black text-center font-black border-l-2 border-blue-600">
                               <div className="flex flex-col items-center leading-none">
-                                <span className="text-[15px] font-black text-blue-400 tracking-tighter shadow-blue-500/50 drop-shadow-sm">{toretaTableData.grossTotalCount.toLocaleString()}組</span>
-                                <span className="text-[8px] text-blue-300 font-black uppercase tracking-widest mt-1">{toretaTableData.grossTotalGuestCount.toLocaleString()}人</span>
+                                <span className="text-[15px] font-black text-blue-400 tracking-tighter shadow-blue-500/50 drop-shadow-sm">
+                                  {(toretaMetric === 'count' ? toretaTableData.grossTotalCount : toretaTableData.grossTotalGuestCount).toLocaleString()}{toretaMetric === 'count' ? '組' : '人'}
+                                </span>
+                                <span className="text-[8px] text-blue-300 font-black uppercase tracking-widest mt-1">
+                                  {toretaMetric === 'count' ? 'Gross Total' : 'Gross Guests'}
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -755,7 +825,7 @@ function App() {
                             <div className="ml-auto flex items-center gap-2 px-3 py-1.5 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-200 transition-all border border-indigo-500">
                               <span className="text-[10px] font-black text-indigo-100 uppercase tracking-tighter">Reserve Total</span>
                               <span className="text-xl font-black text-white tabular-nums">{netTotalCount.toLocaleString()}</span>
-                              <span className="text-[10px] font-bold text-indigo-200 uppercase">組</span>
+                              <span className="text-[10px] font-bold text-indigo-200 uppercase">{toretaMetric === 'count' ? '組' : '人'}</span>
                             </div>
                           );
                         })()}
@@ -783,7 +853,7 @@ function App() {
                                 </div>
                                 <div className="flex items-baseline gap-2 font-mono">
                                   <span className="text-xl font-black text-gray-900">{val.toLocaleString()}</span>
-                                  <span className="text-[10px] font-bold text-gray-400 uppercase">組</span>
+                                  <span className="text-[10px] font-bold text-gray-400 uppercase">{toretaMetric === 'count' ? '組' : '人'}</span>
                                   <span className="ml-auto text-[12px] text-blue-600 font-black bg-blue-50/50 px-2 py-0.5 rounded border border-blue-100/50">{pct}%</span>
                                 </div>
                               </div>
