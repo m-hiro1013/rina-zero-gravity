@@ -1,18 +1,20 @@
 export_info:
   type: s-tock_aggregated_summary
-  exported_at: "2026-02-13T16:07:01.661Z"
-  exported_at_jst: "2026/02/14 01:07:01"
+  exported_at: "2026-02-16T17:26:59.017Z"
+  exported_at_jst: "2026/02/17 02:26:59"
   period:
-    start: "202404"
+    start: "202402"
     end: "202601"
-  shop_count: 22
-  year_month_count: 22
-shops[22]:
+  shop_count: 19
+  year_month_count: 24
+shops[19]:
   - shop_code: "1"
     shop_name: アジアンビストロ Dai たまプラーザ本店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",7055064
       "202405",7357249
       "202406",7265534
@@ -252,7 +254,9 @@ shops[22]:
       "202601",食べログ,218,569
       "202601",電話,101,258
     media_data:
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,327.2,28,119,251,0,0,0,0,0,23
+        "202403",ネット予約プラン,0,null,50,150,453.4,27,154,355,0,0,0,0,0,22
         "202404",ネット予約プラン,0,null,50,150,373.2,30,115,269,0,0,0,0,0,30
         "202405",ネット予約プラン,0,null,50,150,516.8,25,163,376,0,0,0,0,0,26
         "202406",ネット予約プラン,0,null,50,150,406,23,138,303,0,0,0,0,0,22
@@ -275,7 +279,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,239,479,169,273,0,0,0,0,0,0
         "202512",ネット予約プラン,0,null,50,150,0,0,0,0,0,0,0,0,0,0
         "202601",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,5063,12688,533,1210,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,6338,16050,686,1560,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,5426,14775,828,1851,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,5461,14762,846,1796,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,5159,14386,768,1788,0,0,0,0,0,0
@@ -297,8 +303,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,4706,12018,547,1346,0,0,158,0,0,394
         "202511",旧ベーシック,25000,null,0,0,4678,12046,541,1221,0,0,151,0,0,382
         "202512",旧ベーシック,25000,null,0,0,5437,13613,585,1426,0,0,220,0,0,589
-        "202601",旧ベーシック,25000,null,0,0,5601,14175,719,1632,0,0,161,0,0,453
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,4927,13034,522,1273,0,0,195,0,0,510
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -321,7 +329,9 @@ shops[22]:
       "202511",641360,0,0,0,-246969,9,394400,199,"{\"12\":33,\"13\":28,\"14\":12,\"15\":2,\"16\":1,\"17\":7,\"18\":18,\"19\":32,\"20\":29,\"21\":25,\"22\":12}"
       "202512",633640,0,0,0,-243993,19,389666,187,"{\"12\":27,\"13\":23,\"14\":14,\"15\":1,\"16\":1,\"17\":6,\"18\":33,\"19\":33,\"20\":22,\"21\":11,\"22\":16}"
       "202601",911280,0,0,0,-350899,14,560395,257,"{\"12\":48,\"13\":32,\"14\":24,\"15\":2,\"16\":1,\"17\":9,\"18\":30,\"19\":46,\"20\":30,\"21\":22,\"22\":12,\"23\":1}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -358,7 +368,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 新百合ヶ丘店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",7805110
       "202405",8997192
       "202406",8518009
@@ -598,7 +610,9 @@ shops[22]:
       "202601",食べログ,200,556
       "202601",電話,94,297
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -621,7 +635,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,363,1112,398,1087,0,0,38,0,0,103
         "202512",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
         "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,1817.2,10,344,647,0,0,86,0,0,8
+        "202403",ネット予約プラン,0,null,50,150,2074.4,11,403,813,0,0,107,0,0,10
         "202404",ネット予約プラン,0,null,50,150,1761.5,12,328,745,0,0,95,0,0,5
         "202405",ネット予約プラン,0,null,50,150,2076.7,15,400,1140,0,0,130,0,0,3
         "202406",ネット予約プラン,0,null,50,150,1533.8,5,396,757,0,0,109,0,0,3
@@ -644,7 +660,9 @@ shops[22]:
         "202511",SSプラン【価格2】,60000,null,10,50,1736,3987,510,1369,0,0,172,0,0,440
         "202512",SSプラン【価格2】,60000,null,10,50,1390,3222,438,1032,0,0,122,0,0,451
         "202601",SSプラン【価格2】,60000,null,10,50,2446,5541,736,1729,0,0,209,0,0,346
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -666,8 +684,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,5592,14633,687,1561,0,0,145,0,0,410
         "202511",旧ベーシック,25000,null,0,0,5809,14806,710,1784,0,0,172,0,0,432
         "202512",旧ベーシック,25000,null,0,0,6116,15303,709,1740,0,0,192,0,0,518
-        "202601",旧ベーシック,25000,null,0,0,8334,24354,908,2247,91,85,176,296,273,569
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,5601,14175,719,1632,0,0,161,0,0,453
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -690,7 +710,9 @@ shops[22]:
       "202511",455520,-1280,-24864,0,-165786,-53285,210309,132,"{\"12\":12,\"13\":25,\"14\":23,\"15\":6,\"16\":3,\"17\":3,\"18\":20,\"19\":15,\"20\":14,\"21\":11}"
       "202512",353098,0,-22848,0,-127133,-50005,153115,107,"{\"12\":18,\"13\":26,\"14\":16,\"15\":2,\"16\":1,\"17\":1,\"18\":14,\"19\":14,\"20\":9,\"21\":6}"
       "202601",611124,-5440,-9548,0,-231617,-49789,312691,171,"{\"12\":19,\"13\":27,\"14\":22,\"15\":3,\"16\":4,\"17\":5,\"18\":24,\"19\":30,\"20\":23,\"21\":13,\"22\":1}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -727,7 +749,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 青葉台店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",6288646
       "202405",7358969
       "202406",6938644
@@ -967,7 +991,9 @@ shops[22]:
       "202601",食べログ,124,352
       "202601",電話,72,204
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -990,7 +1016,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,297,934,504,1036,0,0,29,0,0,94
         "202512",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
         "202601",ベーシック,30000,null,10,50,0,0,0,0,0,0,0,0,0,0
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,327.2,15,180,311,0,0,37,0,0,21
+        "202403",ネット予約プラン,0,null,50,150,453.4,24,205,467,0,0,44,0,0,16
         "202404",ネット予約プラン,0,null,50,150,518.6,22,156,385,0,0,36,0,0,12
         "202405",ネット予約プラン,0,null,50,150,681.6,18,210,560,0,0,60,0,0,9
         "202406",ネット予約プラン,0,null,50,150,425.4,18,175,433,0,0,51,0,0,10
@@ -1013,7 +1041,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,665,1882,261,692,0,0,82,0,0,175
         "202512",ネット予約プラン,0,null,50,150,582,1489,237,669,0,0,58,0,0,262
         "202601",ネット予約プラン,0,null,50,150,1025,2665,385,875,0,0,107,0,0,153
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -1035,8 +1065,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,3412,9220,512,1270,0,0,104,0,0,284
         "202511",旧ベーシック,25000,null,0,0,3488,9470,572,1494,0,0,96,0,0,280
         "202512",旧ベーシック,25000,null,0,0,3883,9773,561,1255,0,0,127,0,0,362
-        "202601",旧ベーシック,25000,null,0,0,4927,13034,522,1273,0,0,195,0,0,510
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,3304,8864,380,928,0,0,108,0,0,306
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -1059,7 +1091,9 @@ shops[22]:
       "202511",610130,0,0,0,-234927,-67617,307590,164,"{\"12\":32,\"13\":18,\"14\":10,\"15\":8,\"16\":5,\"17\":6,\"18\":23,\"19\":22,\"20\":22,\"21\":11,\"22\":7}"
       "202512",578550,0,0,0,-222759,-35481,320314,154,"{\"12\":38,\"13\":12,\"14\":13,\"15\":6,\"16\":5,\"17\":9,\"18\":16,\"19\":19,\"20\":16,\"21\":13,\"22\":6,\"23\":1}"
       "202601",878620,0,-400,0,-338147,-52620,487458,234,"{\"12\":44,\"13\":24,\"14\":25,\"15\":9,\"16\":6,\"17\":18,\"18\":24,\"19\":36,\"20\":14,\"21\":28,\"22\":6}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -1096,7 +1130,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 日吉店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",6557402
       "202405",7296319
       "202406",6734808
@@ -1336,7 +1372,9 @@ shops[22]:
       "202601",食べログ,89,295
       "202601",電話,36,125
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,295,789,554,1145,0,0,26,0,0,70
+        "202403",null,null,null,null,null,498,1219,709,1076,0,0,22,0,0,61
         "202404",null,null,null,null,null,347,1046,635,1064,0,0,26,0,0,61
         "202405",null,null,null,null,null,361,1041,631,1123,0,0,24,0,0,60
         "202406",null,null,null,null,null,219,796,632,983,0,0,22,0,0,61
@@ -1359,7 +1397,9 @@ shops[22]:
         "202511",スタート,0,null,50,200,143,316,353,719,0,0,9,0,0,21
         "202512",スタート,0,null,50,200,110,358,401,645,0,0,8,0,0,24
         "202601",スタート,0,null,50,200,100,371,377,514,0,0,6,0,0,16
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",SSプラン【価格2】,60000,null,10,50,339.2,12,152,207,0,0,0,0,0,28
+        "202403",SSプラン【価格2】,60000,null,10,50,641.2,23,121,181,0,0,0,0,0,28
         "202404",SSプラン【価格2】,60000,null,10,50,300.3,25,92,157,0,0,0,0,0,27
         "202405",SSプラン【価格2】,60000,null,10,50,430.6,30,104,161,0,0,0,0,0,24
         "202406",SSプラン【価格2】,60000,null,10,50,336.5,18,130,190,0,0,0,0,0,22
@@ -1382,7 +1422,9 @@ shops[22]:
         "202511",SSプラン【価格2】,60000,null,10,50,591,1518,304,721,0,0,40,0,0,104
         "202512",SSプラン【価格2】,60000,null,10,50,691,1744,296,671,0,0,53,0,0,183
         "202601",SSプラン【価格2】,60000,null,10,50,914,2088,447,873,0,0,69,0,0,127
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,3407,9561,496,1366,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,4378,11708,472,1164,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,4065,12521,614,1362,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,4024,12514,622,1401,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,3683,11273,500,1228,0,0,0,0,0,0
@@ -1405,7 +1447,9 @@ shops[22]:
         "202511",旧ベーシック,25000,null,0,0,3231,8801,390,932,0,0,85,0,0,255
         "202512",旧ベーシック,25000,null,0,0,3037,7898,444,1073,0,0,94,0,0,304
         "202601",旧ベーシック,25000,null,0,0,3106,8865,425,929,0,0,80,0,0,269
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -1428,7 +1472,9 @@ shops[22]:
       "202511",527280,0,-32844,0,-190352,-36118,262804,143,"{\"12\":16,\"13\":13,\"14\":11,\"15\":11,\"16\":11,\"17\":13,\"18\":17,\"19\":18,\"20\":17,\"21\":7,\"22\":8,\"23\":1}"
       "202512",580410,-2404,-45388,0,-205972,-37204,281787,149,"{\"12\":20,\"13\":20,\"14\":10,\"15\":10,\"16\":7,\"17\":14,\"18\":12,\"19\":23,\"20\":17,\"21\":5,\"22\":11}"
       "202601",519450,0,-20440,0,-192124,-55282,249113,126,"{\"12\":24,\"13\":16,\"14\":13,\"15\":8,\"16\":4,\"17\":7,\"18\":8,\"19\":16,\"20\":11,\"21\":11,\"22\":8}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -1465,7 +1511,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 駒沢店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",7958179
       "202405",9015945
       "202406",7254466
@@ -1705,7 +1753,9 @@ shops[22]:
       "202601",食べログ,78,275
       "202601",電話,51,266
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,103,338,413,744,0,0,20,0,0,70
+        "202403",null,null,null,null,null,215,536,581,985,0,0,20,0,0,63
         "202404",null,null,null,null,null,178,549,526,835,0,0,25,0,0,73
         "202405",null,null,null,null,null,93,310,490,770,0,0,23,0,0,60
         "202406",null,null,null,null,null,103,313,481,769,0,0,19,0,0,65
@@ -1728,7 +1778,9 @@ shops[22]:
         "202511",スタート,0,null,50,200,89,231,390,761,0,0,9,0,0,31
         "202512",スタート,0,null,50,200,49,139,337,508,0,0,4,0,0,14
         "202601",スタート,0,null,50,200,41,150,325,481,0,0,6,0,0,15
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,431.8,11,98,175,0,0,15,0,0,7
+        "202403",ネット予約プラン,0,null,50,150,565.8,3,177,326,0,0,22,0,0,9
         "202404",ネット予約プラン,0,null,50,150,407.9,5,138,302,0,0,18,0,0,5
         "202405",ネット予約プラン,0,null,50,150,492.4,4,170,396,0,0,36,0,0,5
         "202406",ネット予約プラン,0,null,50,150,414.5,6,132,264,0,0,23,0,0,4
@@ -1751,7 +1803,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,244,628,234,440,0,0,22,0,0,52
         "202512",ネット予約プラン,0,null,50,150,161,398,135,369,0,0,17,0,0,56
         "202601",ネット予約プラン,0,null,50,150,297,663,280,681,0,0,28,0,0,49
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -1774,7 +1828,9 @@ shops[22]:
         "202511",旧ベーシック,25000,null,0,0,6110,13941,620,1496,0,0,89,0,0,370
         "202512",旧ベーシック,25000,null,0,0,5123,10814,508,1340,0,0,78,0,0,290
         "202601",旧ベーシック,25000,null,0,0,5602,11559,535,1207,0,0,67,0,0,243
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -1797,7 +1853,9 @@ shops[22]:
       "202511",189525,0,0,0,-72976,-6301,110250,46,"{\"12\":9,\"13\":4,\"14\":1,\"17\":2,\"18\":3,\"19\":8,\"20\":7,\"21\":7,\"22\":5}"
       "202512",268780,0,0,0,-103496,-35326,129964,56,"{\"12\":10,\"13\":8,\"14\":4,\"17\":2,\"18\":5,\"19\":13,\"20\":5,\"21\":4,\"22\":5}"
       "202601",271555,0,0,0,-104568,-22345,144643,60,"{\"12\":7,\"13\":14,\"14\":2,\"16\":2,\"17\":2,\"18\":6,\"19\":9,\"20\":9,\"21\":6,\"22\":3}"
-    ad_cost_data[35]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[37]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -1837,7 +1895,9 @@ shops[22]:
     shop_name: アジアンビストロDai 武蔵小杉店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",14670861
       "202405",16258649
       "202406",16204144
@@ -2077,7 +2137,9 @@ shops[22]:
       "202601",食べログ,452,1231
       "202601",電話,104,323
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,462,1387,458,849,0,0,69,0,0,171
+        "202403",null,null,null,null,null,948,2591,532,1241,0,0,76,0,0,212
         "202404",null,null,null,null,null,399,1347,363,823,0,0,66,0,0,170
         "202405",null,null,null,null,null,356,1214,374,933,0,0,61,0,0,149
         "202406",null,null,null,null,null,518,1676,546,1283,0,0,15,0,0,51
@@ -2100,7 +2162,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,388,1188,484,1047,0,0,28,0,0,85
         "202512",ベーシック,30000,null,10,50,404,1102,284,869,0,0,19,0,0,55
         "202601",ベーシック,30000,null,10,50,263,840,431,823,0,0,14,0,0,36
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",SSプラン【価格2】,60000,null,10,50,1117.7,26,463,1270,0,0,160,0,0,22
+        "202403",SSプラン【価格2】,60000,null,10,50,1464.7,28,606,1732,0,0,203,0,0,11
         "202404",SSプラン【価格2】,60000,null,10,50,1151.2,26,528,1481,0,0,177,0,0,13
         "202405",SSプラン【価格2】,60000,null,10,50,1320,22,659,2248,0,0,239,0,0,8
         "202406",SSプラン【価格2】,60000,null,10,50,1085,14,690,1870,0,0,186,0,0,6
@@ -2123,7 +2187,9 @@ shops[22]:
         "202511",SSプラン【価格2】,60000,null,10,50,2015,5110,652,1470,0,0,212,0,0,512
         "202512",SSプラン【価格2】,60000,null,10,50,1759,4469,702,1540,0,0,123,0,0,360
         "202601",SSプラン【価格2】,60000,null,10,50,2661,6599,963,2133,0,0,221,0,0,500
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,11277,29307,1055,2359,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,12658,31836,1367,2849,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,11910,32029,1256,2948,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,12393,34395,1426,3516,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,12498,36983,1489,3093,0,0,0,0,0,0
@@ -2145,8 +2211,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,13130,35623,1254,2800,0,0,414,0,0,1093
         "202511",旧ベーシック,25000,null,0,0,13888,36629,1456,3495,0,0,403,0,0,1087
         "202512",旧ベーシック,25000,null,0,0,12957,34451,1402,3322,0,0,458,0,0,1287
-        "202601",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,12587,34685,1223,2792,0,0,397,0,0,1094
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -2169,7 +2237,9 @@ shops[22]:
       "202511",885700,-2960,0,0,-341147,-23668,518128,269,"{\"12\":26,\"13\":37,\"14\":19,\"15\":16,\"16\":10,\"17\":17,\"18\":27,\"19\":32,\"20\":35,\"21\":27,\"22\":23}"
       "202512",849940,-1980,0,0,-327307,-24737,495923,252,"{\"12\":23,\"13\":28,\"14\":19,\"15\":10,\"16\":11,\"17\":15,\"18\":27,\"19\":33,\"20\":41,\"21\":27,\"22\":18}"
       "202601",959260,-5770,0,0,-369408,-23019,561064,283,"{\"12\":32,\"13\":41,\"14\":20,\"15\":17,\"16\":11,\"17\":11,\"18\":39,\"19\":31,\"20\":32,\"21\":25,\"22\":22,\"23\":2}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -2206,7 +2276,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 東京ガーデンテラス店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",9333223
       "202405",10256869
       "202406",10580460
@@ -2446,7 +2518,9 @@ shops[22]:
       "202601",食べログ,148,622
       "202601",電話,52,473
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,56,182,386,653,0,0,10,0,0,35
+        "202403",null,null,null,null,null,113,331,482,774,0,0,7,0,0,26
         "202404",null,null,null,null,null,63,219,497,867,0,0,11,0,0,55
         "202405",null,null,null,null,null,88,278,486,771,0,0,10,0,0,41
         "202406",null,null,null,null,null,92,250,587,922,0,0,9,0,0,37
@@ -2469,7 +2543,9 @@ shops[22]:
         "202511",null,null,null,null,null,106,244,434,753,0,0,5,0,0,13
         "202512",null,null,null,null,null,107,293,416,591,0,0,8,0,0,23
         "202601",null,null,null,null,null,35,146,411,558,0,0,3,0,0,9
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,197,127,94,272,0,0,8,0,0,99
+        "202403",ネット予約プラン,0,null,50,150,255.1,108,187,445,0,0,13,0,0,94
         "202404",ネット予約プラン,0,null,50,150,200.6,108,147,311,0,0,13,0,0,105
         "202405",ネット予約プラン,0,null,50,150,252.1,118,145,357,0,0,14,0,0,83
         "202406",ネット予約プラン,0,null,50,150,240.1,95,190,385,0,0,8,0,0,82
@@ -2492,7 +2568,9 @@ shops[22]:
         "202511",Aプラン【価格1】,69000,0,10,50,354,743,357,738,0,0,17,0,0,52
         "202512",Aプラン【価格1】,69000,0,10,50,303,674,274,665,0,0,20,0,0,69
         "202601",SSプレミアムプラン【価格2】,100000,null,10,50,635,1511,475,1156,0,0,27,0,0,80
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,3878,10058,1041,2589,8,63,71,21,237,258
+        "202403",null,null,null,null,null,4923,12093,1315,2949,14,72,86,43,260,303
         "202404",null,null,null,null,null,4770,12547,1358,3380,9,74,83,29,261,290
         "202405",null,null,null,null,null,5123,13853,1420,3601,13,89,102,32,288,320
         "202406",null,null,null,null,null,5124,14092,1487,4008,14,86,100,48,315,363
@@ -2514,8 +2592,10 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,5224,14093,1860,4400,29,83,112,93,415,508
         "202511",ベーシック,25000,null,100,200,5564,14724,1941,4742,33,81,114,132,362,494
         "202512",ベーシック,25000,null,100,200,6002,15356,1953,4815,54,97,151,203,431,634
-        "202601",ベーシック,25000,null,100,200,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",ベーシック,25000,null,100,200,5537,13715,1634,4012,46,80,126,179,366,545
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -2538,7 +2618,9 @@ shops[22]:
       "202511",null,null,null,null,null,null,null,null,null
       "202512",null,null,null,null,null,null,null,null,null
       "202601",null,null,null,null,null,null,null,null,null
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -2575,7 +2657,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 二子玉川店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",18832113
       "202405",20709572
       "202406",20567037
@@ -2815,7 +2899,9 @@ shops[22]:
       "202601",食べログ,511,1601
       "202601",電話,45,431
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,742,2467,604,1326,0,0,9,0,0,29
+        "202403",null,null,null,null,null,1318,3624,733,1657,0,0,12,0,0,27
         "202404",null,null,null,null,null,835,2738,555,1143,0,0,16,0,0,40
         "202405",null,null,null,null,null,679,2514,664,1607,0,0,14,0,0,44
         "202406",null,null,null,null,null,496,1950,530,1020,0,0,3,0,0,9
@@ -2838,7 +2924,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,550,1821,547,1346,0,0,32,0,0,117
         "202512",ベーシック,30000,null,10,50,622,1817,604,1211,0,0,44,0,0,140
         "202601",ベーシック,30000,null,10,50,478,1621,399,927,0,0,45,0,0,148
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,768.4,1,393,772,0,0,78,0,0,1
+        "202403",ネット予約プラン,0,null,50,150,1033.2,5,429,887,0,0,102,0,0,1
         "202404",ネット予約プラン,0,null,50,150,750.2,8,322,676,0,0,91,0,0,2
         "202405",ネット予約プラン,0,null,50,150,1177.8,7,518,1050,0,0,116,0,0,1
         "202406",ネット予約プラン,0,null,50,150,908.2,9,452,858,0,0,79,0,0,1
@@ -2861,7 +2949,9 @@ shops[22]:
         "202511",SSプラン【価格2】,60000,null,10,50,2069,4501,740,1367,0,0,228,0,0,557
         "202512",SSプラン【価格2】,60000,null,10,50,1514,3235,591,1068,0,0,170,0,0,697
         "202601",SSプラン【価格2】,60000,null,10,50,3000,6567,1047,1935,0,0,325,0,0,532
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -2883,8 +2973,10 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,16935,43234,1967,4590,210,218,428,576,656,1232
         "202511",プレミアム5,50000,null,100,200,16696,40816,1841,4316,258,215,473,702,692,1394
         "202512",プレミアム5,50000,null,100,200,17455,41775,2050,4325,203,254,457,600,864,1464
-        "202601",プレミアム5,50000,null,100,200,13221,27453,1276,2926,64,67,131,199,279,478
-      retty[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202601",プレミアム5,50000,null,100,200,15512,39020,1710,3658,244,204,448,728,691,1419
+      retty[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -2907,7 +2999,9 @@ shops[22]:
         "202511",ブロンズF,21000,null,100,200,0,0,0,0,0,0,0,0,0,0
         "202512",ブロンズF,21000,null,100,200,0,0,0,0,0,0,0,0,0,0
         "202601",ブロンズF,21000,null,100,200,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -2930,7 +3024,9 @@ shops[22]:
       "202511",686742,-5950,0,0,-264471,-56750,359583,178,"{\"12\":33,\"13\":20,\"14\":16,\"15\":8,\"16\":11,\"17\":11,\"18\":13,\"19\":28,\"20\":17,\"21\":6,\"22\":14,\"23\":1}"
       "202512",576388,0,0,0,-221947,-58638,295805,123,"{\"12\":16,\"13\":12,\"14\":11,\"15\":2,\"16\":6,\"17\":10,\"18\":21,\"19\":16,\"20\":11,\"21\":3,\"22\":15}"
       "202601",734906,0,0,0,-282999,-54107,397803,175,"{\"12\":31,\"13\":20,\"14\":11,\"15\":14,\"16\":7,\"17\":19,\"18\":12,\"19\":19,\"20\":20,\"21\":13,\"22\":9}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,飲食予約プラン,18000,null
+      "202403",line,飲食予約プラン,18000,null
       "202404",line,飲食予約プラン,18000,null
       "202405",line,飲食予約プラン,18000,null
       "202406",line,飲食予約プラン,18000,null
@@ -2967,7 +3063,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 日本橋
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",18192653
       "202405",18650244
       "202406",17773952
@@ -3207,7 +3305,9 @@ shops[22]:
       "202601",食べログ,506,1564
       "202601",電話,44,409
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,820,2026,679,1693,0,0,41,0,0,177
+        "202403",null,null,null,null,null,1062,2480,869,2260,0,0,41,0,0,178
         "202404",null,null,null,null,null,623,1793,778,2228,0,0,36,0,0,137
         "202405",null,null,null,null,null,857,2307,885,2519,0,0,30,0,0,133
         "202406",null,null,null,null,null,675,2045,779,2385,0,0,35,0,0,161
@@ -3230,7 +3330,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,496,1306,523,1640,0,0,53,0,0,215
         "202512",ベーシック,30000,null,10,50,397,1225,499,1392,0,0,43,0,0,124
         "202601",ベーシック,30000,null,10,50,428,1220,535,1499,0,0,35,0,0,108
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
+        "202403",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
         "202404",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
         "202405",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
         "202406",SSプレミアムプラン【価格1】,180000,100000,10,50,0,0,0,0,0,0,0,0,0,0
@@ -3253,7 +3355,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,899,2156,566,1117,0,0,56,0,0,112
         "202512",ネット予約プラン,0,null,50,150,869,2103,554,1028,0,0,57,0,0,213
         "202601",ネット予約プラン,0,null,50,150,1432,3576,743,1530,0,0,135,0,0,255
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,13644,36283,2458,5764,171,206,377,459,573,1032
+        "202403",null,null,null,null,null,17483,44645,2737,6666,224,232,456,607,661,1268
         "202404",null,null,null,null,null,18419,50606,3337,8560,242,241,483,643,679,1322
         "202405",null,null,null,null,null,18532,51702,3347,8093,251,255,506,652,760,1412
         "202406",null,null,null,null,null,18919,52507,3950,9286,282,267,549,776,817,1593
@@ -3275,8 +3379,10 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,14960,37551,3074,7092,191,174,365,571,606,1177
         "202511",プレミアム5,50000,null,100,200,18545,47442,3471,8127,206,207,413,672,644,1316
         "202512",プレミアム5,50000,null,100,200,28898,70776,4260,9948,303,261,564,917,911,1828
-        "202601",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",プレミアム5,50000,null,100,200,22444,56620,3479,8577,229,229,458,700,710,1410
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -3299,7 +3405,9 @@ shops[22]:
       "202511",null,null,null,null,null,null,null,null,null
       "202512",null,null,null,null,null,null,null,null,null
       "202601",null,null,null,null,null,null,null,null,null
-    ad_cost_data[44]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[46]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -3348,7 +3456,9 @@ shops[22]:
     shop_name: アジアンビストロDai 立川グリーンスプリングス店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",15986526
       "202405",16933063
       "202406",16630364
@@ -3588,7 +3698,9 @@ shops[22]:
       "202601",食べログ,270,799
       "202601",電話,53,318
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -3611,7 +3723,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,338,917,464,879,0,0,22,0,0,74
         "202512",ライト,10000,null,10,50,192,461,252,674,0,0,6,0,0,26
         "202601",ライト,10000,null,10,50,157,452,268,558,0,0,3,0,0,8
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,1061.5,73,556,1203,0,0,86,0,0,34
+        "202403",null,null,null,null,null,1050.1,60,759,1717,0,0,112,0,0,52
         "202404",null,null,null,null,null,852.1,78,569,1242,0,0,106,0,0,31
         "202405",null,null,null,null,null,1149.9,68,752,1722,0,0,121,0,0,31
         "202406",null,null,null,null,null,1052.3,75,597,1393,0,0,93,0,0,38
@@ -3634,7 +3748,9 @@ shops[22]:
         "202511",Aプラン【価格2】,30000,null,10,50,2700,6403,1074,2380,0,0,166,0,0,454
         "202512",Aプラン【価格2】,30000,null,10,50,2034,4808,621,1511,0,0,145,0,0,556
         "202601",Aプラン【価格2】,30000,null,10,50,4803,9245,1843,3170,0,0,220,0,0,367
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,5051,14452,553,1353,39,42,81,104,120,224
+        "202403",null,null,null,null,null,5479,15853,629,1499,39,47,86,105,158,263
         "202404",null,null,null,null,null,5725,17133,823,1903,43,47,90,107,136,243
         "202405",null,null,null,null,null,5916,20282,807,2014,56,58,114,148,177,325
         "202406",null,null,null,null,null,5254,17622,683,1719,58,51,109,150,160,310
@@ -3657,7 +3773,9 @@ shops[22]:
         "202511",ベーシック,25000,null,100,200,12630,32278,1026,2681,115,84,199,340,241,581
         "202512",ベーシック,25000,null,100,200,11544,27850,1053,2618,109,114,223,290,358,648
         "202601",ベーシック,25000,null,100,200,9159,23771,860,2103,83,69,152,234,222,456
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -3680,7 +3798,9 @@ shops[22]:
       "202511",231920,-2000,0,0,-89305,3,140618,65,"{\"12\":12,\"13\":4,\"14\":10,\"15\":3,\"16\":1,\"17\":5,\"18\":8,\"19\":13,\"20\":3,\"21\":6}"
       "202512",195710,-1780,-400,0,-75207,6,118329,59,"{\"12\":7,\"13\":9,\"14\":7,\"15\":2,\"16\":2,\"17\":3,\"18\":13,\"19\":6,\"20\":8,\"21\":2}"
       "202601",276670,0,0,0,-106537,4,170137,88,"{\"12\":12,\"13\":8,\"14\":7,\"15\":3,\"16\":4,\"17\":8,\"18\":15,\"19\":13,\"20\":10,\"21\":8}"
-    ad_cost_data[49]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[51]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,飲食予約プラン,18000,null
+      "202403",line,飲食予約プラン,18000,null
       "202404",line,飲食予約プラン,18000,null
       "202405",line,飲食予約プラン,18000,null
       "202406",line,飲食予約プラン,18000,null
@@ -3734,7 +3854,9 @@ shops[22]:
     shop_name: アジアンビストロ Dai 勝どき店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",12039836
       "202405",13566746
       "202406",13979491
@@ -3974,7 +4096,9 @@ shops[22]:
       "202601",食べログ,94,346
       "202601",電話,69,303
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -3997,7 +4121,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,58,187,238,395,0,0,13,0,0,66
         "202512",ライト,10000,null,10,50,68,206,191,443,0,0,2,0,0,8
         "202601",ライト,10000,null,10,50,27,82,182,345,0,0,2,0,0,11
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,2903,7652,552,1085,34,44,78,118,180,298
+        "202403",null,null,null,null,null,3503,9374,708,1568,33,57,90,117,229,346
         "202404",null,null,null,null,null,3914,10314,783,1847,35,49,84,126,177,303
         "202405",null,null,null,null,null,3701,10438,898,1701,47,54,101,154,212,366
         "202406",null,null,null,null,null,3738,11130,887,1678,66,66,132,253,264,517
@@ -4019,8 +4145,10 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,3196,8501,583,1520,41,50,91,141,188,329
         "202511",ベーシック,25000,null,100,200,7149,14259,782,1867,57,50,107,201,188,389
         "202512",ベーシック,25000,null,100,200,7136,14121,869,2347,52,67,119,169,349,518
-        "202601",ベーシック,25000,null,100,200,15512,39020,1710,3658,244,204,448,728,691,1419
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202601",ベーシック,25000,null,100,200,5600,11845,777,1859,36,45,81,112,193,305
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4043,7 +4171,9 @@ shops[22]:
         "202511",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
         "202512",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
         "202601",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -4066,7 +4196,9 @@ shops[22]:
       "202511",941233,-2260,-115797,0,-324490,-66426,470507,258,"{\"12\":43,\"13\":34,\"14\":20,\"15\":12,\"16\":3,\"17\":9,\"18\":28,\"19\":28,\"20\":33,\"21\":33,\"22\":14,\"23\":1}"
       "202512",612785,0,-59857,0,-212527,-39460,323110,137,"{\"12\":31,\"13\":18,\"14\":9,\"15\":5,\"17\":4,\"18\":16,\"19\":15,\"20\":12,\"21\":17,\"22\":10}"
       "202601",648900,-2800,0,0,-237679,-36981,371440,96,"{\"12\":17,\"13\":9,\"14\":6,\"15\":4,\"16\":3,\"17\":5,\"18\":11,\"19\":17,\"20\":12,\"21\":11,\"22\":1}"
-    ad_cost_data[35]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[37]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -4106,7 +4238,9 @@ shops[22]:
     shop_name: スパニッシュイタリアンDai たまプラーザ店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",5407814
       "202405",5870625
       "202406",5795138
@@ -4346,7 +4480,9 @@ shops[22]:
       "202601",食べログ,155,466
       "202601",電話,53,187
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4369,7 +4505,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,457,1387,527,966,0,0,22,0,0,81
         "202512",ベーシック,30000,null,10,50,506,1429,366,1066,0,0,16,0,0,60
         "202601",ベーシック,30000,null,10,50,434,1447,636,1078,0,0,23,0,0,62
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,1037.9,12,196,417,0,0,49,0,0,10
+        "202403",ネット予約プラン,0,null,50,150,1371,11,259,492,0,0,50,0,0,9
         "202404",ネット予約プラン,0,null,50,150,1239.5,12,234,492,0,0,33,0,0,12
         "202405",ネット予約プラン,0,null,50,150,1627.3,12,286,774,0,0,87,0,0,8
         "202406",ネット予約プラン,0,null,50,150,1206.5,9,242,612,0,0,55,0,0,9
@@ -4392,7 +4530,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,989,2239,325,616,0,0,60,0,0,143
         "202512",ネット予約プラン,0,null,50,150,830,1854,275,674,0,0,55,0,0,220
         "202601",ネット予約プラン,0,null,50,150,1310,2896,470,1265,0,0,97,0,0,154
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -4414,8 +4554,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,5617,16005,610,1487,0,0,126,0,0,419
         "202511",旧ベーシック,25000,null,0,0,6326,17870,587,1456,0,0,139,0,0,405
         "202512",旧ベーシック,25000,null,0,0,7155,19553,736,1909,0,0,168,0,0,482
-        "202601",旧ベーシック,25000,null,0,0,3304,8864,380,928,0,0,108,0,0,306
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,6156,17149,617,1459,0,0,142,0,0,431
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -4438,7 +4580,9 @@ shops[22]:
       "202511",63026,0,0,0,-24268,2,38760,13,"{\"13\":1,\"14\":3,\"18\":1,\"19\":4,\"20\":3,\"21\":1}"
       "202512",31635,0,0,0,-12181,1,19455,10,"{\"12\":1,\"13\":2,\"14\":2,\"19\":1,\"20\":3,\"21\":1}"
       "202601",43261,0,0,0,-16657,0,26604,9,"{\"18\":2,\"19\":3,\"21\":4}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -4475,7 +4619,9 @@ shops[22]:
     shop_name: トラットリア＆ピッツェリアDai 町田店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",8245900
       "202405",8413223
       "202406",8122403
@@ -4715,7 +4861,9 @@ shops[22]:
       "202601",食べログ,350,940
       "202601",電話,92,264
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4738,7 +4886,9 @@ shops[22]:
         "202511",スタート,0,null,50,200,233,752,364,736,0,0,9,0,0,26
         "202512",スタート,0,null,50,200,176,751,466,794,0,0,25,0,0,60
         "202601",スタート,0,null,50,200,188,757,451,640,0,0,34,0,0,97
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,3060.3,76,427,1049,0,0,132,0,0,59
+        "202403",ネット予約プラン,0,null,50,150,4115.2,103,435,1042,0,0,158,0,0,66
         "202404",ネット予約プラン,0,null,50,150,2847,78,479,1272,0,0,160,0,0,48
         "202405",ネット予約プラン,0,null,50,150,3666.3,80,581,1509,0,0,200,0,0,37
         "202406",ネット予約プラン,0,null,50,150,2908,90,441,966,0,0,161,0,0,50
@@ -4761,7 +4911,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,2184,5253,646,1285,0,0,157,0,0,355
         "202512",ネット予約プラン,0,null,50,150,1913,4810,468,1042,0,0,133,0,0,426
         "202601",ネット予約プラン,0,null,50,150,3443,8922,840,1730,0,0,240,0,0,368
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -4783,8 +4935,10 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,12844,35908,1365,3374,120,126,246,300,341,641
         "202511",プレミアム5,50000,null,100,200,15570,43130,1648,4287,157,130,287,405,355,760
         "202512",プレミアム5,50000,null,100,200,18163,49354,1776,4134,155,212,367,405,567,972
-        "202601",プレミアム5,50000,null,100,200,5600,11845,777,1859,36,45,81,112,193,305
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",プレミアム5,50000,null,100,200,14823,42030,1262,3262,138,152,290,357,422,779
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -4807,7 +4961,9 @@ shops[22]:
       "202511",91620,0,0,0,-35285,-5621,50715,25,"{\"12\":1,\"13\":2,\"16\":1,\"17\":1,\"18\":4,\"19\":10,\"20\":3,\"21\":2,\"22\":1}"
       "202512",64320,0,0,0,-24770,-7588,31964,16,"{\"16\":1,\"17\":6,\"19\":3,\"20\":2,\"21\":3,\"22\":1}"
       "202601",78700,0,0,0,-30306,-9422,38973,18,"{\"12\":2,\"14\":1,\"15\":2,\"16\":1,\"17\":5,\"18\":2,\"20\":3,\"21\":1,\"22\":1}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -4844,7 +5000,9 @@ shops[22]:
     shop_name: ブリランテタヴォラ Dai 勝どき店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",11948565
       "202405",13660493
       "202406",13642227
@@ -5084,7 +5242,9 @@ shops[22]:
       "202601",食べログ,141,506
       "202601",電話,78,448
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5107,7 +5267,9 @@ shops[22]:
         "202511",スタート,0,null,50,200,115,323,296,489,0,0,8,0,0,51
         "202512",スタート,0,null,50,200,91,297,296,473,0,0,4,0,0,23
         "202601",スタート,0,null,50,200,57,167,298,435,0,0,4,0,0,11
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5129,8 +5291,10 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,11659,26124,1410,3176,71,95,166,239,368,607
         "202511",ベーシック,25000,null,100,200,9972,22555,1371,3033,72,88,160,241,294,535
         "202512",ベーシック,25000,null,100,200,11643,24833,1706,3678,66,96,162,249,392,641
-        "202601",ベーシック,25000,null,100,200,14823,42030,1262,3262,138,152,290,357,422,779
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202601",ベーシック,25000,null,100,200,13221,27453,1276,2926,64,67,131,199,279,478
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5153,7 +5317,9 @@ shops[22]:
         "202511",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
         "202512",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
         "202601",Bプラスプラン【価格2】,10000,null,50,150,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -5176,7 +5342,9 @@ shops[22]:
       "202511",487355,0,0,0,-177937,-44855,264565,97,"{\"12\":14,\"13\":9,\"14\":6,\"15\":1,\"16\":2,\"17\":7,\"18\":9,\"19\":20,\"20\":17,\"21\":7,\"22\":5}"
       "202512",392485,0,0,0,-145588,-44019,202882,60,"{\"12\":7,\"13\":2,\"14\":2,\"15\":2,\"16\":2,\"17\":4,\"18\":12,\"19\":8,\"20\":7,\"21\":6,\"22\":8}"
       "202601",361830,-4480,0,0,-136211,-42658,178481,62,"{\"12\":5,\"13\":6,\"14\":6,\"15\":2,\"16\":1,\"17\":3,\"18\":6,\"19\":7,\"20\":14,\"21\":6,\"22\":6}"
-    ad_cost_data[49]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[51]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -5230,7 +5398,9 @@ shops[22]:
     shop_name: 大喜楼 たまプラーザ本店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",8410424
       "202405",8974526
       "202406",8098985
@@ -5470,7 +5640,9 @@ shops[22]:
       "202601",食べログ,219,719
       "202601",電話,123,514
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,504,1460,340,783,0,0,31,0,0,99
+        "202403",null,null,null,null,null,686,1810,488,1208,0,0,30,0,0,99
         "202404",null,null,null,null,null,446,1470,316,746,0,0,36,0,0,123
         "202405",null,null,null,null,null,544,1500,429,1091,0,0,36,0,0,114
         "202406",null,null,null,null,null,333,1085,389,834,0,0,32,0,0,102
@@ -5493,7 +5665,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,246,660,256,621,0,0,11,0,0,34
         "202512",ライト,10000,null,10,50,335,932,260,660,0,0,12,0,0,48
         "202601",ライト,10000,null,10,50,285,852,297,574,0,0,10,0,0,27
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,371.3,24,136,458,0,0,19,0,0,26
+        "202403",ネット予約プラン,0,null,50,150,530.2,31,146,434,0,0,24,0,0,28
         "202404",ネット予約プラン,0,null,50,150,409.9,26,134,334,0,0,25,0,0,27
         "202405",ネット予約プラン,0,null,50,150,569.8,19,202,519,0,0,33,0,0,28
         "202406",ネット予約プラン,0,null,50,150,394.9,21,146,404,0,0,21,0,0,26
@@ -5516,7 +5690,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,404,1249,196,507,0,0,48,0,0,133
         "202512",ネット予約プラン,0,null,50,150,288,867,198,886,0,0,34,0,0,146
         "202601",ネット予約プラン,0,null,50,150,599,1696,323,961,0,0,71,0,0,157
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -5538,8 +5714,10 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,7286,21236,890,2304,78,100,178,228,313,541
         "202511",ベーシック,25000,null,100,200,7428,21240,1015,2577,71,90,161,223,306,529
         "202512",ベーシック,25000,null,100,200,9619,27615,1004,2509,99,133,232,325,500,825
-        "202601",ベーシック,25000,null,100,200,8253,22611,925,2248,0,0,222,0,0,668
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",ベーシック,25000,null,100,200,8334,24354,908,2247,91,85,176,296,273,569
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -5562,7 +5740,9 @@ shops[22]:
       "202511",429550,-1540,0,0,-165408,-53635,208968,93,"{\"12\":7,\"13\":3,\"14\":6,\"15\":4,\"16\":5,\"17\":7,\"18\":15,\"19\":22,\"20\":9,\"21\":14,\"22\":1}"
       "202512",440020,0,0,0,-169434,-58626,211960,90,"{\"12\":8,\"13\":2,\"14\":9,\"16\":4,\"17\":9,\"18\":17,\"19\":25,\"20\":5,\"21\":11}"
       "202601",482590,0,0,0,-185830,-52669,244093,113,"{\"12\":9,\"13\":13,\"14\":8,\"15\":3,\"16\":7,\"17\":7,\"18\":24,\"19\":17,\"20\":13,\"21\":12}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -5599,7 +5779,9 @@ shops[22]:
     shop_name: 炭焼き大 たまプラーザ本店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",8659990
       "202405",9516031
       "202406",8763020
@@ -5839,7 +6021,9 @@ shops[22]:
       "202601",食べログ,243,748
       "202601",電話,102,360
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,455,1273,363,923,0,0,23,0,0,74
+        "202403",null,null,null,null,null,727,2134,391,1109,0,0,19,0,0,59
         "202404",null,null,null,null,null,411,1336,324,769,0,0,20,0,0,78
         "202405",null,null,null,null,null,350,852,304,662,0,0,24,0,0,75
         "202406",null,null,null,null,null,221,559,303,406,0,0,0,0,0,0
@@ -5862,7 +6046,9 @@ shops[22]:
         "202511",ベーシック,30000,null,10,50,568,1907,443,1069,0,0,18,0,0,55
         "202512",ベーシック,30000,null,10,50,520,1328,349,878,0,0,14,0,0,45
         "202601",ベーシック,30000,null,10,50,374,999,383,696,0,0,7,0,0,21
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,1296.5,33,105,141,0,0,0,0,0,39
+        "202403",ネット予約プラン,0,null,50,150,1807.7,39,123,162,0,0,0,0,0,36
         "202404",ネット予約プラン,0,null,50,150,1297.7,32,112,172,0,0,0,0,0,37
         "202405",ネット予約プラン,0,null,50,150,1652.7,40,103,148,0,0,0,0,0,35
         "202406",ネット予約プラン,0,null,50,150,1259.8,33,109,149,0,0,0,0,0,36
@@ -5885,7 +6071,9 @@ shops[22]:
         "202511",ネット予約プラン,0,null,50,150,198,335,103,165,0,0,0,0,0,0
         "202512",ネット予約プラン,0,null,50,150,219,513,131,312,0,0,3,0,0,13
         "202601",ネット予約プラン,0,null,50,150,378,979,214,401,0,0,3,0,0,16
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
+        "202403",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202404",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202405",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
         "202406",旧ベーシック,25000,null,0,0,0,0,0,0,0,0,0,0,0,0
@@ -5907,8 +6095,10 @@ shops[22]:
         "202510",旧ベーシック,25000,null,0,0,7178,20026,963,2342,0,0,140,0,0,362
         "202511",旧ベーシック,25000,null,0,0,8327,22756,1189,2815,0,0,191,0,0,547
         "202512",旧ベーシック,25000,null,0,0,9134,24768,1060,2667,0,0,235,0,0,737
-        "202601",旧ベーシック,25000,null,0,0,8073,21000,1119,2733,50,138,188,163,415,578
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",旧ベーシック,25000,null,0,0,8253,22611,925,2248,0,0,222,0,0,668
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -5931,7 +6121,9 @@ shops[22]:
       "202511",null,null,null,null,null,null,null,null,null
       "202512",null,null,null,null,null,null,null,null,null
       "202601",null,null,null,null,null,null,null,null,null
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -5968,7 +6160,9 @@ shops[22]:
     shop_name: 炭焼き大 新百合ヶ丘店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",10496420
       "202405",11233922
       "202406",10757280
@@ -6208,7 +6402,9 @@ shops[22]:
       "202601",食べログ,202,623
       "202601",電話,131,419
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6231,7 +6427,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,408,1497,488,1173,0,0,29,0,0,105
         "202512",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
         "202601",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",ネット予約プラン,0,null,50,150,799,12,324,666,0,0,23,0,0,12
+        "202403",ネット予約プラン,0,null,50,150,1389.2,7,473,933,0,0,82,0,0,11
         "202404",ネット予約プラン,0,null,50,150,969.3,9,371,770,0,0,58,0,0,8
         "202405",ネット予約プラン,0,null,50,150,1359.7,12,462,995,0,0,97,0,0,8
         "202406",ネット予約プラン,0,null,50,150,1049.5,6,379,747,0,0,79,0,0,5
@@ -6254,7 +6452,9 @@ shops[22]:
         "202511",SSプラン【価格2】,60000,null,10,50,1952,4380,613,1202,0,0,128,0,0,264
         "202512",SSプラン【価格2】,60000,null,10,50,1730,4007,550,1074,0,0,128,0,0,447
         "202601",SSプラン【価格2】,60000,null,10,50,2642,6118,993,1998,0,0,169,0,0,314
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6276,8 +6476,10 @@ shops[22]:
         "202510",ベーシック,25000,null,100,200,8086,21872,1163,2826,41,152,193,117,428,545
         "202511",ベーシック,25000,null,100,200,8752,23211,1250,3107,45,146,191,123,423,546
         "202512",ベーシック,25000,null,100,200,9924,26666,1332,2981,63,160,223,175,477,652
-        "202601",ベーシック,25000,null,100,200,6156,17149,617,1459,0,0,142,0,0,431
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",ベーシック,25000,null,100,200,8073,21000,1119,2733,50,138,188,163,415,578
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -6300,7 +6502,9 @@ shops[22]:
       "202511",null,null,null,null,null,null,null,null,null
       "202512",null,null,null,null,null,null,null,null,null
       "202601",null,null,null,null,null,null,null,null,null
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[34]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,ライト,5000,null
+      "202403",line,ライト,5000,null
       "202404",line,ライト,5000,null
       "202405",line,ライト,5000,null
       "202406",line,ライト,5000,null
@@ -6337,7 +6541,9 @@ shops[22]:
     shop_name: 炭焼き大 立川グリーンスプリングス店
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",10477959
       "202405",12152644
       "202406",12016410
@@ -6577,7 +6783,9 @@ shops[22]:
       "202601",食べログ,145,514
       "202601",電話,44,161
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6600,7 +6808,9 @@ shops[22]:
         "202511",スタート,0,null,50,200,172,632,384,739,0,0,9,0,0,46
         "202512",スタート,0,null,50,200,121,441,409,684,0,0,7,0,0,15
         "202601",スタート,0,null,50,200,109,399,366,538,0,0,0,0,0,0
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      hotpepper[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",SSプレミアムプラン【価格2】,100000,null,10,50,2096.7,109,376,763,0,0,62,0,0,90
+        "202403",SSプレミアムプラン【価格2】,100000,null,10,50,2914.7,100,511,1213,0,0,80,0,0,108
         "202404",SSプレミアムプラン【価格2】,100000,null,10,50,2108.2,107,416,949,0,0,87,0,0,79
         "202405",SSプレミアムプラン【価格2】,100000,null,10,50,2547.7,79,638,1320,0,0,108,0,0,67
         "202406",SSプレミアムプラン【価格2】,100000,null,10,50,2011.1,91,501,1139,0,0,76,0,0,76
@@ -6623,7 +6833,9 @@ shops[22]:
         "202511",SSプレミアムプラン【価格2】,100000,null,10,50,1876,4449,785,1543,0,0,87,0,0,240
         "202512",SSプレミアムプラン【価格2】,100000,null,10,50,1686,4221,528,1270,0,0,89,0,0,355
         "202601",SSプレミアムプラン【価格2】,100000,null,10,50,2414,6285,916,2048,0,0,119,0,0,225
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6645,8 +6857,10 @@ shops[22]:
         "202510",プレミアム5,50000,null,100,200,6436,19240,1033,2857,29,80,109,103,268,371
         "202511",プレミアム5,50000,null,100,200,7467,21589,1008,2613,38,80,118,122,251,373
         "202512",プレミアム5,50000,null,100,200,8540,23577,1125,2921,33,102,135,109,350,459
-        "202601",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+        "202601",プレミアム5,50000,null,100,200,5976,17648,730,1922,42,71,113,142,247,389
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -6669,7 +6883,9 @@ shops[22]:
       "202511",139380,0,0,0,-53676,-13914,71791,47,"{\"12\":5,\"13\":2,\"14\":1,\"15\":1,\"16\":1,\"17\":5,\"18\":13,\"19\":7,\"20\":4,\"21\":8}"
       "202512",166215,0,0,0,-64004,-14228,87983,50,"{\"12\":4,\"13\":4,\"14\":4,\"16\":3,\"17\":6,\"18\":10,\"19\":11,\"20\":5,\"21\":3}"
       "202601",184956,-1950,0,0,-71220,-13450,98337,56,"{\"12\":9,\"13\":3,\"14\":1,\"15\":2,\"16\":4,\"17\":6,\"18\":6,\"19\":9,\"20\":13,\"21\":3}"
-    ad_cost_data[35]{year_month,media,plan_name,base_cost,actual_cost}:
+    ad_cost_data[37]{year_month,media,plan_name,base_cost,actual_cost}:
+      "202402",line,スタンダード,15000,null
+      "202403",line,スタンダード,15000,null
       "202404",line,スタンダード,15000,null
       "202405",line,スタンダード,15000,null
       "202406",line,スタンダード,15000,null
@@ -6709,7 +6925,9 @@ shops[22]:
     shop_name: YAKINIKU A FIVE 徳
     avg_price_lunch: 1800
     avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
+    monthly_data[24]{year_month,sales_amount}:
+      "202402",null
+      "202403",null
       "202404",null
       "202405",null
       "202406",null
@@ -6734,7 +6952,9 @@ shops[22]:
       "202601",9517404
     toreta_data[0]:
     media_data:
-      gurunavi[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      gurunavi[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6757,7 +6977,9 @@ shops[22]:
         "202511",ライト,10000,null,10,50,0,0,0,0,0,0,0,0,0,0
         "202512",ライト,10000,null,10,50,164,949,486,962,0,0,18,0,0,67
         "202601",ライト,10000,null,10,50,142,739,404,885,0,0,17,0,0,64
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+      tabelog[24]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
+        "202402",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
+        "202403",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202404",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202405",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
         "202406",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
@@ -6780,7 +7002,9 @@ shops[22]:
         "202511",プレミアム5,50000,null,100,200,0,0,0,0,0,0,0,0,0,0
         "202512",プレミアム5,50000,null,100,200,6323,19998,1329,3317,17,185,202,54,605,659
         "202601",プレミアム5,50000,null,100,200,4497,14032,1087,2618,20,140,160,53,461,514
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+    uber_data[24]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
+      "202402",null,null,null,null,null,null,null,null,null
+      "202403",null,null,null,null,null,null,null,null,null
       "202404",null,null,null,null,null,null,null,null,null
       "202405",null,null,null,null,null,null,null,null,null
       "202406",null,null,null,null,null,null,null,null,null
@@ -6812,241 +7036,6 @@ shops[22]:
       "202511",conetto広告,conetto広告,0,5
       "202512",conetto広告,conetto広告,0,5
       "202601",conetto広告,conetto広告,0,5
-  - shop_code: "12"
-    shop_name: アジアンビストロDai 那覇店
-    avg_price_lunch: 1800
-    avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
-      "202404",1208329
-      "202405",1262683
-      "202406",1152126
-      "202407",1379047
-      "202408",1430115
-      "202409",1365937
-      "202410",1850592
-      "202411",1888097
-      "202412",2069804
-      "202501",1448179
-      "202502",1344976
-      "202503",1883562
-      "202504",1517704
-      "202505",1691020
-      "202506",1386818
-      "202507",1398118
-      "202508",1568606
-      "202509",1383526
-      "202510",1432527
-      "202511",null
-      "202512",null
-      "202601",null
-    toreta_data[0]:
-    media_data:
-      hotpepper[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
-        "202404",null,null,null,null,null,1479.6,42,265,541,0,0,32,0,0,56
-        "202405",null,null,null,null,null,1755.1,24,437,922,0,0,38,0,0,37
-        "202406",null,null,null,null,null,1509.2,43,258,603,0,0,35,0,0,48
-        "202407",null,null,null,null,null,1661.6,34,319,620,0,0,35,0,0,42
-        "202408",null,null,null,null,null,2020.1,36,361,710,0,0,49,0,0,46
-        "202409",null,null,null,null,null,1652.4,34,365,732,0,0,42,0,0,37
-        "202410",null,null,null,null,null,623,1554,357,639,0,0,40,0,0,0
-        "202411",null,null,null,null,null,1879,3932,751,1564,0,0,74,0,0,116
-        "202412",null,null,null,null,null,1087,2322,432,899,0,0,55,0,0,194
-        "202501",null,null,null,null,null,1710,3751,691,1519,0,0,84,0,0,125
-        "202502",null,null,null,null,null,1122,2488,527,1090,0,0,55,0,0,131
-        "202503",null,null,null,null,null,1410,3074,549,1174,0,0,51,0,0,145
-        "202504",null,null,null,null,null,1130,2354,524,1038,0,0,36,0,0,75
-        "202505",null,null,null,null,null,1523,3354,661,1286,0,0,63,0,0,122
-        "202506",null,null,null,null,null,1079,2402,568,1149,0,0,40,0,0,87
-        "202507",null,null,null,null,null,1495,3344,675,1328,0,0,73,0,0,136
-        "202508",null,null,null,null,null,1260,2686,601,1251,0,0,41,0,0,113
-        "202509",null,null,null,null,null,1102,2448,509,1074,0,0,46,0,0,109
-        "202510",null,null,null,null,null,1457,3243,671,1455,0,0,65,0,0,125
-        "202511",null,null,null,null,null,567,1181,355,665,0,0,4,0,0,0
-        "202512",null,null,null,null,null,0,0,0,0,0,0,0,0,0,19
-        "202601",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-      tabelog[22]{year_month,plan_name,base_cost,actual_cost,unit_cost_lunch,unit_cost_dinner,pv_sp_top,pv_sp_total,pv_pc_top,pv_pc_total,reservation_count_lunch,reservation_count_dinner,reservation_count_total,guest_count_lunch,guest_count_dinner,guest_count_total}:
-        "202404",null,null,null,null,null,877,2134,347,562,2,7,9,4,17,21
-        "202405",null,null,null,null,null,2481,4279,397,799,3,9,12,7,26,33
-        "202406",null,null,null,null,null,894,2303,280,527,4,5,9,10,17,27
-        "202407",null,null,null,null,null,982,2470,304,532,4,9,13,7,25,32
-        "202408",null,null,null,null,null,933,2434,329,611,5,10,15,10,31,41
-        "202409",null,null,null,null,null,908,2338,298,628,7,5,12,16,17,33
-        "202410",null,null,null,null,null,887,2432,332,630,4,9,13,7,23,30
-        "202411",null,null,null,null,null,897,2507,330,545,6,5,11,15,22,37
-        "202412",null,null,null,null,null,1114,2614,371,624,9,5,14,16,17,33
-        "202501",null,null,null,null,null,1098,2823,331,581,9,10,19,20,23,43
-        "202502",null,null,null,null,null,1178,2872,320,563,6,11,17,13,31,44
-        "202503",null,null,null,null,null,1456,3615,357,745,10,6,16,24,22,46
-        "202504",null,null,null,null,null,1405,3383,362,637,4,14,18,11,36,47
-        "202505",null,null,null,null,null,1149,2903,307,530,8,7,15,19,23,42
-        "202506",null,null,null,null,null,1044,2779,328,683,8,6,14,25,13,38
-        "202507",null,null,null,null,null,837,2109,294,589,4,5,9,8,13,21
-        "202508",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-        "202509",null,null,null,null,null,815,1875,313,524,3,2,5,5,5,10
-        "202510",null,null,null,null,null,726,1669,271,508,1,5,6,2,14,16
-        "202511",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-        "202512",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-        "202601",null,null,null,null,null,0,0,0,0,0,0,0,0,0,0
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
-      "202404",null,null,null,null,null,null,null,null,null
-      "202405",null,null,null,null,null,null,null,null,null
-      "202406",null,null,null,null,null,null,null,null,null
-      "202407",null,null,null,null,null,null,null,null,null
-      "202408",null,null,null,null,null,null,null,null,null
-      "202409",null,null,null,null,null,null,null,null,null
-      "202410",null,null,null,null,null,null,null,null,null
-      "202411",null,null,null,null,null,null,null,null,null
-      "202412",null,null,null,null,null,null,null,null,null
-      "202501",null,null,null,null,null,null,null,null,null
-      "202502",null,null,null,null,null,null,null,null,null
-      "202503",null,null,null,null,null,null,null,null,null
-      "202504",null,null,null,null,null,null,null,null,null
-      "202505",null,null,null,null,null,null,null,null,null
-      "202506",null,null,null,null,null,null,null,null,null
-      "202507",null,null,null,null,null,null,null,null,null
-      "202508",null,null,null,null,null,null,null,null,null
-      "202509",null,null,null,null,null,null,null,null,null
-      "202510",null,null,null,null,null,null,null,null,null
-      "202511",null,null,null,null,null,null,null,null,null
-      "202512",null,null,null,null,null,null,null,null,null
-      "202601",null,null,null,null,null,null,null,null,null
-  - shop_code: "9001"
-    shop_name: 本部
-    avg_price_lunch: 1800
-    avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
-      "202404",null
-      "202405",null
-      "202406",null
-      "202407",null
-      "202408",null
-      "202409",null
-      "202410",null
-      "202411",null
-      "202412",null
-      "202501",null
-      "202502",null
-      "202503",null
-      "202504",null
-      "202505",null
-      "202506",null
-      "202507",null
-      "202508",null
-      "202509",null
-      "202510",null
-      "202511",null
-      "202512",null
-      "202601",null
-    toreta_data[0]:
-    media_data:
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
-      "202404",null,null,null,null,null,null,null,null,null
-      "202405",null,null,null,null,null,null,null,null,null
-      "202406",null,null,null,null,null,null,null,null,null
-      "202407",null,null,null,null,null,null,null,null,null
-      "202408",null,null,null,null,null,null,null,null,null
-      "202409",null,null,null,null,null,null,null,null,null
-      "202410",null,null,null,null,null,null,null,null,null
-      "202411",null,null,null,null,null,null,null,null,null
-      "202412",null,null,null,null,null,null,null,null,null
-      "202501",null,null,null,null,null,null,null,null,null
-      "202502",null,null,null,null,null,null,null,null,null
-      "202503",null,null,null,null,null,null,null,null,null
-      "202504",null,null,null,null,null,null,null,null,null
-      "202505",null,null,null,null,null,null,null,null,null
-      "202506",null,null,null,null,null,null,null,null,null
-      "202507",null,null,null,null,null,null,null,null,null
-      "202508",null,null,null,null,null,null,null,null,null
-      "202509",null,null,null,null,null,null,null,null,null
-      "202510",null,null,null,null,null,null,null,null,null
-      "202511",null,null,null,null,null,null,null,null,null
-      "202512",null,null,null,null,null,null,null,null,null
-      "202601",null,null,null,null,null,null,null,null,null
-  - shop_code: "501"
-    shop_name: Canal cafe
-    avg_price_lunch: 1800
-    avg_price_dinner: 4500
-    monthly_data[22]{year_month,sales_amount}:
-      "202404",2973054
-      "202405",3566636
-      "202406",3835135
-      "202407",3834835
-      "202408",3767447
-      "202409",3925225
-      "202410",3939998
-      "202411",4241367
-      "202412",3834881
-      "202501",3832511
-      "202502",3849004
-      "202503",4911391
-      "202504",4903477
-      "202505",5366475
-      "202506",5110835
-      "202507",5082750
-      "202508",5554529
-      "202509",5055700
-      "202510",4960868
-      "202511",4513986
-      "202512",4179581
-      "202601",4225104
-    toreta_data[0]:
-    media_data:
-    uber_data[22]{year_month,sales_amount,refund,offer_discount,delivery_discount,service_fee,ad_cost,final_amount,order_count,hourly_orders}:
-      "202404",null,null,null,null,null,null,null,null,null
-      "202405",null,null,null,null,null,null,null,null,null
-      "202406",null,null,null,null,null,null,null,null,null
-      "202407",null,null,null,null,null,null,null,null,null
-      "202408",null,null,null,null,null,null,null,null,null
-      "202409",null,null,null,null,null,null,null,null,null
-      "202410",null,null,null,null,null,null,null,null,null
-      "202411",null,null,null,null,null,null,null,null,null
-      "202412",0,0,0,0,0,-1.3,-2.3,0,"{}"
-      "202501",775096,-135,0,0,-294229,-53327.7,427393.3,313,"{\"10\":37,\"11\":41,\"12\":53,\"13\":53,\"14\":28,\"15\":20,\"16\":18,\"17\":15,\"18\":12,\"19\":19,\"20\":17}"
-      "202502",733549,0,0,0,-276261,-54121.8,403152.2,297,"{\"10\":35,\"11\":36,\"12\":49,\"13\":43,\"14\":36,\"15\":20,\"16\":11,\"17\":12,\"18\":19,\"19\":22,\"20\":14}"
-      "202503",942079,0,0,0,-357643,-57699.7,526722.3,371,"{\"10\":29,\"11\":38,\"12\":67,\"13\":62,\"14\":36,\"15\":31,\"16\":25,\"17\":14,\"18\":15,\"19\":37,\"20\":17}"
-      "202504",946230,0,-3142,0,-357795,-56823.8,528471.2,358,"{\"10\":22,\"11\":47,\"12\":60,\"13\":58,\"14\":39,\"15\":34,\"16\":21,\"17\":20,\"18\":22,\"19\":23,\"20\":12}"
-      "202505",1012961,-3915,0,0,-382789,-56837.2,569421.8,407,"{\"10\":30,\"11\":45,\"12\":80,\"13\":53,\"14\":36,\"15\":32,\"16\":24,\"17\":25,\"18\":25,\"19\":38,\"20\":19}"
-      "202506",781725,0,0,0,-297356,-57282.8,427087.2,314,"{\"10\":25,\"11\":40,\"12\":60,\"13\":51,\"14\":31,\"15\":24,\"16\":12,\"17\":14,\"18\":13,\"19\":28,\"20\":16}"
-      "202507",867476,0,0,0,-329468,-58237.8,479771.2,334,"{\"10\":28,\"11\":35,\"12\":54,\"13\":55,\"14\":42,\"15\":29,\"16\":14,\"17\":11,\"18\":22,\"19\":23,\"20\":21}"
-      "202508",1098219,-4185,0,0,-417324,-57051,619661,395,"{\"10\":29,\"11\":34,\"12\":65,\"13\":54,\"14\":51,\"15\":39,\"16\":21,\"17\":19,\"18\":22,\"19\":39,\"20\":22}"
-      "202509",1001355,0,0,0,-383335,-57037,560988,363,"{\"10\":25,\"11\":28,\"12\":56,\"13\":55,\"14\":47,\"15\":36,\"16\":23,\"17\":16,\"18\":20,\"19\":41,\"20\":16}"
-      "202510",998498,-1890,0,0,-383740,-57901,554968,384,"{\"10\":29,\"11\":37,\"12\":62,\"13\":67,\"14\":52,\"15\":27,\"16\":19,\"17\":19,\"18\":20,\"19\":33,\"20\":19}"
-      "202511",1030482,-607,0,0,-390677,-56411,582791,364,"{\"10\":36,\"11\":33,\"12\":55,\"13\":78,\"14\":44,\"15\":16,\"16\":18,\"17\":17,\"18\":22,\"19\":35,\"20\":10}"
-      "202512",1049252,-2295,0,0,-397473,-59811,589675,385,"{\"10\":43,\"11\":35,\"12\":66,\"13\":59,\"14\":41,\"15\":25,\"16\":27,\"17\":24,\"18\":26,\"19\":21,\"20\":18}"
-      "202601",1127830,-2092,0,0,-429020,-55526,641195,441,"{\"10\":41,\"11\":46,\"12\":84,\"13\":54,\"14\":57,\"15\":27,\"16\":32,\"17\":22,\"18\":25,\"19\":32,\"20\":21}"
-    ad_cost_data[32]{year_month,media,plan_name,base_cost,actual_cost}:
-      "202404",line,コミュニケーション,0,null
-      "202405",line,コミュニケーション,0,null
-      "202406",line,コミュニケーション,0,null
-      "202407",line,コミュニケーション,0,null
-      "202408",line,コミュニケーション,0,null
-      "202409",line,コミュニケーション,0,null
-      "202410",line,コミュニケーション,0,null
-      "202411",line,コミュニケーション,0,null
-      "202412",line,コミュニケーション,0,null
-      "202501",line,コミュニケーション,0,null
-      "202502",line,コミュニケーション,0,null
-      "202503",line,コミュニケーション,0,null
-      "202504",line,コミュニケーション,0,null
-      "202504",eiff,eiff--google運用,12000,null
-      "202505",line,コミュニケーション,0,null
-      "202505",eiff,eiff--google運用,12000,null
-      "202506",line,コミュニケーション,0,null
-      "202506",eiff,eiff--google運用,12000,null
-      "202507",line,コミュニケーション,0,null
-      "202507",eiff,eiff--google運用,12000,null
-      "202508",line,コミュニケーション,0,null
-      "202508",eiff,eiff--google運用,12000,null
-      "202509",line,コミュニケーション,0,null
-      "202509",eiff,eiff--google運用,12000,null
-      "202510",line,コミュニケーション,0,null
-      "202510",eiff,eiff--google運用,12000,null
-      "202511",line,コミュニケーション,0,null
-      "202511",eiff,eiff--google運用,12000,null
-      "202512",line,コミュニケーション,0,null
-      "202512",eiff,eiff--google運用,12000,null
-      "202601",line,コミュニケーション,0,null
-      "202601",eiff,eiff--google運用,12000,null
 debug_info:
   sheet_tz: Asia/Tokyo
   script_tz: Asia/Tokyo

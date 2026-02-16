@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { parseToon, type ToonData } from './utils/toonParser'
 import { TabelogTab } from './components/TabelogTab'
+import { HotpepperTab } from './components/HotpepperTab'
 import { Calendar, ChevronRight, Store, BarChart3, TrendingUp, Search, Info, PieChart } from 'lucide-react'
 import { buildToretaData } from './utils/toretaBuilder'
 import {
@@ -168,9 +169,17 @@ function App() {
    * 🆕 State: 食べログ行ハイライト（タブ切り替えでも維持）
    * -------------------------------------------------------------------------------- */
   const [tabelogCheckedRows, setTabelogCheckedRows] = useState<Record<string, boolean>>({})
+  const [hpCheckedRows, setHpCheckedRows] = useState<Record<string, boolean>>({})
 
   const toggleTabelogRow = (key: string) => {
     setTabelogCheckedRows(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
+
+  const toggleHpRow = (key: string) => {
+    setHpCheckedRows(prev => ({
       ...prev,
       [key]: !prev[key]
     }))
@@ -948,7 +957,17 @@ function App() {
                 />
               )}
 
-              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && (
+              {activeTab === 'ホットペッパー' && selectedShop && (
+                <HotpepperTab
+                  selectedShop={selectedShop}
+                  startMonth={startMonth}
+                  endMonth={endMonth}
+                  checkedRows={hpCheckedRows}
+                  onToggleRow={toggleHpRow}
+                />
+              )}
+
+              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && activeTab !== 'ホットペッパー' && (
                 <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
                   <div style={{ fontSize: '48px' }}>
                     {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}
