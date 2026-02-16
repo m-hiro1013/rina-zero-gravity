@@ -5,7 +5,7 @@ description: セキュリティ脆弱性のスキャンを実行する原子ワ�
 
 ## Step 1: 依存関係の脆弱性チェック // turbo
 ```bash
-pnpm audit || npm audit || yarn audit || pip-audit
+pnpm audit || pip-audit
 ```
 
 ## Step 2: シークレット検出 // turbo

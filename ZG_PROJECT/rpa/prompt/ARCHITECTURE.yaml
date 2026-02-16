@@ -1,0 +1,64 @@
+# =====================================
+# 🏛️ ARCHITECTURE.yaml
+# =====================================
+
+architecture:
+  version: "2.0"
+  last_updated: "2026-02-13"
+
+  project:
+    name: "rpa"
+    overview: "媒体別・Skill/Flow分離型RPAフレームワーク (Refactored)"
+
+  components:
+    app:
+      status: "Active"
+      path: "app.py"
+      role: "メインUI & エントリーポイント (Streamlit)。ビジネスロジックを持たず、動的インポートでFlowを実行する。"
+    
+    hotpepper:
+      status: "Active"
+      description: "ホットペッパーのコース・ドリンク一括更新機能"
+      sub_components:
+        - name: "Skill"
+          path: "hotpepper/skill/"
+          role: "ブラウザ操作の最小単位。1つの操作 = 1つの関数。"
+          files:
+            - browser.py (セッション管理)
+            - auth.py (ログイン)
+            - navigation.py (画面遷移)
+            - drink_ops.py (ドリンク操作)
+            - category_ops.py (カテゴリー操作)
+            - data_parser.py (データ変換)
+        - name: "Flow"
+          path: "hotpepper/flow/"
+          role: "業務シナリオ。Skillを組み合わせて目的を達成する。直接のブラウザ操作は禁止。"
+          files:
+            - drink_update.py (ドリンク更新)
+            - course_update.py (コース更新 - Legacy)
+
+  data_flow:
+    description: "ドリンク更新フローのデータ詳細"
+    steps:
+      - step: 1
+        component: "app.py"
+        action: "UI入力 -> run(inputs) 呼び出し"
+        data: "store_name, menu_data, skip_clear"
+      - step: 2
+        component: "hotpepper/flow/drink_update.py"
+        action: "create_browser_session() 呼び出し"
+      - step: 3
+        component: "hotpepper/skill/browser.py"
+        action: "ブラウザ起動 -> auth.login() -> navigation.select_store()"
+        data: "Page object return"
+      - step: 4
+        component: "hotpepper/flow/drink_update.py"
+        action: "process_drink_menu() 実行"
+        details: "各Skill (parser, clear, setup, update) を順次呼び出し"
+
+  future_architecture:
+    description: "完全な構成分離と他媒体への展開"
+    roadmap:
+      - "コース更新 (course_update.py) のSkill完全分離とGUI化"
+      - "他のグルメ媒体 (Gurunavi, Tabelog) への横展開"
+      - "CLIモードの正式サポート (app.py への統合)"

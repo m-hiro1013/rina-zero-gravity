@@ -1,0 +1,121 @@
+project_specific:
+  version: "1.0"
+  last_updated: "2026-02-10"
+
+# =====================================
+# 1. プロジェクト基本情報
+# =====================================
+project:
+  name: "rpa"
+  codename: "rina-rpa-suite"
+  description: |
+    ブラウザ操作全般を自動化するためのRPAツールスイート。
+    各媒体（プラットフォーム）ごとにモジュール化し、高い再利用性と保守性を実現する。
+  
+  purpose:
+    primary: "ブラウザ操作全般の自動化"
+    secondary:
+      - "媒体ごとのフォルダ管理（medium/flow, medium/skill）"
+      - "汎用的なスキルの蓄積と再利用"
+      - "最短・最速での自動化ロボ開発"
+  
+  success_criteria:
+    - "媒体ごとのロジックが skill と flow に分離されていること"
+    - "新しい媒体の追加が既存スキルの再利用で容易であること"
+    - "莉奈流・最強RPA開発の基本ステップが守られていること"
+  
+  created_at: "2026-02-10"
+
+# =====================================
+# 2. ユーザー情報
+# =====================================
+user:
+  developer:
+    name: "ひろきくん"
+    github: "Sunwood-ai-labs"
+  
+  target_users:
+    - role: "管理者"
+      description: "一括更新作業を自動化したいユーザー"
+
+# =====================================
+# 3. 技術スタック
+# =====================================
+tech_stack:
+  language: "Python"
+  framework: "Playwright"
+  styling: "Vanilla CSS (for browser injection if needed)"
+  package_manager: "pip / venv"
+  testing: "pytest"
+  lint: "ruff"
+  deploy: "Local Execution"
+
+# =====================================
+# 4. 環境情報
+# =====================================
+environment:
+  local:
+    project_path: "/Users/matsumotohiroki/Developer/rina-zero-gravity/ZG_PROJECT/rpa"
+    execution_command: "PYTHONPATH=. python3 {script_path}" # 🆕 モジュール移動のため PYTHONPATH=. が必須だよ！
+    python_version: "python3"
+  
+  environment_variables:
+    - name: "HOTPEPPER_LOGIN_ID"
+      description: "ホットペッパーグルメ CMS ログインID (b-logより取得)"
+    - name: "HOTPEPPER_PASSWORD"
+      description: "ホットペッパーグルメ CMS パスワード (b-logより取得)"
+    # 今後、新しい媒体が増えたらここに追加していくよ！✨
+
+# =====================================
+# 5. データ構造
+# =====================================
+data_structure:
+  description: "媒体ごとのフォルダ構成"
+  entities:
+    - name: "Skill"
+      description: "低レベルなブラウザ操作（ログイン、クリック、入力等）"
+    - name: "Flow"
+      description: "高レベルな業務シナリオ（複数のSkillを組みわせた一連の動作）"
+
+# =====================================
+# 6. ビジネスロジック
+# =====================================
+business_logic:
+  rules:
+    - name: "莉奈流開発ステップ"
+      description: |
+        1. 分析 (b-log)
+        2. 設計 (ミニマムテスト)
+        3. 実装 (セキュア・caffeinate)
+        4. 調整 (scroll/scroll_into_view/Regex)
+        5. 運用 (別デスクトップ)
+    - name: "作成順序"
+      description: "skill (一個ずつテスト) -> flow (結合・実行) の順を厳守"
+    - name: "推測禁止（b-log優先）"
+      description: |
+        うまくいかなかった時は、まず既存スキルの中身を徹底確認すること。
+    - name: "推測禁止（ソースコード徹底調査）"
+      description: |
+        うまくいかなかった時や不明点がある時は、まず既存の `skill/` や `tests/` 内の全ファイルを徹底的に調査（grep, read）すること。
+        「見つからない」と判断する前に、少なくとも関連する全ファイルの中身を確認したか自問すること。
+        それでもわからなければ、推測で進めずに必ずひろきくんに事実確認を求めること。
+
+# =====================================
+# 7. 外部連携
+# =====================================
+external_integrations:
+  apis:
+    - name: "Hotpepper CMS"
+      purpose: "店舗管理・コース更新"
+      auth: "ID/PW"
+
+# =====================================
+# 8. 制約条件
+# =====================================
+constraints:
+  technical:
+    - "Playwright (headless=False) 推奨（目視確認のため）"
+    - "slow_mo 設定による安定性の確保"
+    - "すべての秘密情報（ID/PASS）はルートの .env に集約管理する"
+  business:
+    - "媒体の利用規約を遵守した運用"

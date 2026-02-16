@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #030712;
+  --color-foreground: #f8fafc;
+  --color-glass-bg: rgba(15, 23, 42, 0.6);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-glass-highlight: rgba(255, 255, 255, 0.03);
+  --color-accent: #3b82f6;
+  --color-accent-glow: rgba(59, 130, 246, 0.3);
+
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply text-foreground bg-gray-950 antialiased selection:bg-blue-500/30;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(88, 28, 135, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv03", "salt";
+    font-variant-ligatures: common-ligatures;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background-color: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .glass-morphism {
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-glass-border);
+  }
+
+  .zen-panel {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .interactive-float {
+    @apply transition-all duration-300;
+  }
+
+  .interactive-float:hover {
+    @apply -translate-y-1 shadow-2xl;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-gray-400;
+  }
+}
+
+@layer utilities {
+  .glow-sm {
+    filter: drop-shadow(0 0 8px var(--color-accent-glow));
+  }
+
+  /* 非表示スクロールバー */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* プレミアムスクロールバー */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/5 rounded-full hover:bg-white/10 transition-colors border-2 border-transparent bg-clip-padding;
+  }
+}
+
+*:focus-visible {
+  @apply outline-none ring-2 ring-blue-500/50 ring-offset-2 ring-offset-gray-950;
+}

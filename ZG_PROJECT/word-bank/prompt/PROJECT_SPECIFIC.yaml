@@ -1,0 +1,68 @@
+project:
+  name: "Word-Bank"
+  purpose:
+    primary: "個人用プロンプトライブラリ Web アプリケーション"
+  target_user: "自分1人（個人用）"
+  success_criteria:
+    - "プロンプトを保存・分類・検索し、ワンクリックでコピーして使えること"
+    - "Claudeカラーのモダンで美しいUIであること"
+    - "レスポンシブ不要、PCブラウザで快適に動作すること"
+
+tech_stack:
+  language: "TypeScript"
+  framework: "React (Vite)"
+  styling: "Tailwind CSS"
+  hosting: "Vercel"
+  database: "Cloud Firestore"
+  auth: "Firebase Authentication (Google Login)"
+  runtime: "Node.js (v20+)"
+
+features:
+  core:
+    - "Googleログイン認証"
+    - "3カラムレイアウト（サイドバー・エディタ・（空））"
+    - "プロンプトのCRUD操作（作成・読み取り・更新・削除）"
+    - "カテゴリの階層管理（大・中・小）とドラッグ&ドロップ並び替え"
+    - "タグ付けとメモ機能"
+    - "お気に入り機能"
+    - "グローバル検索（タイトル・本文・タグ・メモ）"
+    - "ツリー絞り込み検索"
+    - "ワンクリックコピー機能"
+    - "タブ式エディタ"
+  
+  ui_ux:
+    - "Claudeカラーパレット（#FAF6F1ベース）"
+    - "トースト通知"
+    - "確認ダイアログ"
+    - "ショートカットキー（Ctrl+P検索）"
+
+data_structure:
+  collections:
+    users:
+      subcollections:
+        categories:
+          fields:
+            - name
+            - level
+            - parentId
+            - order
+            - createdAt
+            - updatedAt
+        prompts:
+          fields:
+            - title
+            - body
+            - largeCategoryId
+            - mediumCategoryId
+            - smallCategoryId
+            - tags
+            - memo
+            - isFavorite
+            - lastCopiedAt
+            - createdAt
+            - updatedAt
+
+constraints:
+  - "レスポンシブ対応なし（PCのみ）"
+  - "ダークモードなし"
+  - "複数ユーザー対応なし"

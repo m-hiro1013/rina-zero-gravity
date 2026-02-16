@@ -6,7 +6,7 @@ description: コードスタイルのLintチェックを実行する原子ワー
 ## 実行 // turbo
 Lintを実行せよ：
 ```bash
-pnpm lint || npm run lint || yarn lint
+pnpm lint
 ```
 
 ## 結果判定

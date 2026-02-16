@@ -80,7 +80,7 @@ tech_stack:
   auth: "{{auth}}"  # Supabase Auth, NextAuth, etc.
   
   # パッケージマネージャー
-  package_manager: "{{package_manager}}"  # pnpm, npm, yarn
+  package_manager: "pnpm"
   
   # テスト
   testing: "{{testing}}"  # Vitest, Jest, pytest
@@ -97,7 +97,8 @@ tech_stack:
 environment:
   local:
     project_path: "{{project_path}}"
-    dev_command: "{{dev_command}}"  # npm run dev, etc.
+  package_manager: "pnpm"
+    dev_command: "{{dev_command}}"  # pnpm dev, etc.
     dev_url: "{{dev_url}}"  # http://localhost:3000
   
   github:

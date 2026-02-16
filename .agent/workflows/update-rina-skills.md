@@ -75,7 +75,7 @@ Rina自身のスキルをアップデートする。
 
 // turbo
 ```bash
-cd /Users/matsumotohiroki/Desktop/rina-zero-gravity
+cd /Users/matsumotohiroki/Developer/rina-zero-gravity
 ```
 
 ### 4-1: goku.md への知見追加

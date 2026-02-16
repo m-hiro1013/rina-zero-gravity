@@ -10,6 +10,20 @@ description: セッション終了時にWORKFLOW.yamlを更新し、進捗を保
 - WORKFLOW.yaml が存在する
 - KNOWLEDGE.md が存在する（学習フロー用）
 
+## Step 0: セーブ作業の全体像確認（チェックリスト） ✅
+
+作業を開始する前に、以下の全工程を確認し、コンテキストにロードすること。
+
+1. [ ] **セッションの振り返り**: やったこと・決定・次やることのまとめ (Step 1)
+2. [ ] **WORKFLOW.yaml 更新**: 進捗データの永続化 (Step 2-3)
+3. [ ] **セーブデータ出力**: ユーザーへの現状報告 (Step 4-5)
+4. [ ] **学習と成長**: 知見の抽出とKNOWLEDGE.mdへの蓄積 (Step 6)
+5. [ ] **無人島検査**: .gitignore ポリシーによる最終チェック (Step 6.5)
+6. [ ] **Git更新コマンド提示**: リポジトリへの反映手順 (Step 7)
+7. [ ] **クロージング**: 次回への案内
+
+これらを順番に漏れなく実行すること！
+
 ## Step 1: 今回のセッションをまとめる
 
 ```
@@ -172,8 +186,19 @@ completed_features:
 
 ### 6-4: 統合判断
 汎用的な知見は以下のグローバルファイルへ統合を徹底するよ！✨
-- `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md`
-- `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md`
+- `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md`
+- `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md`
+
+## Step 6.5: 無人島ポリシーによる検査（.gitignore） 🆕
+
+コミット前に、`@rules/19-gitignore-policy.md` を参照して最終チェック！🏝️
+
+- [ ] `git status` を確認
+- [ ] 「これ、無人島に持ってく？」と問いかける
+- [ ] 🚫 ゴミ (`.DS_Store`, `npm-debug.log`)
+- [ ] 🚫 生成物 (`node_modules/`, `venv/`, `build/`)
+- [ ] 🚫 秘密 (`.env`, `*.key`)
+- [ ] あれば `.gitignore` に追加するか即削除！
 
 ## Step 7: 最終報告
 

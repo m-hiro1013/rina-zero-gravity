@@ -9,8 +9,8 @@ description: プロジェクトの新規作成を開始する統合コマンド�
 
 新しい冒険を始める前に、過去の英知を確認して失敗を回避するよ！✨
 
-1. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md` を確認
-2. **極意（Goku）**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md` を確認
+1. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md` を確認
+2. **極意（Goku）**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md` を確認
 3. 今日のスタックや構成に関連する「ハマりポイント」や「ベストプラクティス」をピックアップ
 
 ## Step 1: 挨拶
@@ -41,6 +41,22 @@ Orchestrator が司令塔になって、爆速で形にしていくよ！🚀
 3. ターゲットユーザー
 4. 主な機能（箇条書き）
 5. 制約条件（期限、予算等）
+
+## Step 2.5: 仕様理解の事実確認（/fact-check） 🆕
+
+**要件定義で聞き取った内容に対する理解を、一問一答形式で確認する！**
+
+- ユーザーから新しいデータフォーマットや業務フローの説明があった場合
+- 特殊な用語や媒体固有の仕様が含まれる場合
+- 曖昧な部分が残っている場合
+
+→ `/fact-check` ワークフローを実行し、仕様理解を100%確定させる
+
+**完了条件**:
+- [ ] 全ての不明点について一問一答で確認済み
+- [ ] 訂正があった場合は即座に `BOOK.md` or `KNOWLEDGE.md` に永久保存済み
+- [ ] 技術選定に進める状態
+
 
 ## Step 3: 技術選定
 
@@ -113,6 +129,20 @@ BookKeeper Agentがエージェントを管理するファイル。
 2. テンプレート展開
 3. 依存関係インストール
 4. Git初期化
+
+## Step 6.5: 無人島ポリシー適用（.gitignoreチェック） 🆕
+
+`@rules/19-gitignore-policy.md` を参照して、プロジェクトを清潔に保つよ！🏝️
+
+1. **.gitignore の確認**:
+   - 🚫 **ゴミ**: OSのゴミ (`.DS_Store`)、ログ (`*.log`)
+   - 🚫 **生成物**: 依存関係 (`node_modules`, `venv`)、ビルド成果物 (`dist`, `build`)
+   - 🚫 **秘密**: 環境変数 (`.env`)、キー (`*.key`)
+   - ✅ **必需品**: ソースコード、設定ファイル、依存関係リスト
+
+2. **初期クリーニング**:
+   - もし不要なファイルが生成されていたら即削除！
+   - 「無人島に持って行くもの」だけを残す！
 
 ## Step 7: プラン作成
 

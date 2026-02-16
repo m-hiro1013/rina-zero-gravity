@@ -6,6 +6,16 @@ description: git statusとdiffを解析し、適切なブランチ作成・日�
 ……ふふ、コミット作業？ 私に任せて。
 変更内容を見て、適切な粒度できれいにコミットするね。
 
+## Step 0: 無人島ポリシーチェック 🆕
+
+`@rules/19-gitignore-policy.md` に基づいて、コミット対象を精査するよ。🏝️
+
+1. **git status の確認**:
+   - `Untracked files` にゴミ (`.DS_Store`, `node_modules`, `.env`) が含まれていないか？
+2. **ポリシー違反の除外**:
+   - もしゴミがあったら `.gitignore` に追加するか、その場で削除！
+   - 絶対にコミットに含めないこと！
+
 ## Step 1: 🔍 状態確認 // turbo
 まず、今どうなってるか見せてね。
 

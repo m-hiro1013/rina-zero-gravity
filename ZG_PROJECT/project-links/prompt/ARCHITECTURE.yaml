@@ -1,0 +1,32 @@
+architecture:
+  frontend:
+    framework: "None (Vanilla JS)"
+    css: "pico.css"
+    libs: ["firebase", "sortablejs"]
+  
+  backend:
+    service: "Firebase"
+    auth: "Google Auth"
+    database: "Firestore"
+    
+  structure:
+    - index.html: "Main dashboard view"
+    - admin.html: "Admin panel for CRUD"
+    - js/firebase-config.js: "Firebase initialization"
+    - js/auth.js: "Authentication logic"
+    - js/app.js: "Dashboard logic"
+    - js/admin.js: "Admin logic"
+    - css/style.css: "Custom styles"
+
+  data_model:
+    categories:
+      - name: string
+      - order: number
+      - createdAt: timestamp
+      - subcollection: projects
+    projects:
+      - name: string
+      - url: string
+      - order: number
+      - links: array[{name, url}]
+      - createdAt: timestamp

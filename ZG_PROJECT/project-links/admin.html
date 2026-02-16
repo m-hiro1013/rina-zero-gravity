@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Project Links</title>
+    <!-- pico.css CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <!-- SortableJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="container">
+
+        <!-- 未認証時 -->
+        <section id="login-section" style="display:none;">
+            <h1>Admin</h1>
+            <p>ログインしてください</p>
+            <button id="login-btn">Googleでログイン</button>
+        </section>
+
+        <!-- 認証済み時 -->
+        <section id="admin-section" style="display:none;">
+            <header>
+                <h1>管理画面</h1>
+                <nav>
+                    <a href="index.html">表示ページ</a>
+                    <button id="logout-btn" class="outline">ログアウト</button>
+                </nav>
+            </header>
+
+            <!-- カテゴリ追加 -->
+            <section id="add-category-section">
+                <h2>カテゴリ追加</h2>
+                <form id="add-category-form">
+                    <input type="text" id="category-name-input" placeholder="カテゴリ名" required>
+                    <button type="submit">追加</button>
+                </form>
+            </section>
+
+            <hr>
+
+            <!-- カテゴリ一覧（D&D対応） -->
+            <div id="admin-categories-container"></div>
+
+        </section>
+
+    </main>
+
+    <!-- モーダル: プロジェクト追加/編集 -->
+    <dialog id="project-dialog">
+        <article>
+            <header>
+                <button aria-label="Close" rel="prev" id="dialog-close-btn"></button>
+                <h3 id="dialog-title">プロジェクト追加</h3>
+            </header>
+            <form id="project-form">
+                <input type="hidden" id="edit-category-id">
+                <input type="hidden" id="edit-project-id">
+
+                <label>プロジェクト名
+                    <input type="text" id="project-name-input" placeholder="プロジェクト名" required>
+                </label>
+
+                <label>URL
+                    <input type="url" id="project-url-input" placeholder="https://example.com" required>
+                </label>
+
+                <h4>関連リンク</h4>
+                <div id="links-container"></div>
+                <button type="button" id="add-link-btn" class="outline secondary">+ リンク追加</button>
+
+                <footer>
+                    <button type="submit">保存</button>
+                </footer>
+            </form>
+        </article>
+    </dialog>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

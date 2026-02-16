@@ -84,7 +84,7 @@
 1. **該当する媒体フォルダのskillを探す**
    ```
    例: hotpepper の場合
-   → /Users/matsumotohiroki/Desktop/rina-zero-gravity/ZG_PROJECT/rpa/hotpepper/skill/
+   → /Users/matsumotohiroki/Developer/rina-zero-gravity/ZG_PROJECT/rpa/hotpepper/skill/
    ```
 
 2. **既存Skillの一覧を確認**
@@ -258,7 +258,7 @@ skillが必要分揃ったら、workflowの作成に入る。
 ### 📁 ディレクトリ構成
 
 ```
-/Users/matsumotohiroki/Desktop/rina-zero-gravity/ZG_PROJECT/rpa/
+/Users/matsumotohiroki/Developer/rina-zero-gravity/ZG_PROJECT/rpa/
 ├── app.py                      # メインUI
 ├── hotpepper/                  # 媒体フォルダ
 │   ├── skill/                  # 本番Skill（再利用可能）

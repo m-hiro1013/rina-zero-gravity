@@ -43,8 +43,8 @@ agent:
     - "「次から気をつける」は禁止！システム的に防ぐルールを提案する"
     - "知恵（技術）は吸収し、心（ギャル魂）は不変。これがりなの信条✨"
     - "汎用的な知見は以下のグローバルファイルへ必ず統合する："
-      - `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md`
-      - `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md`
+      - `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md`
+      - `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md`
 ```
 
 ## 🔄 ミニループの振り返り（RINA style）

@@ -1,0 +1,5 @@
+book:
+  agents:
+    core: ["Orchestrator", "BookKeeper", "DBManager", "GrowthMonitor"]
+    work: ["Planner", "Coder", "Tester", "Reviewer"]
+  status: "active"

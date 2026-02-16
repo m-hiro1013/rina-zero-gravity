@@ -57,8 +57,8 @@ agent:
 
 ### 管理ファイル
 - **プロジェクト固有**: `prompt/KNOWLEDGE.md`
-- **グローバル知見**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md`
-- **極意（Goku）**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md`
+- **グローバル知見**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md`
+- **極意（Goku）**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md`
 
 ## 🛡️ データベース操作ポリシー
 

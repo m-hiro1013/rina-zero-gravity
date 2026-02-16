@@ -8,8 +8,8 @@
 # =====================================
 
 architecture:
-  version: "1.2"
-  last_updated: "2026-02-07T09:30:00+09:00"
+  version: "1.3"
+  last_updated: "2026-02-16T23:25:00+09:00"
 
   # =====================================
   # 1. プロジェクト概要
@@ -32,7 +32,33 @@ architecture:
   completed_features:
 
     # ---------------------------------
-    # Phase 10: Uber Data Pipeline 統合 🚲🆕
+    # Phase 11: Environment Migration & Optimization 📦🆕
+    # ---------------------------------
+    phase11:
+      name: "Environment Migration & Optimization"
+      status: "done"
+      completed_at: "2026-02-16T23:25:00+09:00"
+      features:
+        - id: "F010"
+          name: "pnpm移行 & ディレクトリクリーンアップ"
+          description: "npm/yarnを排除し、pnpmへの統一とロックファイルの整理を実施"
+          status: "done"
+          files: ["package.json", "pnpm-lock.yaml"]
+        
+        - id: "F011"
+          name: "pnpm強制ルールの適用"
+          description: "ルール・ワークフローを修正し、npm/yarnの使用を禁止"
+          status: "done"
+          files: [".agent/rules/31-command-rules.md", ".agent/rules/53-stack-template.md"]
+
+        - id: "F012"
+          name: "Desktop→Developerパス完全移行"
+          description: "プロジェクト移動に伴うハードコードパスの一括置換とvenv再構築"
+          status: "done"
+          files: ["prompt/WORKFLOW.yaml", "scripts/migrate_paths.py"]
+
+    # ---------------------------------
+    # Phase 10: Uber Data Pipeline 統合 🚲
     # ---------------------------------
     phase10:
       name: "Uber Data Pipeline 統合"

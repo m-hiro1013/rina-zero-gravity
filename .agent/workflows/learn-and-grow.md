@@ -65,7 +65,7 @@ description: セッションで得た知見をKNOWLEDGE.mdに蓄積し、必要�
 ```bash
 # 1. プロジェクト固有の KNOWLEDGE.md に追記
 # 2. グローバルな知見ベースにも追記（重要度が高い場合）
-#    パス: /Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md
+#    パス: /Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md
 ```
 
 追記フォーマット:
@@ -101,8 +101,8 @@ description: セッションで得た知見をKNOWLEDGE.mdに蓄積し、必要�
 | 他プロジェクトでも再発しそう | ✅ Yes |
 
 統合する場合:
-1. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/KNOWLEDGE.md` に追記
-2. **極意（Goku）**: `/Users/matsumotohiroki/Desktop/rina-zero-gravity/prompt/references/goku.md` に追記
+1. **グローバル・ナレッジ**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md` に追記
+2. **極意（Goku）**: `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md` に追記
 3. 統合履歴をプロジェクトの KNOWLEDGE.md にも記録
 
 ## 完了条件

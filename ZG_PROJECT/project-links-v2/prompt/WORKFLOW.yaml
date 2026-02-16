@@ -1,0 +1,96 @@
+workflow:
+  version: "2.0.0"
+  last_updated: "2026-02-15"
+
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    - UIデザインの全面刷新（Zen-Glassスタイル、Glassmorphism、ダークテーマ）。
+    - 認証エクスポートの不整合（signIn/signOut）の修正。
+    - パフォーマンス最適化：Turbopackの有効化、Firestoreデータ取得の並列化。
+    - 不要なファビコン取得機能の削除とUIの軽量化。
+    - 管理画面のクリーンアップ（一時的なマイグレーションボタンの削除）。
+    
+    【次にやること】
+    - 各デバイスでのレスポンシブ表示の最終確認。
+    - 本番環境へのデプロイ準備。
+
+  progress:
+    current_phase:
+      number: 3
+      name: "Polishing & Quality Assurance"
+      status: "in_progress"
+    
+    completed_phases:
+      - phase: 1
+        name: "Project Initialization & Next.js Setup"
+        completed_at: "2026-02-14"
+      - phase: 2
+        name: "Core Implementation (UI/Auth/Data)"
+        completed_at: "2026-02-15"
+  
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "Next.js 16 App Router"
+        reason: "Latest features and better routing."
+      - id: "D002"
+        decision: "Tailwind CSS v4"
+        reason: "Modern styling and performance."
+      - id: "D003"
+        decision: "Zustand for state"
+        reason: "Lightweight and easy to use with React."
+      - id: "D004"
+        decision: "Firebase SDK v12.9.0"
+        reason: "Consistency is required to avoid initialization errors."
+      - id: "D005"
+        decision: "Tab-based filtering"
+        reason: "Enhance dashboard usability for many projects."
+      - id: "D006"
+        decision: "Zen-Glass Aesthetic"
+        reason: "Premium feel using Glassmorphism and generous spacing."
+      - id: "D007"
+        decision: "Favicon Removal"
+        reason: "Prioritize UI weight, performance, and minimalist look."
+      - id: "D008"
+        decision: "Turbopack Activation"
+        reason: "Significantly speed up hot-reloading in dev environment."
+
+  features:
+    completed:
+      - id: "F001"
+        name: "Project Setup (Next.js)"
+        status: "done"
+        completed_at: "2026-02-14"
+      - id: "F002"
+        name: "Auth & Basic Dashboard"
+        status: "done"
+        completed_at: "2026-02-14"
+      - id: "F003"
+        name: "Zen-Glass UI Redesign"
+        status: "done"
+        completed_at: "2026-02-15"
+      - id: "F004"
+        name: "Performance Tuning"
+        status: "done"
+        completed_at: "2026-02-15"
+
+    in_progress: []
+    
+    planned:
+      - id: "F005"
+        name: "Production Deployment Prep"
+        status: "planned"
+
+  file_structure:
+    created:
+      - src/components/layout/Header.tsx
+      - src/components/tabs/TabBar.tsx
+      - src/app/globals.css
+      - src/components/projects/ProjectItem.tsx (Revised)
+    
+    to_modify:
+      - src/app/admin/page.tsx (Polish)
+
+  cautions:
+    - Tailwind v4 の構成変更により、globals.css は @import "tailwindcss" を使用する。
+    - Firebase Auth 関数は signIn/signOut を統一して使用（useAuth経由推奨）。

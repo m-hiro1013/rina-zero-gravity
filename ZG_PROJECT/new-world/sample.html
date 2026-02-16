@@ -1,0 +1,3892 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗分析レポート - 2025年4月〜2025年12月</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+
+        #input-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 32px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        #input-section h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #1a73e8;
+        }
+
+        #input-section .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+
+        .file-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .file-drop-area:hover,
+        .file-drop-area.dragover {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+        }
+
+        .file-drop-area .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .file-drop-area p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .file-drop-area .file-name {
+            margin-top: 12px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .file-drop-area input[type="file"] {
+            display: none;
+        }
+
+
+        .options-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .options-section h3 {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .option-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .option-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .option-row label {
+            font-size: 14px;
+            min-width: 100px;
+        }
+
+        .option-row select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .option-row select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+
+        .checkbox-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .checkbox-list label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+
+        .yoy-status {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .yoy-status.available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .yoy-status.unavailable {
+            background: #fafafa;
+            color: #999;
+        }
+
+
+        .ai-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .ai-option .ai-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #1557b0;
+        }
+
+        .generate-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .loading-content {
+            background: #fff;
+            padding: 32px 48px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e0e0e0;
+            border-top-color: #1a73e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-content p {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+
+        .loading-content .sub-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+
+        .data-preview {
+            margin-top: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .data-preview h4 {
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .data-preview pre {
+            background: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            max-height: 200px;
+            font-size: 12px;
+            border: 1px solid #eee;
+        }
+
+
+        #report-section {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            display: none;
+        }
+
+        #report-section.visible {
+            display: block;
+        }
+
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 16px 24px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-bar h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .action-bar .buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-bar button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-download {
+            background: #34a853;
+            color: #fff;
+        }
+
+        .btn-download:hover {
+            background: #2d8f47;
+        }
+
+        .btn-reset {
+            background: #f1f3f4;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+
+        .report-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .report-section h2 {
+            margin: 0 0 16px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #4CAF50;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .report-section.shop-report {
+            border-left: 4px solid #2196F3;
+        }
+
+        .report-section.shop-report h2 {
+            border-bottom-color: #2196F3;
+        }
+
+
+        .meta-info {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .meta-info strong {
+            color: #333;
+        }
+
+
+        .report-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .report-section th,
+        .report-section td {
+            border: 1px solid #e0e0e0;
+            padding: 10px 12px;
+            text-align: right;
+        }
+
+        .report-section th {
+            background: #f8f9fa;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+
+        .report-section td:first-child,
+        .report-section th:first-child {
+            text-align: center;
+        }
+
+        .report-section tr.total-row td {
+            background: #e8f5e9;
+            font-weight: bold;
+        }
+
+
+        .yoy-positive {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .yoy-negative {
+            color: #f44336;
+            font-weight: 600;
+        }
+
+        .yoy-neutral {
+            color: #999;
+        }
+
+
+        .profit-positive {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .profit-negative {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+
+        .report-section h3 {
+            font-size: 16px;
+            margin: 28px 0 16px 0;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #444;
+        }
+
+        .report-section h3:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+
+        .ai-comment {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-left: 4px solid #667eea;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.8;
+            border-radius: 0 8px 8px 0;
+
+            min-height: 60px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .ai-comment.loading {
+            min-height: 60px;
+            color: #999;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+        }
+
+        .ai-comment.error {
+            border-left-color: #f44336;
+            color: #f44336;
+            min-height: 60px;
+        }
+
+        .ai-comment .ai-label {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .ai-comment .ai-content {
+
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+
+        .ai-comment.summary-comment {
+            min-height: 100px;
+        }
+
+        .ai-comment.summary-comment .ai-content {
+
+            line-height: 2;
+        }
+
+
+        .ai-comment.shop-comment {
+            min-height: 60px;
+        }
+
+
+        .plan-changes-table th,
+        .plan-changes-table td {
+            text-align: left;
+        }
+
+        .plan-changes-table td:nth-child(3) {
+            text-align: center;
+        }
+
+        .no-data {
+            color: #999;
+            font-style: italic;
+            padding: 12px 0;
+        }
+
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+
+        .channel-table {
+            font-size: 13px;
+        }
+
+        .channel-table .ratio {
+            color: #888;
+            font-size: 11px;
+        }
+
+        .channel-table tr.others-row {
+            background: #fafafa;
+        }
+
+
+        .media-analysis {
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .media-analysis:first-of-type {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .media-analysis h4 {
+            font-size: 16px;
+            color: #1976D2;
+            margin: 0 0 16px 0;
+            padding-left: 12px;
+            border-left: 4px solid #1976D2;
+        }
+
+        .plan-change-alert {
+            color: #E91E63;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+
+        .table-scroll-container {
+            overflow-x: auto;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .media-table {
+            min-width: 900px;
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        .media-table th,
+        .media-table td {
+            padding: 10px 14px;
+            white-space: nowrap;
+        }
+
+        .media-table .sticky-col {
+            position: sticky;
+            left: 0;
+            background: #fff;
+            z-index: 1;
+            min-width: 140px;
+            text-align: left;
+            font-weight: 600;
+            border-right: 2px solid #e0e0e0;
+        }
+
+        .media-table thead .sticky-col {
+            background: #f8f9fa;
+            z-index: 2;
+        }
+
+        .media-table tr.section-start td {
+            border-top: 2px solid #e0e0e0;
+        }
+
+
+        @media (max-width: 768px) {
+            #input-section {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .option-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .option-row label {
+                min-width: auto;
+            }
+
+            .meta-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .action-bar .buttons {
+                width: 100%;
+            }
+
+            .action-bar button {
+                flex: 1;
+            }
+
+            .ai-comment {
+                padding: 12px 16px;
+            }
+        }
+
+
+        .shop-accordion {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .shop-accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: #fff;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .shop-accordion-header:hover {
+            background: #f8f9fa;
+        }
+
+        .shop-accordion-header:last-child {
+            border-bottom: none;
+        }
+
+        .shop-accordion-header .shop-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .shop-accordion-header .shop-title .icon {
+            font-size: 20px;
+        }
+
+        .shop-accordion-header .shop-summary {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .shop-accordion-header .shop-summary span {
+            background: #f0f2f5;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .shop-accordion-header .toggle-icon {
+            font-size: 18px;
+            color: #999;
+            transition: transform 0.3s ease;
+        }
+
+        .shop-accordion-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .shop-accordion-content {
+            display: none;
+            padding: 0;
+            background: #fafafa;
+        }
+
+        .shop-accordion-content.open {
+            display: block;
+        }
+
+        .shop-accordion-content .report-section {
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            border-left: 4px solid #2196F3;
+        }
+
+
+        .close-shop-footer {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+            padding: 16px 24px;
+            text-align: center;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+        }
+
+        .close-shop-footer.visible {
+            display: block;
+        }
+
+        .close-shop-footer button {
+            background: #fff;
+            color: #1a73e8;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-shop-footer button:hover {
+            background: #f0f2f5;
+            transform: scale(1.02);
+        }
+
+        .close-shop-footer .shop-name {
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+
+        @media (max-width: 768px) {
+            .shop-accordion-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .shop-accordion-header .shop-summary {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .shop-accordion-header .toggle-icon {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .shop-accordion-header {
+                position: relative;
+                padding-right: 48px;
+            }
+
+            .shop-accordion-header.active .toggle-icon {
+                transform: translateY(-50%) rotate(180deg);
+            }
+
+            .close-shop-footer button {
+                width: 100%;
+            }
+        }
+
+
+        @media print {
+            .shop-accordion-content {
+                display: block !important;
+            }
+
+            .shop-accordion-header .toggle-icon {
+                display: none;
+            }
+
+            .close-shop-footer {
+                display: none !important;
+            }
+        }
+
+
+        @media print {
+
+            #input-section,
+            .action-bar {
+                display: none !important;
+            }
+
+            #report-section {
+                display: block !important;
+                max-width: none;
+                padding: 0;
+            }
+
+            .report-section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .ai-comment {
+                border-left-width: 2px;
+            }
+        }
+
+
+        .settings-btn {
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            padding: 8px 16px;
+            background: #f1f3f4;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: #e0e0e0;
+        }
+
+        #input-section {
+            position: relative;
+        }
+
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .prompt-group {
+            margin-bottom: 20px;
+        }
+
+        .prompt-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .prompt-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .prompt-group textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .prompt-hint {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+
+        .prompt-hint code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .modal-footer button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel {
+            background: #f1f3f4;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-save {
+            background: #1a73e8;
+            color: #fff;
+        }
+
+        .btn-save:hover {
+            background: #1557b0;
+        }
+
+        .btn-save:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+
+        @media (max-width: 768px) {
+            .settings-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                margin-bottom: 16px;
+            }
+
+            .modal-content {
+                max-height: 95vh;
+            }
+
+            .prompt-group textarea {
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body style="padding: 20px; padding-bottom: 100px;">
+
+    <section class="report-section" id="summary">
+        <h2>📊 サマリー</h2>
+
+        <div class="meta-info">
+            <p><strong>対象期間:</strong> 2025年4月 〜 2025年12月</p>
+            <p><strong>対象月:</strong> 2025年12月</p>
+            <p><strong>対象店舗数:</strong> 20店舗</p>
+        </div>
+
+        <h3>全店舗合計</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>月</th>
+                    <th>売上</th>
+
+                    <th>予約組数</th>
+
+                    <th>予約人数</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>4月</td>
+                    <td>¥200,364,017</td>
+
+                    <td>6,270組</td>
+
+                    <td>19,072人</td>
+
+                </tr>
+
+                <tr>
+                    <td>5月</td>
+                    <td>¥218,105,640</td>
+
+                    <td>8,226組</td>
+
+                    <td>25,689人</td>
+
+                </tr>
+
+                <tr>
+                    <td>6月</td>
+                    <td>¥218,707,380</td>
+
+                    <td>7,759組</td>
+
+                    <td>24,403人</td>
+
+                </tr>
+
+                <tr>
+                    <td>7月</td>
+                    <td>¥219,584,090</td>
+
+                    <td>8,112組</td>
+
+                    <td>25,113人</td>
+
+                </tr>
+
+                <tr>
+                    <td>8月</td>
+                    <td>¥218,846,864</td>
+
+                    <td>8,429組</td>
+
+                    <td>25,372人</td>
+
+                </tr>
+
+                <tr>
+                    <td>9月</td>
+                    <td>¥203,959,774</td>
+
+                    <td>7,866組</td>
+
+                    <td>24,772人</td>
+
+                </tr>
+
+                <tr>
+                    <td>10月</td>
+                    <td>¥211,218,213</td>
+
+                    <td>7,506組</td>
+
+                    <td>24,085人</td>
+
+                </tr>
+
+                <tr>
+                    <td>11月</td>
+                    <td>¥212,750,905</td>
+
+                    <td>7,796組</td>
+
+                    <td>24,581人</td>
+
+                </tr>
+
+                <tr>
+                    <td>12月</td>
+                    <td>¥238,389,061</td>
+
+                    <td>9,839組</td>
+
+                    <td>32,947人</td>
+
+                </tr>
+
+                <tr class="total-row">
+                    <td>合計</td>
+                    <td>¥1,941,925,944</td>
+
+                    <td>71,803組</td>
+
+                    <td>226,034人</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>直近のプラン変更（2025年12月 から過去6ヶ月以内）</h3>
+
+        <table class="plan-changes-table">
+            <thead>
+                <tr>
+                    <th>店舗</th>
+                    <th>媒体</th>
+                    <th>変更月</th>
+                    <th>旧プラン</th>
+                    <th>新プラン</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>アジアンビストロ Dai 新百合ヶ丘店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>ライト</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロ Dai 青葉台店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>ライト</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロDai 武蔵小杉店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>スタート</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロ Dai 二子玉川店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>ライト</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロ Dai 日本橋</td>
+                    <td>ホットペッパー</td>
+                    <td>2025年11月</td>
+                    <td>SSプレミアムプラン【価格1】</td>
+                    <td>ネット予約プラン</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロ Dai 日本橋</td>
+                    <td>食べログ</td>
+                    <td>2025年9月</td>
+                    <td>ベーシック</td>
+                    <td>プレミアム5</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロDai 立川グリーンスプリングス店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>スタート</td>
+                    <td>ライト</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロDai 立川グリーンスプリングス店</td>
+                    <td>ホットペッパー</td>
+                    <td>2025年11月</td>
+                    <td>SSプレミアムプラン【価格2】</td>
+                    <td>Aプラン【価格2】</td>
+                </tr>
+
+                <tr>
+                    <td>アジアンビストロ Dai 勝どき店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>スタート</td>
+                    <td>ライト</td>
+                </tr>
+
+                <tr>
+                    <td>スパニッシュイタリアンDai たまプラーザ店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年12月</td>
+                    <td>ライト</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>炭焼き大 たまプラーザ本店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>ライト</td>
+                    <td>ベーシック</td>
+                </tr>
+
+                <tr>
+                    <td>炭焼き大 新百合ヶ丘店</td>
+                    <td>ぐるなび</td>
+                    <td>2025年11月</td>
+                    <td>スタート</td>
+                    <td>ライト</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>📝 AI分析レポート</h3>
+        <div class="ai-comment summary-comment" id="ai-comment-summary"><span class="ai-label">✨ AI</span><span
+                class="ai-content">この飲食店グループの2025年4月から12月までの経営データを分析した結果、全体の売上と予約数は年末に向けて大きく伸長している一方で、店舗間や月ごとの変動も顕著であることが確認されました。
+
+                まず、**売上トレンド**に関して、全店舗合計の売上は、4月の2億2,030万円から5月には2億3,991万円（前月比+8.90%）と大きく増加し、その後、緩やかに推移していましたが、9月には2億2,435万円（前月比-6.82%）と顕著な落ち込みを見せました。しかし、12月には2億6,222万円（前月比+12.05%）と、期間中最高額を記録し、特に11月から12月にかけて大きく伸長しています。この12月の伸びは、年末商戦の成功を示唆しています。一方で、8月の売上は2億4,073万円（前月比-0.34%）と微減、9月にはさらに大きく減少しており、夏季から秋口にかけては売上が停滞する傾向が見られます。
+
+                **予約数トレンド**も売上トレンドと類似した動きを示しており、5月には8,226組（前月比+31.20%）と大幅に増加し、予約人数も25,689人（前月比+34.07%）と大きく伸びました。その後、6月に7,759組（前月比-5.70%）と一時的に減少しましたが、7月、8月は回復基調にありました。9月には7,866組（前月比-6.70%）、10月には7,506組（前月比-4.58%）と売上と同様に秋口に落ち込みが見られたものの、12月には9,839組（前月比+26.21%）と予約組数も期間中最高を記録し、予約人数も32,947人（前月比+34.03%）と大幅に増加しました。売上と予約数の動きは概ね連動しており、特に5月と12月はグループ全体として非常に好調であったことが伺えます。
+
+                個別の店舗に目を向けると、11月から12月にかけて特に**好調だった店舗**としては、スパニッシュイタリアンDai
+                たまプラーザ店が、11月の売上608万円から12月には879万円へと271万円増加し、伸び率は44.62%と群を抜いていました。次いで、アジアンビストロ Dai
+                日本橋が11月の1,620万円から12月には2,166万円へと545万円増加し、33.68%の伸長を見せています。アジアンビストロ Dai
+                東京ガーデンテラス店も11月の1,016万円から12月には1,306万円へと290万円増加し、28.59%と高い伸びを記録しました。また、大喜楼
+                たまプラーザ本店も11月の814万円から12月には1,009万円へと194万円増加し、23.94%の伸び率で好調でした。これらの店舗は年末商戦を特に成功させ、グループ全体の牽引役となったと言えるでしょう。
+
+                一方で、**要改善店舗**もいくつか見受けられます。アジアンビストロ Dai
+                駒沢店は、11月の売上826万円から12月には614万円へと212万円減少し、25.69%の落ち込みと最も顕著な悪化を示しました。アジアンビストロDai
+                立川グリーンスプリングス店も11月の1,825万円から12月には1,507万円へと318万円減少し、17.44%のマイナス成長となりました。Canal
+                cafeは11月の451万円から12月には417万円へと33万円減少し、7.41%の落ち込み、炭焼き大
+                立川グリーンスプリングス店も11月の1,208万円から12月には1,122万円へと86万円減少し、7.16%のマイナスとなりました。これらの店舗は、グループ全体の好調な年末商戦の流れに乗り切れず、売上を落としており、早急な対策が求められます。
+
+                **予約経路の傾向**を見ると、ほとんどの店舗で「食べログ」が最も多い経路となっており、全体の予約における主要なチャネルであることが明確です。多くの店舗で食べログが35%から58%を占めています。次いで「電話」による予約も多くの店舗で20%から39%と高い割合を占めており、特にアジアンビストロ
+                Dai 勝どき店では39.5%と、食べログに次ぐ主要経路となっています。また、「ホットペッパー」もアジアンビストロ Dai 新百合ヶ丘店（29.5%）、アジアンビストロ Dai
+                青葉台店（23.3%）、アジアンビストロDai 武蔵小杉店（21.7%）、アジアンビストロ Dai
+                二子玉川店（19.8%）などで高い割合を占めており、店舗によっては食べログに匹敵する、あるいはそれに近い集客力を持っています。Googleで予約やかんたんネット予約、ぐるなび、OZmall、一休なども一部店舗で一定の割合を占めていますが、店舗ごとの構成比には差が見られます。データが期間合計の割合であるため、経路ごとの「変化率が大きい」点を直接特定することは困難ですが、店舗によって集客経路の構成が大きく異なり、特にホットペッパーの利用比率が高い店舗と低い店舗がある点は注目すべき傾向です。
+
+                **媒体別ROIの傾向**においては、LINEは予約を取る媒体ではなく配信数に応じたプラン料金のみが発生しているため、ROIの評価からは除外します。他の媒体では、全体的に「ホットペッパー」が最も効率が良い媒体であると言えます。多くの店舗でホットペッパーのCVRが7%から9%台と非常に高く、食べログの2%から3%台と比較して顕著な差があります。1予約あたりの利益額も、アジアンビストロ
+                Dai 二子玉川店で12,700円/件、アジアンビストロ Dai
+                新百合ヶ丘店で11,975円/件と、食べログと同等かそれ以上の水準を維持しています。一方、「食べログ」は予約件数と総利益額は最大ですが、CVRは比較的低い傾向にあります。「ぐるなび」もCVRはホットペッパーに近いものの、予約件数が少ないため総利益額は控えめです。媒体ごとの「変化率が大きい」点については、ホットペッパーは多くの店舗で高いCVRと利益を上げている一方で、アジアンビストロ
+                Dai 勝どき店やブリランテタヴォラ Dai
+                勝どき店のように予約件数が0件で利益がマイナスになっている店舗も存在し、店舗ごとの実績のばらつきが大きいことが特徴として挙げられます。食べログは比較的安定した実績を示しています。
+
+                最後に、**プラン変更の影響**については、提供されたデータからは特定のプラン変更に関する情報や、その変更月の前後2〜3ヶ月を比較できるデータが確認できないため、本項目については影響を評価することはできません。
+
+                総じて、この飲食店グループは年末商戦で顕著な成長を遂げ、特に一部のアジアンビストロDai店舗やスパニッシュイタリアンDaiたまプラーザ店が牽引役となりました。主要な予約経路は食べログと電話ですが、ホットペッパーのROIが非常に高いことから、その活用拡大はグループ全体の利益向上に寄与する可能性があります。一方で、9月から10月にかけての売上・予約数の落ち込みや、アジアンビストロ
+                Dai
+                駒沢店や立川グリーンスプリングス店など一部店舗の売上低迷は課題であり、これらの店舗に対する集客戦略や顧客体験の改善策を検討することが、今後の持続的な成長に向けた建設的なアプローチとなるでしょう。また、ホットペッパーの店舗間での実績のばらつきを分析し、成功事例を横展開することで、媒体効率の均質化を図ることも重要です。</span>
+        </div>
+    </section>
+
+    <div class="shop-accordion" id="shop-accordion">
+        <h2 style="padding: 20px 24px; margin: 0; font-size: 18px; color: #333; border-bottom: 2px solid #2196F3;">
+            🏪 店舗別レポート（20店舗）
+        </h2>
+
+        <div class="shop-accordion-header" data-shop-code="1" data-shop-name="アジアンビストロ Dai たまプラーザ本店">
+            <div class="shop-title">
+                <span class="icon">🏪</span>
+                <span>アジアンビストロ Dai たまプラーザ本店</span>
+            </div>
+            <div class="shop-summary">
+                <span>売上: ¥67,217,949</span>
+                <span>予約: 3,536組</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="shop-accordion-content" id="shop-content-1">
+
+            <section class="report-section shop-report" id="shop-1">
+
+                <h3>売上・予約推移</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>月</th>
+                            <th>売上</th>
+
+                            <th>予約組数</th>
+
+                            <th>予約人数</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>4月</td>
+                            <td>¥7,023,918</td>
+
+                            <td>377組</td>
+
+                            <td>957人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>5月</td>
+                            <td>¥7,589,092</td>
+
+                            <td>418組</td>
+
+                            <td>1,097人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>6月</td>
+                            <td>¥7,567,185</td>
+
+                            <td>442組</td>
+
+                            <td>1,176人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>7月</td>
+                            <td>¥7,665,842</td>
+
+                            <td>406組</td>
+
+                            <td>1,028人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>8月</td>
+                            <td>¥8,158,135</td>
+
+                            <td>449組</td>
+
+                            <td>1,169人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>9月</td>
+                            <td>¥7,204,756</td>
+
+                            <td>366組</td>
+
+                            <td>935人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>10月</td>
+                            <td>¥7,065,683</td>
+
+                            <td>349組</td>
+
+                            <td>906人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>11月</td>
+                            <td>¥6,675,520</td>
+
+                            <td>326組</td>
+
+                            <td>835人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>12月</td>
+                            <td>¥8,267,818</td>
+
+                            <td>403組</td>
+
+                            <td>1,083人</td>
+
+                        </tr>
+
+                        <tr class="total-row">
+                            <td>合計</td>
+                            <td>¥67,217,949</td>
+
+                            <td>3,536組</td>
+
+                            <td>9,186人</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="ai-comment shop-comment" id="ai-comment-shop-1"><span class="ai-label">✨ AI</span><span
+                        class="ai-content">アジアンビストロ Dai
+                        たまプラーザ本店の年間データ分析によると、総売上は税込みで73,939,744円、予約合計は3,536組、9,186人となっています。全店舗平均と比較すると、当店舗は平均の69.2%に留まっており、上位店舗との間にパフォーマンスの差があることが伺えます。
+
+                        売上トレンドを見ると、4月の7,726,310円から始まり、5月には前月比8.05%増の8,347,991円と好調な立ち上がりを見せました。しかし、6月は前月比-0.29%の8,323,904円とほぼ横ばいに転じ、7月は1.30%増の8,432,426円、8月は6.42%増の8,973,949円と夏場にかけて再び増加しました。一方で、9月には前月比-11.70%の7,925,232円と大きく落ち込み、10月も-1.93%の7,772,251円、11月も-5.67%の7,343,072円と3ヶ月連続で減少傾向が続きました。年末の12月には23.86%増の9,094,600円と大幅に回復し、年間で最も高い売上を記録しており、季節変動が明確に現れています。
+
+                        予約数のトレンドも売上と類似した動きを見せています。4月の377組から5月には前月比10.88%増の418組、6月には5.74%増の442組と順調に増加しましたが、7月には-8.14%の406組と減少しました。8月には再び10.59%増の449組と回復し、年間で最も多くの予約を獲得しましたが、9月には-18.50%の366組、10月には-4.64%の349組、11月には-6.60%の326組と3ヶ月連続で減少しました。特に11月の326組は年間で最も低い予約数となっています。その後、12月には23.62%増の403組と売上と同様に大きく回復しており、夏場と年末の需要が高く、秋口に売上・予約が落ち込む季節性が読み取れます。
+
+                        予約経路の構成を見ると、食べログが1,832組（51.8%）と過半数を占め、最も高い依存度を示しています。次いで電話予約が1,163組（32.9%）と続き、この二つの経路で全体の84.7%を占めていることから、集客が特定のプラットフォームと伝統的な電話予約に集中している現状が明らかです。Googleで予約は347組（9.8%）、かんたんネット予約は167組（4.7%）と一定の貢献がありますが、PayPayグルメ:Yahooは22組（0.6%）、その他は5組（0.1%）と、他の経路からの予約は極めて限定的です。
+
+                        媒体別の効率性では、食べログが1,748件の予約を獲得し、225,000円の費用に対して19,813,500円の利益を生み出しており、CVRも3.21%と高い効率性を示しています。これは当店舗の主要な集客チャネルとして非常に効果的に機能していると言えます。一方、ホットペッパーは予約0件、費用0円であり、全く活用されていない状況です。LINEについては、予約を獲得する媒体ではなく配信数に応じたプラン料金として45,000円の費用が発生していますが、予約に直接結びついていないため、現時点では45,000円の純粋な損失となっています。データからはプラン変更に関する情報は提供されていないため、その影響については言及できません。
+
+                        これらの分析に基づくと、いくつかの改善ポイントが挙げられます。まず、全店舗平均との差を埋めるために、年間総売上・予約数の底上げが必要です。特に9月から11月にかけての売上・予約数の落ち込みは顕著であり、この期間の集客強化が喫緊の課題です。例えば、秋の行楽シーズンや忘年会需要を早期に喚起するような期間限定プランやキャンペーンを企画し、予約の早期獲得を目指すことが考えられます。次に、予約経路の多様化を図るべきです。食べログへの依存度が非常に高いため、プラットフォームのリスク分散と手数料負担の軽減を図るためにも、他の経路からの集客を強化する必要があります。具体的には、現在活用されていないホットペッパーのプラン見直しや、Googleで予約の露出強化、さらには自社ウェブサイトからの直接予約を促す施策（例:
+                        公式サイト限定特典の提供）を検討することで、顧客ロイヤルティの向上にも繋がる可能性があります。また、LINEの運用については、予約に直接結びつかない費用が発生しているため、費用対効果の検証が必要です。LINEを予約媒体としてではなく、既存顧客への情報発信やリピート促進、あるいは来店促進クーポン配布などのCRMツールとして活用することで、費用を有効な投資に変えることが期待されます。これにより、特定の月に偏りがちな集客を平準化し、年間を通じて安定した売上と予約数を確保することで、全店舗平均に対するパフォーマンスを向上させることが可能となるでしょう。</span>
+                </div>
+
+                <h3>予約経路構成（トレタデータ）</h3>
+                <div class="chart-container">
+                    <canvas id="channel-chart-1"></canvas>
+                </div>
+
+                <table class="channel-table">
+                    <thead>
+                        <tr>
+                            <th>経路</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>合計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>食べログ</td>
+                            <td>184組<br><span class="ratio">48.8%</span></td>
+                            <td>203組<br><span class="ratio">48.6%</span></td>
+                            <td>211組<br><span class="ratio">47.7%</span></td>
+                            <td>192組<br><span class="ratio">47.3%</span></td>
+                            <td>238組<br><span class="ratio">53.0%</span></td>
+                            <td>197組<br><span class="ratio">53.8%</span></td>
+                            <td>182組<br><span class="ratio">52.1%</span></td>
+                            <td>183組<br><span class="ratio">56.1%</span></td>
+                            <td>242組<br><span class="ratio">60.0%</span></td>
+                            <td>1832組<br><span class="ratio">51.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>電話</td>
+                            <td>111組<br><span class="ratio">29.4%</span></td>
+                            <td>126組<br><span class="ratio">30.1%</span></td>
+                            <td>153組<br><span class="ratio">34.6%</span></td>
+                            <td>146組<br><span class="ratio">36.0%</span></td>
+                            <td>138組<br><span class="ratio">30.7%</span></td>
+                            <td>124組<br><span class="ratio">33.9%</span></td>
+                            <td>136組<br><span class="ratio">39.0%</span></td>
+                            <td>106組<br><span class="ratio">32.5%</span></td>
+                            <td>123組<br><span class="ratio">30.5%</span></td>
+                            <td>1163組<br><span class="ratio">32.9%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Googleで予約</td>
+                            <td>42組<br><span class="ratio">11.1%</span></td>
+                            <td>52組<br><span class="ratio">12.4%</span></td>
+                            <td>45組<br><span class="ratio">10.2%</span></td>
+                            <td>38組<br><span class="ratio">9.4%</span></td>
+                            <td>40組<br><span class="ratio">8.9%</span></td>
+                            <td>27組<br><span class="ratio">7.4%</span></td>
+                            <td>29組<br><span class="ratio">8.3%</span></td>
+                            <td>36組<br><span class="ratio">11.0%</span></td>
+                            <td>38組<br><span class="ratio">9.4%</span></td>
+                            <td>347組<br><span class="ratio">9.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>かんたんネット予約</td>
+                            <td>25組<br><span class="ratio">6.6%</span></td>
+                            <td>32組<br><span class="ratio">7.7%</span></td>
+                            <td>31組<br><span class="ratio">7.0%</span></td>
+                            <td>28組<br><span class="ratio">6.9%</span></td>
+                            <td>32組<br><span class="ratio">7.1%</span></td>
+                            <td>18組<br><span class="ratio">4.9%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>1組<br><span class="ratio">0.3%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>167組<br><span class="ratio">4.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td>PayPayグルメ:Yahoo</td>
+                            <td>15組<br><span class="ratio">4.0%</span></td>
+                            <td>5組<br><span class="ratio">1.2%</span></td>
+                            <td>2組<br><span class="ratio">0.5%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>22組<br><span class="ratio">0.6%</span></td>
+                        </tr>
+                        <tr class="others-row">
+                            <td>その他</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>2組<br><span class="ratio">0.5%</span></td>
+                            <td>1組<br><span class="ratio">0.2%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>2組<br><span class="ratio">0.6%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>5組<br><span class="ratio">0.1%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="media-analysis" style="margin-top:0;padding-top:0;border-top:none;">
+                    <h4>食べログ</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>5,748</td>
+                                    <td>6,710</td>
+                                    <td>7,016</td>
+                                    <td>6,464</td>
+                                    <td>6,347</td>
+                                    <td>5,645</td>
+                                    <td>5,253</td>
+                                    <td>5,219</td>
+                                    <td>6,022</td>
+                                    <td>54,424</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>14,485</td>
+                                    <td>16,462</td>
+                                    <td>18,184</td>
+                                    <td>16,206</td>
+                                    <td>16,396</td>
+                                    <td>13,912</td>
+                                    <td>13,364</td>
+                                    <td>13,267</td>
+                                    <td>15,039</td>
+                                    <td>137,315</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>184</td>
+                                    <td>203</td>
+                                    <td>211</td>
+                                    <td>192</td>
+                                    <td>236</td>
+                                    <td>193</td>
+                                    <td>158</td>
+                                    <td>151</td>
+                                    <td>220</td>
+                                    <td>1,748</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>462</td>
+                                    <td>521</td>
+                                    <td>552</td>
+                                    <td>477</td>
+                                    <td>590</td>
+                                    <td>486</td>
+                                    <td>394</td>
+                                    <td>382</td>
+                                    <td>589</td>
+                                    <td>4,453</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート組数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>2</td>
+                                    <td>4</td>
+                                    <td>24</td>
+                                    <td>32</td>
+                                    <td>22</td>
+                                    <td>84</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>6</td>
+                                    <td>10</td>
+                                    <td>58</td>
+                                    <td>79</td>
+                                    <td>56</td>
+                                    <td>209</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>3.20%</td>
+                                    <td>3.03%</td>
+                                    <td>3.01%</td>
+                                    <td>2.97%</td>
+                                    <td>3.72%</td>
+                                    <td>3.42%</td>
+                                    <td>3.01%</td>
+                                    <td>2.89%</td>
+                                    <td>3.65%</td>
+                                    <td>3.21%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥225,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥2,079,000</td>
+                                    <td>¥2,344,500</td>
+                                    <td>¥2,484,000</td>
+                                    <td>¥2,146,500</td>
+                                    <td>¥2,655,000</td>
+                                    <td>¥2,187,000</td>
+                                    <td>¥1,773,000</td>
+                                    <td>¥1,719,000</td>
+                                    <td>¥2,650,500</td>
+                                    <td>¥20,038,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥2,054,000</td>
+                                    <td class="profit-positive">¥2,319,500</td>
+                                    <td class="profit-positive">¥2,459,000</td>
+                                    <td class="profit-positive">¥2,121,500</td>
+                                    <td class="profit-positive">¥2,630,000</td>
+                                    <td class="profit-positive">¥2,162,000</td>
+                                    <td class="profit-positive">¥1,748,000</td>
+                                    <td class="profit-positive">¥1,694,000</td>
+                                    <td class="profit-positive">¥2,625,500</td>
+                                    <td class="profit-positive">¥19,813,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>¥54</td>
+                                    <td>¥47</td>
+                                    <td>¥45</td>
+                                    <td>¥52</td>
+                                    <td>¥42</td>
+                                    <td>¥51</td>
+                                    <td>¥63</td>
+                                    <td>¥65</td>
+                                    <td>¥42</td>
+                                    <td>¥51</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>ホットペッパー</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>578</td>
+                                    <td>733</td>
+                                    <td>573</td>
+                                    <td>921</td>
+                                    <td>461</td>
+                                    <td>416</td>
+                                    <td>474</td>
+                                    <td>408</td>
+                                    <td>0</td>
+                                    <td>4,564</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>987</td>
+                                    <td>1,299</td>
+                                    <td>1,040</td>
+                                    <td>1,458</td>
+                                    <td>752</td>
+                                    <td>755</td>
+                                    <td>809</td>
+                                    <td>752</td>
+                                    <td>0</td>
+                                    <td>7,852</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>0.00%</td>
+                                    <td>-</td>
+                                    <td>0.00%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>LINE</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="shop-accordion-header" data-shop-code="2" data-shop-name="アジアンビストロ Dai 新百合ヶ丘店">
+            <div class="shop-title">
+                <span class="icon">🏪</span>
+                <span>アジアンビストロ Dai 新百合ヶ丘店</span>
+            </div>
+            <div class="shop-summary">
+                <span>売上: ¥77,275,560</span>
+                <span>予約: 5,180組</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="shop-accordion-content" id="shop-content-2">
+
+            <section class="report-section shop-report" id="shop-2">
+
+                <h3>売上・予約推移</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>月</th>
+                            <th>売上</th>
+
+                            <th>予約組数</th>
+
+                            <th>予約人数</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>4月</td>
+                            <td>¥8,191,336</td>
+
+                            <td>578組</td>
+
+                            <td>1,625人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>5月</td>
+                            <td>¥9,214,665</td>
+
+                            <td>662組</td>
+
+                            <td>1,834人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>6月</td>
+                            <td>¥9,001,794</td>
+
+                            <td>626組</td>
+
+                            <td>1,706人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>7月</td>
+                            <td>¥8,858,956</td>
+
+                            <td>568組</td>
+
+                            <td>1,579人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>8月</td>
+                            <td>¥9,231,174</td>
+
+                            <td>651組</td>
+
+                            <td>1,791人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>9月</td>
+                            <td>¥7,535,686</td>
+
+                            <td>495組</td>
+
+                            <td>1,357人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>10月</td>
+                            <td>¥7,979,147</td>
+
+                            <td>493組</td>
+
+                            <td>1,406人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>11月</td>
+                            <td>¥7,845,112</td>
+
+                            <td>505組</td>
+
+                            <td>1,357人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>12月</td>
+                            <td>¥9,417,690</td>
+
+                            <td>602組</td>
+
+                            <td>1,731人</td>
+
+                        </tr>
+
+                        <tr class="total-row">
+                            <td>合計</td>
+                            <td>¥77,275,560</td>
+
+                            <td>5,180組</td>
+
+                            <td>14,386人</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="ai-comment shop-comment" id="ai-comment-shop-2"><span class="ai-label">✨ AI</span><span
+                        class="ai-content">アジアンビストロ Dai
+                        新百合ヶ丘店は、年間合計売上（税込み）が85,003,116円、予約合計が5180組、14386人という実績を上げていますが、全店舗平均と比較すると79.6%にとどまっており、全体のパフォーマンス向上にはまだ余地がある状況です。
+
+                        売上トレンドを見ると、4月の9,010,470円から5月には10,136,132円と12.5%増加し、予約数も578組から662組へと14.5%増加するなど、好調なスタートを切っています。しかし、6月には売上が前月比2.3%減、予約数も5.5%減と下降に転じ、7月も売上が1.6%減、予約数も9.3%減と連続で減少しました。8月には売上が4.2%増、予約数が14.6%増と持ち直しましたが、9月には売上が前月比18.4%減の8,289,255円、予約数も23.9%減の495組と大幅な落ち込みを見せています。その後、10月は売上が5.9%増と回復基調に入り、11月は売上が1.7%減、予約数が2.4%増と微増減でしたが、12月には売上が20.0%増の10,359,459円、予約数も19.2%増の602組と年間で最も高い売上と予約数を記録し、年末商戦の強さを明確に示しました。この月ごとの変動は、特に9月の大きな落ち込みと12月の強い回復が特徴的であり、季節性や特定のプロモーション、または競合環境の変化が影響している可能性が考えられます。
+
+                        予約経路の特徴としては、食べログが35.1%（1818組）、ホットペッパーが29.5%（1527組）、電話が23.5%（1218組）と、この3経路で全体の88.1%を占めており、特定の媒体と電話予約への依存度が高いことが伺えます。特に食べログとホットペッパーはオンライン予約の主要チャネルとして機能しています。ただし、予約経路構成の組数と媒体別実績の件数には差異が見られ、例えば食べログでは経路構成が1818組に対し実績が1721件、ホットペッパーでは1527組に対し1623件、ぐるなびでは414組に対し79件となっており、これらの数値の定義や集計方法について確認が必要です。
+
+                        媒体別の効率を見ると、食べログは費用225,000円に対し利益20,394,000円、CVR2.56%と、1予約あたりの費用が約131円と非常に効率的で、高い費用対効果を示しています。ホットペッパーは費用764,450円に対し利益19,436,050円、CVR7.06%と、CVRは高いものの1予約あたりの費用が約471円と食べログより高めですが、それでも十分な利益を確保しています。一方、ぐるなびは費用110,500円に対し利益834,500円、CVR6.09%ですが、予約件数が79件と少なく、1予約あたりの費用が約1,399円と他の主要媒体と比較して著しく非効率です。LINEについては、予約が0件で費用が45,000円かかっており、予約媒体ではないためCVRは算出できませんが、直接的な予約に繋がっていない現状を考慮すると、費用対効果の観点から運用目的の再評価が必要です。
+
+                        プラン変更の影響について、ぐるなびは2025年11月に「ライト」から「ベーシック」プランへ変更したとありますが、提示されたデータは年間合計であるため、変更前後の具体的な効果を数値で比較することはできません。しかし、現在の年間予約件数79件という実績と費用110,500円から判断すると、プラン変更が既に反映されている期間の実績であったとしても、費用に見合う成果が出ているとは言いがたく、プランの適切性や運用方法について再検討が必要でしょう。
+
+                        これらの分析に基づき、いくつかの改善ポイントが挙げられます。まず、全店舗平均との差を埋めるため、売上と予約数の底上げが急務です。特に9月のような大幅な落ち込みを避けるため、閑散期に向けたプロモーションやイベント企画を強化し、安定した集客を図るべきです。次に、予約経路の最適化として、電話予約が23.5%を占めている点を踏まえ、オンライン予約への移行を促す施策を検討することが建設的です。例えば、電話予約時にオンライン予約のメリットを伝える、店舗独自の予約システムやSNSを活用した予約導線を強化するなどが考えられます。媒体費用に関しては、ぐるなびの費用対効果が低い現状を鑑み、プランの見直しや掲載内容の改善、あるいは他の媒体への費用配分シフトを検討すべきです。LINEについても、予約に繋がらない費用であれば、集客や顧客育成における役割を明確にし、KPIを設定した上で運用を最適化するか、費用を削減するかの判断が必要です。さらに、媒体別実績と予約経路構成の数値差異については、正確な効果測定とデータ分析のために、集計方法の確認と統一が求められます。最終的には、リピーター獲得のための顧客満足度向上施策や、店舗独自の魅力発信による指名予約の増加にも注力し、特定のオンライン媒体への依存度を低減させ、より安定した経営基盤を築くことが望まれます。</span>
+                </div>
+
+                <h3>予約経路構成（トレタデータ）</h3>
+                <div class="chart-container">
+                    <canvas id="channel-chart-2"></canvas>
+                </div>
+
+                <table class="channel-table">
+                    <thead>
+                        <tr>
+                            <th>経路</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>合計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>食べログ</td>
+                            <td>189組<br><span class="ratio">32.7%</span></td>
+                            <td>237組<br><span class="ratio">35.8%</span></td>
+                            <td>183組<br><span class="ratio">29.2%</span></td>
+                            <td>215組<br><span class="ratio">37.9%</span></td>
+                            <td>230組<br><span class="ratio">35.3%</span></td>
+                            <td>163組<br><span class="ratio">32.9%</span></td>
+                            <td>170組<br><span class="ratio">34.5%</span></td>
+                            <td>197組<br><span class="ratio">39.0%</span></td>
+                            <td>234組<br><span class="ratio">38.9%</span></td>
+                            <td>1818組<br><span class="ratio">35.1%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ホットペッパー</td>
+                            <td>180組<br><span class="ratio">31.1%</span></td>
+                            <td>168組<br><span class="ratio">25.4%</span></td>
+                            <td>209組<br><span class="ratio">33.4%</span></td>
+                            <td>181組<br><span class="ratio">31.9%</span></td>
+                            <td>177組<br><span class="ratio">27.2%</span></td>
+                            <td>127組<br><span class="ratio">25.7%</span></td>
+                            <td>160組<br><span class="ratio">32.5%</span></td>
+                            <td>159組<br><span class="ratio">31.5%</span></td>
+                            <td>166組<br><span class="ratio">27.6%</span></td>
+                            <td>1527組<br><span class="ratio">29.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>電話</td>
+                            <td>144組<br><span class="ratio">24.9%</span></td>
+                            <td>161組<br><span class="ratio">24.3%</span></td>
+                            <td>140組<br><span class="ratio">22.4%</span></td>
+                            <td>106組<br><span class="ratio">18.7%</span></td>
+                            <td>164組<br><span class="ratio">25.2%</span></td>
+                            <td>148組<br><span class="ratio">29.9%</span></td>
+                            <td>115組<br><span class="ratio">23.3%</span></td>
+                            <td>104組<br><span class="ratio">20.6%</span></td>
+                            <td>136組<br><span class="ratio">22.6%</span></td>
+                            <td>1218組<br><span class="ratio">23.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ぐるなび</td>
+                            <td>46組<br><span class="ratio">8.0%</span></td>
+                            <td>74組<br><span class="ratio">11.2%</span></td>
+                            <td>63組<br><span class="ratio">10.1%</span></td>
+                            <td>42組<br><span class="ratio">7.4%</span></td>
+                            <td>53組<br><span class="ratio">8.1%</span></td>
+                            <td>42組<br><span class="ratio">8.5%</span></td>
+                            <td>38組<br><span class="ratio">7.7%</span></td>
+                            <td>28組<br><span class="ratio">5.5%</span></td>
+                            <td>28組<br><span class="ratio">4.7%</span></td>
+                            <td>414組<br><span class="ratio">8.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td>かんたんネット予約</td>
+                            <td>13組<br><span class="ratio">2.2%</span></td>
+                            <td>14組<br><span class="ratio">2.1%</span></td>
+                            <td>21組<br><span class="ratio">3.4%</span></td>
+                            <td>21組<br><span class="ratio">3.7%</span></td>
+                            <td>20組<br><span class="ratio">3.1%</span></td>
+                            <td>14組<br><span class="ratio">2.8%</span></td>
+                            <td>2組<br><span class="ratio">0.4%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>105組<br><span class="ratio">2.0%</span></td>
+                        </tr>
+                        <tr class="others-row">
+                            <td>その他</td>
+                            <td>6組<br><span class="ratio">1.0%</span></td>
+                            <td>8組<br><span class="ratio">1.2%</span></td>
+                            <td>10組<br><span class="ratio">1.6%</span></td>
+                            <td>3組<br><span class="ratio">0.5%</span></td>
+                            <td>7組<br><span class="ratio">1.1%</span></td>
+                            <td>1組<br><span class="ratio">0.2%</span></td>
+                            <td>8組<br><span class="ratio">1.6%</span></td>
+                            <td>17組<br><span class="ratio">3.4%</span></td>
+                            <td>38組<br><span class="ratio">6.3%</span></td>
+                            <td>98組<br><span class="ratio">1.9%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="media-analysis" style="margin-top:0;padding-top:0;border-top:none;">
+                    <h4>食べログ</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>8,203</td>
+                                    <td>8,391</td>
+                                    <td>7,483</td>
+                                    <td>8,194</td>
+                                    <td>8,233</td>
+                                    <td>7,000</td>
+                                    <td>6,279</td>
+                                    <td>6,519</td>
+                                    <td>6,825</td>
+                                    <td>67,127</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>22,294</td>
+                                    <td>22,421</td>
+                                    <td>19,942</td>
+                                    <td>21,596</td>
+                                    <td>21,731</td>
+                                    <td>18,226</td>
+                                    <td>16,194</td>
+                                    <td>16,590</td>
+                                    <td>17,043</td>
+                                    <td>176,037</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>189</td>
+                                    <td>237</td>
+                                    <td>183</td>
+                                    <td>214</td>
+                                    <td>229</td>
+                                    <td>160</td>
+                                    <td>145</td>
+                                    <td>172</td>
+                                    <td>192</td>
+                                    <td>1,721</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>514</td>
+                                    <td>651</td>
+                                    <td>503</td>
+                                    <td>558</td>
+                                    <td>594</td>
+                                    <td>402</td>
+                                    <td>410</td>
+                                    <td>432</td>
+                                    <td>518</td>
+                                    <td>4,582</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート組数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>3</td>
+                                    <td>25</td>
+                                    <td>25</td>
+                                    <td>42</td>
+                                    <td>97</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>8</td>
+                                    <td>62</td>
+                                    <td>69</td>
+                                    <td>102</td>
+                                    <td>246</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>2.30%</td>
+                                    <td>2.82%</td>
+                                    <td>2.45%</td>
+                                    <td>2.61%</td>
+                                    <td>2.78%</td>
+                                    <td>2.29%</td>
+                                    <td>2.31%</td>
+                                    <td>2.64%</td>
+                                    <td>2.81%</td>
+                                    <td>2.56%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥225,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥2,313,000</td>
+                                    <td>¥2,929,500</td>
+                                    <td>¥2,263,500</td>
+                                    <td>¥2,511,000</td>
+                                    <td>¥2,673,000</td>
+                                    <td>¥1,809,000</td>
+                                    <td>¥1,845,000</td>
+                                    <td>¥1,944,000</td>
+                                    <td>¥2,331,000</td>
+                                    <td>¥20,619,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥2,288,000</td>
+                                    <td class="profit-positive">¥2,904,500</td>
+                                    <td class="profit-positive">¥2,238,500</td>
+                                    <td class="profit-positive">¥2,486,000</td>
+                                    <td class="profit-positive">¥2,648,000</td>
+                                    <td class="profit-positive">¥1,784,000</td>
+                                    <td class="profit-positive">¥1,820,000</td>
+                                    <td class="profit-positive">¥1,919,000</td>
+                                    <td class="profit-positive">¥2,306,000</td>
+                                    <td class="profit-positive">¥20,394,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>¥48</td>
+                                    <td>¥38</td>
+                                    <td>¥49</td>
+                                    <td>¥44</td>
+                                    <td>¥42</td>
+                                    <td>¥62</td>
+                                    <td>¥60</td>
+                                    <td>¥57</td>
+                                    <td>¥48</td>
+                                    <td>¥49</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>ホットペッパー</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>SSプラン【価格2】</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>2,575</td>
+                                    <td>3,472</td>
+                                    <td>2,616</td>
+                                    <td>3,280</td>
+                                    <td>2,387</td>
+                                    <td>2,028</td>
+                                    <td>2,604</td>
+                                    <td>2,246</td>
+                                    <td>1,828</td>
+                                    <td>23,036</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>5,688</td>
+                                    <td>7,774</td>
+                                    <td>6,030</td>
+                                    <td>7,466</td>
+                                    <td>5,470</td>
+                                    <td>4,407</td>
+                                    <td>5,950</td>
+                                    <td>5,356</td>
+                                    <td>4,254</td>
+                                    <td>52,395</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>176</td>
+                                    <td>229</td>
+                                    <td>206</td>
+                                    <td>218</td>
+                                    <td>164</td>
+                                    <td>132</td>
+                                    <td>204</td>
+                                    <td>172</td>
+                                    <td>122</td>
+                                    <td>1,623</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>476</td>
+                                    <td>587</td>
+                                    <td>562</td>
+                                    <td>627</td>
+                                    <td>467</td>
+                                    <td>370</td>
+                                    <td>563</td>
+                                    <td>497</td>
+                                    <td>340</td>
+                                    <td>4,489</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>6.83%</td>
+                                    <td>6.60%</td>
+                                    <td>7.87%</td>
+                                    <td>6.65%</td>
+                                    <td>6.87%</td>
+                                    <td>6.51%</td>
+                                    <td>7.83%</td>
+                                    <td>7.66%</td>
+                                    <td>6.67%</td>
+                                    <td>7.06%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥83,800</td>
+                                    <td>¥89,350</td>
+                                    <td>¥88,100</td>
+                                    <td>¥91,350</td>
+                                    <td>¥83,350</td>
+                                    <td>¥78,500</td>
+                                    <td>¥88,150</td>
+                                    <td>¥84,850</td>
+                                    <td>¥77,000</td>
+                                    <td>¥764,450</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥2,142,000</td>
+                                    <td>¥2,641,500</td>
+                                    <td>¥2,529,000</td>
+                                    <td>¥2,821,500</td>
+                                    <td>¥2,101,500</td>
+                                    <td>¥1,665,000</td>
+                                    <td>¥2,533,500</td>
+                                    <td>¥2,236,500</td>
+                                    <td>¥1,530,000</td>
+                                    <td>¥20,200,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥2,058,200</td>
+                                    <td class="profit-positive">¥2,552,150</td>
+                                    <td class="profit-positive">¥2,440,900</td>
+                                    <td class="profit-positive">¥2,730,150</td>
+                                    <td class="profit-positive">¥2,018,150</td>
+                                    <td class="profit-positive">¥1,586,500</td>
+                                    <td class="profit-positive">¥2,445,350</td>
+                                    <td class="profit-positive">¥2,151,650</td>
+                                    <td class="profit-positive">¥1,453,000</td>
+                                    <td class="profit-positive">¥19,436,050</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>¥176</td>
+                                    <td>¥152</td>
+                                    <td>¥156</td>
+                                    <td>¥145</td>
+                                    <td>¥178</td>
+                                    <td>¥212</td>
+                                    <td>¥156</td>
+                                    <td>¥170</td>
+                                    <td>¥226</td>
+                                    <td>¥174</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>ぐるなび</h4>
+
+                    <p class="plan-change-alert">
+                        ⚠️ プラン変更あり: 2025年11月 に「ライト」→「ベーシック」
+                    </p>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ベーシック</td>
+                                    <td>ベーシック</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>571</td>
+                                    <td>761</td>
+                                    <td>0</td>
+                                    <td>1,332</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1,607</td>
+                                    <td>2,199</td>
+                                    <td>0</td>
+                                    <td>3,806</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>41</td>
+                                    <td>38</td>
+                                    <td>0</td>
+                                    <td>79</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>107</td>
+                                    <td>103</td>
+                                    <td>0</td>
+                                    <td>210</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>7.18%</td>
+                                    <td>4.99%</td>
+                                    <td>-</td>
+                                    <td>6.09%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥15,350</td>
+                                    <td>¥35,150</td>
+                                    <td>¥30,000</td>
+                                    <td>¥110,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥481,500</td>
+                                    <td>¥463,500</td>
+                                    <td>¥0</td>
+                                    <td>¥945,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-positive">¥0</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-positive">¥466,150</td>
+                                    <td class="profit-positive">¥428,350</td>
+                                    <td class="profit-negative">¥-30,000</td>
+                                    <td class="profit-positive">¥834,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>¥143</td>
+                                    <td>¥341</td>
+                                    <td>-</td>
+                                    <td>¥242</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>LINE</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="shop-accordion-header" data-shop-code="3" data-shop-name="アジアンビストロ Dai 青葉台店">
+            <div class="shop-title">
+                <span class="icon">🏪</span>
+                <span>アジアンビストロ Dai 青葉台店</span>
+            </div>
+            <div class="shop-summary">
+                <span>売上: ¥60,809,113</span>
+                <span>予約: 2,202組</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="shop-accordion-content" id="shop-content-3">
+
+            <section class="report-section shop-report" id="shop-3">
+
+                <h3>売上・予約推移</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>月</th>
+                            <th>売上</th>
+
+                            <th>予約組数</th>
+
+                            <th>予約人数</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>4月</td>
+                            <td>¥6,195,647</td>
+
+                            <td>0組</td>
+
+                            <td>0人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>5月</td>
+                            <td>¥7,363,053</td>
+
+                            <td>0組</td>
+
+                            <td>0人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>6月</td>
+                            <td>¥6,556,041</td>
+
+                            <td>3組</td>
+
+                            <td>7人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>7月</td>
+                            <td>¥6,859,145</td>
+
+                            <td>370組</td>
+
+                            <td>1,055人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>8月</td>
+                            <td>¥7,007,198</td>
+
+                            <td>397組</td>
+
+                            <td>1,096人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>9月</td>
+                            <td>¥6,544,186</td>
+
+                            <td>358組</td>
+
+                            <td>994人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>10月</td>
+                            <td>¥6,384,973</td>
+
+                            <td>330組</td>
+
+                            <td>914人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>11月</td>
+                            <td>¥6,218,724</td>
+
+                            <td>336組</td>
+
+                            <td>911人</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>12月</td>
+                            <td>¥7,680,146</td>
+
+                            <td>408組</td>
+
+                            <td>1,209人</td>
+
+                        </tr>
+
+                        <tr class="total-row">
+                            <td>合計</td>
+                            <td>¥60,809,113</td>
+
+                            <td>2,202組</td>
+
+                            <td>6,186人</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="ai-comment shop-comment" id="ai-comment-shop-3"><span class="ai-label">✨ AI</span><span
+                        class="ai-content">アジアンビストロ Dai
+                        青葉台店の年間実績は、税込み売上合計が66,890,024円、総予約数が2202組、総来店人数が6186人となっており、これは全店舗平均と比較して62.6%の水準に留まっています。
+
+                        売上トレンドを見ると、4月の6,815,212円から5月には8,099,358円へと18.84%増加し、好調なスタートを切ったものの、6月には7,211,645円と前月比で11.00%減少しました。その後7月に7,545,060円（前月比4.62%増）、8月に7,707,918円（前月比2.16%増）と微増が続きましたが、9月には7,198,605円（前月比6.61%減）、10月に7,023,470円（前月比2.39%減）、11月に6,840,596円（前月比2.60%減）と3ヶ月連続で減少傾向が見られました。しかし、12月には8,448,161円と、前月比で23.50%と大幅に増加し、年間で最も高い売上を記録し、年末商戦の強さがうかがえます。
+
+                        予約数トレンドにおいては、4月と5月は予約が0組でしたが、6月に初めて3組の予約を獲得しました。7月には370組と大幅な増加を見せ、8月には397組（前月比7.30%増）とさらに伸びました。しかし、9月には358組（前月比9.82%減）、10月には330組（前月比7.82%減）と連続で減少しました。11月は336組と微増（前月比1.82%増）に転じ、12月には408組と前月比21.43%の大幅増を達成し、年間で最多の予約数を記録しています。売上と予約数の月別推移は概ね連動しており、特に年末に顕著な回復を見せている点が注目されます。
+
+                        予約経路の特徴としては、電話が746組（33.9%）、食べログが736組（33.4%）、ホットペッパーが512組（23.3%）と、これら3つの経路で全体の約9割を占める高い依存度を示しています。特に電話と食べログがほぼ同等の比率で主要な予約源となっており、特定の媒体への過度な集中は見られないものの、経路の多様化には改善の余地があります。ぐるなびは105組（4.8%）、Googleで予約は79組（3.6%）、その他は24組（1.1%）と、これら経路からの予約は限定的です。
+
+                        媒体別の効率を見ると、食べログは予約1,012件に対し費用225,000円、利益12,415,500円、CVRは2.66%であり、費用対効果は55.18倍と極めて高い効率性を誇ります。ホットペッパーは予約820件に対し費用296,850円、利益8,608,650円、CVRは9.00%と、CVRの高さが際立っており、費用対効果も28.99倍と非常に良好です。一方で、ぐるなびは予約52件に対し費用137,350円、利益524,150円、CVRは4.08%であり、費用対効果は3.82倍と、他の主要媒体と比較して低い水準にあります。データにはぐるなびのプラン変更（2025年11月に「ライト」から「ベーシック」へ）の記載がありますが、提供された実績データは変更前後の月別比較ができないため、プラン変更が現在の効率にどのような影響を与えたかを具体的に評価することは困難です。しかし、現状の効率性からは改善の必要性が示唆されます。LINEに関しては、予約が0件、費用45,000円、利益-45,000円であり、これは予約を取る媒体ではないため、費用がそのまま損失となっていますが、顧客とのコミュニケーションツールとしての活用は別途検討されるべきです。
+
+                        これらの分析に基づくと、いくつかの改善ポイントが挙げられます。まず、全店舗平均比62.6%という現状を改善するため、売上と予約数の底上げが急務です。特に9月から11月にかけて見られた売上と予約数の停滞・減少傾向を打破するため、この期間に特化した集客キャンペーンやプロモーションを強化すべきです。例えば、食べログの費用対効果の高さとホットペッパーの高いCVRを最大限に活用し、両媒体での露出強化や魅力的なプランの企画を検討することで、安定的な予約数増加を目指せます。次に、ぐるなびの効率性改善は重要な課題です。現在の費用対効果3.82倍は他の媒体と比較して明らかに低く、プラン変更の効果が不明であるため、契約内容の見直しや、掲載内容の最適化、あるいは別の媒体への投資配分の再検討が必要です。さらに、LINEは現在予約に貢献していませんが、顧客へのダイレクトメッセージ配信やクーポンの配布を通じて、リピート促進や来店頻度向上に活用することで、間接的な売上貢献に繋がる可能性があります。電話予約が多いという特徴を活かし、電話予約時にLINE公式アカウントへの登録を促すなどの連携も有効でしょう。また、12月の売上・予約の大幅増加は年末商戦の需要を捉えたものと推測されるため、その成功要因を分析し、他の月、特に売上が落ち込みやすい時期にも適用可能な施策を検討することで、年間を通じてより安定した経営基盤を築くことが期待されます。</span>
+                </div>
+
+                <h3>予約経路構成（トレタデータ）</h3>
+                <div class="chart-container">
+                    <canvas id="channel-chart-3"></canvas>
+                </div>
+
+                <table class="channel-table">
+                    <thead>
+                        <tr>
+                            <th>経路</th>
+                            <th>4月</th>
+                            <th>5月</th>
+                            <th>6月</th>
+                            <th>7月</th>
+                            <th>8月</th>
+                            <th>9月</th>
+                            <th>10月</th>
+                            <th>11月</th>
+                            <th>12月</th>
+                            <th>合計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>電話</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>155組<br><span class="ratio">41.9%</span></td>
+                            <td>147組<br><span class="ratio">37.0%</span></td>
+                            <td>111組<br><span class="ratio">31.0%</span></td>
+                            <td>100組<br><span class="ratio">30.3%</span></td>
+                            <td>106組<br><span class="ratio">31.5%</span></td>
+                            <td>127組<br><span class="ratio">31.1%</span></td>
+                            <td>746組<br><span class="ratio">33.9%</span></td>
+                        </tr>
+                        <tr>
+                            <td>食べログ</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>119組<br><span class="ratio">32.2%</span></td>
+                            <td>140組<br><span class="ratio">35.3%</span></td>
+                            <td>104組<br><span class="ratio">29.1%</span></td>
+                            <td>120組<br><span class="ratio">36.4%</span></td>
+                            <td>111組<br><span class="ratio">33.0%</span></td>
+                            <td>142組<br><span class="ratio">34.8%</span></td>
+                            <td>736組<br><span class="ratio">33.4%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ホットペッパー</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>3組<br><span class="ratio">100.0%</span></td>
+                            <td>76組<br><span class="ratio">20.5%</span></td>
+                            <td>82組<br><span class="ratio">20.7%</span></td>
+                            <td>101組<br><span class="ratio">28.2%</span></td>
+                            <td>79組<br><span class="ratio">23.9%</span></td>
+                            <td>76組<br><span class="ratio">22.6%</span></td>
+                            <td>95組<br><span class="ratio">23.3%</span></td>
+                            <td>512組<br><span class="ratio">23.3%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ぐるなび</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>8組<br><span class="ratio">2.0%</span></td>
+                            <td>33組<br><span class="ratio">9.2%</span></td>
+                            <td>26組<br><span class="ratio">7.9%</span></td>
+                            <td>25組<br><span class="ratio">7.4%</span></td>
+                            <td>13組<br><span class="ratio">3.2%</span></td>
+                            <td>105組<br><span class="ratio">4.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Googleで予約</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>15組<br><span class="ratio">4.1%</span></td>
+                            <td>8組<br><span class="ratio">2.0%</span></td>
+                            <td>3組<br><span class="ratio">0.8%</span></td>
+                            <td>4組<br><span class="ratio">1.2%</span></td>
+                            <td>18組<br><span class="ratio">5.4%</span></td>
+                            <td>31組<br><span class="ratio">7.6%</span></td>
+                            <td>79組<br><span class="ratio">3.6%</span></td>
+                        </tr>
+                        <tr class="others-row">
+                            <td>その他</td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>5組<br><span class="ratio">1.4%</span></td>
+                            <td>12組<br><span class="ratio">3.0%</span></td>
+                            <td>6組<br><span class="ratio">1.7%</span></td>
+                            <td>1組<br><span class="ratio">0.3%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>0組<br><span class="ratio">0.0%</span></td>
+                            <td>24組<br><span class="ratio">1.1%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="media-analysis" style="margin-top:0;padding-top:0;border-top:none;">
+                    <h4>食べログ</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>旧ベーシック</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>3,794</td>
+                                    <td>4,609</td>
+                                    <td>4,134</td>
+                                    <td>4,419</td>
+                                    <td>4,596</td>
+                                    <td>3,954</td>
+                                    <td>3,924</td>
+                                    <td>4,060</td>
+                                    <td>4,444</td>
+                                    <td>37,934</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>10,010</td>
+                                    <td>12,113</td>
+                                    <td>10,783</td>
+                                    <td>11,283</td>
+                                    <td>11,830</td>
+                                    <td>11,093</td>
+                                    <td>10,490</td>
+                                    <td>10,964</td>
+                                    <td>11,028</td>
+                                    <td>99,594</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>104</td>
+                                    <td>121</td>
+                                    <td>98</td>
+                                    <td>119</td>
+                                    <td>140</td>
+                                    <td>103</td>
+                                    <td>104</td>
+                                    <td>96</td>
+                                    <td>127</td>
+                                    <td>1,012</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>267</td>
+                                    <td>323</td>
+                                    <td>275</td>
+                                    <td>305</td>
+                                    <td>415</td>
+                                    <td>298</td>
+                                    <td>284</td>
+                                    <td>280</td>
+                                    <td>362</td>
+                                    <td>2,809</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート組数</td>
+                                    <td>-104</td>
+                                    <td>-121</td>
+                                    <td>-98</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>16</td>
+                                    <td>15</td>
+                                    <td>15</td>
+                                    <td>-276</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">　内）ノート人数</td>
+                                    <td>-267</td>
+                                    <td>-323</td>
+                                    <td>-275</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>2</td>
+                                    <td>39</td>
+                                    <td>41</td>
+                                    <td>42</td>
+                                    <td>-741</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>2.74%</td>
+                                    <td>2.63%</td>
+                                    <td>2.37%</td>
+                                    <td>2.69%</td>
+                                    <td>3.05%</td>
+                                    <td>2.60%</td>
+                                    <td>2.65%</td>
+                                    <td>2.36%</td>
+                                    <td>2.86%</td>
+                                    <td>2.66%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥25,000</td>
+                                    <td>¥225,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥1,201,500</td>
+                                    <td>¥1,453,500</td>
+                                    <td>¥1,237,500</td>
+                                    <td>¥1,372,500</td>
+                                    <td>¥1,867,500</td>
+                                    <td>¥1,341,000</td>
+                                    <td>¥1,278,000</td>
+                                    <td>¥1,260,000</td>
+                                    <td>¥1,629,000</td>
+                                    <td>¥12,640,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥1,176,500</td>
+                                    <td class="profit-positive">¥1,428,500</td>
+                                    <td class="profit-positive">¥1,212,500</td>
+                                    <td class="profit-positive">¥1,347,500</td>
+                                    <td class="profit-positive">¥1,842,500</td>
+                                    <td class="profit-positive">¥1,316,000</td>
+                                    <td class="profit-positive">¥1,253,000</td>
+                                    <td class="profit-positive">¥1,235,000</td>
+                                    <td class="profit-positive">¥1,604,000</td>
+                                    <td class="profit-positive">¥12,415,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>¥93</td>
+                                    <td>¥77</td>
+                                    <td>¥90</td>
+                                    <td>¥81</td>
+                                    <td>¥60</td>
+                                    <td>¥83</td>
+                                    <td>¥88</td>
+                                    <td>¥89</td>
+                                    <td>¥69</td>
+                                    <td>¥81</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>ホットペッパー</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>ネット予約プラン</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>982</td>
+                                    <td>1,297</td>
+                                    <td>1,144</td>
+                                    <td>1,325</td>
+                                    <td>877</td>
+                                    <td>828</td>
+                                    <td>1,034</td>
+                                    <td>926</td>
+                                    <td>819</td>
+                                    <td>9,232</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>2,611</td>
+                                    <td>3,160</td>
+                                    <td>2,754</td>
+                                    <td>3,093</td>
+                                    <td>2,120</td>
+                                    <td>1,996</td>
+                                    <td>2,484</td>
+                                    <td>2,574</td>
+                                    <td>2,158</td>
+                                    <td>22,950</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>93</td>
+                                    <td>107</td>
+                                    <td>102</td>
+                                    <td>93</td>
+                                    <td>80</td>
+                                    <td>104</td>
+                                    <td>101</td>
+                                    <td>82</td>
+                                    <td>58</td>
+                                    <td>820</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>234</td>
+                                    <td>238</td>
+                                    <td>214</td>
+                                    <td>242</td>
+                                    <td>196</td>
+                                    <td>240</td>
+                                    <td>244</td>
+                                    <td>214</td>
+                                    <td>157</td>
+                                    <td>1,979</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>9.47%</td>
+                                    <td>8.25%</td>
+                                    <td>8.92%</td>
+                                    <td>7.02%</td>
+                                    <td>9.12%</td>
+                                    <td>12.56%</td>
+                                    <td>9.77%</td>
+                                    <td>8.86%</td>
+                                    <td>7.08%</td>
+                                    <td>9.00%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥35,100</td>
+                                    <td>¥35,700</td>
+                                    <td>¥32,100</td>
+                                    <td>¥36,300</td>
+                                    <td>¥29,400</td>
+                                    <td>¥36,000</td>
+                                    <td>¥36,600</td>
+                                    <td>¥32,100</td>
+                                    <td>¥23,550</td>
+                                    <td>¥296,850</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥1,053,000</td>
+                                    <td>¥1,071,000</td>
+                                    <td>¥963,000</td>
+                                    <td>¥1,089,000</td>
+                                    <td>¥882,000</td>
+                                    <td>¥1,080,000</td>
+                                    <td>¥1,098,000</td>
+                                    <td>¥963,000</td>
+                                    <td>¥706,500</td>
+                                    <td>¥8,905,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-positive">¥1,017,900</td>
+                                    <td class="profit-positive">¥1,035,300</td>
+                                    <td class="profit-positive">¥930,900</td>
+                                    <td class="profit-positive">¥1,052,700</td>
+                                    <td class="profit-positive">¥852,600</td>
+                                    <td class="profit-positive">¥1,044,000</td>
+                                    <td class="profit-positive">¥1,061,400</td>
+                                    <td class="profit-positive">¥930,900</td>
+                                    <td class="profit-positive">¥682,950</td>
+                                    <td class="profit-positive">¥8,608,650</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                    <td>¥150</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>ぐるなび</h4>
+
+                    <p class="plan-change-alert">
+                        ⚠️ プラン変更あり: 2025年11月 に「ライト」→「ベーシック」
+                    </p>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ベーシック</td>
+                                    <td>ベーシック</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>507</td>
+                                    <td>801</td>
+                                    <td>0</td>
+                                    <td>1,308</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1,104</td>
+                                    <td>1,970</td>
+                                    <td>0</td>
+                                    <td>3,074</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>23</td>
+                                    <td>29</td>
+                                    <td>0</td>
+                                    <td>52</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>53</td>
+                                    <td>94</td>
+                                    <td>0</td>
+                                    <td>147</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>4.54%</td>
+                                    <td>3.62%</td>
+                                    <td>-</td>
+                                    <td>4.08%</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥10,000</td>
+                                    <td>¥12,650</td>
+                                    <td>¥34,700</td>
+                                    <td>¥30,000</td>
+                                    <td>¥137,350</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥238,500</td>
+                                    <td>¥423,000</td>
+                                    <td>¥0</td>
+                                    <td>¥661,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-negative">¥-10,000</td>
+                                    <td class="profit-positive">¥225,850</td>
+                                    <td class="profit-positive">¥388,300</td>
+                                    <td class="profit-negative">¥-30,000</td>
+                                    <td class="profit-positive">¥524,150</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>¥238</td>
+                                    <td>¥369</td>
+                                    <td>-</td>
+                                    <td>¥303</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="media-analysis">
+                    <h4>LINE</h4>
+
+                    <div class="table-scroll-container">
+                        <table class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">項目</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
+                                    <th>合計/平均</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="sticky-col">プラン名</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>ライト</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">店舗トップPV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">合計PV</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">予約件数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">予約人数</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">CVR</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class="section-start">
+                                    <td class="sticky-col">費用合計</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥5,000</td>
+                                    <td>¥45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">想定売上</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                    <td>¥0</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">利益額</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-5,000</td>
+                                    <td class="profit-negative">¥-45,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="sticky-col">送客コスト/人</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </script>
+
+</body>
+
+</html>

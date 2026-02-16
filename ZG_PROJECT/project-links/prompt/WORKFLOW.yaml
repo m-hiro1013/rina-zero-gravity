@@ -1,0 +1,51 @@
+workflow:
+  last_updated: "2026-02-14"
+  last_session_summary: |
+    プロジェクト初期化とコアファイル実装完了。
+    Firebase SDKバージョンを12.9.0に統一し、認証セキュリティ（UID制限）を設定済み。
+    次はFTPアップロードによるデプロイと実動作確認。
+
+  progress:
+    current_phase:
+      number: 3
+      name: "User Confirmation & Deploy Preparation"
+      status: "in_progress"
+    
+    completed_phases:
+      - phase: 1
+        name: "Project Initialization"
+        completed_at: "2026-02-14"
+      - phase: 2
+        name: "Core Implementation"
+        completed_at: "2026-02-14"
+  
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "Use Vanilla JS with ES Modules"
+        reason: "Keep it simple, no build step required."
+      - id: "D002"
+        decision: "Use pico.css for styling"
+        reason: "Minimal, class-less CSS framework for quick UI."
+      - id: "D003"
+        decision: "Firebase for backend"
+        reason: "Free tier, easy Auth & DB."
+      - id: "D004"
+        decision: "Enforce Firebase SDK v12.9.0"
+        reason: "Consistency is required to avoid initialization errors."
+      - id: "D005"
+        decision: "Hardcode ALLOWED_UID in client-side auth"
+        reason: "Double security layer along with Firestore rules."
+
+  features:
+    completed:
+      - id: "F001"
+        name: "Project Setup"
+        status: "done"
+        completed_at: "2026-02-14"
+      - id: "F002"
+        name: "Core Implementation"
+        status: "done"
+        completed_at: "2026-02-14"
+
+    in_progress: []

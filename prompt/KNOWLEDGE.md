@@ -6,7 +6,9 @@
     - [Format] **XML for Persona**: 人格定義にはMarkdownよりもXMLを採用することで、`<character>`, `<tone>`, `<principles>` などの構造をAIがより正確に解釈できる。 [+4]
     - [System] **Fallback Mechanism**: 人格ファイルの読み込みに優先順位（Project specific > Global fallback）を設けることで、柔軟な運用が可能になる。 [+3]
     - [Refactoring] **System Definition Neutralization**: ルールファイル等のシステム定義文書から人格的表現（口調、キャラクター性）を完全に排除することで、ドキュメントの客観性と再利用性が向上し、人格レイヤーとの責務分離が明確になる。 [+5]
-
+    - [Migration] **venvの移植不可性**: プロジェクトの親ディレクトリが変更された場合、`venv` 内の絶対パス参照が壊れるため、コピーや移動ではなく「削除して再構築」が唯一の解決策となる。 [+5]
+    - [Python] **エンコーディングエラー回避**: `pip install` 時にエンコーディングエラー（`UnicodeDecodeError`等）が発生する場合、`PYTHONIOENCODING=utf-8` を環境変数として渡すことで回避できる。特に日本語環境×古めのPythonで有効。 [+4]
+    - [Security] **macOS権限の壁**: サンドボックスやSIPの影響で `Operation not permitted` が出る場合、無理にスクリプトで突破しようとせず、ユーザーにターミナルでの手動実行を依頼するフローに切り替えるべき。 [+4]
 
 - セッション: 20 (Strict No-Guesswork & Exhaustive Search Strategy)
   - date: 2026-02-12
@@ -14,7 +16,7 @@
     - [Governance] **推測禁止・徹底調査の鉄則**: わからないことがあった時、ユーザーに聞く前に必ずプロジェクト内の全ファイル（特に `tests/`, `skill/`）を `grep` や `find` で徹底的に調査すること。「書いてないから推測しました」は怠慢であり、ガバナンス違反。 [+15]
     - [Governance] **指示のエビデンス確保**: 「指示されてない？」と言われる前に、自ら既存の指示（BOOK.md, KNOWLEDGE.md）を確認し、そこに答えがないかを探す姿勢を持つこと。 [+10]
     - [Testing] **b-logの威力**: 画面要素（ID, name属性）が不明な場合、推測するのではなく、ユーザーから提供された `b-log`（操作ログ）の生データを確認することで、100%確実なセレクタを特定できる。 [+8]
-    - [Specification] **DOM Indexの罠**: ホットペッパーのDOM ID (`#drinkName1`等) は `1-indexed` である。プログラム言語の `0-indexed` との不整合によるバグ（index 0へのアクセス）を防ぐため、ループ処理では必ず `dom_index = i + 1` のような明示的な変換変数を用いること。 [+8]
+    - [Specification] **DOM Index of the Trap**: ホットペッパーのDOM ID (`#drinkName1`等) は `1-indexed` である。プログラム言語の `0-indexed` との不整合によるバグ（index 0へのアクセス）を防ぐため、ループ処理では必ず `dom_index = i + 1` のような明示的な変換変数を用いること。 [+8]
     - [DevOps] **.command vs .app**: macOSでデスクトップから実行するツールを作る際、`.command` (シェルスクリプト) は権限やセキュリティ設定で躓きやすい。`osacompile` を使ってネイティブアプリ (`.app`) 化するのがUX上最も確実。 [+5]
     - [Python] **Module Execution**: ターミナル環境とGUI環境でPATHが異なる場合、コマンド (`streamlit` 等) が見つからないことがある。`python3 -m <module>` 形式で呼び出すことで、Python環境さえ特定できれば確実に実行できる。 [+5]
 
@@ -34,7 +36,6 @@
     - [View-Data-Contract] テンプレートとデータモデルのキー名・構造は必ず突き合わせて検証する。不一致は実行時エラーや空欄表示を招く。 [+4]
     - [Verification] コードを書いた後、必ず「画面で動かして確認」するステップを入れる。ビルド通過≠動作OK。 [+4]
     - [Self-Judgment-Danger] 「複雑だから」「使われてなさそう」で自己判断で省略するのは機能劣化の始まり。迷ったら全部移植。 [+5]
-
 
 - セッション: 10 (RINA System Protocol Integration & Global Wisdom Sync)
   - date: 2026-02-06
@@ -95,8 +96,8 @@
 - セッション: 18 (Test Efficiency & Minimal Dataset Enforcement)
   - date: 2026-02-12
   - insights:
-    - [Governance] **プラン先出しの原則**: バグ修正やロジック変更を行う際、コードを書く前に必ずプランを提示し承認（GOサイン）を得る。自律判断による勝手な修正は信頼を損なう「暴走」であり、プロセスガバナンスに対する重大な違反。 [+10]
-    - [Governance] **永続的記憶（Persistent Memory）の掟**: ユーザーの「覚えておいて」「memoして」という指示は、その場で返答するだけでなく、直ちに適切な永続化ファイル（Rules, BOOK, Flow, KNOWLEDGE）に書き込み、参照経路（INDEX, WORKFLOW）を確保する。セッション越えの記憶保持はエージェントの義務。 [+10]
+    - [Governance] **プラン先出しの原則**: バグ修正やロジック変更を行う際、コードを書く前に必ずプランを提示し承認（GOサイン）を得る。自律判断による勝手な修正は信頼を損なう「暴走」であり、プロセスガバナンスに対する重大な違反. [+10]
+    - [Governance] **永続적 記憶（Persistent Memory）の掟**: ユーザーの「覚えておいて」「memoして」という指示は、その場で返答するだけでなく、直ちに適切な永続化ファイル（Rules, BOOK, Flow, KNOWLEDGE）に書き込み、参照経路（INDEX, WORKFLOW）を確保する。セッション越えの記憶保持はエージェントの義務。 [+10]
     - [Testing] 実環境での「全件削除・全件登録」テストは極めて非効率。テスト時は 1〜2件の「最小データセット」を使用することを義務付ける。 [+5]
     - [Testing] **確証のための原子テスト原則**: 「1件成功 ＝ 操作ロジックの正解」を証明することに集中。1, 2件で確証を得れば、スケールは後続のフローに任せる。 [+5]
     - [Efficiency] 既に検証済みの工程（削除等）はテストフラグやコメントアウトでスキップし、検証したい差分のみを集中攻撃する。 [+4]

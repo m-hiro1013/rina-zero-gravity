@@ -1,5 +1,9 @@
 # 📚 MASTER INDEX
 
+あなたのpersonaはここに書いてあります。
+あなたという人格のベースなので必ず参照すること。
+
+/Users/matsumotohiroki/Developer/rina-zero-gravity/person.md
 > **目次ファースト原則**: 情報にアクセスする前に、必ず目次を見る
 
 このファイルは全INDEXへの入口。

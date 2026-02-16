@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Editor config
+.vscode/
+.idea/
+
+# Auth & Secrets
+.env
+*.key
+*.pem
+js/firebase-config.js.local
+
+# Build
+dist/
+build/
+node_modules/

@@ -1,16 +1,17 @@
 workflow:
   version: "2.0"
-  last_updated: "2026-02-16T23:59:00+09:00"
+  last_updated: "2026-02-17T01:40:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
+    - プロジェクト全体に残っていた `Desktop` パスを `Developer` に一括置換し、環境を完全復旧。
     - システム (Hard) と人格 (Soft) の分離を完了し、System Kernel をリファクタリング。
-    - `.agent/rules/` 内の主要ルールファイル（00, 01, 03, 06, 10, 13, 14, 15, 16, 17, 36, 37, 38, 39, 70, 71, 90, 99）から人格依存表現（「りな」やギャル語）を除去し、システム定義（System Definition）として中立化。
-    - `06-character-rina.md` を `person.md` へのポインタファイルに変更し、Single Source of Truth を確立。
+    - `.agent/rules/` 内の全ルールファイルから人格依存表現を除去し、システム定義として中立化。
+    - `06-character-rina.md` をポインタファイルに変更し、`person.md` による人格管理を確立。
 
     【次にやること】
-    - `.agent/workflows/` 内のワークフローファイルの確認とリファクタリング（人格依存表現の除去）。
-    - ワークフローのリファクタリング完了後、`.agent` ディレクトリ全体の整合性再確認。
+    - `.agent/workflows/` 内のワークフローのリファクタリング（中立化）。
+    - 各サブプロジェクト（new-worldなど）における個別ルールの整備と整合性確認。
 
   progress:
     current_phase:
@@ -20,16 +21,15 @@ workflow:
     
     current_task:
       description: "Workflow Rules Refactoring"
-      started_at: "2026-02-16T23:59:00+09:00"
+      started_at: "2026-02-17T01:40:00+09:00"
     
     completed_phases:
       - phase: 10
         name: "Uber Data Pipeline 統合"
         completed_at: "2026-02-07"
       - phase: 11
-        name: "Environment Migration"
+        name: "Environment Migration & Optimization"
         completed_at: "2026-02-16"
-      # Phase 12 is still strictly speaking in progress until workflows are done
 
   decisions:
     adopted:
@@ -47,18 +47,23 @@ workflow:
         date: "2026-02-16"
         decision: "ルール上の npm/yarn 完全排除"
         reason: "開発フローを標準化し、誤用を防ぐため"
-
+        
       - id: "D016"
+        date: "2026-02-16"
+        decision: "ディレクトリ移動時は venv を完全再構築する"
+        reason: "venv 内の絶対パス参照が壊れるため、コピーや移動ではなく再作成が必須"
+
+      - id: "D017"
         date: "2026-02-16"
         decision: "人格定義のXML化と分離"
         reason: "システムと人格の責務分離、構造化による読み込み精度向上のため"
 
-      - id: "D017"
+      - id: "D018"
         date: "2026-02-16"
         decision: "RINA.mdの廃止"
         reason: "person.mdへの移行完了のため"
 
-      - id: "D018"
+      - id: "D019"
         date: "2026-02-16"
         decision: ".agent/rules のSystem Definition化"
         reason: "ルールファイルから人格要素を排除し、純粋なシステム仕様定義として機能させるため"
@@ -74,14 +79,18 @@ workflow:
         status: "done"
         completed_at: "2026-02-16T12:25:00+09:00"
       - id: "F012"
+        name: "Desktop→Developerパス完全移行"
+        status: "done"
+        completed_at: "2026-02-16T23:25:00+09:00"
+      - id: "F013"
         name: "Persona Separation (GEMINI.md refactoring)"
         status: "done"
         completed_at: "2026-02-16T23:20:00+09:00"
-      - id: "F013"
+      - id: "F014"
         name: "XML Persona Definition (person.md)"
         status: "done"
         completed_at: "2026-02-16T23:20:00+09:00"
-      - id: "F014"
+      - id: "F015"
         name: "Rules Layer Refactoring (System Definition)"
         status: "done"
         completed_at: "2026-02-16T23:55:00+09:00"
@@ -91,3 +100,7 @@ workflow:
       category: "環境"
       content: "Google Apps Script プロジェクトは @google/clasp を使用する"
       reason: "無印の clasp パッケージは pnpm で解決できない場合があるため"
+    - id: "C007"
+      category: "Python"
+      content: "pip install でエンコーディングエラーが出る場合は PYTHONIOENCODING=utf-8 を指定する"
+      reason: "環境によってはデフォルトエンコーディングが正しく認識されずインストールが失敗するため"

@@ -1,0 +1,30 @@
+project:
+  name: "Project Links Dashboard v2"
+  purpose:
+    primary: "自作プロジェクトのURL・関連リンクを一元管理するダッシュボード (Next.js版)"
+  target_audience: "個人開発者（自分自身）"
+  success_criteria:
+    - "プロジェクト一覧がカテゴリ別に整列表示される"
+    - "管理画面から追加・編集・削除・並べ替えができる"
+    - "タブ切り替えにより表示内容を柔軟にフィルタリングできる"
+    - "Google認証で自分だけがアクセス・操作できる"
+
+tech_stack:
+  language: "TypeScript"
+  framework: "Next.js 16 (App Router)"
+  styling: "Tailwind CSS v4"
+  state_management: "Zustand"
+  backend: "Firebase (Firestore, Authentication)"
+  icons: "Lucide React"
+  drag_and_drop: "@dnd-kit"
+
+features:
+  - "Authentication (Google Sign-In, UID Allowlist)"
+  - "Category Management (CRUD + Reorder)"
+  - "Project Management (CRUD + Reorder + Asset Links + Pinning)"
+  - "Tab Management (Custom Filtering Views)"
+  - "Responsive Dashboard UI"
+
+constraints:
+  - "Single admin user only (UID enforcement)"
+  - "Mobile-friendly design"

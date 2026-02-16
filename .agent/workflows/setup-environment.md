@@ -23,7 +23,7 @@ projects/{{project_name}}/
 ### web-app (Next.js) の場合
 ```bash
 // turbo
-npx -y create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm
+pnpm dlx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm
 ```
 
 ### simple-site (HTML/CSS/JS) の場合

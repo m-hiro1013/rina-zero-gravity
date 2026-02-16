@@ -6,7 +6,7 @@ description: TypeScriptの型チェックを実行する原子ワークフロー
 ## 実行 // turbo
 型チェックを実行せよ：
 ```bash
-pnpm typecheck || npx tsc --noEmit || yarn tsc --noEmit
+pnpm typecheck
 ```
 
 ## 結果判定

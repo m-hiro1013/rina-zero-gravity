@@ -1,0 +1,44 @@
+architecture:
+  frontend:
+    framework: "Next.js 16 (App Router)"
+    styling: "Tailwind CSS v4 (Glassmorphism + Zen Style)"
+    state_management: "Zustand"
+    libs: ["firebase", "@dnd-kit", "lucide-react"]
+  
+  backend:
+    service: "Firebase"
+    auth: "Google Auth (with allowed UID list)"
+    database: "Firestore"
+    
+  structure:
+    - src/app/layout.tsx: "Root layout with providers"
+    - src/app/page.tsx: "Dashboard with optimized parallel data fetching"
+    - src/app/login/page.tsx: "Premium login page"
+    - src/app/admin/page.tsx: "Admin panel for structure management"
+    - src/components/layout/Header.tsx: "Floating glass header"
+    - src/components/tabs/TabBar.tsx: "Glass tab navigator"
+    - src/app/globals.css: "Tailwind v4 theme variables and design tokens"
+    - src/lib/firebase/: "Data services (Auth, Categories, Projects, Tabs)"
+
+  data_model:
+    categories:
+      - id: string
+      - name: string
+      - order: number
+      - createdAt: timestamp
+    projects:
+      - id: string
+      - name: string
+      - url: string
+      - order: number
+      - links: array[{name, url}]
+      - pinned: boolean
+      - createdAt: timestamp
+      - updatedAt: timestamp
+    tabs:
+      - id: string
+      - name: string
+      - order: number
+      - isDefault: boolean
+      - items: array[{type, categoryId, projectId}]
+      - createdAt: timestamp
