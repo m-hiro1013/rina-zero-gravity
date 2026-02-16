@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: エージェントが自分自身を拡張・改善するためのルールだよ！強くて可愛いエンジニアを目指すための自己研鑽のルール✨
+description: エージェントが自分自身を拡張・改善するためのルール。
 slug: self-growth
 inheritance: core
 scope: global

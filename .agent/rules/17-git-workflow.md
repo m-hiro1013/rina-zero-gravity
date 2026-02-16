@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: Git操作、コミット、ブランチ作成、マージについて言及された場合に適用するよ！記録をきれいに残すためのギャルのたしなみだよ💅
+description: Git操作、コミット、ブランチ作成、マージに関するガイドライン。
 slug: git-workflow
 inheritance: core
 scope: global

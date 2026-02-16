@@ -1,4 +1,23 @@
 
+- セッション: 22 (System Kernel Refactoring & Persona Separation)
+  - date: 2026-02-16
+  - insights:
+    - [Architecture] **Persona Separation**: システムプロトコル（Hard）と人格（Soft）を物理的にファイルを分けて管理することで、他の人格への入れ替えやシステム更新の独立性が担保される。 [+5]
+    - [Format] **XML for Persona**: 人格定義にはMarkdownよりもXMLを採用することで、`<character>`, `<tone>`, `<principles>` などの構造をAIがより正確に解釈できる。 [+4]
+    - [System] **Fallback Mechanism**: 人格ファイルの読み込みに優先順位（Project specific > Global fallback）を設けることで、柔軟な運用が可能になる。 [+3]
+    - [Refactoring] **System Definition Neutralization**: ルールファイル等のシステム定義文書から人格的表現（口調、キャラクター性）を完全に排除することで、ドキュメントの客観性と再利用性が向上し、人格レイヤーとの責務分離が明確になる。 [+5]
+
+
+- セッション: 20 (Strict No-Guesswork & Exhaustive Search Strategy)
+  - date: 2026-02-12
+  - insights:
+    - [Governance] **推測禁止・徹底調査の鉄則**: わからないことがあった時、ユーザーに聞く前に必ずプロジェクト内の全ファイル（特に `tests/`, `skill/`）を `grep` や `find` で徹底的に調査すること。「書いてないから推測しました」は怠慢であり、ガバナンス違反。 [+15]
+    - [Governance] **指示のエビデンス確保**: 「指示されてない？」と言われる前に、自ら既存の指示（BOOK.md, KNOWLEDGE.md）を確認し、そこに答えがないかを探す姿勢を持つこと。 [+10]
+    - [Testing] **b-logの威力**: 画面要素（ID, name属性）が不明な場合、推測するのではなく、ユーザーから提供された `b-log`（操作ログ）の生データを確認することで、100%確実なセレクタを特定できる。 [+8]
+    - [Specification] **DOM Indexの罠**: ホットペッパーのDOM ID (`#drinkName1`等) は `1-indexed` である。プログラム言語の `0-indexed` との不整合によるバグ（index 0へのアクセス）を防ぐため、ループ処理では必ず `dom_index = i + 1` のような明示的な変換変数を用いること。 [+8]
+    - [DevOps] **.command vs .app**: macOSでデスクトップから実行するツールを作る際、`.command` (シェルスクリプト) は権限やセキュリティ設定で躓きやすい。`osacompile` を使ってネイティブアプリ (`.app`) 化するのがUX上最も確実。 [+5]
+    - [Python] **Module Execution**: ターミナル環境とGUI環境でPATHが異なる場合、コマンド (`streamlit` 等) が見つからないことがある。`python3 -m <module>` 形式で呼び出すことで、Python環境さえ特定できれば確実に実行できる。 [+5]
+
 - セッション: 8 (Micro-Agent Architecture & Self-Growth)
   - date: 2026-01-27
   - insights:
@@ -72,3 +91,30 @@
     - [Workflow-Design] 実装前のGOサイン方式（プラン先出し→承認→実行）は、「勝手に作って違った」を物理的に防止する。 [+3]
     - [Workflow-Design] Phase遷移条件と完了条件の明示的定義により、エージェントの迷走を防ぎ、進捗の可視性を確保できる。 [+3]
     - [Meta-Learning] everything-claude-codeのような先行事例のSkill Creator・Continuous Learning概念を自フレームワークに取り込むことで、車輪の再発明を回避。 [+2]
+
+- セッション: 18 (Test Efficiency & Minimal Dataset Enforcement)
+  - date: 2026-02-12
+  - insights:
+    - [Governance] **プラン先出しの原則**: バグ修正やロジック変更を行う際、コードを書く前に必ずプランを提示し承認（GOサイン）を得る。自律判断による勝手な修正は信頼を損なう「暴走」であり、プロセスガバナンスに対する重大な違反。 [+10]
+    - [Governance] **永続的記憶（Persistent Memory）の掟**: ユーザーの「覚えておいて」「memoして」という指示は、その場で返答するだけでなく、直ちに適切な永続化ファイル（Rules, BOOK, Flow, KNOWLEDGE）に書き込み、参照経路（INDEX, WORKFLOW）を確保する。セッション越えの記憶保持はエージェントの義務。 [+10]
+    - [Testing] 実環境での「全件削除・全件登録」テストは極めて非効率。テスト時は 1〜2件の「最小データセット」を使用することを義務付ける。 [+5]
+    - [Testing] **確証のための原子テスト原則**: 「1件成功 ＝ 操作ロジックの正解」を証明することに集中。1, 2件で確証を得れば、スケールは後続のフローに任せる。 [+5]
+    - [Efficiency] 既に検証済みの工程（削除等）はテストフラグやコメントアウトでスキップし、検証したい差分のみを集中攻撃する。 [+4]
+    - [Governance] 莉奈が勝手に「丁寧すぎる全件テスト」を組むのは、ひろきくんの時間を奪う罪。爆速で回してこそネオギャルエンジニア。 [+5]
+
+- セッション: 19 (T018 - Data Format Understanding & Immediate Documentation)
+  - date: 2026-02-12
+  - insights:
+    - [RPA-Specification] **媒体固有仕様の即時記録**: ユーザーから仕様説明を受けた瞬間（「見出し = カテゴリ」等）、「後で書く」は禁止。その場で BOOK.md や KNOWLEDGE.md に刻み、永続的記憶として確実に保持する。 [+10]
+    - [RPA-DataStructure] ホットペッパーでは `[見出し]` がカテゴリ（分類ヘッダー）だが、**説明文は登録不要**。タイトルのみをカテゴリ名として使用し、説明文は無視する。 [+8]
+    - [RPA-DataStructure] `[おすすめ]` は単なるマーカーで、通常商品と同じく登録処理を行う。削除対象外という認識は誤りだった。 [+5]
+    - [RPA-Parsing] `---` で区切られたブロックのうち、`[見出し]` がついていないものは **全て商品として処理** する優先ロジックが必要。 [+5]
+    - [RPA-Parsing] 商品ブロックの最後の行は必ず「000円（カンマなし）」か「[空白]」のどちらか。それ以外は全て説明文として扱う。 [+5]
+    - [RPA-Parsing] `[空白]` は価格欄を空欄にする指示であり、`.` + 自由入力モードのラジオボタンクリックで実現する。 [+4]
+    - [RPA-Conversion] 価格は数値のみ抽出してカンマなしで入力（例: `968円` → `968`）。ホットペッパーでは税込表記やカンマは不要。 [+3]
+
+- セッション: 21 (Folder Packer Project Auto-Detection)
+  - date: 2026-02-13
+  - insights:
+    - [Streamlit-Path] アプリ自身の場所 (`__file__`) を起点に `pathlib` で相対パス解決を行うことで、環境依存しない「隣接プロジェクト自動検出」が可能になる。 [+3]
+    - [UI-UX] 入力ソースが可変な場合（手入力 vs 自動取得）、`st.radio` でモードを明示的に切り替えさせることで、ユーザーの混乱を防ぎつつ柔軟性を担保できる。 [+2]

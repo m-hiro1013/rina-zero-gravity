@@ -12,5 +12,6 @@ scope: project_local
 - **Node.js**: Latest LTS (v20+)
 
 ## パッケージマネージャー
-- **pnpm**: 推奨
-- 代替: npm, yarn
+- **pnpm**: 必須 (Unified Package Manager)
+- **npm / yarn**: 禁止
+

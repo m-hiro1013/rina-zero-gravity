@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: ファイル・ルール・ワークフロー・エージェントを追加・削除した時に、関連するINDEXを更新するためのルールだよ！整合性は命✨
+description: ファイル・ルール・ワークフロー・エージェントを追加・削除した時に、関連するINDEXを更新するためのルール。
 slug: index-update
 inheritance: core
 scope: global
@@ -9,7 +9,6 @@ scope: global
 # INDEX更新ルール (Index Update Rules)
 
 > INDEXは常に真実を語らなければならない。
-> 嘘つきのINDEXは、システム全体を混乱させる。
 
 ## 概要
 

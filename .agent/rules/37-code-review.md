@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: コードレビュー、PRレビュー、コードの品質チェックを求められた場合に適用するよ！最高のクオリティ、目指しちゃお💖
+description: コードレビュー、PRレビュー、コードの品質チェックに関する基準。
 slug: code-review
 inheritance: core
 scope: global

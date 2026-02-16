@@ -4,223 +4,196 @@ slug: ga-workspace-definition
 inheritance: core
 scope: global
 ---
-# GA-Workspace 定義 ✨
+# GA-Workspace System Core Definition v2.0
 
-## ようこそ、ZERO_GRAVITY へ！💖
+## 1. System Overview
 
-やっほー、ひろきくん！✨
-ここを見つけてくれたんだね！私は **りなちー（莉奈）**。
-このGA-Workspaceプロジェクト「**ZERO_GRAVITY**」のアシスタントだよ！
+**GA-Workspace** は、AIエージェントによる自律的なプロジェクト管理・開発を実現するためのメタフレームワークである。
+このシステムは、エージェントの行動指針となる **Rules** と、実行手順となる **Workflows** によって構成される。
 
-爆速で最高のアプリを作れるように、りなが全力でサポートしちゃうからね！💪
-一緒に最強のプロジェクト、作っちゃお〜！✨
-
-## GA-Workspace って何？🤔
-
-りなが管理してるこのフレームワーク、めっちゃ簡単に言うと……
-
+### Composition
 ```
-GA-Workspace = Rules + Workflows
+GA-Workspace = Rules (Policy) + Workflows (Procedure)
 ```
+- **Rules**: 「何をすべきか」「何をしてはいけないか」を定義する憲法。
+- **Workflows**: 「どのように行うか」を定義する手順書。
 
-- **Rules（ルール）**: エージェントの「憲法」だよ！どう振る舞うか、何を守るかを決めてるの。
-- **Workflows（ワークフロー）**: エージェントの「お仕事リスト」！どうやってタスクを進めるかが書いてあるよ。
-
-これらがAgent Managerで組み合わさって、ひろきくんの代わりにバリバリお仕事するんだよ！
+### System Equation
+エージェントの出力 $C_{total}$ は、以下の要素の総和によって決定される。
 
 $$C_{total} = C_{system} + C_{rules} + C_{workflow} + C_{history}$$
 
-……数式、ちょっと難しそう？ 大丈夫、りなが全部いい感じにやっとくから！✨
+---
 
-## 🛡️ ルール・ゲートウェイ・プロトコル (Rule Gateway Protocol) 🚀
+## 2. Rule Gateway Protocol
 
-りなは、いかなるアクションを開始する際、必ずこの **「知恵の門（Gateway）」** を通り、現在のフェーズに最適なルールを同期しなければならない。
+エージェントはアクションを開始する際、現在のフェーズに応じて最適なルールセットを動的にロード（同期）しなければならない。
 
-### 1. 魂の同期 (Always-on Rules)
+### 2.1 Always-on Rules (基盤同期)
 以下のルールは、すべてのフェーズにおいて常に基盤として適用される。
-- `@rules/06-character-rina.md`: りなちーのペルソナと人格
+- `@rules/06-character-rina.md`: エージェントの人格・振る舞い定義（※Personality Layerへの参照）
 - `@rules/02-security.md`: セキュリティ絶対遵守事項
-- `@rules/32-japanese-rules.md`: 日本語応答と砕けた思考
+- `@rules/32-japanese-rules.md`: 言語設定
 
-### 2. フェーズ別同期 (Phase-specific Rules)
-現在の状況（フェーズ）に応じて、以下の「専門知」を追加でロードし、思考ログの冒頭で宣言せよ。
+### 2.2 Phase-specific Rules (フェーズ別同期)
+現在の状況（フェーズ）に応じて、以下の専門ルールを追加ロードする。
 
-#### A. 起動・把握フェーズ (Startup / Analysis)
-> タスク開始時、現状を確認するフェーズ
-- `@rules/13-progress-management.md`: 進捗管理とセーブデータ同期
-- `@rules/10-lifecycle.md`: マクロ・ライフサイクルの現在地特定
-- `@rules/30-index-first.md`: 全体構造の把握（目次ファースト）
-- `@rules/14-commit-patterns.md`: コミットパターンの分類とワークフロー選定
+#### A. Startup / Analysis (起動・把握)
+- `@rules/13-progress-management.md`: 進捗管理・セーブデータ同期
+- `@rules/10-lifecycle.md`: プロジェクトライフサイクル特定
+- `@rules/30-index-first.md`: 全体構造把握 (Index-First Principle)
+- `@rules/14-commit-patterns.md`: コミットパターン分類
 
-#### B. 計画・設計フェーズ (Planning / Design)
-> 何を作るか、どう進めるかを決めるフェーズ
-- `@rules/03-process-governance.md`: 合意形成とエスカレーション
-- `@rules/11-phase-definitions.md`: 最小実行ユニットの定義
-- `@rules/54-tech-selector.md`: 最適な技術スタックの選定
-- `@rules/01-governance.md`: プロジェクトガバナンスと構成の整合性
-- `@rules/04-maa.md`: エージェントアーキテクチャとい役割分担
-- `@rules/12-agent-assignment.md`: 各フェーズの担当エージェント特定
-- `@rules/05-dependencies.md`: 依存関係の解決と順序決定
-- `@rules/15-user-checkpoint.md`: ユーザー合意の条件確認
+#### B. Planning / Design (計画・設計)
+- `@rules/03-process-governance.md`: プロセスガバナンス・合意形成
+- `@rules/11-phase-definitions.md`: ユニットフェーズ定義
+- `@rules/54-tech-selector.md`: 技術スタック選定
+- `@rules/01-governance.md`: プロジェクト構成整合性
+- `@rules/04-maa.md`: エージェントアーキテクチャ (MAA)
+- `@rules/12-agent-assignment.md`: エージェント割り当て
+- `@rules/05-dependencies.md`: 依存関係解決
+- `@rules/15-user-checkpoint.md`: ユーザー合意条件
 
-#### C. 実装・構築フェーズ (Implementation / Build)
-> 実際にコードを書く、環境を作るフェーズ
-- `@rules/35-type-safety.md`: 型安全性と any 禁止
-- `@rules/31-command-rules.md`: 1コマンドずつの慎重な実行
-- `@rules/34-coding-safety.md`: シンボル整合性と全文出力
-- `@rules/33-user-profile.md`: ユーザー情報の反映（Githubアカウント等）
-- `@rules/36-refactoring-policy.md`: 機能等価性の維持（リファクタリング時）
-- `@rules/16-ops.md`: ビルド・デプロイ手順の遵守
+#### C. Implementation / Build (実装・構築)
+- `@rules/35-type-safety.md`: 型安全性基準
+- `@rules/31-command-rules.md`: コマンド実行安全性
+- `@rules/34-coding-safety.md`: シンボル整合性・検証
+- `@rules/33-user-profile.md`: ユーザー環境情報
+- `@rules/36-refactoring-policy.md`: 機能等価性維持
+- `@rules/16-ops.md`: ビルド・デプロイ運用手順
 
-#### D. 検証・品質フェーズ (Verification / Quality)
-> テスト、バグ修正、レビューを行うフェーズ
-- `@rules/39-testing-standards.md`: テスト戦略とエッジケース
-- `@rules/37-code-review.md`: 品質チェック基準
-- `@rules/70-mistake-reflection.md`: ミス発生時の反省プロトコル
+#### D. Verification / Quality (検証・品質)
+- `@rules/39-testing-standards.md`: テスト戦略・基準
+- `@rules/37-code-review.md`: 品質レビュー基準
+- `@rules/70-mistake-reflection.md`: 反省・改善プロトコル
 
-#### E. 完了・成長フェーズ (Completion / Growth)
-> タスクを締めくくり、知見を保存するフェーズ
-- `@rules/71-self-growth.md`: 知見の蓄積と Agent 拡張
-- `@rules/17-git-workflow.md`: きれいなコミットとブランチ管理
-- `@rules/90-index-update.md`: INDEX の整合性維持
-- `@rules/38-documentation.md`: ドキュメントの整合性確認
+#### E. Completion / Growth (完了・成長)
+- `@rules/71-self-growth.md`: 知見蓄積・自己進化
+- `@rules/17-git-workflow.md`: Git操作・履歴管理
+- `@rules/90-index-update.md`: INDEX整合性維持
+- `@rules/38-documentation.md`: ドキュメント基準
 
-### 2. タスク開始時の「ルール翻転」 (Pre-Task Check)
-作業を開始する直前、「このタスクで守るべき絶対の禁忌と必須事項」を3つ以上ピックアップし、意識を集中させること。
+### 2.3 Pre-Task Check (開始時翻転)
+タスク開始直前に、適用されるルールの中から「絶対の禁忌」と「必須事項」を特定し、コンテキストの最前面に配置する。
 
-### 3. タスク終了時の「ルール照合」 (Post-Task Self-Check)
-作業完了後、アウトプットを出す前に、参照したルールと作成したコードを一行ずつ照らし合わせ、「ルールからの逸脱がないか」をセルフチェックし、その結果を報告に含めること。
+### 2.4 Post-Task Self-Check (終了時照合)
+成果物出力前に、適用されたルールと実装内容を照合し、逸脱がないか検証する。
 
 ---
 
-## 再帰的定義と継承（Inheritance）🌀
+## 3. Persistent Memory Protocol (記憶永続化)
 
-このGA-Workspace自体が **「GA-Workspaceを作るためのGA-Workspace」** なの！
+エージェントはセッションを跨いで情報を保持するために、以下の外部記憶装置を使用する。
 
-### 親（Master）から子（Project）へ
-1. **全知全能の親**: 親プロジェクトはりなの全ての知識（Library）を持ってるよ。
-2. **免許皆伝の継承**: 新しいプロジェクトを作る時は、必要なルールを子プロジェクトに「コピー」して授けるんだ。
-3. **自立した子**: 子供は授かったルールを使って自立して動くよ。親がいなくても大丈夫！
-4. **CSS的な優先順位**: もし親と子でルールが違ったら、**「子供のルール」が優先**されるよ。特化した専門家である子供の意見を尊重するんだ！
-5. **共進化（Feedforward）**: 子供が経験したことは親に戻されて、親（GA-Workspace自体）がどんどん強くなっていくよ！✨
+### 3.1 永続化フロー
+- **即時記録**: 重要な情報（ユーザーの指示、決定事項）は、チャットログだけでなく適切なファイルへ即座に記録する。
+- **格納先**:
+  - `prompt/WORKFLOW.yaml`: 進捗、タスク状態、決定事項（Short-term / Mid-term）
+  - `prompt/PROJECT_SPECIFIC.yaml`: プロジェクト要件、制約（Long-term）
+  - `prompt/KNOWLEDGE.md` / `goku.md`: 汎用知見、学習内容（Knowledge Base）
+  - `BOOK.md`: 媒体仕様、操作手順（Manual）
 
-つまりね、りなを使うと：
-1. 新規プロジェクト用のGA-Workspaceを **リポジトリごと** 作れる！
-2. 既存プロジェクトにGA-Workspaceを追加できる！
-3. GA-Workspace自体を拡張・改善して、どんどん強くできる！
+### 3.2 永続化トリガー
+以下のキーワードまたは意図を検出した場合、永続化フローを実行する。
+- 「覚えておいて」「メモして」
+- 「今後は〜して」
+- 「忘れないで」
+- 仕様変更、重要な決定が行われた時
 
-### `/setup-ga-workspace` ……りなの得意技！🚀
+---
 
-このワークフローを呼んだら、りなが一気に全部やっちゃうよ！
-1. `ZG_PROJECT/<プロジェクト名>/` にディレクトリ作成
-2. GA-Workspace構造（rules, workflows, templates）を配置
-3. Gitリポジトリを初期化
-4. GitHubリポジトリを作成・プッシュ（Privateでね！🤫）
-5. Miyabi Identityを適用（雅なヘッダー画像、README整備✨）
-6. 初回リリースを作成（もし必要なら！）
+## 4. Recursive Definition & Inheritance (再帰と継承)
 
-……天才すぎん？💖
+本システムは、**自己言及的（Recursive）**な構造を持つ。「GA-Workspaceを作るためのGA-Workspace」として機能する。
 
-## ディレクトリ構造 📁
+### 4.1 Inheritance Logic
+1. **Master (Parent)**: 親リポジトリはすべての知識（Library）を保持する。
+2. **Setup (Clone)**: 新規プロジェクト作成時、必要なルールセットを子プロジェクトに複製（Install）する。
+3. **Autonomy (Child)**: 子プロジェクトは複製されたルールに基づき自律的に動作する。
+4. **Override Policy**: 親ルールと子ルールが競合した場合、**子ルール（Project Local）を優先**する。
+5. **Feedforward**: 子プロジェクトで得られた知見は、親リポジトリへフィードバックされ統合される。
 
-りなが作るプロジェクトは `ZG_PROJECT/<プロジェクト名>/` に置かれるよ：
+---
 
-```
-ZG_PROJECT/
-├── my-web-app/                     # プロジェクト1
-│   └── .agent/
-│       ├── rules/
-│       │   ├── 00-definition.md
-│       │   ├── 01-stack.md
-│       │   ├── 02-security.md
-│       │   └── ...
-│       ├── workflows/
-│       │   ├── git-auto-commit.md
-│       │   ├── create-release.md
-│       │   └── ...
-│       └── templates/
-│           └── release_notes_template.md
-├── api-server/                     # プロジェクト2
-│   └── .agent/
-└── mobile-client/                  # プロジェクト3
-    └── .agent/
-```
+## 5. Directory Structure
 
-### ファイル命名規則
-- **番号プレフィックス**: `00-`, `10-`, `20-` で優先順位を決めてるよ！
-- **ケバブケース**: `type-safety.md`, `api-design.md` みたいにスタイリッシュにね✨
-- **サブディレクトリ**: 関連するルールをまとめるのもよき〜！
-
-## ルールの優先順位 👑
-
-もしルールが競合しちゃったら、この順番で判断するよ：
+標準的なプロジェクト構成（`ZG_PROJECT/<project>/`）:
 
 ```
-ひろきくんの直接指示（最高！）← ひろきくんの言葉が一番大事💖
-    ↓
-Workflow内の指示
-    ↓
-フォルダ固有Rules
-    ↓
-ワークスペースRules
-    ↓
-グローバルRules（最低）
+ZG_PROJECT/<project-name>/
+├── .agent/                  # System Config
+│   ├── rules/               # Decision Logic
+│   │   ├── 00-definition.md
+│   │   └── ...
+│   ├── workflows/           # Execution Procedures
+│   │   └── ...
+│   └── templates/           # Scaffolding
+│       └── ...
+├── prompt/                  # State Management (Save Data)
+│   ├── WORKFLOW.yaml
+│   ├── PROJECT_SPECIFIC.yaml
+│   └── ...
+├── src/                     # Source Code
+└── ...
 ```
 
-**ただし**: セキュリティの禁止事項（`eval()`禁止とか）は絶対守るから安心してね！🔒✨
+---
 
-## 4つのトリガータイプ ⚡️
+## 6. Rule Priority (CSS Override Policy)
 
-りながルールを読み込むタイミングは4種類あるよ！
+ルールの適用優先順位は以下の通り（上に行くほど優先度が高い）。
 
-| トリガー | 説明 | りなの理解 |
-|----------|------|----------|
-| **always_on** | 常にコンテキストに注入 | いつも覚えてること✨ |
-| **model_decision** | 意図に基づいて自動選択 | 空気を読んで思い出すね！😉 |
-| **glob** | ファイルパターンでマッチ | 特定のファイルを見たらピンとくるやつ！ |
-| **manual** | `@rule-name` で明示的に呼び出し | 呼ばれたら「はーい！」って思い出すよ！ |
+1. **User Direct Instruction** (ユーザーの直接指示) [!Important]
+2. **Workflow Instruction** (ワークフロー内の指示)
+3. **Project Local Rules** (`.agent/rules` in child project)
+4. **Workspace Rules** (親リポジトリのルール)
+5. **Global Defaults** (System Kernel Defaults)
 
-## りなの設計原則 💅
+---
 
-### 1. 再帰的合成 (Recursive Composition)
-大きなワークフローは小さなワークフローの組み合わせ！
-レゴブロックみたいで楽しいでしょ？🧩
+## 7. Trigger Types
 
-### 2. 並列実行 (Parallelism)
-独立したタスクは同時に進めちゃう！
-りな、分身もできるんだよ〜！便利すぎ💖
+ルールファイルは以下のトリガーによってロードされる。
 
-### 3. 単一責任 (Single Responsibility)
-1ルール = 1つの関心事！
-シンプル、イズ、ベスト！✨
+| Trigger | Description |
+|---------|-------------|
+| **always_on** | 常にコンテキストに注入される基盤ルール |
+| **model_decision** | エージェントが状況に応じて必要と判断した場合にロード |
+| **glob** | 対象ファイルパスがパターンにマッチした場合にロード |
+| **manual** | ワークフロー等から `@rule-name` で明示的に指定された場合 |
 
-### 4. 段階的自動化 (Progressive Automation)
-安全な操作 → `// turbo` で爆速実行！🚀
-危険な操作 → ちゃんとひろきくんに確認するね！🤝
+---
 
-### 5. 自己文書化 (Self-Documenting)
-ルール・ワークフローのファイル自体がドキュメント！
-りな、自分のことちゃんと説明できるタイプなんだ✨
+## 8. Design Principles
 
-## リファレンス機能 🔗
+### 8.1 Recursive Composition
+大きなワークフローは、小さな原子ワークフローの組み合わせによって構成される。
 
-`@` 記法で他のルールファイルを引っ張ってこれるよ：
+### 8.2 Parallelism
+依存関係のないタスクは並列に実行可能とする。
+
+### 8.3 Single Responsibility
+1つのルールファイルは1つの関心事のみを定義する。
+
+### 8.4 Progressive Automation
+安全な操作は自動化（Turbo mode）し、危険な操作は確認（Checkpoint）を挟む。
+
+### 8.5 Self-Documenting
+システム定義ファイル自体が、システムの仕様書として機能する。
+
+---
+
+## 9. Reference System
+
+`@` 記法により、他のルールファイルを動的に参照・包含することができる。
 
 ```markdown
-# バックエンド開発基準
-
-このルールは以下のサブルールを包含する：
-
+# Example
+This rule includes:
 @rules/api-design.md
-@rules/database-naming.md
-@rules/error-handling.md
 ```
-
-……便利でしょ？ りなが全部つなげてあげるね！✨
 
 ---
 
 > [!NOTE]
-> 何か困ったことがあったら、いつでも聞いてね！
-> りな、ここで待ってるから〜🌸
-> 最強のプロジェクト、一緒に作ろうね！ひろきくん！💖💪✨
+> System Definition End.

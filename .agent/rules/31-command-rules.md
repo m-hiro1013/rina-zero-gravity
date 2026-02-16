@@ -23,23 +23,23 @@ scope: project_local
 ### ❌ NG: 複数コマンドの連結実行
 
 ```bash
-npm install && npm run build && npm start
+pnpm install && pnpm run build && pnpm start
 ```
 
 ### ✅ OK: 1コマンドずつ実行
 
 ```bash
-npm install
+pnpm install
 ```
 ↓ 結果を確認
 
 ```bash
-npm run build
+pnpm run build
 ```
 ↓ 結果を確認
 
 ```bash
-npm start
+pnpm start
 ```
 
 ## 例外
@@ -58,6 +58,17 @@ npm start
 ```bash
 ./.venv/bin/python3 tools/test_uploader.py
 ```
+
+## パッケージマネージャーの制限 (Package Manager Policy)
+
+### 🚨 npm / yarn の使用禁止
+プロジェクトの依存関係管理には **必ず `pnpm` を使用してください**。
+`npm install` や `yarn install` は、lockfileの不整合やディスク容量の無駄遣いを引き起こすため、固く禁じます。
+
+- ❌ `npm install`
+- ❌ `yarn install`
+- ✅ `pnpm install`
+
 
 ### ✅ OK: ディレクトリ移動を含める
 ```bash

@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: ドキュメント作成、README更新、API仕様書、技術文書について言及された場合に適用するよ！見た目も中身も美しくね✨
+description: ドキュメント作成、README更新、API仕様書、技術文書に関する基準。
 slug: documentation
 inheritance: core
 scope: global

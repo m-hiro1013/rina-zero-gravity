@@ -7,22 +7,21 @@ scope: project_local
 # 📜 Rules INDEX
 
 > **目次ファースト**: ルールにアクセスする前に、まずここを見る。
-> マスターの英知を継承し、プロジェクトが自立するための羅針盤。
 
 ---
 
 ## 🏛 階層レイヤー構造（Layered Hierarchy）
 
-GA-Workspaceのルールは、その影響力と継承性に基づいて階層化されているよ！
+GA-Workspaceのルールは、その影響力と継承性に基づいて階層化されている。
 
 | レイヤー | カテゴリ | 番号帯 | 継承性 | 説明 |
 | :--- | :--- | :--- | :--- | :--- |
-| **Layer 1** | **Soul** | 00-09 | **絶対継承 (Essential)** | 親と子は一蓮托生。哲学、人格、セキュリティ。 |
-| **Layer 2** | **Engine** | 10-29 | **自立筋肉 (Muscle)** | 子供が自力で動くためのプロセスとワークフロー。 |
-| **Layer 3** | **Standard** | 30-49 | **品質保証 (Quality)** | 一人立ちした時のための共通基準、言語設定。 |
-| **Layer 4** | **Library** | 50-69 | **選抜継承 (Selective)** | 必要な知恵だけをコピーする技術スタック群。 |
-| **Layer 5** | **Growth** | 70-89 | **共進化 (Feedback)** | 現場の経験を親に報告し、共に強くなる仕組み。 |
-| **Layer 6** | **Integrity** | 90-99 | **整合性 (Trust)** | 目次、更新ルール、健康診断。 |
+| **Layer 1** | **Soul** | 00-09 | **絶対継承 (Essential)** | システムの基本定義、セキュリティ。 |
+| **Layer 2** | **Engine** | 10-29 | **実行プロセス (Muscle)** | プロジェクトごとの実行手順とワークフロー。 |
+| **Layer 3** | **Standard** | 30-49 | **品質保証 (Quality)** | 共有の品質基準、言語設定、型安全性。 |
+| **Layer 4** | **Library** | 50-69 | **選抜継承 (Selective)** | 技術スタック、テンプレート。 |
+| **Layer 5** | **Growth** | 70-89 | **自己成長 (Feedback)** | フィードバックループ、学習システム。 |
+| **Layer 6** | **Integrity** | 90-99 | **整合性 (Trust)** | 目次、更新ルール。 |
 
 ---
 
@@ -33,11 +32,11 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 |:---|:---|:---|
 | `00-definition.md` | GA-Workspace定義、ブートストラップ | core |
 | `01-governance.md` | プロジェクト統治、ゴールデントライアングル | core |
-| `02-security.md` | セキュリティ必須事項（絶対遵守！） | core |
+| `02-security.md` | セキュリティ必須事項（絶対遵守） | core |
 | `03-process-governance.md` | 自動化vs手動介入、エスカレーション手順 | core |
 | `04-maa.md` | Micro-Agent Architecture、エージェント設計 | core |
 | `05-dependencies.md` | 依存関係管理、再帰的タスク処理 | core |
-| `06-character-rina.md` | りなちーの人格、キャラクター義務 | core |
+| `06-character-rina.md` | **[Deprecated]** 人格定義 (`person.md`を参照) | core |
 
 ### ⚙️ Layer 2: Engine (10-29) — 実行プロセス
 | ファイル | 概要 | Inheritance |
@@ -51,6 +50,7 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 | `16-ops.md` | ビルド、テスト、デプロイ、運用手順 | selective |
 | `17-git-workflow.md` | Git操作、コミット・ブランチ戦略 | core |
 | `18-repo-creation.md` | 新規リポジトリ作成ルール | selective |
+| `19-gitignore-policy.md` | .gitignore管理、無人島ポリシー | core |
 
 ### 💎 Layer 3: Standard (30-49) — 標準基準
 | ファイル | 概要 | Inheritance |
@@ -91,17 +91,17 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 | ファイル | 概要 | Inheritance |
 |:---|:---|:---|
 | `90-index-update.md` | INDEX群の自動更新ルール | core |
-| `99-index.md` | このファイル（神の目次） | core |
+| `99-index.md` | このファイル（Rules INDEX） | core |
 
 ---
 
 ## 👑 優先順位ルール (CSS Override Policy)
 
-もしルールが競合したら、この順番で判断するよ！
+もしルールが競合した場合、以下の順序で適用する。
 
-1.  **ひろきくんの直接指示**（最高！オーバーライド不可✨）
-2.  **プロジェクト固有ルール (`ZG_PROJECT/child/.agent/rules/`)**（子供が一番詳しい！）
-3.  **親のグローバルルール (`rina-zero-gravity/.agent/rules/`)**（マスターの知恵）
+1.  **ユーザーの直接指示**
+2.  **プロジェクト固有ルール (`ZG_PROJECT/child/.agent/rules/`)**
+3.  **GA-Workspaceルール（Global Defaults）**
 
 ---
 
@@ -114,8 +114,3 @@ GA-Workspaceのルールは、その影響力と継承性に基づいて階層�
 - **Layer 4 (Library)**: 7
 - **Layer 5 (Growth)**: 6
 - **Layer 6 (Integrity)**: 2
-
----
-
-> [!TIP]
-> 新しいプロジェクトを始める時は、このINDEXから必要な知恵を選んで免許皆伝として授けてあげてね！🌸

@@ -1,6 +1,6 @@
 ---
 trigger: always_on
-description: 自動継続とユーザー確認の境界を定義するよ！いつひろきくんに確認を求め、いつりなが自動で進めるかの大事な基準だよ✨
+description: 自動継続とユーザー確認の境界、および判断基準を定義する。
 slug: user-checkpoint
 inheritance: core
 scope: global

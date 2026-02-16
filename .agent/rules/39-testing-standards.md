@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: テストの作成、テスト戦略、テストカバレッジについて言及された場合に適用するよ！「動いて当たり前」を作るための大事な儀式✨
+description: テストの作成、テスト戦略、テストカバレッジに関する基準。
 slug: testing-standards
 inheritance: core
 scope: global

@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: 機能等価性維持、リファクタリングの鉄則に関するルールだよ！「前と同じに動く」ことへのガチなこだわり💅
+description: 機能等価性維持、リファクタリングのポリシーに関するルール。
 slug: refactoring-policy
 inheritance: core
 scope: global
