@@ -1,6 +1,6 @@
 
 import React, { useMemo, useState } from 'react'
-import { Search, Info, TrendingUp, BarChart3, ChevronRight } from 'lucide-react'
+import { Search, TrendingUp } from 'lucide-react'
 import { type ToonData } from '../utils/toonParser'
 import {
     ComposedChart,
@@ -93,7 +93,10 @@ export function TabelogTab({ selectedShop, startMonth, endMonth, checkedRows, on
         // CVR計算 (Line 77-81)
         const cvr = pvTop > 0 ? (webRes / pvTop) * 100 : 0
 
-        const baseCost = tabelog.base_cost || 0
+        const baseCost = tabelog.actual_cost !== null && tabelog.actual_cost !== undefined
+            ? tabelog.actual_cost
+            : (tabelog.base_cost || 0)
+
         const unitLunch = tabelog.unit_cost_lunch || 0
         const unitDinner = tabelog.unit_cost_dinner || 0
 

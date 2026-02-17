@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { parseToon, type ToonData } from './utils/toonParser'
 import { TabelogTab } from './components/TabelogTab'
 import { HotpepperTab } from './components/HotpepperTab'
+import { GurunaviTab } from './components/GurunaviTab'
 import { Calendar, ChevronRight, Store, BarChart3, TrendingUp, Search, Info, PieChart } from 'lucide-react'
 import { buildToretaData } from './utils/toretaBuilder'
 import {
@@ -32,7 +33,7 @@ const TABS = [
   '食べログ',
   'ホットペッパー',
   'Retty',
-  'グルナビ',
+  'ぐるなび',
   'uber',
   'LINE'
 ] as const
@@ -170,6 +171,7 @@ function App() {
    * -------------------------------------------------------------------------------- */
   const [tabelogCheckedRows, setTabelogCheckedRows] = useState<Record<string, boolean>>({})
   const [hpCheckedRows, setHpCheckedRows] = useState<Record<string, boolean>>({})
+  const [gnCheckedRows, setGnCheckedRows] = useState<Record<string, boolean>>({})
 
   const toggleTabelogRow = (key: string) => {
     setTabelogCheckedRows(prev => ({
@@ -180,6 +182,13 @@ function App() {
 
   const toggleHpRow = (key: string) => {
     setHpCheckedRows(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
+
+  const toggleGnRow = (key: string) => {
+    setGnCheckedRows(prev => ({
       ...prev,
       [key]: !prev[key]
     }))
@@ -964,6 +973,16 @@ function App() {
                   endMonth={endMonth}
                   checkedRows={hpCheckedRows}
                   onToggleRow={toggleHpRow}
+                />
+              )}
+
+              {activeTab === 'ぐるなび' && selectedShop && (
+                <GurunaviTab
+                  selectedShop={selectedShop}
+                  startMonth={startMonth}
+                  endMonth={endMonth}
+                  checkedRows={gnCheckedRows}
+                  onToggleRow={toggleGnRow}
                 />
               )}
 

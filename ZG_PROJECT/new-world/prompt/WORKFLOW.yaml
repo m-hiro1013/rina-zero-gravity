@@ -1,6 +1,6 @@
 workflow:
   version: "1.1.0"
-  last_updated: "2026-02-14T03:55:00+09:00"
+  last_updated: "2026-02-17T23:50:00+09:00"
 
   last_session_summary: |
     【今回のセッションでやったこと】
@@ -8,7 +8,9 @@ workflow:
     - Sticky列の背景色透過問題を修正（不透明色 #ffffff / #fed7aa を適用）。
     - 利益額ロジックの変更：「(売上 * 0.7) - 費用」で原価30%を考慮するように修正。
     - UI改善：ハイライト色を統一し、利益額ラベルに「(想定原価30%引)」を追記。
-    - ドキュメント更新：ARCHITECTURE.yaml に利益ロジックを反映。
+    - ドキュメント更新：ARCHITECTURE.yaml にホットペッパー・ぐるなびの仕様を追記。
+    - 実装完了：GurunaviTab.tsx を作成し、actual_cost 優先ロジックを実装。
+    - 共通修正：全媒体に対し、actual_cost がある場合は固定費を上書きするよう修正。
   status:
     完了した機能:
       - "Universal Toon 解析エンジン"
@@ -17,6 +19,8 @@ workflow:
       - "店舗詳細：直近のプラン変更検出（過去6ヶ月分）"
       - "toretaタブ：全機能（構成比テーブル・棒グラフ・指標トグル）"
       - "食べログタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
+      - "ホットペッパータブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
+      - "ぐるなびタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
     未完了の機能:
       - "個別媒体セクション（ホットペッパー等）の詳細コンテンツ"
       - "1ファイル構成によるHTMLエクスポート機能"
@@ -24,9 +28,9 @@ workflow:
   progress:
     current_phase:
       number: 2
-      name: "店舗詳細の実装"
-      Visualization: "Done (Toreta chart, Tabelog performers chart), Next is Hotpepper"
-      description: "店舗詳細：各媒体セクションのコンテンツ実装"
+      name: "店舗詳細の実装（完了：ぐるなび）"
+      Visualization: "Done (Tabelog, Hotpepper, Gurunavi), Next is Retty"
+      description: "店舗詳細：ぐるなびタブの要件定義と実装"
       completed:
       - id: "T001"
         name: "データ解析エンジンの実装 (toonParser.ts)"
@@ -58,11 +62,14 @@ workflow:
       - id: "T009-1"
         name: "店舗詳細：食べログタブ グラフ実装"
         status: "done"
-
-    in_progress:
       - id: "T009-2"
         name: "店舗詳細：ホットペッパータブの実装"
-        status: "in_progress"
+        status: "done"
+      - id: "T010-0"
+        name: "店舗詳細：ぐるなびタブ 要件定義・実装"
+        status: "done"
+
+    in_progress: []
 
   decisions:
     adopted:
@@ -131,12 +138,18 @@ workflow:
         date: "2026-02-14"
         decision: "Sticky列（固定列）の背景色には必ず不透明色（#ffffff/#fed7aa）を使用する"
         reason: "透過背景だとスクロール時に背面の文字が透けて重なり、可読性が著しく低下するため"
+      - id: "D020"
+        date: "2026-02-17"
+        decision: "月額固定費の算出において actual_cost を最優先する"
+        reason: "割引やキャンペーン価格が設定されている場合に、より正確な実効コストを利益計算に反映させるため"
 
   file_structure:
     created:
       - "src/utils/toonParser.ts"
       - "src/utils/toretaBuilder.ts"
       - "src/components/TabelogTab.tsx"
+      - "src/components/HotpepperTab.tsx"
+      - "src/components/GurunaviTab.tsx"
     to_create:
       - "src/components/ShopDetail.tsx"
       - "src/components/Summary.tsx"

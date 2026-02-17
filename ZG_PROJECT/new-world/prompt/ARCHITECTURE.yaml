@@ -114,3 +114,29 @@
     合計列:
       - "月別の合計/平均列は設けない"
       - "理由: 期間合計のPVやCVR平均は実務上の意味が薄く、月次推移の把握が本テーブルの目的であるため"
+
+  媒体別分析（ホットペッパー）:
+    データソース:
+      - "媒体データ: shop.media_data.hotpepper[] — PV、プラン名、プラン料金(base_cost)、従量課金単価(unit_cost_lunch/dinner)"
+      - "トレタデータ: shop.toreta_data[] の media === 'ホットペッパー' 行 — 純粋な予約数実績"
+
+    PV計算:
+      - "店舗トップPV = pv_sp_top + pv_pc_top"
+      - "合計PV = pv_sp_total + pv_pc_total"
+
+    予約の分解:
+      - "予約件数 = toreta_data[ホットペッパー].reservation_count"
+      - "予約人数 = toreta_data[ホットペッパー].guest_count"
+      - "※ ホットペッパーには「ノート」概念がないため、トレタの値をそのまま正とする"
+
+    費用計算:
+      - "月額固定費 = actual_cost が null でなければ actual_cost を、そうでなければ base_cost を使用する"
+      - "従量課金額 = トレタ人数 × ((unit_cost_lunch + unit_cost_dinner) / 2)"
+      - "費用合計 = 月額固定費 + 従量課金額"
+
+    利益額・その他指標:
+      - "平均客単価 = (avg_price_lunch + avg_price_dinner) / 2"
+      - "想定売上 = 予約人数 × 平均客単価"
+      - "利益額 = (想定売上 × 0.7) - 費用合計"
+      - "CVR = 予約件数 / 店舗トップPV × 100"
+      - "送客コスト/人 = floor(費用合計 / 予約人数)"

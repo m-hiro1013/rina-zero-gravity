@@ -53,7 +53,7 @@ function formatYM(ym: string | number) {
 // Component
 // ----------------------------------------------------------------------
 
-export interface HotpepperTabProps {
+export interface GurunaviTabProps {
     selectedShop: ShopData
     startMonth: string
     endMonth: string
@@ -61,42 +61,43 @@ export interface HotpepperTabProps {
     onToggleRow: (key: string) => void
 }
 
-export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, onToggleRow }: HotpepperTabProps) {
+export function GurunaviTab({ selectedShop, startMonth, endMonth, checkedRows, onToggleRow }: GurunaviTabProps) {
     const [hoveredData, setHoveredData] = useState<any>(null)
 
-    // 1. 平均客単価 (ARCHITECTURE.yaml Line 87-89)
+    // 1. 平均客単価
     const avgPrice = useMemo(() => {
         if (!selectedShop) return 0
         return Math.round((selectedShop.avg_price_lunch + selectedShop.avg_price_dinner) / 2)
     }, [selectedShop])
 
-    // 2. 共通のデータ抽出ロジック (ARCHITECTURE.yaml 準拠)
+    // 2. データ抽出ロジック
     const getMonthStats = (ym: string) => {
-        const hp = (selectedShop.media_data?.hotpepper as any[])
+        const gn = (selectedShop.media_data?.gurunavi as any[])
             ?.find((r: any) => String(r.year_month) === ym) || {} as any
 
-        const toretaHp = selectedShop.toreta_data
-            ?.find((t: any) => String(t.year_month) === ym && t.media === 'ホットペッパー') || {} as any
+        const toretaGn = selectedShop.toreta_data
+            ?.find((t: any) => String(t.year_month) === ym && t.media === 'ぐるなび') || {} as any
 
         // PV計算
-        const pvTop = (hp.pv_sp_top || 0) + (hp.pv_pc_top || 0)
-        const pvTotal = (hp.pv_sp_total || 0) + (hp.pv_pc_total || 0)
+        const pvTop = (gn.pv_sp_top || 0) + (gn.pv_pc_top || 0)
+        const pvTotal = (gn.pv_sp_total || 0) + (gn.pv_pc_total || 0)
 
-        // 予約の取得 (ホットペッパーはトレタのみが正解 ✨)
-        const toretaRes = toretaHp.reservation_count || 0
-        const toretaGuest = toretaHp.guest_count || 0
+        // 予約の取得 (ぐるなびもトレタを正とする ✨)
+        const toretaRes = toretaGn.reservation_count || 0
+        const toretaGuest = toretaGn.guest_count || 0
 
         // CVR計算 (トレタ予約数 / PVトップ)
         const cvr = pvTop > 0 ? (toretaRes / pvTop) * 100 : 0
 
-        const baseCost = hp.actual_cost !== null && hp.actual_cost !== undefined
-            ? hp.actual_cost
-            : (hp.base_cost || 0)
+        // 🆕 月額固定費: actual_cost 優先ロジック 💅
+        const baseCost = gn.actual_cost !== null && gn.actual_cost !== undefined
+            ? gn.actual_cost
+            : (gn.base_cost || 0)
 
-        const unitLunch = hp.unit_cost_lunch || 0
-        const unitDinner = hp.unit_cost_dinner || 0
+        const unitLunch = gn.unit_cost_lunch || 0
+        const unitDinner = gn.unit_cost_dinner || 0
 
-        // 従量課金: (ランチ単価 + ディナー単価) / 2 × 客数 (暫定ロジック 💅)
+        // 従量課金: (ランチ単価 + ディナー単価) / 2 × 客数
         const variableCost = toretaGuest * ((unitLunch + unitDinner) / 2)
         const cost = baseCost + variableCost
         const revenueTotal = toretaGuest * avgPrice
@@ -105,7 +106,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
 
         return {
             ym,
-            planName: hp.plan_name || '-',
+            planName: gn.plan_name || '-',
             baseCost,
             variableCost,
             pvTop,
@@ -123,15 +124,15 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
     }
 
     // 3. データ加工 (Table用)
-    const hpTableData = useMemo(() => {
+    const gnTableData = useMemo(() => {
         if (!selectedShop) return []
         const periodMonths = getYearMonthList(startMonth, endMonth)
         return periodMonths.map(ym => getMonthStats(ym))
     }, [selectedShop, startMonth, endMonth, avgPrice])
 
-    // 4. データ加工 (Chart用 - 全予約指標にYoY%を追加💅)
+    // 4. データ加工 (Chart用)
     const chartData = useMemo(() => {
-        return hpTableData.map(d => {
+        return gnTableData.map(d => {
             const prevYm = String(parseInt(d.ym) - 100)
             const prev = getMonthStats(prevYm)
 
@@ -149,7 +150,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                 prevPvTop: prev.pvTop
             }
         })
-    }, [hpTableData])
+    }, [gnTableData])
 
     // Helper to render rows
     const renderRow = (label: string, key: string, content: (d: any) => React.ReactNode, extraStyle: React.CSSProperties = {}) => {
@@ -192,7 +193,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                 }}>
                     {label}
                 </td>
-                {hpTableData.map(d => (
+                {gnTableData.map(d => (
                     <td key={d.ym} style={{ padding: '8px 14px', fontWeight: isChecked ? 'bold' : 'normal', color: isChecked ? '#ea580c' : undefined }}>
                         {content(d)}
                     </td>
@@ -206,7 +207,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
         if (!value || value === 0) return null
         return (
             <g>
-                <rect x={x + width / 2 - 20} y={y - 25} width={40} height={18} rx={4} fill="#db2777" />
+                <rect x={x + width / 2 - 20} y={y - 25} width={40} height={18} rx={4} fill="#b91c1c" />
                 <text x={x + width / 2} y={y - 12} fill="white" textAnchor="middle" fontSize={10} fontWeight="900">
                     {value.toFixed(2)}%
                 </text>
@@ -220,11 +221,11 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
             {/* 📈 グラフ & 詳細パネル */}
             <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="p-1.5 bg-pink-50 rounded-lg text-pink-600">
+                    <div className="p-1.5 bg-red-50 rounded-lg text-red-600">
                         <TrendingUp size={16} />
                     </div>
                     <div>
-                        <h3 className="text-base font-bold text-gray-900 tracking-tight">ホットペッパー 集客効率 & 成果推移</h3>
+                        <h3 className="text-base font-bold text-gray-900 tracking-tight">ぐるなび 集客効率 & 成果推移</h3>
                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">PV vs Toreta Reservation Performance</p>
                     </div>
                 </div>
@@ -242,8 +243,8 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                             const d = (activeIndex !== undefined && chartData[activeIndex]) ? chartData[activeIndex] : chartData[chartData.length - 1];
                             if (!d) return null;
                             return (
-                                <div className="ml-auto flex items-center gap-3 px-4 py-1.5 bg-pink-500 rounded-xl shadow-lg shadow-pink-100 border border-pink-400">
-                                    <span className="text-[10px] font-black text-pink-50 uppercase tracking-tighter">Est. Profit</span>
+                                <div className="ml-auto flex items-center gap-3 px-4 py-1.5 bg-red-600 rounded-xl shadow-lg shadow-red-100 border border-red-400">
+                                    <span className="text-[10px] font-black text-red-50 uppercase tracking-tighter">Est. Profit</span>
                                     <span className="text-xl font-black text-white tabular-nums">¥{d.profit.toLocaleString()}</span>
                                 </div>
                             );
@@ -260,8 +261,8 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                                 { label: 'Plan', val: d.planName, sub: `¥${d.baseCost.toLocaleString()}`, color: '#94a3b8' },
                                 { label: '従量課金', val: `¥${Math.round(d.variableCost).toLocaleString()}`, color: '#64748b' },
                                 { label: 'PV (Top)', val: d.pvTop.toLocaleString(), sub: `全: ${d.pvTotal.toLocaleString()}`, yoy: d.yoyPvTop, color: '#4338ca' },
-                                { label: '集客総数', val: `${d.toretaRes}組`, sub: `${d.toretaGuest}人`, yoy: d.yoyToretaRes, color: '#ec4899' },
-                                { label: 'CVR', val: `${d.cvr.toFixed(2)}%`, color: '#db2777' },
+                                { label: '集客総数', val: `${d.toretaRes}組`, sub: `${d.toretaGuest}人`, yoy: d.yoyToretaRes, color: '#b91c1c' },
+                                { label: 'CVR', val: `${d.cvr.toFixed(2)}%`, color: '#b91c1c' },
                             ]
 
                             return metrics.map(m => (
@@ -305,7 +306,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                                 axisLine={false}
                                 tickLine={false}
                                 tick={{ fontSize: 10, fill: '#64748b' }}
-                                label={{ value: '予約数 (組)', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#db2777', dx: -10 }}
+                                label={{ value: '予約数 (組)', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#b91c1c', dx: -10 }}
                             />
                             <YAxis
                                 yAxisId="right"
@@ -332,12 +333,12 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                             />
 
                             {/* 今年棒 */}
-                            <Bar yAxisId="left" dataKey="toretaRes" name="トレタ予約" fill="#ec4899" barSize={30} isAnimationActive={false} activeBar={{ stroke: '#ffffff', strokeWidth: 2, fillOpacity: 0.8 }}>
+                            <Bar yAxisId="left" dataKey="toretaRes" name="トレタ予約" fill="#b91c1c" barSize={30} isAnimationActive={false} activeBar={{ stroke: '#ffffff', strokeWidth: 2, fillOpacity: 0.8 }}>
                                 <LabelList dataKey="cvr" content={renderCvrLabel} />
                             </Bar>
 
                             {/* 前年棒 */}
-                            <Bar yAxisId="left" dataKey="prevToretaRes" name="予約 (前年)" fill="#fce7f3" barSize={15} isAnimationActive={false} />
+                            <Bar yAxisId="left" dataKey="prevToretaRes" name="予約 (前年)" fill="#fecaca" barSize={15} isAnimationActive={false} />
 
                             {/* PV Lines */}
                             <Line yAxisId="right" type="monotone" dataKey="prevPvTop" name="PV前年" stroke="#a5b4fc" strokeDasharray="5 5" strokeWidth={2} dot={false} isAnimationActive={false} />
@@ -351,13 +352,13 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
             <div>
                 <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-gray-900 px-1">
                     <Search size={18} className="text-gray-400" />
-                    <span>詳細データテーブル (Hotpepper)</span>
+                    <span>詳細データテーブル (Gurunavi)</span>
                     {(() => {
-                        const rows = hpTableData
+                        const rows = gnTableData
                         for (let i = 1; i < rows.length; i++) {
                             if (rows[i - 1].planName !== '-' && rows[i].planName !== '-' && rows[i - 1].planName !== rows[i].planName) {
                                 return (
-                                    <span key="plan-change-alert" style={{ fontSize: '11px', backgroundColor: '#fdf2f8', color: '#db2777', padding: '2px 8px', borderRadius: '4px', border: '1px solid #fbcfe8' }}>
+                                    <span key="plan-change-alert" style={{ fontSize: '11px', backgroundColor: '#fef2f2', color: '#b91c1c', padding: '2px 8px', borderRadius: '4px', border: '1px solid #fecaca' }}>
                                         ⚠️ プラン変更: {formatYM(rows[i].ym)} {rows[i - 1].planName} → {rows[i].planName}
                                     </span>
                                 )
@@ -371,9 +372,9 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'right', fontSize: '11px', whiteSpace: 'nowrap' }}>
                         <thead>
                             <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                                <th style={{ padding: '10px 8px', position: 'sticky', left: 0, backgroundColor: '#fff1f2', zIndex: 10, borderRight: '1px solid #e5e7eb', width: '40px', minWidth: '40px', maxWidth: '40px' }}></th>
-                                <th style={{ padding: '10px 16px', textAlign: 'left', fontWeight: 'bold', color: '#374151', position: 'sticky', left: '40px', backgroundColor: '#fff1f2', zIndex: 10, minWidth: '140px', borderRight: '2px solid #e5e7eb' }}>項目</th>
-                                {hpTableData.map(d => (
+                                <th style={{ padding: '10px 8px', position: 'sticky', left: 0, backgroundColor: '#fee2e2', zIndex: 10, borderRight: '1px solid #e5e7eb', width: '40px', minWidth: '40px', maxWidth: '40px' }}></th>
+                                <th style={{ padding: '10px 16px', textAlign: 'left', fontWeight: 'bold', color: '#374151', position: 'sticky', left: '40px', backgroundColor: '#fee2e2', zIndex: 10, minWidth: '140px', borderRight: '2px solid #e5e7eb' }}>項目</th>
+                                {gnTableData.map(d => (
                                     <th key={d.ym} style={{ padding: '10px 14px', fontWeight: 'bold', color: '#374151', minWidth: '94px' }}>{formatYM(d.ym)}</th>
                                 ))}
                             </tr>
