@@ -12,17 +12,24 @@
     - "データパス解決: React 側でのパス指定（shop.media_data.媒体名）による直感的なデータアクセスの実現"
 
 データフロー:
-  - "public/toon.txt -> fetch(URL) -> parseToon() -> React State -> 選択された店舗コンポーネント"
+  - "GAS (s-tock) -> Firebase Cloud Storage"
+  - "fetch(main/line/google.txt) -> parseToon() -> Reactマージ -> 選択店舗コンポーネント"
 
 ステータス:
   完了した機能:
     - "Universal Toon 解析エンジン"
+    - "Firebase 3系統データマージ連携基盤"
+    - "GAS Webアプリ連携（データ更新ボタン）"
+    - "LINE 分析タブ"
+    - "Google 分析タブ (GBP詳細機能)"
     - "店舗ナビゲーションと選択"
     - "「売り上げ」タブ：税込計算およびウォークインの除外"
     - "店舗詳細：直近のプラン変更検出（過去6ヶ月分）"
     - "toretaタブ：全機能（構成比テーブル・棒グラフ・指標トグル）"
-    - "ぐるなびタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
+    - "toretaタブ 全店舗合計：媒体名を動的収集方式に変更（DB_toretaに追加された媒体が自動反映される）"
+    - "食べログ/ホットペッパー/ぐるなびタブ：各種集計ロジック"
     - "Uberタブ：全機能（損益分解、時間帯分析グラフ）"
+    - "Recharts Tooltip 警告修正：content={<></>} を content={() => null} に統一（TabelogTab, HotpepperTab, GurunaviTab, App.tsx）"
   未完了の機能:
     - "個別媒体セクション（Retty等）の詳細コンテンツ"
     - "1ファイル構成によるHTMLエクスポート機能"

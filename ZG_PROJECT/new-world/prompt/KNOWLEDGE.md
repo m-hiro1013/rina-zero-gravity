@@ -39,3 +39,26 @@
 - **注意点①**: Vite はポートが使われていると `+1` のポートにフォールバックする（5173→5174）。両方 `origin` に入れておくこと。
 - **注意点②**: `gsutil` は Google Cloud SDK に含まれる。ローカルに入っていない場合は Google Cloud Console の Cloud Shell から実行できる。
 - **本番デプロイ時**: `origin` を本番 URL に差し替えて `gsutil cors set` を再実行すること。
+
+---
+## ⚛️ Recharts の Tooltip 非表示パターン (2026-02-20)
+- **問題**: `<Tooltip content={<></>} />` と書くと「Invalid prop `content` supplied to `React.Fragment`」の警告が大量に出る。
+- **原因**: Recharts は `content` に渡した要素に内部から props を注入しようとする。React.Fragment は `key` と `children` しか受け取れないため警告が発生する。
+- **正解パターン**: `<Tooltip content={() => null} />` — 関数で null を返す形にする。
+- **適用箇所**: `TabelogTab.tsx`, `HotpepperTab.tsx`, `GurunaviTab.tsx`, `App.tsx`
+
+---
+## 🗂 全店舗合計の toreta 集計は動的収集で行う (2026-02-20)
+- **問題**: `全店舗合計（summaryShop）`のtoreta集計が、ハードコードされた媒体リストにしか集計されず、DB_toretaに存在する媒体が欠落する。
+- **原因**: `toretaMedias` 配列でフィルタしていたため、電話・トレタ予約番・Retty・Googleで予約 等が0になっていた。
+- **解決策**: 全店舗の `toreta_data` から `Set<string>` で動的に全媒体名を収集してから集計する。
+  ```tsx
+  const allToretaMedias = new Set<string>()
+  shops.forEach(s => {
+    s.toreta_data?.forEach((d: any) => {
+      if (d.media) allToretaMedias.add(d.media)
+    })
+  })
+  ```
+- **背景**: GAS側の `jsonExporter.js` は DB_toreta の media 列を無フィルタで全出力するため、フロント側もそれに合わせて動的収集が必須。
+

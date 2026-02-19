@@ -315,7 +315,7 @@ export function HotpepperTab({ selectedShop, startMonth, endMonth, checkedRows, 
                                 tick={{ fontSize: 10, fill: '#4338ca' }}
                                 label={{ value: 'PV (Top)', angle: 90, position: 'insideRight', fontSize: 10, fill: '#4338ca', dx: 10 }}
                             />
-                            <Tooltip content={<></>} cursor={{ fill: '#f8fafc', opacity: 0.4 }} />
+                            <Tooltip content={() => null} cursor={{ fill: '#f8fafc', opacity: 0.4 }} />
                             <Legend
                                 verticalAlign="bottom"
                                 height={36}
