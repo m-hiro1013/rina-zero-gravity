@@ -8,6 +8,8 @@ import { buildToretaData } from './utils/toretaBuilder'
 import {
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -133,6 +135,9 @@ function App() {
   const [toretaMetric, setToretaMetric] = useState<'count' | 'guestCount'>('guestCount')
   const [othersOpen, setOthersOpen] = useState<Record<string, boolean>>({})
 
+  // 🆕 Uber個別月分析用の State (折れ線グラフ用)
+  const [uberFocusMonth, setUberFocusMonth] = useState<string>('')
+
   useEffect(() => {
     fetch(TOON_URL)
       .then(res => res.text())
@@ -151,6 +156,7 @@ function App() {
 
         setEndMonth(lastMonth)
         setStartMonth(initialStart)
+        setUberFocusMonth(lastMonth) // 🆕 初期値は最新月
 
         setLoading(false)
       })
@@ -194,11 +200,173 @@ function App() {
     }))
   }
 
+  // 🆕 全店舗合計データの集計ロジック（仮実装）💅
+  const summaryShop = useMemo(() => {
+    if (!data) return null
+
+    const shops = data.shops
+    const startYm = data.export_info.period.start
+    const endYm = data.export_info.period.end
+    const months = getYearMonthList(startYm, endYm)
+
+    // 基本構造
+    const summary: any = {
+      shop_code: 'ALL',
+      shop_name: '全店舗合計',
+      avg_price_lunch: 0,
+      avg_price_dinner: 0,
+      monthly_data: [],
+      toreta_data: [],
+      media_data: {
+        tabelog: [],
+        hotpepper: [],
+        gurunavi: [],
+        line: [],
+        conetto: []
+      },
+      uber_data: []
+    }
+
+    // 客単価の単純平均（仮）
+    summary.avg_price_lunch = Math.round(shops.reduce((sum, s) => sum + s.avg_price_lunch, 0) / shops.length)
+    summary.avg_price_dinner = Math.round(shops.reduce((sum, s) => sum + s.avg_price_dinner, 0) / shops.length)
+
+    // 月別データの集計
+    months.forEach((ym) => {
+      // 1. 売上合計
+      const sales = shops.reduce((sum, s) => {
+        const m = s.monthly_data.find(d => String(d.year_month) === String(ym))
+        return sum + (m?.sales_amount || 0)
+      }, 0)
+      summary.monthly_data.push({ year_month: ym, sales_amount: sales })
+
+      // 2. Toreta集計
+      const toretaMedias = ['合計', 'ウォークイン', '食べログ', 'ホットペッパー', 'ぐるなび', '自社', 'その他']
+      toretaMedias.forEach(media => {
+        const resCount = shops.reduce((sum, s) => {
+          const t = s.toreta_data?.find(d => String(d.year_month) === String(ym) && d.media === media)
+          return sum + (t?.reservation_count || 0)
+        }, 0)
+        const guestCount = shops.reduce((sum, s) => {
+          const t = s.toreta_data?.find(d => String(d.year_month) === String(ym) && d.media === media)
+          return sum + (t?.guest_count || 0)
+        }, 0)
+        summary.toreta_data.push({ year_month: ym, media, reservation_count: resCount, guest_count: guestCount })
+      })
+
+      // 3. 媒体集計 (Tabelog, HP, GN)
+      const mediaKeys = ['tabelog', 'hotpepper', 'gurunavi', 'line', 'conetto']
+      mediaKeys.forEach(key => {
+        const baseCost = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.base_cost || 0)
+        }, 0)
+        const actualCost = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.actual_cost || 0)
+        }, 0)
+        const pvSpTop = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.pv_sp_top || 0)
+        }, 0)
+        const pvPcTop = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.pv_pc_top || 0)
+        }, 0)
+
+        // Web予約数（食べログ用）
+        const webRes = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.reservation_count_total || 0)
+        }, 0)
+        const webGuest = shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.guest_count_total || 0)
+        }, 0)
+
+        // 従量単価（平均）
+        const unitLunch = Math.round(shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.unit_cost_lunch || 0)
+        }, 0) / shops.length)
+        const unitDinner = Math.round(shops.reduce((sum, s) => {
+          const m = (s.media_data as any)?.[key]?.find((d: any) => String(d.year_month) === String(ym))
+          return sum + (m?.unit_cost_dinner || 0)
+        }, 0) / shops.length)
+
+        summary.media_data[key].push({
+          year_month: ym,
+          plan_name: '集計',
+          base_cost: baseCost,
+          actual_cost: actualCost > 0 ? actualCost : null,
+          pv_sp_top: pvSpTop,
+          pv_pc_top: pvPcTop,
+          reservation_count_total: webRes,
+          guest_count_total: webGuest,
+          unit_cost_lunch: unitLunch,
+          unit_cost_dinner: unitDinner
+        })
+      })
+
+      // 4. Uber集計💅
+      const uberAgg = shops.reduce((acc, s) => {
+        const u = s.uber_data?.find((d: any) => String(d.year_month) === String(ym))
+        if (!u) return acc
+
+        acc.sales_amount += (Number(u.sales_amount) || 0)
+        acc.order_count += (Number(u.order_count) || 0)
+        acc.refund += (Number(u.refund) || 0)
+        acc.offer_discount += (Number(u.offer_discount) || 0)
+        acc.delivery_discount += (Number(u.delivery_discount) || 0)
+        acc.service_fee += (Number(u.service_fee) || 0)
+        acc.ad_cost += (Number(u.ad_cost) || 0)
+        acc.final_amount += (Number(u.final_amount) || 0)
+
+        // グラフ用の時間帯別データ集計 📈
+        if (u.hourly_orders) {
+          try {
+            const raw = typeof u.hourly_orders === 'string'
+              ? JSON.parse(u.hourly_orders.replace(/\\"/g, '"'))
+              : u.hourly_orders
+            Object.keys(raw).forEach(h => {
+              acc.hourly_orders[h] = (acc.hourly_orders[h] || 0) + Number(raw[h] || 0)
+            })
+          } catch (e) {
+            console.error("Summary Uber Hourly parse error", e)
+          }
+        }
+        return acc
+      }, {
+        sales_amount: 0,
+        order_count: 0,
+        refund: 0,
+        offer_discount: 0,
+        delivery_discount: 0,
+        service_fee: 0,
+        ad_cost: 0,
+        final_amount: 0,
+        hourly_orders: {} as Record<string, number>
+      })
+
+      summary.uber_data.push({
+        year_month: ym,
+        ...uberAgg
+      })
+    })
+
+    return summary as any
+  }, [data])
+
   // 選択された店舗オブジェクトを特定するよ
   const selectedShop = useMemo(() => {
     if (!data || !selectedShopCode) return null
     return data.shops.find(s => s.shop_code === selectedShopCode) || null
   }, [data, selectedShopCode])
+
+  // 表示対象の店舗（選択されていればその店舗、なければ集計データ）💅
+  const activeShop = useMemo(() => {
+    return selectedShop || summaryShop
+  }, [selectedShop, summaryShop])
 
   // 店舗コード昇順でソート（サイドバー用）
   const sortedShops = useMemo(() => {
@@ -210,14 +378,14 @@ function App() {
 
   // 🆕 プラン変更の検出
   const planChanges = useMemo(() => {
-    if (!selectedShop || !selectedShop.media_data || !endMonth) return []
+    if (!activeShop || !activeShop.media_data || !endMonth) return []
 
     const changes: any[] = []
     const checkStart = calcCheckStart(endMonth)
 
-    Object.keys(selectedShop.media_data).forEach(mediaKey => {
+    Object.keys(activeShop.media_data).forEach(mediaKey => {
       if (mediaKey === 'ad_cost_data') return // 🆕 広告費データはプラン変更の対象外にするよ
-      const rows = selectedShop.media_data[mediaKey] || []
+      const rows = activeShop.media_data[mediaKey] || []
 
       // year_month 昇順ソート
       const sorted = [...rows]
@@ -233,7 +401,7 @@ function App() {
         if (Number(curr.year_month) > Number(endMonth)) continue
 
         // plan_name が異なる = プラン変更
-        if (prev.plan_name !== curr.plan_name) {
+        if (prev.plan_name !== curr.plan_name && prev.plan_name !== '集計' && curr.plan_name !== '集計') {
           changes.push({
             media_key: mediaKey,
             media_name: getMediaDisplayName(mediaKey),
@@ -249,13 +417,13 @@ function App() {
 
     // 変更月降順（新しい順）で並べる
     return changes.sort((a, b) => Number(b.change_month) - Number(a.change_month))
-  }, [selectedShop, endMonth])
+  }, [activeShop, endMonth])
 
   const toretaTableData = useMemo(() => {
-    if (!selectedShop || !selectedShop.toreta_data) return null
+    if (!activeShop || !activeShop.toreta_data) return null
     const months = getYearMonthList(startMonth, endMonth)
-    return buildToretaData(selectedShop.toreta_data, months)
-  }, [selectedShop, startMonth, endMonth])
+    return buildToretaData(activeShop.toreta_data, months)
+  }, [activeShop, startMonth, endMonth])
 
   // 🆕 構成比グラフ用のデータ加工
   const toretaGraphData = useMemo(() => {
@@ -383,14 +551,14 @@ function App() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ backgroundColor: '#111827', color: 'white', padding: '8px', borderRadius: '8px' }}>
-                  {selectedShop ? <Store size={20} /> : <BarChart3 size={20} />}
+                  {activeShop?.shop_code !== 'ALL' ? <Store size={20} /> : <BarChart3 size={20} />}
                 </div>
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px' }}>
-                    {selectedShop ? `Shop Code: ${selectedShop.shop_code}` : 'Global Summary'}
+                    {activeShop?.shop_code !== 'ALL' ? `Shop Code: ${activeShop?.shop_code}` : 'Global Summary'}
                   </div>
                   <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#111827', margin: 0, letterSpacing: '-0.02em' }}>
-                    {selectedShop ? selectedShop.shop_name : '全店舗サマリー'}
+                    {activeShop?.shop_name}
                   </h1>
                 </div>
               </div>
@@ -404,41 +572,39 @@ function App() {
           </header>
 
           {/* 🆕 Horizontal Tab Navigation */}
-          {selectedShop && (
-            <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '0px' }} className="no-scrollbar">
-              {TABS.map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  style={{
-                    padding: '12px 20px',
-                    fontSize: '12px',
-                    fontWeight: activeTab === tab ? 'bold' : '500',
-                    color: activeTab === tab ? '#111827' : '#6b7280',
-                    borderBottom: `3px solid ${activeTab === tab ? '#111827' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    whiteSpace: 'nowrap',
-                    borderLeft: 'none',
-                    borderRight: 'none',
-                    borderTop: 'none',
-                    outline: 'none'
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          )}
+          <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '0px' }} className="no-scrollbar">
+            {TABS.map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  padding: '12px 20px',
+                  fontSize: '12px',
+                  fontWeight: activeTab === tab ? 'bold' : '500',
+                  color: activeTab === tab ? '#111827' : '#6b7280',
+                  borderBottom: `3px solid ${activeTab === tab ? '#111827' : 'transparent'}`,
+                  backgroundColor: 'transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap',
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderTop: 'none',
+                  outline: 'none'
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* コンテンツ本体 (タブによって切り替わるよ！) */}
         <div style={{ padding: '32px 48px' }}>
-          {selectedShop ? (
+          {activeShop ? (
             <div>
               {/* 🆕 Plan Changes Section (スクロールするようにここに移したよ！) */}
-              {selectedShop && planChanges.length > 0 && (
+              {activeShop.shop_code !== 'ALL' && planChanges.length > 0 && (
                 <div style={{ marginBottom: '32px', padding: '16px', backgroundColor: '#fff7ed', border: '1px solid #ffedd5', borderRadius: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: '#9a3412', fontWeight: 'bold', fontSize: '10px', textTransform: 'uppercase' }}>
                     <Info size={14} />
@@ -511,9 +677,9 @@ function App() {
                             <>
                               {periodMonths.map(ym => {
                                 // 当月データ
-                                const monthly = selectedShop.monthly_data?.find(m => String(m.year_month) === ym);
-                                const toretaTotal = selectedShop.toreta_data?.find(t => String(t.year_month) === ym && t.media === '合計');
-                                const toretaWalkin = selectedShop.toreta_data?.find(t => String(t.year_month) === ym && t.media === 'ウォークイン');
+                                const monthly = activeShop.monthly_data?.find((m: any) => String(m.year_month) === ym);
+                                const toretaTotal = activeShop.toreta_data?.find((t: any) => String(t.year_month) === ym && t.media === '合計');
+                                const toretaWalkin = activeShop.toreta_data?.find((t: any) => String(t.year_month) === ym && t.media === 'ウォークイン');
 
                                 const salesExTax = monthly?.sales_amount || 0;
                                 const sales = Math.round(salesExTax * TAX_RATE);
@@ -526,9 +692,9 @@ function App() {
 
                                 // 🆕 前年同月データの取得
                                 const prevYearYm = String(parseInt(ym) - 100);
-                                const prevMonthly = selectedShop.monthly_data?.find(m => String(m.year_month) === prevYearYm);
-                                const prevToretaTotal = selectedShop.toreta_data?.find(t => String(t.year_month) === prevYearYm && t.media === '合計');
-                                const prevToretaWalkin = selectedShop.toreta_data?.find(t => String(t.year_month) === prevYearYm && t.media === 'ウォークイン');
+                                const prevMonthly = activeShop.monthly_data?.find((m: any) => String(m.year_month) === prevYearYm);
+                                const prevToretaTotal = activeShop.toreta_data?.find((t: any) => String(t.year_month) === prevYearYm && t.media === '合計');
+                                const prevToretaWalkin = activeShop.toreta_data?.find((t: any) => String(t.year_month) === prevYearYm && t.media === 'ウォークイン');
 
                                 const prevSalesExTax = prevMonthly?.sales_amount || 0;
                                 const prevSales = Math.round(prevSalesExTax * TAX_RATE);
@@ -640,12 +806,12 @@ function App() {
                           {toretaTableData.channelRows.map(row => (
                             <React.Fragment key={row.channelName}>
                               <tr className={`group transition-colors hover:bg-indigo-50/30 ${row.isOthers ? 'cursor-pointer' : ''}`}
-                                onClick={() => row.isOthers && setOthersOpen(prev => ({ ...prev, [selectedShop.shop_code]: !prev[selectedShop.shop_code] }))}>
+                                onClick={() => row.isOthers && setOthersOpen(prev => ({ ...prev, [activeShop.shop_code]: !prev[activeShop.shop_code] }))}>
                                 <td className="sticky left-0 bg-white group-hover:bg-indigo-50 px-3 py-1.5 text-left font-black border-r-2 border-b border-gray-300 z-10 transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">
                                   <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: row.color }}></div>
                                     <span className="text-gray-800 truncate">{row.channelName}</span>
-                                    {row.isOthers && <ChevronRight size={12} className={`text-gray-500 transition-transform ${othersOpen[selectedShop.shop_code] ? 'rotate-90 text-indigo-600' : ''}`} />}
+                                    {row.isOthers && <ChevronRight size={12} className={`text-gray-500 transition-transform ${othersOpen[activeShop.shop_code] ? 'rotate-90 text-indigo-600' : ''}`} />}
                                   </div>
                                 </td>
                                 {row.monthlyData.map((d, i) => {
@@ -681,9 +847,9 @@ function App() {
                                 </td>
                               </tr>
                               {/* 内訳展開 */}
-                              {row.isOthers && othersOpen[selectedShop.shop_code] && row.breakdown.map(channelName => {
+                              {row.isOthers && othersOpen[activeShop.shop_code] && row.breakdown.map(channelName => {
                                 const breakdownMonthlyData = toretaTableData.monthTotals.map((mt) => {
-                                  const d = selectedShop.toreta_data?.find(t => String(t.year_month) === mt.ym && t.media === channelName);
+                                  const d = activeShop.toreta_data?.find((t: any) => String(t.year_month) === mt.ym && t.media === channelName);
                                   const count = d ? Number(d.reservation_count) : 0;
                                   const guestCount = d ? Number(d.guest_count) : 0;
                                   return { count, guestCount };
@@ -956,9 +1122,9 @@ function App() {
                 </div>
               )}
 
-              {activeTab === '食べログ' && selectedShop && (
+              {activeTab === '食べログ' && activeShop && (
                 <TabelogTab
-                  selectedShop={selectedShop}
+                  selectedShop={activeShop}
                   startMonth={startMonth}
                   endMonth={endMonth}
                   checkedRows={tabelogCheckedRows}
@@ -966,9 +1132,9 @@ function App() {
                 />
               )}
 
-              {activeTab === 'ホットペッパー' && selectedShop && (
+              {activeTab === 'ホットペッパー' && activeShop && (
                 <HotpepperTab
-                  selectedShop={selectedShop}
+                  selectedShop={activeShop}
                   startMonth={startMonth}
                   endMonth={endMonth}
                   checkedRows={hpCheckedRows}
@@ -976,9 +1142,9 @@ function App() {
                 />
               )}
 
-              {activeTab === 'ぐるなび' && selectedShop && (
+              {activeTab === 'ぐるなび' && activeShop && (
                 <GurunaviTab
-                  selectedShop={selectedShop}
+                  selectedShop={activeShop}
                   startMonth={startMonth}
                   endMonth={endMonth}
                   checkedRows={gnCheckedRows}
@@ -986,11 +1152,301 @@ function App() {
                 />
               )}
 
-              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && activeTab !== 'ホットペッパー' && (
+              {activeTab === 'uber' && (
+                <div className="space-y-6 animate-in fade-in duration-500">
+                  {/* アナリティクス：時間帯別トレンド (折れ線グラフ) */}
+                  <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center gap-3">
+                        <div className="p-1.5 bg-indigo-50 rounded-lg text-indigo-600">
+                          <TrendingUp size={16} />
+                        </div>
+                        <div>
+                          <h3 className="text-base font-bold text-gray-900 tracking-tight">時間帯別注文トレンド (11時-23時)</h3>
+                          <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none mt-0.5">Uber Eats Hourly Order Trend</p>
+                        </div>
+                      </div>
+
+                      {/* 月選択セレクター */}
+                      <div className="flex items-center gap-3 bg-gray-100 p-1 rounded-lg border border-gray-200">
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-tighter px-2">Focus Month:</span>
+                        <select
+                          value={uberFocusMonth}
+                          onChange={(e) => setUberFocusMonth(e.target.value)}
+                          className="bg-white text-[11px] font-bold text-indigo-600 px-3 py-1 rounded shadow-sm border-none outline-none cursor-pointer"
+                        >
+                          {getYearMonthList(startMonth, endMonth).reverse().map(ym => (
+                            <option key={`uber-focus-${ym}`} value={ym}>{formatYM(ym)}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="h-[280px] w-full">
+                      {(() => {
+                        const uberData = activeShop.uber_data || (activeShop.media_data as any)?.uber_data || []
+                        const targetData = uberData.find((u: any) => u.year_month === uberFocusMonth)
+
+                        let hourlyData: { hour: string, count: number }[] = []
+                        if (targetData && targetData.hourly_orders) {
+                          try {
+                            // TOON形式ではJSON内のダブルクォートがバックスラッシュでエスケープされている場合があるため、解除してからパース
+                            const jsonStr = typeof targetData.hourly_orders === 'string'
+                              ? targetData.hourly_orders.replace(/\\"/g, '"')
+                              : targetData.hourly_orders
+                            const raw = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr
+
+                            // 11時〜23時の固定レンジを生成
+                            for (let h = 11; h <= 23; h++) {
+                              hourlyData.push({
+                                hour: `${h}:00`,
+                                count: Number(raw[h] || raw[String(h)] || 0)
+                              })
+                            }
+                          } catch (e) {
+                            console.error("Hourly JSON parse error", e)
+                          }
+                        }
+
+                        if (hourlyData.length === 0) {
+                          return (
+                            <div className="h-full flex items-center justify-center border-2 border-dashed border-gray-100 rounded-xl text-gray-300 text-[11px] font-bold">
+                              No Hourly Data Available for {formatYM(uberFocusMonth)}
+                            </div>
+                          )
+                        }
+
+                        return (
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={hourlyData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                              <XAxis
+                                dataKey="hour"
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fontSize: 10, fill: '#64748b', fontWeight: 600 }}
+                                dy={10}
+                              />
+                              <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fontSize: 10, fill: '#64748b' }}
+                                label={{ value: '注文数', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#64748b', dx: -5 }}
+                              />
+                              <Tooltip
+                                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '11px', fontWeight: 'bold' }}
+                                cursor={{ stroke: '#4338ca', strokeWidth: 1, strokeDasharray: '5 5' }}
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="count"
+                                stroke="#4338ca"
+                                strokeWidth={4}
+                                dot={{ r: 4, fill: '#4338ca', strokeWidth: 2, stroke: '#fff' }}
+                                activeDot={{ r: 6, strokeWidth: 2, stroke: '#fff' }}
+                                name="注文数"
+                                isAnimationActive={true}
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        )
+                      })()}
+                    </div>
+                  </div>
+
+                  {/* ヘッダー（toretaタブと同じ構造） */}
+                  <div className="flex items-center justify-between px-1">
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-gray-100 rounded-lg text-gray-600">
+                        <Info size={16} />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-gray-900 tracking-tight">Uber Eats 損益分析</h3>
+                        <div className="flex items-center gap-2">
+                          <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-none mt-0.5">Uber Eats P&L Breakdown</p>
+                          <span className="text-[9px] text-indigo-500 font-bold bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100/50">※数値はすべて税込表示</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 損益分解テーブル */}
+                  <div className="bg-white border border-gray-200 shadow-sm rounded-xl overflow-auto relative" style={{ maxHeight: 'calc(100vh - 320px)' }}>
+                    <table className="w-full text-[11px] text-right whitespace-nowrap border-separate border-spacing-0">
+                      <thead>
+                        <tr className="bg-gray-50 border-b border-gray-200">
+                          <th className="sticky top-0 left-0 bg-gray-50 px-3 py-1.5 text-left z-35 w-[160px] border-r border-b border-gray-200 shadow-[2px_2px_5px_-2px_rgba(0,0,0,0.05)]">
+                            <span className="text-[9px] uppercase tracking-wider font-bold text-gray-400 font-mono">Item</span>
+                          </th>
+                          {getYearMonthList(startMonth, endMonth).map(ym => (
+                            <th key={ym} className="sticky top-0 bg-gray-50 px-2 py-1.5 font-bold text-gray-600 border-r border-b border-gray-100 z-30 min-w-[90px]">
+                              {formatYM(ym)}
+                            </th>
+                          ))}
+                          <th className="sticky top-0 px-3 py-1.5 bg-indigo-50/50 text-indigo-900 font-bold text-center min-w-[100px] z-30 border-b border-indigo-100 shadow-sm">
+                            Total
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {(() => {
+                          const periodMonths = getYearMonthList(startMonth, endMonth)
+                          const uberData = activeShop.uber_data || (activeShop.media_data as any)?.uber_data || []
+
+                          const rows: {
+                            key: string
+                            label: string
+                            field: string
+                            isSeparatorBefore?: boolean
+                            isHighlight?: boolean
+                          }[] = [
+                              { key: 'order_count', label: '注文数', field: 'order_count' },
+                              { key: 'sales_amount', label: '売上 (税込)', field: 'sales_amount', isSeparatorBefore: true },
+                              { key: 'avg_price', label: '平均単価 (税込)', field: '' },
+                              { key: 'refund', label: '返金', field: 'refund', isSeparatorBefore: true },
+                              { key: 'offer_discount', label: 'オファー割引', field: 'offer_discount' },
+                              { key: 'delivery_discount', label: '配達割引', field: 'delivery_discount' },
+                              { key: 'service_fee', label: 'サービス手数料', field: 'service_fee' },
+                              { key: 'ad_cost', label: '広告費', field: 'ad_cost' },
+                              { key: 'final_amount', label: '最終入金額 (税込)', field: 'final_amount', isSeparatorBefore: true, isHighlight: true },
+                              { key: 'est_cost', label: '想定原価 (20%)', field: '' },
+                              { key: 'est_profit', label: '想定利益額 (税込)', field: '', isSeparatorBefore: true, isHighlight: true },
+                              { key: 'profit_rate', label: '想定利益率 (%)', field: '' },
+                            ]
+
+                          // 全期間の合計をさきに計算 (比率系のTotal計算用)
+                          const totalSummary = periodMonths.reduce((acc, ym) => {
+                            const d = uberData.find((u: any) => u.year_month === ym)
+                            if (d) {
+                              acc.orders += Number(d.order_count) || 0
+                              acc.sales += Number(d.sales_amount) || 0
+                              acc.final += Number(d.final_amount) || 0
+                            }
+                            return acc
+                          }, { orders: 0, sales: 0, final: 0 })
+                          const totalEstCost = totalSummary.sales * 0.2
+                          const totalEstProfit = totalSummary.final - totalEstCost
+
+                          return rows.map(row => {
+                            // 各月の値を取得
+                            const monthlyValues = periodMonths.map(ym => {
+                              const d = uberData.find((u: any) => u.year_month === ym)
+                              if (!d) return null
+
+                              if (row.key === 'avg_price') {
+                                const orders = Number(d.order_count) || 0
+                                const sales = Number(d.sales_amount) || 0
+                                return orders > 0 ? sales / orders : 0
+                              }
+                              if (row.key === 'est_cost') {
+                                return (Number(d.sales_amount) || 0) * 0.2
+                              }
+                              if (row.key === 'est_profit') {
+                                const final = Number(d.final_amount) || 0
+                                const sales = Number(d.sales_amount) || 0
+                                return final - (sales * 0.2)
+                              }
+                              if (row.key === 'profit_rate') {
+                                const sales = Number(d.sales_amount) || 0
+                                if (sales === 0) return 0
+                                const final = Number(d.final_amount) || 0
+                                const profit = final - (sales * 0.2)
+                                return (profit / sales) * 100
+                              }
+
+                              const val = d[row.field]
+                              return val !== null && val !== undefined ? Number(val) : null
+                            })
+
+                            // 合計
+                            const total = monthlyValues.reduce<number>((sum, v) => sum + (v ?? 0), 0)
+
+
+                            return (
+                              <tr
+                                key={row.key}
+                                className={`group transition-colors hover:bg-gray-50/50 ${row.isHighlight ? '' : ''}`}
+                                style={{
+                                  ...(row.isSeparatorBefore ? { borderTop: '2px solid #e5e7eb' } : {}),
+                                  ...(row.isHighlight ? { backgroundColor: '#eef2ff' } : {})
+                                }}
+                              >
+                                {/* 項目名（sticky left） */}
+                                <td
+                                  className="sticky left-0 group-hover:bg-gray-50 px-3 py-1.5 text-left font-bold border-r border-gray-200 z-10 transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]"
+                                  style={{
+                                    backgroundColor: row.isHighlight ? '#eef2ff' : 'white',
+                                    color: row.isHighlight ? '#3730a3' : '#374151',
+                                    fontSize: row.isHighlight ? '11px' : '11px',
+                                    fontWeight: row.isHighlight ? 900 : 700
+                                  }}
+                                >
+                                  {row.label}
+                                </td>
+
+                                {/* 各月の値 */}
+                                {monthlyValues.map((val, i) => {
+                                  const isNeg = val !== null && val < 0
+                                  const displayVal = val === null
+                                    ? '-'
+                                    : row.key === 'order_count'
+                                      ? val.toLocaleString()
+                                      : row.key === 'profit_rate'
+                                        ? `${val.toFixed(1)}%`
+                                        : `¥${Math.round(val).toLocaleString()}`
+
+                                  return (
+                                    <td
+                                      key={periodMonths[i]}
+                                      className="px-2 py-1.5 border-r border-gray-50 tabular-nums"
+                                      style={{
+                                        color: val === null ? '#d1d5db' : isNeg ? '#ef4444' : row.isHighlight ? '#3730a3' : '#111827',
+                                        fontWeight: row.isHighlight ? 900 : isNeg ? 700 : 400,
+                                        backgroundColor: row.isHighlight ? '#eef2ff' : 'transparent'
+                                      }}
+                                    >
+                                      {displayVal}
+                                    </td>
+                                  )
+                                })}
+
+                                {/* Total 列 */}
+                                <td
+                                  className="px-3 py-1.5 font-bold text-center tabular-nums"
+                                  style={{
+                                    backgroundColor: row.isHighlight ? '#c7d2fe' : '#eef2ff08',
+                                    color: row.isHighlight ? '#312e81' : total < 0 ? '#ef4444' : '#312e81',
+                                    fontWeight: 900
+                                  }}
+                                >
+                                  {(() => {
+                                    if (row.key === 'order_count') return total.toLocaleString()
+                                    if (row.key === 'avg_price') {
+                                      const avg = totalSummary.orders > 0 ? totalSummary.sales / totalSummary.orders : 0
+                                      return `¥${Math.round(avg).toLocaleString()}`
+                                    }
+                                    if (row.key === 'profit_rate') {
+                                      const rate = totalSummary.sales > 0 ? (totalEstProfit / totalSummary.sales) * 100 : 0
+                                      return `${rate.toFixed(1)}%`
+                                    }
+                                    return `¥${Math.round(total).toLocaleString()}`
+                                  })()}
+                                </td>
+                              </tr>
+                            )
+                          })
+                        })()}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && activeTab !== 'ホットペッパー' && activeTab !== 'ぐるなび' && activeTab !== 'uber' && (
                 <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
                   <div style={{ fontSize: '48px' }}>
-                    {['食べログ', 'ホットペッパー', 'Retty', 'グルナビ'].includes(activeTab) && <Search size={48} />}
-                    {['uber', 'LINE'].includes(activeTab) && <Info size={48} />}
+                    {['食べログ', 'ホットペッパー', 'Retty', 'ぐるなび'].includes(activeTab) && <Search size={48} />}
+                    {activeTab === 'LINE' && <Info size={48} />}
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
@@ -1004,17 +1460,17 @@ function App() {
               )}
             </div>
           ) : (
-            /* 店舗未選択時の表示 */
+            /* 店舗データがない場合の表示 */
             <div style={{ minHeight: '600px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
               <div style={{ fontSize: '48px' }}>
                 <TrendingUp size={48} />
               </div>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', marginBottom: '4px' }}>
-                  店舗を選択してください
+                  データが読み込めませんでした
                 </div>
                 <div style={{ fontSize: '11px' }}>
-                  サイドバーから店舗を選ぶと、詳細なレポートが表示されるよ✨
+                  JSONデータの構造を確認してね✨
                 </div>
               </div>
             </div>

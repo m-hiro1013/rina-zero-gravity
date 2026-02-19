@@ -35,15 +35,6 @@ export interface Shop {
 }
 
 /**
- * 文字列が数値なら数値、nullならnull、それ以外は文字列のまま返すユーティリティ
- */
-const castValue = (val: string) => {
-    if (val === "null" || val === "") return null;
-    if (!isNaN(Number(val)) && val.trim() !== "") return Number(val);
-    return val;
-};
-
-/**
  * テーブルヘッダー {a,b,c} をパースしてキー配列を返す
  */
 const getKeysFromHeader = (line: string): string[] | null => {
@@ -60,16 +51,44 @@ const parseTableBlock = (lines: string[], startIndex: number, keys: string[], co
     const end = Math.min(startIndex + count, lines.length);
 
     while (i < end) {
-        const line = lines[i].trim();
-        if (!line) break;
+        // CSVとして分割。クォート内のエスケープ（\"）を考慮して、正確に分割するよ！💖
+        const rawLine = lines[i];
+        const cleanedValues: string[] = [];
+        let cur = '';
+        let inQuote = false;
+        const content = rawLine.trim();
 
-        // CSVとして分割。クォート内のカンマに対応するため簡易的な正規表現を使用
-        const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [line];
-        const cleanedValues = values.map((v) => v.replace(/^"|"$/g, "").trim());
+        for (let idx = 0; idx < content.length; idx++) {
+            const char = content[idx];
+            const prev = idx > 0 ? content[idx - 1] : '';
+
+            if (char === '"' && prev !== '\\') {
+                // エスケープされていない引用符ならフラグを反転
+                inQuote = !inQuote;
+                cur += char;
+            } else if (char === ',' && !inQuote) {
+                // クォートの外にあるカンマなら、そこで区切る
+                cleanedValues.push(cur.replace(/^"|"$/g, "").trim());
+                cur = '';
+            } else {
+                cur += char;
+            }
+        }
+        cleanedValues.push(cur.replace(/^"|"$/g, "").trim());
 
         const obj: any = {};
         keys.forEach((key, idx) => {
-            obj[key] = castValue(cleanedValues[idx]);
+            const rawVal = cleanedValues[idx];
+            // 識別子（ID）系やJSON文字列は文字列のまま保護するよ
+            const isNoCastKey = ['year_month', 'shop_code', 'shop_id', 'media', 'hourly_orders'].includes(key);
+
+            if (rawVal === "null" || rawVal === undefined || rawVal === "") {
+                obj[key] = null;
+            } else if (!isNoCastKey && !isNaN(Number(rawVal))) {
+                obj[key] = Number(rawVal);
+            } else {
+                obj[key] = rawVal;
+            }
         });
         result.push(obj);
         i++;
@@ -85,7 +104,7 @@ export const parseToon = (text: string): ToonData => {
     };
 
     let currentShop: any = null;
-    let currentContext: any = data; // 現在書き込み対象のオブジェクト (data or currentShop)
+    let currentContext: any = data;
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -110,10 +129,16 @@ export const parseToon = (text: string): ToonData => {
             const [, key, countStr, headerPart] = tableMatch;
             const count = parseInt(countStr, 10);
             const keys = getKeysFromHeader(headerPart);
+
+            // 🆕 トップレベルのキーならコンテキストをShopに戻すよ！（media_dataからの脱出）🏃‍♀️
+            if (["uber_data", "monthly_data", "toreta_data", "ad_cost_data"].includes(key) && currentShop) {
+                currentContext = currentShop;
+            }
+
             if (keys) {
                 const { result, nextIndex } = parseTableBlock(lines, i + 1, keys, count);
                 currentContext[key] = result;
-                i = nextIndex - 1; // ループのインクリメント分を考慮
+                i = nextIndex - 1;
                 continue;
             }
         }
@@ -128,6 +153,12 @@ export const parseToon = (text: string): ToonData => {
                 // セクションの開始（ネスト）
                 if (key === "export_info") currentContext = data.export_info;
                 if (key === "media_data" && currentShop) currentContext = currentShop.media_data;
+
+                // 🆕 セクションの終了判定（適当だけど効くはず！）
+                if (["uber_data", "monthly_data", "toreta_data", "ad_cost_data"].includes(key) && currentShop) {
+                    currentContext = currentShop;
+                }
+
                 if (key === "period" && currentContext === data.export_info) {
                     data.export_info.period = {};
                     currentContext = data.export_info.period;
@@ -136,8 +167,16 @@ export const parseToon = (text: string): ToonData => {
                     data.debug_info = {};
                     currentContext = data.debug_info;
                 }
-            } else if (val !== "") {
-                currentContext[key] = castValue(val);
+            } else {
+                // ID系かどうか判定
+                const isIdKey = ['year_month', 'shop_code', 'shop_id', 'start', 'end'].includes(key);
+                if (val === "null") {
+                    currentContext[key] = null;
+                } else if (!isIdKey && !isNaN(Number(val))) {
+                    currentContext[key] = Number(val);
+                } else {
+                    currentContext[key] = val;
+                }
             }
         }
     }

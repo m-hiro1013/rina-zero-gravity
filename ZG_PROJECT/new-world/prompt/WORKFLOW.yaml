@@ -4,13 +4,11 @@ workflow:
 
   last_session_summary: |
     【今回のセッションでやったこと】
-    - Tabelogタブ：行ハイライト機能の実装（state persisted in App.tsx）。✨
-    - Sticky列の背景色透過問題を修正（不透明色 #ffffff / #fed7aa を適用）。
-    - 利益額ロジックの変更：「(売上 * 0.7) - 費用」で原価30%を考慮するように修正。
-    - UI改善：ハイライト色を統一し、利益額ラベルに「(想定原価30%引)」を追記。
-    - ドキュメント更新：ARCHITECTURE.yaml にホットペッパー・ぐるなびの仕様を追記。
-    - 実装完了：GurunaviTab.tsx を作成し、actual_cost 優先ロジックを実装。
-    - 共通修正：全媒体に対し、actual_cost がある場合は固定費を上書きするよう修正。
+    - Uberタブ：損益集計が0になる問題を根本解決。✨
+    - Parser刷新：toonParser.ts の CSV 分割ロジックを強化し、JSON 内のカンマやエスケープ引用符を正しく扱えるように修正。
+    - 型の統一：year_month や shop_code などの識別子を Parser 段階で String に固定し、比較エラーを根絶。
+    - 鉄則の追加：あてずっぽうな修正を禁止し、1度失敗したら必ずログで事実確認する「デバッグプロトコル」を策定。💪✨
+    - 反省の永続化：グローバルな person.md に「データ駆動デバッグの誓い」を刻印。💍
   status:
     完了した機能:
       - "Universal Toon 解析エンジン"
@@ -21,16 +19,18 @@ workflow:
       - "食べログタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
       - "ホットペッパータブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
       - "ぐるなびタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
+      - "Uberタブ：損益分解テーブルの実装"
+      - "Uberタブ：時間帯別注文数（hourly_orders）の合算・可視化"
     未完了の機能:
-      - "個別媒体セクション（ホットペッパー等）の詳細コンテンツ"
+      - "個別媒体セクション（Retty等）の詳細コンテンツ"
       - "1ファイル構成によるHTMLエクスポート機能"
 
   progress:
     current_phase:
       number: 2
-      name: "店舗詳細の実装（完了：ぐるなび）"
-      Visualization: "Done (Tabelog, Hotpepper, Gurunavi), Next is Retty"
-      description: "店舗詳細：ぐるなびタブの要件定義と実装"
+      name: "店舗詳細の実装（完了：Uber損益テーブル・グラフ）"
+      Visualization: "Done (Toreta, Tabelog, HP, GN, Uber P&L, Uber Hourly)"
+      description: "Uber Eats 損益分解および時間帯別分析の完了、デバッグ品質の向上"
       completed:
       - id: "T001"
         name: "データ解析エンジンの実装 (toonParser.ts)"
@@ -67,6 +67,15 @@ workflow:
         status: "done"
       - id: "T010-0"
         name: "店舗詳細：ぐるなびタブ 要件定義・実装"
+        status: "done"
+      - id: "T011-0"
+        name: "店舗詳細：Uber Eats 損益分解テーブルの実装"
+        status: "done"
+      - id: "T011-1"
+        name: "店舗詳細：Uber Eats 時間帯別分析グラフ（hourly_orders）の実装"
+        status: "done"
+      - id: "T012-0"
+        name: "全店舗サマリー：各媒体タブの集計表示（仮実装）"
         status: "done"
 
     in_progress: []
@@ -142,6 +151,22 @@ workflow:
         date: "2026-02-17"
         decision: "月額固定費の算出において actual_cost を最優先する"
         reason: "割引やキャンペーン価格が設定されている場合に、より正確な実効コストを利益計算に反映させるため"
+      - id: "D021"
+        date: "2026-02-17"
+        decision: "Uber Eats の P&L 分解は shop 直下の uber_data を利用し、インラインで実装する"
+        reason: "データ構造がシンプルで再利用性が低いため、コンポーネント化せず App.tsx 内で完結させる"
+      - id: "D022"
+        date: "2026-02-19"
+        decision: "識別子（year_month, shop_code）は Parser 段階で一貫して String 型とする"
+        reason: "比較時の型不一致（1 === '1' は false）によるデータロストを根絶するため"
+      - id: "D023"
+        date: "2026-02-19"
+        decision: "CSVパースにはエスケープ引用符を考慮したステートフルなループ処理を採用する"
+        reason: "通常の正規表現分割では JSON 内のカンマや引用符でデータが壊れるため"
+      - id: "D024"
+        date: "2026-02-19"
+        decision: "一度修正に失敗した場合は、あてずっぽうな修正を止め、必ずログ出しで事実確認する"
+        reason: "不確かな修正はデバッグ時間を増加させ、コードの健全性を損なうため。詳細は 70-debugging-protocol.md を参照。"
 
   file_structure:
     created:
