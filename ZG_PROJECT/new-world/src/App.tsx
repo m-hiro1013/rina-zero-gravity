@@ -3,6 +3,8 @@ import { parseToon, type ToonData } from './utils/toonParser'
 import { TabelogTab } from './components/TabelogTab'
 import { HotpepperTab } from './components/HotpepperTab'
 import { GurunaviTab } from './components/GurunaviTab'
+import { LineTab } from './components/LineTab'
+import { GoogleTab } from './components/GoogleTab'
 import { Calendar, ChevronRight, Store, BarChart3, TrendingUp, Search, Info, PieChart } from 'lucide-react'
 import { buildToretaData } from './utils/toretaBuilder'
 import {
@@ -18,8 +20,20 @@ import {
   ResponsiveContainer
 } from 'recharts'
 
-// toon.txt のパス
-const TOON_URL = '/toon.txt'
+// Firebase Cloud Storage の BASE URL
+const FIREBASE_BASE_URL = 'https://firebasestorage.googleapis.com/v0/b/new-world-b9aae.firebasestorage.app/o'
+
+// 各 TOON ファイルの URL
+const GET_TOON_URL = (path: string) => `${FIREBASE_BASE_URL}/${encodeURIComponent(path)}?alt=media`
+
+const TOON_URLS = {
+  main: GET_TOON_URL('toon/main.txt'),
+  line: GET_TOON_URL('toon/line.txt'),
+  google: GET_TOON_URL('toon/google.txt')
+}
+
+// GAS の Webアプリ URL (データ更新リクエスト用)
+const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwotS7CeER67VUqfGGpm82BRW0OJikzxPv7HWJBTZIRszIe3eeZGqE1_e5YwgqTd7zp/exec'
 
 /**
  * 🆕 税率定数
@@ -37,16 +51,40 @@ const TABS = [
   'Retty',
   'ぐるなび',
   'uber',
-  'LINE'
+  'LINE',
+  'Google'
 ] as const
 
 type TabType = typeof TABS[number]
+
+/**
+ * 🆕 3つの TOON データをマージするよ！
+ */
+function mergeToonData(main: ToonData, line: ToonData, google: ToonData): ToonData {
+  const merged = { ...main }
+
+  merged.shops = merged.shops.map(shop => {
+    const lineShop = line.shops.find(ls => ls.shop_code === shop.shop_code)
+    const googleShop = google.shops.find(gs => gs.shop_code === shop.shop_code)
+
+    return {
+      ...shop,
+      line_data: lineShop?.line_data || [],
+      google_insight_data: googleShop?.google_insight_data || [],
+      google_keyword_data: googleShop?.google_keyword_data || [],
+      google_review_data: googleShop?.google_review_data || []
+    }
+  })
+
+  return merged
+}
 
 /**
  * YYYYMM形式の文字列リストを生成するよ！
  */
 function getYearMonthList(start: string, end: string) {
   const months = []
+  if (!start || !end) return []
   let current = parseInt(start)
   const endNum = parseInt(end)
 
@@ -70,6 +108,7 @@ function getYearMonthList(start: string, end: string) {
  * YYYYMMから12ヶ月前を計算するよ！
  */
 function getOneYearAgo(ym: string) {
+  if (!ym) return ''
   let year = Math.floor(parseInt(ym) / 100)
   let month = parseInt(ym) % 100
   year--
@@ -122,6 +161,7 @@ function getMediaDisplayName(key: string): string {
 function App() {
   const [data, setData] = useState<ToonData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [selectedShopCode, setSelectedShopCode] = useState<string | null>(null)
   const [hoveredData, setHoveredData] = useState<any>(null)
 
@@ -138,32 +178,62 @@ function App() {
   // 🆕 Uber個別月分析用の State (折れ線グラフ用)
   const [uberFocusMonth, setUberFocusMonth] = useState<string>('')
 
+  const loadAllData = async () => {
+    setLoading(true)
+    try {
+      const [mainRes, lineRes, googleRes] = await Promise.all([
+        fetch(TOON_URLS.main).then(res => res.text()),
+        fetch(TOON_URLS.line).then(res => res.text()),
+        fetch(TOON_URLS.google).then(res => res.text())
+      ])
+
+      const mainData = parseToon(mainRes)
+      const lineData = parseToon(lineRes)
+      const googleData = parseToon(googleRes)
+
+      const merged = mergeToonData(mainData, lineData, googleData)
+      setData(merged)
+
+      // デフォルト期間の設定
+      const lastMonth = merged.export_info.period.end
+      const oneYearAgo = getOneYearAgo(lastMonth)
+      const initialStart = oneYearAgo < merged.export_info.period.start
+        ? merged.export_info.period.start
+        : oneYearAgo
+
+      setEndMonth(lastMonth)
+      setStartMonth(initialStart)
+      setUberFocusMonth(lastMonth)
+
+    } catch (err) {
+      console.error('Failed to load TOON files from Firebase', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRefresh = async () => {
+    if (!window.confirm('GASの最新データをFirebaseに同期します。数分かかる場合がありますが、よろしいですか？')) return
+
+    setRefreshing(true)
+    try {
+      const res = await fetch(GAS_WEBAPP_URL, { method: 'POST' })
+      const result = await res.json()
+
+      if (result.status === 'ok') {
+        alert('同期リクエストを送信しました！🚀\n1分ほど待ってからページをリロードしてみてね✨')
+      } else {
+        throw new Error(result.message)
+      }
+    } catch (err: any) {
+      alert('同期エラーが発生したよ💦: ' + err.message)
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
   useEffect(() => {
-    fetch(TOON_URL)
-      .then(res => res.text())
-      .then(text => {
-        const parsed = parseToon(text)
-        setData(parsed)
-
-        // デフォルト期間の設定: 最新月(end) と その11ヶ月前（最新含めて1年前）
-        const lastMonth = parsed.export_info.period.end
-        const oneYearAgo = getOneYearAgo(lastMonth)
-
-        // データ開始月より前にならないように調整
-        const initialStart = oneYearAgo < parsed.export_info.period.start
-          ? parsed.export_info.period.start
-          : oneYearAgo
-
-        setEndMonth(lastMonth)
-        setStartMonth(initialStart)
-        setUberFocusMonth(lastMonth) // 🆕 初期値は最新月
-
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load toon.txt', err)
-        setLoading(false)
-      })
+    loadAllData()
   }, [])
 
   // 全期間の月リストを生成
@@ -507,6 +577,31 @@ function App() {
           >
             <BarChart3 size={14} />
             <span style={{ fontWeight: !selectedShopCode ? 'bold' : 'normal' }}>全店舗サマリー</span>
+          </button>
+
+          {/* 🆕 データ更新反映ボタン 🚀 */}
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              padding: '10px 12px',
+              marginBottom: '16px',
+              borderRadius: '6px',
+              border: '1px solid #d1fae5',
+              backgroundColor: refreshing ? '#f3f4f6' : '#ecfdf5',
+              color: refreshing ? '#9ca3af' : '#059669',
+              cursor: refreshing ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s',
+              fontWeight: 'bold'
+            }}
+          >
+            <TrendingUp size={14} className={refreshing ? 'animate-spin' : ''} />
+            <span>{refreshing ? '同期中...' : '最新データに更新'}</span>
           </button>
 
           {/* 店舗リスト（コード昇順） */}
@@ -1442,7 +1537,25 @@ function App() {
                 </div>
               )}
 
-              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && activeTab !== 'ホットペッパー' && activeTab !== 'ぐるなび' && activeTab !== 'uber' && (
+              {activeTab === 'LINE' && (
+                <LineTab
+                  shopName={activeShop.shop_name}
+                  lineData={activeShop.line_data || []}
+                  months={getYearMonthList(startMonth, endMonth)}
+                />
+              )}
+
+              {activeTab === 'Google' && (
+                <GoogleTab
+                  shopName={activeShop.shop_name}
+                  insightData={activeShop.google_insight_data || []}
+                  keywordData={activeShop.google_keyword_data || []}
+                  reviewData={activeShop.google_review_data || []}
+                  months={getYearMonthList(startMonth, endMonth)}
+                />
+              )}
+
+              {activeTab !== '売り上げ' && activeTab !== 'toreta' && activeTab !== '食べログ' && activeTab !== 'ホットペッパー' && activeTab !== 'ぐるなび' && activeTab !== 'uber' && activeTab !== 'LINE' && activeTab !== 'Google' && (
                 <div style={{ minHeight: '400px', border: '1px dashed #e5e7eb', borderRadius: '12px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fcfcfc', color: '#9ca3af', gap: '16px' }}>
                   <div style={{ fontSize: '48px' }}>
                     {['食べログ', 'ホットペッパー', 'Retty', 'ぐるなび'].includes(activeTab) && <Search size={48} />}
