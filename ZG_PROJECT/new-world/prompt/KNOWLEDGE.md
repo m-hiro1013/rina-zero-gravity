@@ -16,3 +16,26 @@
 - **データ型の不一致**: `year_month` や `shop_code` などの識別子が「文字」と「数字」で混在すると比較が失敗する。
     - **解決策**: Parser の出口でこれら識別子を **String型に固定** し、後続の計算ロジックから型変換を排除すること。
 - **プロトコル化**: 詳細は `.agent/rules/70-debugging-protocol.md` を参照。
+
+---
+## 🔐 GASの権限と自動実行に関する知見 (2026-02-20)
+- **権限の不足によるサイレントエラー**: `ScriptApp.newTrigger` や `UrlFetchApp.fetch` は、`appsscript.json` にスコープを記載するだけでは不十分。
+- **トリガー実行の罠**: Webアプリとして公開していても、バックグラウンドトリガーで動く関数が新しい権限（外部通信など）を必要とする場合、ユーザーがエディタから手動で一度実行して承認（OAuthフロー）を通さない限り、実行時エラーとなる。
+- **解決策**: 必要なメソッドを呼び出すだけの `authCheck` 関数を作成し、ユーザーに一度手動実行してもらうことで、確実に認可ポップアップを表示させることができる。
+
+---
+## 🏗 JSXの構造的堅牢性 (2026-02-20)
+- **ネストの崩壊**: 三項演算子が重なる大規模なJSX（1000行超）では、タグの閉じ忘れが致命的なレイアウト崩壊を招く。
+- **ガードコードの重要性**: `loading` や `!data` のガードはコンテンツエリアの最上部で一括管理し、下位のタブレンダリングロジックが不完全なデータ状態で動かないように隔離すること。
+
+---
+## 🌐 Firebase Storage CORS 設定の知見 (2026-02-20)
+- **現象**: React/Vite の dev server (`localhost:5173`) から Firebase Storage へ `fetch` すると `No 'Access-Control-Allow-Origin' header` でブロックされる。レスポンスが `200 OK` でも CORS ポリシーがブラウザ側で止める。
+- **原因**: Firebase Storage はデフォルトで CORS を許可しない。バケット側に明示的な設定が必要。
+- **解決策**: `cors.json` を作成し、`gsutil cors set cors.json gs://<BUCKET>` で適用する。
+  ```json
+  [{"origin": ["http://localhost:5173", "http://localhost:5174"], "method": ["GET"], "maxAgeSeconds": 3600}]
+  ```
+- **注意点①**: Vite はポートが使われていると `+1` のポートにフォールバックする（5173→5174）。両方 `origin` に入れておくこと。
+- **注意点②**: `gsutil` は Google Cloud SDK に含まれる。ローカルに入っていない場合は Google Cloud Console の Cloud Shell から実行できる。
+- **本番デプロイ時**: `origin` を本番 URL に差し替えて `gsutil cors set` を再実行すること。

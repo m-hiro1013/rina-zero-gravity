@@ -1,172 +1,81 @@
 workflow:
-  version: "1.1.0"
-  last_updated: "2026-02-17T23:50:00+09:00"
+  version: "1.4.0"
+  last_updated: "2026-02-20T01:07:00+09:00"
 
   last_session_summary: |
-    【今回のセッションでやったこと】
-    - Uberタブ：損益集計が0になる問題を根本解決。✨
-    - Parser刷新：toonParser.ts の CSV 分割ロジックを強化し、JSON 内のカンマやエスケープ引用符を正しく扱えるように修正。
-    - 型の統一：year_month や shop_code などの識別子を Parser 段階で String に固定し、比較エラーを根絶。
-    - 鉄則の追加：あてずっぽうな修正を禁止し、1度失敗したら必ずログで事実確認する「デバッグプロトコル」を策定。💪✨
-    - 反省の永続化：グローバルな person.md に「データ駆動デバッグの誓い」を刻印。💍
+    【Firebase Storage CORS エラーの解消 🔓✨】
+    - **CORSエラーの根本原因特定**: `new-world` フロントエンドが Firebase Storage から `toon/*.txt` を
+      fetchする際に `No 'Access-Control-Allow-Origin' header` エラーが発生していた。
+      バケット側にCORS設定が一切なかったことが原因。
+    - **`cors.json` 作成**: `http://localhost:5173` および `http://localhost:5174` を
+      許可オリジンとする CORS 設定ファイルを `new-world/cors.json` に作成。
+    - **`gsutil cors set` の適用**: Google Cloud SDK (gsutil) の Cloud Shell 経由で
+      バケット `gs://new-world-b9aae.firebasestorage.app` に CORS 設定を適用。
+    - **データ読み込み確認**: 適用後、`http://localhost:5174` でダッシュボードが正常に
+      データを表示することを確認。「データが読み込めませんでした」エラーが解消された。
+
+    【次にやること】
+    - 未実装の媒体セクション (Retty 等) をコツコツ追加予定。
+    - 本番デプロイ時に CORS の origin を本番 URL に追加すること。
+
   status:
     完了した機能:
-      - "Universal Toon 解析エンジン"
-      - "店舗ナビゲーションと選択"
-      - "「売り上げ」タブ：税込計算およびウォークインの除外"
-      - "店舗詳細：直近のプラン変更検出（過去6ヶ月分）"
-      - "toretaタブ：全機能（構成比テーブル・棒グラフ・指標トグル）"
-      - "食べログタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
-      - "ホットペッパータブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
-      - "ぐるなびタブ：全機能（構成比テーブル・棒グラフ・利益ロジック）"
-      - "Uberタブ：損益分解テーブルの実装"
-      - "Uberタブ：時間帯別注文数（hourly_orders）の合算・可視化"
+    - "Universal Toon 解析エンジン"
+    - "Firebase 3系統データマージ (main, line, google)"
+    - "「最新データに更新」トリガーボタン実装"
+    - "LINE 公式アカウント分析タブ"
+    - "Google ビジネスプロフィール分析タブ"
+    - "店舗ナビゲーションと選択"
+    - "「売り上げ」タブ：税込計算およびウォークインの除外"
+    - "GAS -> Firebase 同期パイプライン（権限周りの修正完了）"
+    - "Firebase Storage CORS 設定（localhost 5173/5174 の許可）✅"
     未完了の機能:
-      - "個別媒体セクション（Retty等）の詳細コンテンツ"
-      - "1ファイル構成によるHTMLエクスポート機能"
+    - "個別媒体セクション（Retty等）の詳細コンテンツ"
+    - "1ファイル構成によるHTMLエクスポート機能"
+    - "本番デプロイ時のCORS origin 追加"
 
   progress:
     current_phase:
-      number: 2
-      name: "店舗詳細の実装（完了：Uber損益テーブル・グラフ）"
-      Visualization: "Done (Toreta, Tabelog, HP, GN, Uber P&L, Uber Hourly)"
-      description: "Uber Eats 損益分解および時間帯別分析の完了、デバッグ品質の向上"
-      completed:
-      - id: "T001"
-        name: "データ解析エンジンの実装 (toonParser.ts)"
+      number: 4
+      name: "運用基盤の安定化とUXポリッシュ"
+      status: "in_progress"
+    
+    current_task:
+      description: "CORS解消後の動作確認完了。次は未実装媒体タブの追加。"
+      started_at: "2026-02-20T01:07:00+09:00"
+    
+    completed:
+      - id: "T017"
+        name: "App.tsx のJSX構造修復とレイアウト安定化"
         status: "done"
-      - id: "T002"
-        name: "基本レイアウトの構築 (Sidebar + Header + Content)"
+      - id: "T018"
+        name: "GAS doPost パイプラインの権限エラー (OAuth) 修正"
         status: "done"
-      - id: "T003"
-        name: "店舗一覧・期間選択機能の実装"
+      - id: "T019"
+        name: "Firebase Storage へのデータ書き出し正常確認"
         status: "done"
-      - id: "T004"
-        name: "「売り上げ」タブの実装 (比較テーブル + 合計行)"
+      - id: "T020"
+        name: "Firebase Storage CORS 設定適用（localhost 5173/5174）"
         status: "done"
-      - id: "T005"
-        name: "「売り上げ」タブ：前年比(YoY)計算の実装"
-        status: "done"
-      - id: "T006"
-        name: "「売り上げ」タブ：税込表示・その他調整"
-        status: "done"
-      - id: "T007"
-        name: "店舗詳細：プラン変更履歴の表示"
-        status: "done"
-      - id: "T008"
-        name: "店舗詳細：トレタタブの実装 (構成比グラフ + 月別テーブル)"
-        status: "done"
-      - id: "T009-0"
-        name: "店舗詳細：食べログタブ 抽出ロジック & 基本テーブル実装"
-        status: "done"
-      - id: "T009-1"
-        name: "店舗詳細：食べログタブ グラフ実装"
-        status: "done"
-      - id: "T009-2"
-        name: "店舗詳細：ホットペッパータブの実装"
-        status: "done"
-      - id: "T010-0"
-        name: "店舗詳細：ぐるなびタブ 要件定義・実装"
-        status: "done"
-      - id: "T011-0"
-        name: "店舗詳細：Uber Eats 損益分解テーブルの実装"
-        status: "done"
-      - id: "T011-1"
-        name: "店舗詳細：Uber Eats 時間帯別分析グラフ（hourly_orders）の実装"
-        status: "done"
-      - id: "T012-0"
-        name: "全店舗サマリー：各媒体タブの集計表示（仮実装）"
-        status: "done"
-
-    in_progress: []
 
   decisions:
     adopted:
-      - id: "D003"
-        date: "2026-02-10"
-        decision: "Tailwind v4 は Vite プラグイン (@tailwindcss/vite) で処理する"
-        reason: "PostCSS 経由の直接呼び出しだと Vite v7 との相性でエラーが出るため"
-      - id: "D004"
-        date: "2026-02-10"
-        decision: "日付ユーティリティ (formatYM) には必ず String キャストを含める"
-        reason: "JSON/TOONのパース結果が数値として扱われ、substring 等が失敗するのを防ぐため"
-      - id: "D005"
-        date: "2026-02-10"
-        decision: "sample/ フォルダの内容を設計の唯一の正解 (Source of Truth) とする"
-        reason: "完成イメージとロジックが完璧に揃っているため、これをトレースするのが最短ルート"
-      - id: "D006"
-        date: "2026-02-10"
-        decision: "メインコンテンツ最上部に大きな店舗名ヘッダーと期間バッジを表示する"
-        reason: "ユーザーが常に「どの店舗のどの期間のデータ」を見ているかを一目で認識させるため"
-      - id: "D007"
-        date: "2026-02-10"
-        decision: "すべてのReact Hooksは早期リターン(loading等)の前に定義する"
-        reason: "Hooksの呼び出し順序が変化するとReactの内部状態が壊れ、致命的なランタイムエラーが発生するため"
-      - id: "D008"
-        date: "2026-02-10"
-        decision: "店舗詳細に媒体別の横並びタブナビゲーションを設置する"
-        reason: "情報量が多いダッシュボードで、ユーザーが表示したい情報を素早く切り替えられるようにするため"
-      - id: "D009"
-      - id: "D010"
-        date: "2026-02-14"
-        decision: "構成比の分母はネット予約合計（合計 − ウォークイン）"
-        reason: "sample.htmlの数値と一致。ネット予約の経路構成を見るのが目的"
-      - id: "D011"
-        date: "2026-02-14"
-        decision: "ウォークイン行をテーブル内に表示（合計行の上、グレー背景）"
-        reason: "ウォークイン比率も経営指標として重要。一画面で完結させる"
-      - id: "D012"
-        date: "2026-02-14"
-        decision: "新規タブはTailwind CSSで実装、既存タブのインラインスタイルは触らない"
-        reason: "スコープ・ロック遵守。新規コードから段階的にTailwind移行"
-      - id: "D013"
-        date: "2026-02-14"
-        decision: "タブごとにデータ加工ユーティリティを分離（toretaBuilder.ts等）"
-        reason: "タブ = ファイルの1対1対応で責務を明確化"
-      - id: "D014"
-        date: "2026-02-14"
-        decision: "大規模テーブルのスクロールバー対策として pr-12 以上の特大パディングを確保"
-        reason: "スクロールバー（インジケーター）がデータ数値と被るのを物理的に不可能にするため"
-      - id: "D015"
-        date: "2026-02-14"
-        decision: "グラフ詳細は Recharts Tooltip を使わず、外部の専用 React コンポーネントに逃がす"
-        reason: "狭いキャンバスにグラフを押し込めているため、Tooltip が画面外に消えたりグラフを隠したりするのを防ぐため"
-      - id: "D016"
-        date: "2026-02-14"
-        decision: "Toretaセクション全体に表示指標トグル（組数/人数）を導入し、デフォルトを人数にする"
-        reason: "ビジネスインパクトの大きい人数ベースの分析をデフォルトにしつつ、組数でも深掘りできるようにするため"
-      - id: "D017"
-        date: "2026-02-14"
-        decision: "食べログの行ハイライト状態を App.tsx にリフトアップして管理する"
-        reason: "タブを切り替えても選択状態（ハイライト）を維持するため"
-      - id: "D018"
-        date: "2026-02-14"
-        decision: "利益額の算出ロジックを `(売上 * 0.7) - 費用` に変更する"
-        reason: "売上の30%を原価として控除し、より実態に近い利益指標を表示するため"
-      - id: "D019"
-        date: "2026-02-14"
-        decision: "Sticky列（固定列）の背景色には必ず不透明色（#ffffff/#fed7aa）を使用する"
-        reason: "透過背景だとスクロール時に背面の文字が透けて重なり、可読性が著しく低下するため"
-      - id: "D020"
-        date: "2026-02-17"
-        decision: "月額固定費の算出において actual_cost を最優先する"
-        reason: "割引やキャンペーン価格が設定されている場合に、より正確な実効コストを利益計算に反映させるため"
-      - id: "D021"
-        date: "2026-02-17"
-        decision: "Uber Eats の P&L 分解は shop 直下の uber_data を利用し、インラインで実装する"
-        reason: "データ構造がシンプルで再利用性が低いため、コンポーネント化せず App.tsx 内で完結させる"
-      - id: "D022"
+      - id: "D028"
         date: "2026-02-19"
-        decision: "識別子（year_month, shop_code）は Parser 段階で一貫して String 型とする"
-        reason: "比較時の型不一致（1 === '1' は false）によるデータロストを根絶するため"
-      - id: "D023"
+        decision: "GASの appsscript.json に明示的な oauthScopes を追加する"
+        reason: "トリガー実行時に暗黙的な権限では UrlFetchApp や ScriptApp が失敗するため、確実な認可が必要。"
+      - id: "D029"
         date: "2026-02-19"
-        decision: "CSVパースにはエスケープ引用符を考慮したステートフルなループ処理を採用する"
-        reason: "通常の正規表現分割では JSON 内のカンマや引用符でデータが壊れるため"
-      - id: "D024"
+        decision: "手動認証用の authCheck 関数を GAS に常備する"
+        reason: "Webアプリの更新だけでは新しい権限が付与されないケースがあるため、エディタから手動実行で承認ポップアップを強制させる。"
+      - id: "D030"
         date: "2026-02-19"
-        decision: "一度修正に失敗した場合は、あてずっぽうな修正を止め、必ずログ出しで事実確認する"
-        reason: "不確かな修正はデバッグ時間を増加させ、コードの健全性を損なうため。詳細は 70-debugging-protocol.md を参照。"
+        decision: "App.tsx のメインコンテンツには必ずデータの存在チェック（guards）を配置する"
+        reason: "初回同期前などのデータが null の状態で子要素がマウントされ、レンダリングエラーで画面が白くなるのを防ぐため。"
+      - id: "D031"
+        date: "2026-02-20"
+        decision: "Firebase Storage の CORS 設定に localhost:5173 と localhost:5174 の両方を含める"
+        reason: "Vite の dev server はポートが使用中の場合に +1 したポートにフォールバックするため、両方許可しておく必要がある。"
 
   file_structure:
     created:
@@ -175,14 +84,17 @@ workflow:
       - "src/components/TabelogTab.tsx"
       - "src/components/HotpepperTab.tsx"
       - "src/components/GurunaviTab.tsx"
-    to_create:
-      - "src/components/ShopDetail.tsx"
-      - "src/components/Summary.tsx"
-    to_modify:
+      - "src/components/LineTab.tsx"
+      - "src/components/GoogleTab.tsx"
+      - "cors.json"
+    modified:
       - "src/App.tsx"
+      - "../report-renewal/s-tock/main.js"
+      - "../report-renewal/s-tock/firebasePusher.js"
+      - "../report-renewal/s-tock/appsscript.json"
 
   cautions:
-    - "toon.txt のデータは YYYYMM 形式だが、JS側で数値として認識される場合があるため型変換に注意。"
-    - "Tailwind v4 の @import 構文は Vite プラグインがないと PostCSS でエラーになる。"
-    - "タブ切り替え時のコンテンツ位置がズレないよう、sticky ヘッダーの高さを考慮する。"
-    - "ResponsiveContainer を使う際は親要素に必ず具体的な高さ (h-[320px] 等) が必要。"
+    - "GAS の新規デプロイ時は、新しいスコープが含まれているか確認し、「アクセスを承認」フローを必ず通すこと。"
+    - "JSXのネスト（特に三項演算子のチェーン）は可読性が落ちやすく壊れやすいため、将来的にタブコンポーネントの切り出しを検討。"
+    - "本番デプロイ時は cors.json の origin を本番 URL (https://...) に更新して再適用すること。"
+    - "Firebase Storage の CORS 設定は gsutil または Cloud Shell で管理。ローカルに Google Cloud SDK が必要。"
