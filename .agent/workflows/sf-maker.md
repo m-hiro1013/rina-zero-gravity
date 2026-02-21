@@ -1,6 +1,7 @@
 ---
 description: 作業に必要なSkillとFlowを一問一答形式でヒアリングしながら、調査→実装→テスト→完成→フロー組み込みまでを一貫して行うRPA専用ワークフロー。
 ---
+
 # 🎀 /sfmaker - Skill & Flow Maker ワークフロー
 
 > **「Skillを作って、Flowに組み込む。それがRPA開発の全て。」**
@@ -41,9 +42,11 @@ description: 作業に必要なSkillとFlowを一問一答形式でヒアリン�
 ```
 1. prompt/WORKFLOW.yaml を読み込む（現在の進捗把握）
 2. prompt/PROJECT_SPECIFIC.yaml を読み込む（技術スタック確認）
-3. DEVELOPMENT_FLOW.md を読み込む（開発フロー確認）
-4. 対象媒体の skill/ フォルダを ls する（既存Skill一覧）
-5. 対象媒体の flow/ フォルダを ls する（既存Flow一覧）
+3. prompt/ARCHITECTURE.yaml を読み込む（システム構成の把握）
+4. prompt/FILES.md を読み込む（ファイル構造と依存関係の把握）
+5. DEVELOPMENT_FLOW.md を読み込む（開発フロー確認）
+6. 対象媒体の skill/ フォルダを ls する（既存Skill一覧）
+7. 対象媒体の flow/ フォルダを ls する（既存Flow一覧）
 ```
 
 ### 🚫 禁止事項（Phase 0 で宣言）
@@ -57,9 +60,6 @@ description: 作業に必要なSkillとFlowを一問一答形式でヒアリン�
 5. **ドキュメントなしでskillを作らない**（冒頭コメント必須）
 6. **ユーザーの承認なしで実装を開始しない**（プラン先出し）
 7. **既存の関数名・変数名を勝手に変えない**
-8. **skillの定義＝ブラウザ操作の一連の流れ（引数で汎用化）**
-9. **workflowの定義＝skillのマネジメント（呼び出し順序、引数構築、条件分岐、ループ）**
-10. **workflowの内部でskillにない新しい操作（page.click等）を作らない**（極力避ける、どうしてもなら要相談）
 
 ---
 
@@ -118,11 +118,11 @@ OK！次に、どの媒体で作業する？
 完成した時、どういう状態になってたらOK？
 
 1️⃣ 単体のSkillとして使えればOK（Flowへの組み込みは後でやる）
-2️⃣ 既存Flowに組み込んで、一連の業務として動く状態（app.pyのGUIに統合済み）
-3️⃣ 新規Flowとして、start→finish まで一括実行できる状態（app.pyのGUIに統合済み）
+2️⃣ 既存Flowに組み込んで、一連の業務として動く状態
+3️⃣ 新規Flowとして、start→finish まで一括実行できる状態
 
 ⭐ おすすめ: まずは 1️⃣ でSkillを確実に作ってから、
-  2️⃣ or 3️⃣ に進んで、最後にapp.pyのGUIに組み込むのが安全だよ！
+  2️⃣ or 3️⃣ に進むのが安全だよ！
 ```
 
 → ユーザーの回答を待つ。
@@ -451,6 +451,7 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 - [ ] 既存Skillと重複なし
 - [ ] テストファイル削除済み
 - [ ] 関数名・引数が明確
+- [ ] FILES.md, ARCHITECTURE.yaml, WORKFLOW.yaml をこの時点で更新する
 
 次のSkillに進む？
 ```
@@ -461,6 +462,7 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 - [ ] 冒頭にドキュメンテーション文字列が記載されている
 - [ ] 既存Skillと重複していない
 - [ ] テストファイルが削除された
+- [ ] FILES.md, ARCHITECTURE.yaml, WORKFLOW.yaml に新しいSkillの情報を追記した
 - [ ] ユーザーに報告済み
 
 ---
@@ -472,7 +474,7 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 
 ### 📝 手順
 
-1. **全Skillが揃っているか最終確認**
+1.  **全Skillが揃っているか最終確認**
 
 ```
 📦 Flow組み込み前の最終チェック！
@@ -487,38 +489,38 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 全部揃ってるね！Flow組み込み開始するよ✨
 ```
 
-2. **Flowファイルの作成 or 修正**
+2.  **Flowファイルの作成 or 修正**
 
-   ```python
-   """
-   {{Flowの名前}} - {{簡潔な説明}}
+    ```python
+    """
+    {{Flowの名前}} - {{簡潔な説明}}
 
-   ## 🎯 目的
-   {{このFlowが何をするか}}
+    ## 🎯 目的
+    {{このFlowが何をするか}}
 
-   ## 📋 処理フロー
-   1. {{step_1}}
-   2. {{step_2}}
+    ## 📋 処理フロー
+    1. {{step_1}}
+    2. {{step_2}}
 
-   ## 🧩 使用しているSkill
-   - `auth.login()`: ログイン処理
-   - `navigation.navigate_to_drink()`: ドリンクメニューへ遷移
-   - `{{new_skill}}()`: {{説明}}
-   """
-   ```
+    ## 🧩 使用しているSkill
+    - `auth.login()`: ログイン処理
+    - `navigation.navigate_to_drink()`: ドリンクメニューへ遷移
+    - `{{new_skill}}()`: {{説明}}
+    """
+    ```
 
-3. **Flow内でブラウザ操作を直接書いていないかセルフチェック**
-   - ❌ `await page.click(...)` がFlowファイル内にある → Skillに分解
-   - ✅ `await some_skill(page, ...)` のみ → OK
+3.  **Flow内でブラウザ操作を直接書いていないかセルフチェック**
+    - ❌ `await page.click(...)` がFlowファイル内にある → Skillに分解
+    - ✅ `await some_skill(page, ...)` のみ → OK
 
-4. **app.py（GUI）への組み込み**
-   -  완성したFlowを `app.py` から呼び出せるようにする。
-   - Flowの実行に必要な引数（店舗名、メニューデータなど）に応じて、StreamlitのUI（入力フォームや説明文）を適切に構築・変更する。
-   - **「app.pyのGUIで呼び出せて初めてWorkflow完成」** という絶対条件を満たす。
+4.  **app.py（GUI）への組み込み**
+    - 完成したFlowを `app.py` から呼び出せるようにする。
+    - Flowの実行に必要な引数（店舗名、メニューデータなど）に応じて、StreamlitのUI（入力フォームや説明文）を適切に構築・変更する。
+    - **「app.pyのGUIで呼び出せて初めてWorkflow完成」** という絶対条件を満たす。
 
-5. **動作確認**
-   - app.py のGUIからFlowを実行して、start→finish まで動くか確認
-   - 問題があれば該当Skill/Flowを修正
+5.  **動作確認**
+    - app.py のGUIからFlowを実行して、start→finish まで動くか確認
+    - 問題があれば該当Skill/Flowを修正
 
 ### ✅ Phase 7 完了条件
 
@@ -528,27 +530,21 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 - [ ] app.py のGUIから呼び出せるようになっている（絶対条件）
 - [ ] 必要な引数に応じて、UIの入力項目や説明文が適切に実装されている
 - [ ] start→finish の動作確認が完了した
+- [ ] FILES.md, ARCHITECTURE.yaml, WORKFLOW.yaml にWorkflowの情報を追記・更新した
 
 ---
 
-## Phase 8: 完了報告と進捗更新
+## Phase 8: 完了報告と最終チェック
 
 ### 📝 手順
 
-1. **WORKFLOW.yaml を更新**
-   ```yaml
-   # タスクのステータスを done に変更
-   # 新しいファイルを file_structure.created に追加
-   # 削除したファイルを file_structure.deleted に追加
-   # last_session_summary を更新
-   ```
+1. **ドキュメントの最終確認と整合性チェック**
+   - `WORKFLOW.yaml`: タスクのdone化、file_structureの更新、last_session_summaryの更新
+   - `FILES.md`: 新規追加・削除されたファイルの反映
+   - `ARCHITECTURE.yaml`: 新規作成された機能やコンポーネントの構造反映
+   - `KNOWLEDGE.md`: （該当する場合のみ）知見の追記
 
-2. **FILES.md を更新**
-   - 新しく作成したSkill/Flowファイルを追記
-
-3. **KNOWLEDGE.md に知見を追記**（該当する場合のみ）
-
-4. **完了報告**
+2. **完了報告**
 
 ```
 🎉 SFmaker完了！
@@ -557,7 +553,7 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 ## ✅ 完了した内容
 {{goal}}
 
-## 📝 作成したファイル
+## 📝 作成・修正したファイル
 | # | ファイル | 種別 | 説明 |
 |---|---------|------|------|
 | 1 | {{file_1}} | Skill | {{desc}} |
@@ -566,9 +562,10 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 ## 🗑️ 削除したファイル
 - `tests/test_experiment_xxx.py`
 
-## 📊 進捗更新
-- WORKFLOW.yaml: ✅ 更新済み
-- FILES.md: ✅ 更新済み
+## 📊 進捗・構成の更新完了チェック（再現性・保守性・安定拡張の要！）
+- WORKFLOW.yaml: ✅ 更新・整合性確認済み
+- FILES.md: ✅ 更新・整合性確認済み
+- ARCHITECTURE.yaml: ✅ 更新・整合性確認済み
 
 ## ⚠️ 注意点
 - {{caution}}
@@ -578,13 +575,12 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 2. {{next_2}}
 ━━━━━━━━━━━━━━━━━━━━
 
-お疲れ様〜！最高のSkill & Flow完成したね！✨💖
+お疲れ様〜！再現性と保守性、安定拡張が担保された最高のSkill & Flow完成したね！✨💖
 ```
 
 ### ✅ Phase 8 完了条件
 
-- [ ] WORKFLOW.yaml が更新された
-- [ ] FILES.md が更新された
+- [ ] WORKFLOW.yaml, FILES.md, ARCHITECTURE.yaml が正しく更新され、整合性が取れていることを最終確認した
 - [ ] 完了報告をユーザーに行った
 
 ---
@@ -605,8 +601,6 @@ Phase 1〜3の情報を統合し、具体的な実装プランを作成する。
 | 8 | **既存の関数名・変数名を変えない** | RINA System Protocol 準拠 |
 | 9 | **同じ機能を複数箇所に実装しない** | 漏れダブり禁止 |
 | 10 | **2回失敗したらプラン見直し** | 無限ループ禁止 |
-| 11 | **skillとworkflowの領域を明確に区別する** | skill=操作、workflow=マネジメント |
-| 12 | **workflowの中で新しいブラウザ操作を書かない** | どうしてもの場合は要相談 |
 
 ### 🟡 注意事項
 
