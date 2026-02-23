@@ -8,8 +8,8 @@
 # =====================================
 
 architecture:
-  version: "1.3"
-  last_updated: "2026-02-16T23:25:00+09:00"
+  version: "1.4"
+  last_updated: "2026-02-24T00:00:00+09:00"
 
   # =====================================
   # 1. プロジェクト概要
@@ -32,7 +32,30 @@ architecture:
   completed_features:
 
   # ---------------------------------
-    # Phase 15: ECC Skills Optimization & Integration 🚀🆕
+    # Phase 16: ECC v2 実走検証 & sf-maker 構築 🆕
+    # ---------------------------------
+    phase16:
+      name: "ECC v2 実走検証 & sf-maker 構築"
+      status: "done"
+      completed_at: "2026-02-24T00:00:00+09:00"
+      features:
+        - id: "F022"
+          name: "ECC v2 Quality Gate"
+          description: "グローバル環境の 45スキル存在確認と全 978テストのパス確認。新スキル環境の実走検証を完了。"
+          status: "done"
+          files: ["~/.claude/skills/"]
+
+        - id: "F023"
+          name: "sf-maker (Search First Maker) スキル"
+          description: |
+            新スキル作成前に既存スキルとの重複・車輪の再発明を徹底調査する専門スキル。
+            'create skill'/'新しいスキル作って' 等で発動し、~/.claude/skills/ を横断検索してから判断する。
+            search-first スキルの「スキル作成版」として機能し、ECC のスキル品質を守る門番役。
+          status: "done"
+          files: ["~/.claude/skills/sf-maker/SKILL.md"]
+
+    # ---------------------------------
+    # Phase 15: ECC Skills Optimization & Integration 🚀
     # ---------------------------------
     phase15:
       name: "ECC Skills Optimization & Integration"

@@ -1,24 +1,25 @@
 workflow:
   version: "2.0"
-  last_updated: "2026-02-23T20:20:00+09:00"
+  last_updated: "2026-02-24T00:00:00+09:00"
 
   last_session_summary: |
-    【Phase 15: ECC Skills Optimization & Integration】
-    - 全44スキルの description 日本語化と「最強思想（Search First）」の注入を完遂。
-    - ultra think を用いた精査により、description の発動精度と装飾語のバランスを最適化。
-    - グローバル環境（`~/.claude/skills/`）への全スキル一括インストールを完了。
-    - 実戦型マニュアル `ECC_PLAYBOOK.md` を作成し、`hello-claude` プロジェクトへ配布。
-    - `hello-claude/CLAUDE.md` にスキルの活用意識と ECC 連携プロトコルを統合。
+    【Phase 16: ECC v2 実走検証 & sf-maker スキル構築】
+    - グローバル環境（~/.claude/skills/）の 45スキル存在を確認（Phase 15 の 44 + dual-core-proceed）。
+    - search-first の description が日本語「最強思想版」になっていることを確認。
+    - テストスイート全 978件が全パスであることを確認（Quality Gate 通過）。
+    - 新スキル `sf-maker`（Search First Maker）を ~/.claude/skills/sf-maker/SKILL.md に作成。
+      → スキル作成依頼時に既存スキルを徹底調査し、車輪の再発明を防ぐ専門スキル。
+    - WORKFLOW.yaml / ARCHITECTURE.yaml に Phase 16 完了と sf-maker 作成事実を記録。
 
     【次にやること】
-    - 新スキル環境での実走テスト
     - 各プロジェクト固有の専門スキルの抽出と構築
+    - sf-maker を使った実際のスキル作成フロー検証
     - 並列開発（複数ターミナル）でのスキル干渉チェック
 
   progress:
     current_phase:
-      number: 15
-      name: "ECC Skills Optimization & Integration"
+      number: 16
+      name: "ECC v2 実走検証 & sf-maker 構築"
       status: "done"
 
     current_task:
@@ -41,10 +42,17 @@ workflow:
       - phase: 14
         name: "Establishment of Dual-Core Workflow"
         completed_at: "2026-02-23"
+      - phase: 15
+        name: "ECC Skills Optimization & Integration"
+        completed_at: "2026-02-23"
+      - phase: 16
+        name: "ECC v2 実走検証 & sf-maker 構築"
+        completed_at: "2026-02-24"
 
     next_tasks:
-      - "新スキル環境での実走テスト"
       - "各プロジェクト固有の専門スキルの抽出と構築"
+      - "sf-maker を使った実際のスキル作成フロー検証"
+      - "並列開発（複数ターミナル）でのスキル干渉チェック"
 
   decisions:
     adopted:
@@ -56,6 +64,14 @@ workflow:
         date: "2026-02-23"
         decision: "スキルトリガーの『思想×精度』両立方針"
         reason: "装飾語による思想注入と、技術用語による発動精度の両立がClaudeの能力最大化に不可欠なため"
+      - id: "D026"
+        date: "2026-02-23"
+        decision: "Phase 16 戦略プランの確定"
+        reason: "新スキル環境の検証と sf-maker 構築に向けた方針についてユーザー合意を得たため"
+      - id: "D027"
+        date: "2026-02-24"
+        decision: "sf-maker スキルの導入 — スキル作成前の既存調査を強制化"
+        reason: "ECC スキル群が45本に増加し、無計画な追加による重複・劣化を防ぐ品質ゲートが必要になったため。search-first の『コード版』に相当するスキル作成ガバナンスとして機能させる。"
 
   features:
     completed:
@@ -71,6 +87,14 @@ workflow:
         name: "ECC Playbook & Hello-Claude Integration"
         status: "done"
         completed_at: "2026-02-23T20:17:00+09:00"
+      - id: "F022"
+        name: "ECC v2 Quality Gate (978 tests)"
+        status: "done"
+        completed_at: "2026-02-24T00:00:00+09:00"
+      - id: "F023"
+        name: "sf-maker (Search First Maker) スキル"
+        status: "done"
+        completed_at: "2026-02-24T00:00:00+09:00"
 
   cautions:
     - id: "C009"
