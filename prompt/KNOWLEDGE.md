@@ -141,6 +141,13 @@
   - insights:
     - [Streamlit-Path] アプリ自身の場所 (`__file__`) を起点に `pathlib` で相対パス解決を行うことで、環境依存しない「隣接プロジェクト自動検出」が可能になる。 [+3]
     - [UI-UX] 入力ソースが可変な場合（手入力 vs 自動取得）、`st.radio` でモードを明示的に切り替えさせることで、ユーザーの混乱を防ぎつつ柔軟性を担保できる。 [+2]
+- セレクト: 26 (ECC Skills Optimization & Global Integration)
+  - date: 2026-02-23
+  - insights:
+    - [Claude-Skills] **Keyword-Driven Invocation**: Claudeのスキル発動は `description` 内の具体的技術用語（`useState`, `N+1`, `JWT` 等）とのマッチングに強く依存する。「最高」「最強」といった装飾語はAIの発動判断に寄与しないため、最強思想を注入する際も具体的トリガーフレーズの維持が必須である。 [+5]
+    - [Claude-Skills] **Global Strategy Integration**: スキル群をグローバル（`~/.claude/skills/`）展開することで、全プロジェクトに対して一律の高品質な設計思想（Search First 等）を強制できる。ただし、macOSの権限（Operation not permitted）によりCLIからの直接書き込みが制限される場合があるため、初回はユーザーによる手動実行が最も確実な回避策となる。 [+5]
+    - [Documentation] **Token-Efficient Playbook**: 常時読み込まれる `CLAUDE.md` にはスキルの存在と「核心思想」のみを記述し、具体的な逆引きガイドや使い方は `ECC_PLAYBOOK.md` に逃がすことで、トークン節約と高精度の実行を両立できる。 [+3]
+
 - **原因特定ファーストのデバッグ規約 (2026-02-19)**:
   不具合が発生した際、安易なコード書き換えを行う前に「原因の完全特定」をフェーズとして独立させる。
   特にGAS等のプロジェクトでは、複数ファイルにわたる同名関数（`onOpen` 等）の重複定義がサイレントに不具合を引き起こすため、必ずプロジェクト全体を `grep_search` でスキャンし、不具合の「証拠」を掴んでから修正に着手する。

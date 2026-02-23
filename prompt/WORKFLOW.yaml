@@ -1,28 +1,29 @@
 workflow:
   version: "2.0"
-  last_updated: "2026-02-23T14:49:00+09:00"
+  last_updated: "2026-02-23T20:20:00+09:00"
 
   last_session_summary: |
-    【Phase 14: デュアルコア・ワークフロー（戦略と実行の分離）の確立】
-    - ブラウザ（戦略）でプランを立て、CLI（実行）で全自動完遂する運用スタイルを正式採用。
-    - CLI側の Claude Code 用に `/run-plan` カスタムコマンドを作成し、グローバル（`~/.claude/commands/`）へ配置。
-    - CLI側のグローバル設定（`CLAUDE.md`, `settings.json`）をアップデート。
-    - `dual-core-test` プロジェクトにて、ライブラリ導入からサーバー構築、バックグラウンド検証までの全自動実行に成功。
-    - システムプロトコル（person.md, KNOWLEDGE.md）に新プロトコルを永続化。
+    【Phase 15: ECC Skills Optimization & Integration】
+    - 全44スキルの description 日本語化と「最強思想（Search First）」の注入を完遂。
+    - ultra think を用いた精査により、description の発動精度と装飾語のバランスを最適化。
+    - グローバル環境（`~/.claude/skills/`）への全スキル一括インストールを完了。
+    - 実戦型マニュアル `ECC_PLAYBOOK.md` を作成し、`hello-claude` プロジェクトへ配布。
+    - `hello-claude/CLAUDE.md` にスキルの活用意識と ECC 連携プロトコルを統合。
 
     【次にやること】
-    - 本番プロジェクトへの `/dual-core` フロー適用
-    - 並列開発（複数ターミナルでの同時実行）の実践
+    - 新スキル環境での実走テスト
+    - 各プロジェクト固有の専門スキルの抽出と構築
+    - 並列開発（複数ターミナル）でのスキル干渉チェック
 
   progress:
     current_phase:
-      number: 14
-      name: "Establishment of Dual-Core Workflow"
+      number: 15
+      name: "ECC Skills Optimization & Integration"
       status: "done"
 
     current_task:
       description: "セッション保存と知見の永続化"
-      started_at: "2026-02-23T14:24:00+09:00"
+      started_at: "2026-02-23T19:20:00+09:00"
 
     completed_phases:
       - phase: 10
@@ -37,35 +38,42 @@ workflow:
       - phase: 13
         name: "Master Agent Architecture Update"
         completed_at: "2026-02-23"
+      - phase: 14
+        name: "Establishment of Dual-Core Workflow"
+        completed_at: "2026-02-23"
+
+    next_tasks:
+      - "新スキル環境での実走テスト"
+      - "各プロジェクト固有の専門スキルの抽出と構築"
 
   decisions:
     adopted:
-      - id: "D022"
+      - id: "D024"
         date: "2026-02-23"
-        decision: "デュアルコア・ワークフロー（戦略と実行の分離）の正式採用"
-        reason: "コスト削減、実行精度の向上、および複数プロジェクトの並列開発を可能にするため"
-      - id: "D023"
+        decision: "Claude Skills のグローバル全面展開 (ECC v2)"
+        reason: "あらゆるプロジェクトで一貫したプロ品質の助言（最強思想）を自動発動させるため"
+      - id: "D025"
         date: "2026-02-23"
-        decision: "Claude Code CLI 設定のグローバル化（~/.claude/）"
-        reason: "複数プロジェクト間で共通のペルソナ、コマンド、通知システムを維持し、管理を容易にするため"
+        decision: "スキルトリガーの『思想×精度』両立方針"
+        reason: "装飾語による思想注入と、技術用語による発動精度の両立がClaudeの能力最大化に不可欠なため"
 
   features:
     completed:
-      - id: "F016"
-        name: "Dual-Core Workflow Protocol"
+      - id: "F019"
+        name: "ECC Strong Descriptions (44 skills)"
         status: "done"
-        completed_at: "2026-02-23T14:45:00+09:00"
-      - id: "F017"
-        name: "Global Claude Code CLI Configuration"
+        completed_at: "2026-02-23T20:10:00+09:00"
+      - id: "F020"
+        name: "ECC Global Installation"
         status: "done"
-        completed_at: "2026-02-23T14:40:00+09:00"
-      - id: "F018"
-        name: "Automated Plan Execution Tool (/run-plan)"
+        completed_at: "2026-02-23T20:41:00+09:00"
+      - id: "F021"
+        name: "ECC Playbook & Hello-Claude Integration"
         status: "done"
-        completed_at: "2026-02-23T14:30:00+09:00"
+        completed_at: "2026-02-23T20:17:00+09:00"
 
   cautions:
-    - id: "C008"
-      category: "運用"
-      content: "実行コア（CLI）へのプラン提示は prompt/plan-fixed/ 経由で行う"
-      reason: "固定されたプランファイルを介すことで、AIの独断を防ぎ、設計通りの実行を担保するため"
+    - id: "C009"
+      category: "設計"
+      content: "description内の技術キーワードを削りすぎないこと"
+      reason: "装飾語だけではClaudeの発動判断が鈍るため、具体的トリガーフレーズの維持が必須"
