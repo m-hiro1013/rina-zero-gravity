@@ -1,4 +1,19 @@
 
+- セッション: 25 (Dual-Core Workflow Establishment)
+  - date: 2026-02-23
+  - insights:
+    - [Architecture] **Dual-Core Efficiency**: 戦略設計（ブラウザチャット）と実行（CLI）を分離することで、コストのかかる詳細な検討を安価に行い、実行段階では確認コストをゼロにする「デュアルコア・ワークフロー」を確立。これにより、単一のAIアシスタントを擬似的に多頭化し、並列開発が可能になる。 [+10]
+    - [UX] **Multi-Sensory Feedback**: CLI作業の完了を OS レベルの通知と音声（`say`コマンド）で知らせることで、バックグラウンドでの作業完了にユーザーが即座に気づけるようになり、タスクの切り替えロスが大幅に減少する。 [+5]
+    - [Governance] **Plan-Fixed Enforcement**: `prompt/plan-fixed/` フォルダを介して固定されたプランをCLI側に渡すことで、AIの「独断」や「推測」を物理的に封じ、設計通りの確実な実装を担保できる。 [+8]
+
+- セッション: 24 (TOON Delivery Pipeline & Frontend Integration)
+  - date: 2026-02-19
+  - insights:
+    - [Architecture] **Independent TOON Distribution**: 肥大化したTOONファイルは配信のボトルネックになる。データを種類別（main, line, google 等）に分離し、フロントエンドで並列フェッチ・マージすることで、表示速度の向上と柔軟性の確保（一部データ欠損時のフォールバック等）を両立できる。 [+5]
+    - [DevOps] **GAS Two-Stage Automation**: 集計から外部配信までを一気通貫で行う際、GASの実行時間制限（6分）に抵触しやすい。`ScriptApp.newTrigger` を使って後続処理を数分後に予約する「2段階トリガー方式」を採用することで、巨大なデータ処理も安全に完遂できる。 [+5]
+    - [Firebase] **Storage RAW Fetch**: Firebase Cloud Storage からファイルを直接取得する場合、URL末尾に `?alt=media` を付与することで、メタデータではなく生データを取得できる。TOON parser 等でそのままテキストとして扱いたい場合に必須。 [+3]
+    - [Git] **Single-Editor Sync Strategy**: フロントエンドとバックエンド（GAS）を同時に修正する場合、単一の編集者しかいない状況であれば、`git push -f` による強制同期が、複雑なマージ競合を回避しつつ整合性を最短で保つ有効な手段となる。 [+3]
+
 - セッション: 23 (Media Tab Implementation & Cost Optimization)
   - date: 2026-02-17
   - insights:

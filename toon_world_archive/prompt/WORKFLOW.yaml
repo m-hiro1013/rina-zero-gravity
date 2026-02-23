@@ -1,0 +1,21 @@
+workflow:
+  last_updated: "2026-02-07"
+  last_session_summary: |
+    【Toon World 機能改善 & バグ修正完了】
+    - 予約経路データの表示ロジック改善
+    - レポートHTMLの単一ファイルエクスポート機能の実装
+    - GAS環境における構文エラー回避
+    - UI調整（ZENスタイル）
+
+  progress:
+    current_phase:
+      number: 3
+      name: "運用・安定化フェーズ"
+      status: "done"
+    
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "Vue.js 3 + Tailwind CSS の採用"
+      - id: "D002"
+        decision: "ローカルビルド方式 (build.py) の導入"

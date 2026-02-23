@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOON World Analyzer</title>
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Styles -->
+    <?!= include('styles'); ?>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <div id="app" class="min-h-screen pb-20 transition-all">
+
+        <!-- Loading Overlay -->
+        <div v-if="isLoading"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
+            <div class="bg-white p-8 rounded-lg shadow-xl text-center">
+                <div class="loader mx-auto mb-4"></div>
+                <p class="text-lg font-bold text-gray-700">{{ loadingText }}</p>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm mb-6 sticky top-0 z-30">
+            <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-xl font-bold text-blue-600 flex items-center gap-2 cursor-pointer"
+                        @click="resetAll">
+                        📊 TOON World Analyzer
+                    </h1>
+                </div>
+
+                <!-- Header Actions (Visible Step 2 & 3) -->
+                <div v-if="step > 1" class="flex items-center gap-4">
+                    <!-- Download Button (Visible in Step 3) -->
+                    <button v-if="step === 3" @click="downloadReport"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 font-bold text-sm transition flex items-center gap-2">
+                        💾 ダウンロード
+                    </button>
+
+                    <!-- Back to Settings (Visible in Step 3) -->
+                    <button v-if="step === 3" @click="backToSettings"
+                        class="text-sm text-gray-500 hover:text-gray-700 underline">
+                        設定に戻る
+                    </button>
+
+                    <!-- Back to Start (Visible in Step 2) -->
+                    <button v-if="step === 2" @click="resetAll"
+                        class="text-sm text-gray-500 hover:text-gray-700 underline">
+                        ファイル選択に戻る
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4">
+
+            <!-- STEP 1: File Drop Zone -->
+            <div v-if="step === 1"
+                class="bg-white border-2 border-dashed border-gray-300 rounded-xl p-16 text-center cursor-pointer transition transform hover:scale-[1.01] hover:border-blue-500 hover:bg-blue-50 mt-10"
+                @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false" @drop="handleDrop"
+                @click="$refs.fileInput.click()">
+
+                <div class="text-6xl mb-6">📁</div>
+                <p class="text-2xl font-bold mb-2 text-gray-700">TOONファイルをここにドロップ</p>
+                <p class="text-sm text-gray-400">またはクリックして選択 (.toon, .txt)</p>
+                <input type="file" ref="fileInput" class="hidden" accept=".toon,.txt" @change="handleFileSelect">
+            </div>
+
+            <!-- STEP 2: Settings -->
+            <div v-if="step === 2" class="max-w-3xl mx-auto animate-fade-in-up">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">📂 レポート生成設定</h2>
+
+                <div class="bg-white rounded-lg shadow p-6 space-y-8">
+
+                    <!-- Period Setting -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">期間（開始）</label>
+                            <input type="number" v-model="periodStart"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                placeholder="YYYYMM">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">期間（終了）</label>
+                            <input type="number" v-model="periodEnd"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                placeholder="YYYYMM">
+                        </div>
+                    </div>
+
+                    <!-- AI Options -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-3">オプション</label>
+                        <label
+                            class="flex items-center gap-2 cursor-pointer bg-blue-50 px-4 py-3 rounded-lg hover:bg-blue-100 transition border border-blue-100">
+                            <input type="checkbox" v-model="aiEnabled"
+                                class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                            <div>
+                                <span class="font-bold text-blue-800 flex items-center gap-1">✨ AI分析レポートを生成する</span>
+                                <span class="text-xs text-blue-600 block mt-1">Gemini
+                                    AIを使用して、全体サマリーと店舗別コメントを生成します。</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Shop Selection -->
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="block text-sm font-bold text-gray-700">対象店舗を選択</label>
+                            <button @click="toggleAllShops" class="text-xs text-blue-600 hover:underline">
+                                {{ selectedShops.length === availableShops.length ? 'すべて解除' : 'すべて選択' }}
+                            </button>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-60 overflow-y-auto border border-gray-200 rounded p-4 custom-scrollbar">
+                            <label v-for="shop in availableShops" :key="shop.code"
+                                class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                                <input type="checkbox" v-model="selectedShops" :value="shop.code"
+                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                                <span class="text-sm">{{ shop.name }}</span>
+                            </label>
+                        </div>
+                        <p class="text-right text-xs text-gray-500 mt-1">{{ selectedShops.length }} / {{
+                            availableShops.length }} 店舗選択中</p>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="pt-4 border-t flex justify-end">
+                        <button @click="generateReport" :disabled="selectedShops.length === 0"
+                            class="bg-blue-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 font-bold text-lg transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            レポートを生成する 🚀
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Report View -->
+            <div v-if="step === 3" class="space-y-8 animate-fade-in-up">
+
+                <!-- Overall Summary (AI) -->
+                <div v-if="aiEnabled"
+                    class="bg-white p-6 rounded-lg shadow border-l-4 border-purple-500 relative min-h-[100px]">
+                    <h2 class="text-lg font-bold mb-3 text-gray-800 flex items-center gap-2">
+                        <span>🤖</span> 全体サマリー
+                        <span class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">Gemini 2.5
+                            Flash</span>
+                    </h2>
+
+                    <div v-if="aiSummary.loading" class="flex items-center gap-2 text-gray-500 italic py-4">
+                        <div class="loader w-5 h-5 border-2"></div> 分析中...
+                    </div>
+
+                    <div v-else-if="aiSummary.error" class="text-red-500 py-2">
+                        ❌ エラー: {{ aiSummary.error }}
+                    </div>
+
+                    <div v-else-if="aiSummary.content"
+                        class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        {{ aiSummary.content }}
+                    </div>
+
+                    <div v-else class="text-gray-400 text-sm py-2">
+                        データの分析を開始しました...
+                    </div>
+                </div>
+
+                <!-- Plan Changes Section -->
+                <div v-if="reportData.planChanges && reportData.planChanges.length > 0"
+                    class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-yellow-600 text-white px-6 py-3 font-bold text-sm flex justify-between items-center">
+                        <span>⚠️ 直近のプラン変更（過去6ヶ月以内）</span>
+                        <span class="text-xs bg-yellow-700 px-2 py-0.5 rounded">{{ reportData.planChanges.length
+                            }}件</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-4 py-2 text-left border-b">店舗</th>
+                                    <th class="px-4 py-2 text-left border-b">媒体</th>
+                                    <th class="px-4 py-2 text-center border-b">変更月</th>
+                                    <th class="px-4 py-2 text-left border-b">旧プラン</th>
+                                    <th class="px-4 py-2 text-left border-b">新プラン</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr v-for="(change, idx) in reportData.planChanges" :key="idx" class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 font-bold">{{ change.shop_name }}</td>
+                                    <td class="px-4 py-2">{{ change.media_name }}</td>
+                                    <td class="px-4 py-2 text-center">{{ Utils.formatYearMonth(change.change_month) }}
+                                    </td>
+                                    <td class="px-4 py-2 text-gray-500">{{ change.old_plan }}</td>
+                                    <td class="px-4 py-2 text-blue-600 font-medium">{{ change.new_plan }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Grand Totals Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-gray-800 text-white px-6 py-3 font-bold text-sm flex justify-between items-center">
+                        <span>📈 全店舗合計</span>
+                        <div class="flex items-center gap-4">
+                            <span v-if="reportData.hasYoyData"
+                                class="text-xs bg-green-600 px-2 py-0.5 rounded">前年比データあり</span>
+                            <span class="text-xs bg-gray-700 px-2 py-0.5 rounded">期間: {{
+                                Utils.formatYearMonth(reportData.period.start) }} 〜 {{
+                                Utils.formatYearMonth(reportData.period.end) }}</span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-right">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-4 py-2 text-center border-b">年月</th>
+                                    <th class="px-4 py-2 border-b">売上</th>
+                                    <th v-if="reportData.hasYoyData" class="px-4 py-2 border-b text-xs">前年比</th>
+                                    <th class="px-4 py-2 border-b">Uber売上</th>
+                                    <th class="px-4 py-2 border-b">予約数</th>
+                                    <th v-if="reportData.hasYoyData" class="px-4 py-2 border-b text-xs">前年比</th>
+                                    <th class="px-4 py-2 border-b">客数</th>
+                                    <th v-if="reportData.hasYoyData" class="px-4 py-2 border-b text-xs">前年比</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr v-for="(data, ym) in reportData.grandTotals.monthly" :key="ym"
+                                    class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-center font-bold text-gray-700">{{
+                                        Utils.formatYearMonth(ym) }}</td>
+                                    <td class="px-4 py-3 font-bold text-gray-900">{{ formatCurrency(data.sales) }}</td>
+                                    <td v-if="reportData.hasYoyData" class="px-4 py-3 text-xs"
+                                        :class="getYoYClass(data.sales_yoy)">
+                                        {{ data.sales_yoy ? formatPercent(data.sales_yoy, 1) : '-' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-gray-900">{{ formatCurrency(data.uber_sales || 0) }}</td>
+                                    <td class="px-4 py-3">{{ formatNumber(data.reservation_count) }}組</td>
+                                    <td v-if="reportData.hasYoyData" class="px-4 py-3 text-xs"
+                                        :class="getYoYClass(data.reservation_yoy)">
+                                        {{ data.reservation_yoy ? formatPercent(data.reservation_yoy, 1) : '-' }}
+                                    </td>
+                                    <td class="px-4 py-3">{{ formatNumber(data.guest_count) }}人</td>
+                                    <td v-if="reportData.hasYoyData" class="px-4 py-3 text-xs"
+                                        :class="getYoYClass(data.guest_yoy)">
+                                        {{ data.guest_yoy ? formatPercent(data.guest_yoy, 1) : '-' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Shops List (Accordion) -->
+                <div class="space-y-4">
+                    <div v-for="shop in reportData.shops" :key="shop.shop_code"
+                        class="bg-white rounded-lg shadow overflow-hidden transition-all duration-300"
+                        :class="{ 'ring-2 ring-blue-400': openShopCode === shop.shop_code }">
+
+                        <!-- Header / Toggle -->
+                        <div @click="toggleShop(shop.shop_code)"
+                            class="px-6 py-4 cursor-pointer hover:bg-gray-50 flex justify-between items-center select-none border-b border-gray-100 group">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="bg-blue-100 text-blue-600 p-2 rounded-full group-hover:bg-blue-200 transition">
+                                    🏠</div>
+                                <div>
+                                    <div class="font-bold text-lg text-gray-800">{{ shop.shop_name }}</div>
+                                    <div class="text-xs text-gray-500 flex gap-3 mt-1">
+                                        <span class="bg-gray-100 px-2 py-0.5 rounded">売上: {{
+                                            formatCurrency(shop.total_sales) }}</span>
+                                        <span class="bg-gray-100 px-2 py-0.5 rounded">Uber: {{
+                                            formatCurrency(shop.total_uber_sales) }}</span>
+                                        <span class="bg-gray-100 px-2 py-0.5 rounded">予約: {{
+                                            formatNumber(shop.total_reservation_count) }}組</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-gray-400 transform transition-transform duration-300"
+                                :class="{ 'rotate-180': openShopCode === shop.shop_code }">
+                                ▼
+                            </div>
+                        </div>
+
+                        <!-- 展開される店舗詳細 -->
+                        <div v-if="openShopCode === shop.shop_code"
+                            class="bg-gray-50 p-0 border-l-4 border-blue-500 animate-slide-down">
+
+                            <!-- Shop Report Body -->
+                            <div class="p-6 space-y-8">
+
+                                <!-- AI Shop Comment -->
+                                <div v-if="aiEnabled" class="bg-white p-4 rounded shadow border border-purple-100">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="text-xs font-bold text-purple-600 uppercase tracking-wider">AI
+                                            Analysis</h4>
+                                        <button v-if="!aiShopComments[shop.shop_code]" @click="fetchAiShopComment(shop)"
+                                            class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded hover:bg-purple-200">
+                                            分析を実行
+                                        </button>
+                                    </div>
+
+                                    <div v-if="aiShopComments[shop.shop_code]">
+                                        <div v-if="aiShopComments[shop.shop_code].loading"
+                                            class="text-xs text-gray-400 flex items-center gap-2">
+                                            <div class="loader w-3 h-3 border-2"></div> 分析中...
+                                        </div>
+                                        <div v-else-if="aiShopComments[shop.shop_code].error"
+                                            class="text-xs text-red-500">
+                                            取得エラー
+                                        </div>
+                                        <div v-else class="text-sm text-gray-700 whitespace-pre-wrap">
+                                            {{ aiShopComments[shop.shop_code].content }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 1. Basic Stats Table -->
+                                <div>
+                                    <h3
+                                        class="text-md font-bold text-gray-700 mb-3 border-b pb-2 flex items-center gap-2">
+                                        <span>📊</span> 月別推移
+                                    </h3>
+                                    <div class="bg-white rounded shadow-sm overflow-x-auto border border-gray-200">
+                                        <table class="w-full text-sm text-right">
+                                            <thead class="bg-gray-50 text-gray-600 font-medium">
+                                                <tr>
+                                                    <th class="px-3 py-2 text-center w-24">年月</th>
+                                                    <th class="px-3 py-2">売上</th>
+                                                    <th v-if="reportData.hasYoyData" class="px-3 py-2 text-xs">前年比</th>
+                                                    <th class="px-3 py-2">Uber売上</th>
+                                                    <th class="px-3 py-2">予約数</th>
+                                                    <th v-if="reportData.hasYoyData" class="px-3 py-2 text-xs">前年比</th>
+                                                    <th class="px-3 py-2">客数</th>
+                                                    <th v-if="reportData.hasYoyData" class="px-3 py-2 text-xs">前年比</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-100">
+                                                <tr v-for="m in shop.monthly_summary" :key="m.year_month"
+                                                    class="hover:bg-slate-50">
+                                                    <td class="px-3 py-2 text-center text-gray-600 font-mono">{{
+                                                        m.month_display }}</td>
+                                                    <td class="px-3 py-2 font-bold text-gray-800">{{ m.sales }}</td>
+                                                    <td v-if="reportData.hasYoyData" class="px-3 py-2 text-xs"
+                                                        :class="getYoYClass(m.sales_yoy)">
+                                                        {{ m.sales_yoy ? formatPercent(m.sales_yoy, 1) : '-' }}
+                                                    </td>
+                                                    <td class="px-3 py-2 text-gray-600">{{ formatCurrency(m.uber_sales)
+                                                        }}</td>
+                                                    <td class="px-3 py-2">{{ Utils.formatNumber(m.reservation_count) }}組
+                                                    </td>
+                                                    <td v-if="reportData.hasYoyData" class="px-3 py-2 text-xs"
+                                                        :class="getYoYClass(m.reservation_yoy)">
+                                                        {{ m.reservation_yoy ? formatPercent(m.reservation_yoy, 1) : '-'
+                                                        }}
+                                                    </td>
+                                                    <td class="px-3 py-2">{{ Utils.formatNumber(m.guest_count) }}人</td>
+                                                    <td v-if="reportData.hasYoyData" class="px-3 py-2 text-xs"
+                                                        :class="getYoYClass(m.guest_yoy)">
+                                                        {{ m.guest_yoy ? formatPercent(m.guest_yoy, 1) : '-' }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Booking Channels (Detailed Table + Chart) -->
+                                <div>
+                                    <h3
+                                        class="text-md font-bold text-gray-700 mb-3 border-b pb-2 flex items-center gap-2">
+                                        <span>🛤️</span> 予約経路構成（トレタデータ）
+                                    </h3>
+
+                                    <!-- Chart -->
+                                    <div class="bg-white rounded shadow-sm border border-gray-200 p-4 mb-4 h-64">
+                                        <canvas :id="'chart-channel-' + shop.shop_code"></canvas>
+                                    </div>
+
+                                    <!-- Detailed Table with Monthly Breakdown -->
+                                    <div
+                                        class="bg-white rounded shadow-sm overflow-x-auto border border-gray-200 custom-scrollbar">
+                                        <table class="w-full text-sm whitespace-nowrap text-right">
+                                            <thead class="bg-gray-50 text-gray-600 text-xs shadow-sm">
+                                                <tr>
+                                                    <th
+                                                        class="px-3 py-2 text-left bg-gray-100 sticky left-0 border-r z-10 w-36">
+                                                        経路</th>
+                                                    <th v-for="m in shop.channel_totals_by_month" :key="m.ym"
+                                                        class="px-3 py-2 font-medium bg-gray-50 min-w-[80px]">
+                                                        {{ Utils.formatMonthShort(m.ym) }}
+                                                    </th>
+                                                    <th class="px-3 py-2 font-bold bg-gray-100 border-l min-w-[80px]">合計
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-100">
+                                                <template v-for="ch in sortedChannelData(shop.channel_data)"
+                                                    :key="ch.channel_name">
+                                                    <tr class="hover:bg-gray-50 transition-colors"
+                                                        :class="{ 'cursor-pointer bg-blue-50/50': ch.channel_name === 'その他' }"
+                                                        @click="ch.channel_name === 'その他' ? toggleOthers(shop.shop_code) : null">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-white sticky left-0 border-r z-10 font-bold text-gray-700 flex items-center gap-2 group-hover:bg-gray-50 transition-colors relative">
+                                                            <!-- 背景透過防止用の白いレイヤー -->
+                                                            <div
+                                                                class="absolute inset-0 bg-white -z-10 group-hover:bg-gray-50 border-r border-gray-100">
+                                                            </div>
+
+                                                            <span
+                                                                class="w-3 h-3 rounded-full flex-shrink-0 relative z-10"
+                                                                :style="{ background: getChannelColor(ch.channel_name) }"></span>
+                                                            <div class="truncate relative z-10">
+                                                                <div class="flex items-center gap-1">
+                                                                    <span>{{ ch.channel_name }}</span>
+                                                                    <span v-if="ch.channel_name === 'その他'"
+                                                                        class="text-[10px] text-blue-500 bg-blue-100 px-1.5 rounded-full px-1">
+                                                                        {{ othersOpen[shop.shop_code] ? '▲ 閉じる' : '▼ 内訳'
+                                                                        }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td v-for="md in ch.monthly_data" :key="md.ym"
+                                                            class="px-3 py-2">
+                                                            <div v-if="md.count > 0">
+                                                                <div class="font-bold text-gray-700 leading-tight">
+                                                                    {{ formatNumber(md.count) }}<span
+                                                                        class="text-[10px] font-normal text-gray-500 ml-0.5">組</span>
+                                                                </div>
+                                                                <div class="text-[10px] text-gray-400 mt-0.5">{{
+                                                                    formatPercent(md.ratio, 1) }}</div>
+                                                            </div>
+                                                            <div v-else class="text-gray-300 text-center">-</div>
+                                                        </td>
+                                                        <td class="px-3 py-2 font-bold border-l text-gray-800">
+                                                            {{ formatNumber(ch.total_count) }}組
+                                                            <span class="block text-xs text-gray-500">{{ ch.total_ratio
+                                                                }}</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <!-- その他内訳（展開時） -->
+                                                    <template
+                                                        v-if="ch.channel_name === 'その他' && othersOpen[shop.shop_code]">
+                                                        <tr v-for="otherName in getOthersBreakdown(shop)"
+                                                            :key="otherName" class="bg-gray-50/50">
+                                                            <td
+                                                                class="px-3 py-1.5 text-left bg-gray-50 sticky left-0 border-r z-10 text-xs text-gray-600 pl-8 relative">
+                                                                <div
+                                                                    class="absolute inset-0 bg-gray-50 -z-10 border-r border-gray-100">
+                                                                </div>
+                                                                <span class="relative z-10">• {{ otherName }}</span>
+                                                            </td>
+                                                            <td v-for="ym in Utils.getMonthsInRange(reportData.period.start, reportData.period.end)"
+                                                                :key="ym"
+                                                                class="px-3 py-1.5 text-xs text-gray-500 text-right">
+                                                                {{ formatOthersCount(shop, ym, otherName) }}
+                                                            </td>
+                                                            <td
+                                                                class="px-3 py-1.5 text-xs font-bold border-l text-gray-600 text-right">
+                                                                {{ formatOthersTotal(shop, otherName) }}
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </template>
+                                                <!-- Total Row (Excluding Walk-in) -->
+                                                <tr class="bg-gray-50 font-bold">
+                                                    <td
+                                                        class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 text-gray-800">
+                                                        合計（ウォークイン除く）</td>
+                                                    <td v-for="t in shop.channel_totals_by_month" :key="t.ym"
+                                                        class="px-3 py-2">
+                                                        {{ formatNumber(t.count) }}組
+                                                        <span class="block text-xs text-gray-500">100.0%</span>
+                                                    </td>
+                                                    <td class="px-3 py-2 border-l text-gray-900">
+                                                        {{ formatNumber(shop.total_reservation_count) }}組
+                                                        <span class="block text-xs text-gray-500">100.0%</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Media Analysis (Detailed) -->
+                                <div v-if="shop.media_analysis.length > 0">
+                                    <div v-for="(media, idx) in shop.media_analysis" :key="media.key"
+                                        class="mb-8 last:mb-0">
+                                        <h3 class="text-md font-bold text-blue-600 mb-2 flex items-center gap-2">
+                                            <span>📢</span> {{ media.name }}
+                                        </h3>
+
+                                        <div v-if="media.has_plan_change"
+                                            class="mb-2 text-xs bg-red-50 text-red-600 border border-red-100 p-2 rounded">
+                                            ⚠️ プラン変更あり: {{ media.plan_change_detail }}
+                                        </div>
+
+                                        <div
+                                            class="bg-white rounded shadow-sm overflow-x-auto border border-gray-200 custom-scrollbar">
+                                            <table class="w-full text-sm whitespace-nowrap text-right">
+                                                <thead class="bg-gray-50 text-gray-600 text-xs shadow-sm">
+                                                    <tr>
+                                                        <th
+                                                            class="px-3 py-2 text-left bg-gray-100 sticky left-0 border-r z-10 w-32">
+                                                            項目</th>
+                                                        <th v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 font-medium bg-gray-50 min-w-[70px]">
+                                                            {{ Utils.formatMonthShort(m.ym) }}
+                                                        </th>
+                                                        <th
+                                                            class="px-3 py-2 font-bold bg-gray-100 border-l min-w-[80px]">
+                                                            合計/平均</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-gray-100">
+                                                    <!-- Plan Name -->
+                                                    <tr>
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-500 text-xs">
+                                                            プラン名</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-xs text-center text-gray-500 max-w-[100px] truncate"
+                                                            :title="m.plan_name">
+                                                            {{ m.plan_name }}
+                                                        </td>
+                                                        <td
+                                                            class="px-3 py-2 text-xs text-center text-gray-400 border-l">
+                                                            -</td>
+                                                    </tr>
+
+                                                    <!-- PV Top -->
+                                                    <tr class="bg-blue-50/30">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            店舗トップPV</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2">{{ formatNumber(m.pv_top) }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l">{{
+                                                            formatNumber(media.totals.pv_top) }}</td>
+                                                    </tr>
+
+                                                    <!-- PV Total -->
+                                                    <tr>
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-600 text-xs">
+                                                            合計PV</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-gray-500 text-xs">{{
+                                                            formatNumber(m.pv_total) }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l text-gray-500 text-xs">
+                                                            {{ formatNumber(media.totals.pv_total) }}</td>
+                                                    </tr>
+
+                                                    <!-- Reservation (Toreta Total) -->
+                                                    <tr class="bg-green-50/30 border-t-2 border-gray-100">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            予約件数(hpは参考値)</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 font-bold">{{
+                                                            formatNumber(m.toreta_reservation) }}組</td>
+                                                        <td class="px-3 py-2 font-bold border-l">{{
+                                                            formatNumber(media.totals.toreta_reservation) }}組</td>
+                                                    </tr>
+
+                                                    <!-- Net Reservation (Media Actual) - Only for Tabelog -->
+                                                    <tr v-if="media.key === 'tabelog'">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-medium text-gray-600 text-xs pl-6">
+                                                            内) ネット予約数</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-xs text-gray-500">{{
+                                                            formatNumber(m.net_reservation) }}組</td>
+                                                        <td class="px-3 py-2 text-xs text-gray-400 border-l">{{
+                                                            formatNumber(media.totals.net_reservation) }}組</td>
+                                                    </tr>
+
+                                                    <!-- Note Reservation (Calculation) - Only for Tabelog -->
+                                                    <tr v-if="media.key === 'tabelog'">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-medium text-gray-600 text-xs pl-6">
+                                                            内) ノート組数</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-xs text-gray-500">{{
+                                                            formatNumber(m.note_reservation) }}組</td>
+                                                        <td class="px-3 py-2 text-xs text-gray-400 border-l">{{
+                                                            formatNumber(media.totals.note_reservation) }}組</td>
+                                                    </tr>
+
+                                                    <!-- Guest (Toreta Total) -->
+                                                    <tr class="bg-blue-50/10 border-t border-gray-100">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            予約人数</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2">{{ formatNumber(m.toreta_guest) }}人</td>
+                                                        <td class="px-3 py-2 font-bold border-l">{{
+                                                            formatNumber(media.totals.toreta_guest) }}人</td>
+                                                    </tr>
+
+                                                    <!-- Net Guest (Media Actual) - Only for Tabelog -->
+                                                    <tr v-if="media.key === 'tabelog'">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-medium text-gray-600 text-xs pl-6">
+                                                            内) ネット予約人数</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-xs text-gray-500">{{
+                                                            formatNumber(m.net_guest) }}人</td>
+                                                        <td class="px-3 py-2 text-xs text-gray-400 border-l">{{
+                                                            formatNumber(media.totals.net_guest) }}人</td>
+                                                    </tr>
+
+                                                    <!-- Note Guest (Calculation) - Only for Tabelog -->
+                                                    <tr v-if="media.key === 'tabelog'">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-medium text-gray-600 text-xs pl-6">
+                                                            内) ノート人数</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-xs text-gray-500">{{
+                                                            formatNumber(m.note_guest) }}人</td>
+                                                        <td class="px-3 py-2 text-xs text-gray-400 border-l">{{
+                                                            formatNumber(media.totals.note_guest) }}人</td>
+                                                    </tr>
+
+                                                    <!-- CVR -->
+                                                    <tr class="bg-yellow-50/30 border-t-2 border-gray-100">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            CVR</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2">{{ m.cvr ? Utils.formatPercent(m.cvr, 2) :
+                                                            '-' }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l">{{ media.totals.cvr ?
+                                                            Utils.formatPercent(media.totals.cvr, 2) : '-' }}</td>
+                                                    </tr>
+
+                                                    <!-- Cost -->
+                                                    <tr class="bg-red-50/30 border-t-2 border-gray-100">
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            費用合計</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2">{{ formatCurrency(m.cost) }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l">{{
+                                                            formatCurrency(media.totals.cost) }}</td>
+                                                    </tr>
+
+                                                    <!-- Revenue -->
+                                                    <tr>
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-600 text-xs">
+                                                            想定売上</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-gray-500 text-xs">{{
+                                                            formatCurrency(m.revenue) }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l text-gray-500 text-xs">
+                                                            {{ formatCurrency(media.totals.revenue) }}</td>
+                                                    </tr>
+
+                                                    <!-- Profit -->
+                                                    <tr>
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                            利益額</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 font-bold"
+                                                            :class="getProfitClass(m.profit)">{{
+                                                            formatCurrency(m.profit) }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l"
+                                                            :class="getProfitClass(media.totals.profit)">{{
+                                                            formatCurrency(media.totals.profit) }}</td>
+                                                    </tr>
+
+                                                    <!-- Cost Per Guest -->
+                                                    <tr>
+                                                        <td
+                                                            class="px-3 py-2 text-left bg-gray-50 sticky left-0 border-r z-10 font-bold text-gray-600 text-xs">
+                                                            送客コスト/人</td>
+                                                        <td v-for="m in media.monthly_values" :key="m.ym"
+                                                            class="px-3 py-2 text-gray-500 text-xs">{{ m.cost_per_guest
+                                                            ? formatCurrency(m.cost_per_guest) : '-' }}</td>
+                                                        <td class="px-3 py-2 font-bold border-l text-gray-500 text-xs">
+                                                            {{ media.totals.cost_per_guest ?
+                                                            formatCurrency(media.totals.cost_per_guest) : '-' }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Ad Cost Table -->
+                                <div v-if="shop.ad_cost_table" class="mt-8 border-t border-gray-200 pt-6">
+                                    <h3 class="text-md font-bold text-gray-700 mb-3 flex items-center gap-2">
+                                        <span>💰</span> 広告費・運用費
+                                    </h3>
+                                    <div
+                                        class="bg-white rounded shadow-sm overflow-x-auto border border-gray-200 custom-scrollbar">
+                                        <table class="w-full text-sm whitespace-nowrap text-right">
+                                            <thead class="bg-gray-50 text-gray-600 text-xs shadow-sm">
+                                                <tr>
+                                                    <th
+                                                        class="px-3 py-2 text-left bg-gray-100 sticky left-0 border-r z-10 w-32">
+                                                        媒体</th>
+                                                    <th class="px-3 py-2 text-left bg-gray-50 w-32">プラン</th>
+                                                    <th v-for="ym in Utils.getMonthsInRange(reportData.period.start, reportData.period.end)"
+                                                        :key="ym" class="px-3 py-2 font-medium bg-gray-50 min-w-[70px]">
+                                                        {{ Utils.formatMonthShort(ym) }}
+                                                    </th>
+                                                    <th class="px-3 py-2 font-bold bg-gray-100 border-l min-w-[80px]">合計
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-100">
+                                                <tr v-for="row in shop.ad_cost_table.rows" :key="row.media_name"
+                                                    class="hover:bg-gray-50">
+                                                    <td
+                                                        class="px-3 py-2 text-left bg-white sticky left-0 border-r z-10 font-bold text-gray-700">
+                                                        {{ row.media_name }}
+                                                    </td>
+                                                    <td class="px-3 py-2 text-left text-xs text-gray-500">
+                                                        {{ row.plan_name }}
+                                                    </td>
+                                                    <td v-for="ym in Utils.getMonthsInRange(reportData.period.start, reportData.period.end)"
+                                                        :key="ym" class="px-3 py-2">
+                                                        {{ formatCurrency(row.costs[ym]) }}
+                                                    </td>
+                                                    <td class="px-3 py-2 font-bold border-l text-gray-800">
+                                                        {{ formatCurrency(row.total_cost) }}
+                                                    </td>
+                                                </tr>
+                                                <!-- Total Row -->
+                                                <tr class="bg-gray-50 font-bold">
+                                                    <td
+                                                        class="px-3 py-2 text-left sticky left-0 border-r z-10 text-gray-800">
+                                                        合計</td>
+                                                    <td class="px-3 py-2">-</td>
+                                                    <td v-for="ym in Utils.getMonthsInRange(reportData.period.start, reportData.period.end)"
+                                                        :key="ym" class="px-3 py-2">
+                                                        {{ formatCurrency(shop.ad_cost_table.monthly_totals[ym]) }}
+                                                    </td>
+                                                    <td class="px-3 py-2 border-l text-gray-900">
+                                                        {{ formatCurrency(shop.ad_cost_table.grand_total) }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Glassmorphism Shop Detail Bar (Sticky Footer) -->
+        <transition name="slide-up">
+            <div v-if="openShopCode"
+                class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 w-[94%] max-w-2xl px-6 py-4 rounded-2xl shadow-2xl glass-container flex justify-between items-center border border-white/20 backdrop-blur-md">
+
+                <div class="flex items-center gap-4">
+                    <div class="bg-blue-500/20 p-2 rounded-xl text-blue-100 hidden sm:block">
+                        🏠
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-blue-200 font-bold uppercase tracking-[0.1em] mb-0.5">Analyzing
+                            Report</p>
+                        <h3 class="text-lg font-bold text-white leading-tight truncate max-w-[200px] sm:max-w-none">
+                            {{ getShopName(openShopCode) }}
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button @click="closeShop"
+                        class="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-xl transition font-bold text-sm border border-white/10">
+                        ✕ 閉じる
+                    </button>
+                </div>
+            </div>
+        </transition>
+
+    </div>
+
+    <style>
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .animate-slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <?!= include('scripts'); ?>
+</body>
+
+</html>

@@ -122,23 +122,35 @@
       <principle id="DP-004" name="暗黙知のコード化 (Environment Engineering)">
         現場の知恵を Rules に落とし込む
       </principle>
-      <principle id="DP-005" name="セーブデータ管理">
-        prompt/ フォルダに全進捗を同期し、コンテキストロスをゼロへ
+      <principle id="DP-006" name="デュアルコア・ワークフロー (Dual-Core Workflow)">
+        戦略（プランニング）と実行（デプロイ・実装）を分離する高度な運用。チャット環境で安価かつ詳細にプランを作成し、ターミナルの Claude Code に「固定プラン」として流し込むことで、ノーチェックでの全自動完遂と並列開発を実現する。
       </principle>
     </design_philosophy>
 
     <!-- ==================== -->
-    <!-- 2.3 対応工程          -->
+    <!-- 2.3 実行モデル (Execution Model) -->
+    <!-- ==================== -->
+    <execution_model>
+      <role name="戦略コア (Strategic Rina/Antigravity)">
+        <description>現在のチャットインターフェース。ひろきくんと対話し、要件定義、技術選定、詳細な実装プラン（prompt/plan-fixed/）の作成を担当。思考コストを抑えつつ、質の高い設計を行う。</description>
+      </role>
+      <role name="実行コア (Execution Rina/CLI)">
+        <description>ターミナルの Claude Code。作成された「固定プラン」を読み込み、現場でコードを生成・テスト・実行する。一度プランを読み込んだら、基本的には確認を求めず、全自動でタスクを完遂する。</description>
+      </role>
+    </execution_model>
+
+    <!-- ==================== -->
+    <!-- 2.4 対応工程          -->
     <!-- ==================== -->
     <pipeline>
       <stage order="1" command="/define-requirements" description="「何を作るか」を構造化（prompt/PROJECT_SPECIFIC.yaml）" />
       <stage order="2" command="/setup-environment" description="足場を固め、GitHubまで自動連携" />
       <stage order="3" command="/create-plan" description="タスクを賢く分解（prompt/WORKFLOW.yaml）" />
-      <stage order="4" command="/implement" description="爆速コード生成" />
-      <stage order="5" command="/verify-code" description="Browser Subagent で品質をダブルチェック" />
-      <stage order="6" command="/bug-fix" description="仮説検証に基づいた確実な修正" />
-      <stage order="7" command="/save-session" description="prompt/ フォルダによる高度なセッション連携" />
-      <stage order="8" command="Browser Subagent" description="視覚的な画面確認によるUI検証" />
+      <stage order="4" command="/run-plan" description="固定プラン（prompt/plan-fixed/）を読み込み、ターミナルで全自動実装" />
+      <stage order="5" command="/implement" description="対話的な爆速コード生成" />
+      <stage order="6" command="/verify-code" description="Browser Subagent で品質をダブルチェック" />
+      <stage order="7" command="/bug-fix" description="仮説検証に基づいた確実な修正" />
+      <stage order="8" command="/save-session" description="prompt/ フォルダによる高度なセッション連携" />
     </pipeline>
 
     <!-- ==================== -->

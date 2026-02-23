@@ -1,0 +1,45 @@
+# toon_world アーキテクチャ 🎨
+
+🎨 **フロントエンド・レポートエンジン**:
+s-tock で収集したデータを `.toon` 形式で読み込み、Gemini AI と連携して最強のレポートを映し出す。
+
+🏗 **アーキテクチャ詳細**:
+- **Vue.js 3 + Modular Architecture**: 保守性と反応性を高めるためのモジュール設計。
+- **Build System**: `build.py` を使用して、GAS環境（単一ファイル制限）に最適化した HTML ファイルを生成。
+- **AI Analytics**: Gemini 2.5 Flash API をバックエンド（Code.js）経由で呼び出し、経営分析コメントを生成。
+
+📜 **主要ファイル**:
+- `Code.js`: サーバー側ロジック（Gemini連携、プロンプト管理）
+- `index.html`: Vue 3 テンプレート
+- `src/js/main.js`: エントリーポイント
+- `build.py`: ビルドスクリプト
+
+📊 **データフロー**:
+1. s-tock からエクスポートされた JSON を入力。
+2. `ToonParser` がパースし、Vue.js が画面をレンダリング。
+3. `ChartRenderer` が可視化。
+4. 経営者がボタンを押すと Gemini が分析。
+
+🛠 **ビルド手順**:
+  概要: `src/` 配下の JS/CSS を GAS の HTMLService 用に `scripts.html` と `styles.html` へ結合するよ。
+  
+  **実行コマンド**:
+  ```bash
+  cd report-renewal/toon_world
+  python3 build.py
+  ```
+  
+  **いつ実行するか**:
+  - `src/js/` または `src/css/` を変更したとき
+  - 新しいモジュール（.jsファイル）を追加したとき
+  
+  **ビルド後のデプロイ**:
+  ```bash
+  python3 build.py
+  clasp push --force
+  ```
+  
+  **注意事項**:
+  - `scripts.html`, `styles.html` はビルドで上書きされるから手動でいじっちゃダメ！
+  - `src/` 配下の `export/import` 文は `build.py` が自動除去するから安心して使ってね✨
+  - `build.js`（Node版）は廃止済み（2026-02-07削除）だよ💅

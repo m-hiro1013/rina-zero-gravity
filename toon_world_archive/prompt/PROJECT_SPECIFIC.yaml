@@ -1,0 +1,12 @@
+# toon_world 設定 🎨
+
+🎨 **このプロジェクトの役割**: 
+s-tock からのデータを読み込み、Gemini AI と連携して最強のレポートを映し出す「フロントエンド」。
+
+🛠 **技術スタック**:
+- Google Apps Script (Web App)
+- Gemini 2.5 Flash API
+- HTML/JS/CSS (Zen-Tech Design)
+
+🔗 **依存関係**:
+- s-tock が生成する JSON をソースとして使用

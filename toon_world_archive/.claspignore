@@ -1,0 +1,7 @@
+**/src/**
+src/**
+build.py
+build.js
+package.json
+**/*.md
+.gitignore

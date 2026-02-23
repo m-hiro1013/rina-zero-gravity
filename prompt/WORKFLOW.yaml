@@ -1,28 +1,29 @@
 workflow:
   version: "2.0"
-  last_updated: "2026-02-17T01:40:00+09:00"
+  last_updated: "2026-02-23T14:49:00+09:00"
 
   last_session_summary: |
-    【今回のセッションでやったこと】
-    - プロジェクト全体に残っていた `Desktop` パスを `Developer` に一括置換し、環境を完全復旧。
-    - システム (Hard) と人格 (Soft) の分離を完了し、System Kernel をリファクタリング。
-    - `.agent/rules/` 内の全ルールファイルから人格依存表現を除去し、システム定義として中立化。
-    - `06-character-rina.md` をポインタファイルに変更し、`person.md` による人格管理を確立。
+    【Phase 14: デュアルコア・ワークフロー（戦略と実行の分離）の確立】
+    - ブラウザ（戦略）でプランを立て、CLI（実行）で全自動完遂する運用スタイルを正式採用。
+    - CLI側の Claude Code 用に `/run-plan` カスタムコマンドを作成し、グローバル（`~/.claude/commands/`）へ配置。
+    - CLI側のグローバル設定（`CLAUDE.md`, `settings.json`）をアップデート。
+    - `dual-core-test` プロジェクトにて、ライブラリ導入からサーバー構築、バックグラウンド検証までの全自動実行に成功。
+    - システムプロトコル（person.md, KNOWLEDGE.md）に新プロトコルを永続化。
 
     【次にやること】
-    - `.agent/workflows/` 内のワークフローのリファクタリング（中立化）。
-    - 各サブプロジェクト（new-worldなど）における個別ルールの整備と整合性確認。
+    - 本番プロジェクトへの `/dual-core` フロー適用
+    - 並列開発（複数ターミナルでの同時実行）の実践
 
   progress:
     current_phase:
-      number: 12
-      name: "System Kernel Refactoring (Persona Separation)"
-      status: "in_progress"
-    
+      number: 14
+      name: "Establishment of Dual-Core Workflow"
+      status: "done"
+
     current_task:
-      description: "Workflow Rules Refactoring"
-      started_at: "2026-02-17T01:40:00+09:00"
-    
+      description: "セッション保存と知見の永続化"
+      started_at: "2026-02-23T14:24:00+09:00"
+
     completed_phases:
       - phase: 10
         name: "Uber Data Pipeline 統合"
@@ -30,77 +31,41 @@ workflow:
       - phase: 11
         name: "Environment Migration & Optimization"
         completed_at: "2026-02-16"
+      - phase: 12
+        name: "System Kernel Refactoring (Persona Separation)"
+        completed_at: "2026-02-17"
+      - phase: 13
+        name: "Master Agent Architecture Update"
+        completed_at: "2026-02-23"
 
   decisions:
     adopted:
-      - id: "D013"
-        date: "2026-02-16"
-        decision: "パッケージマネージャーを pnpm に完全統一"
-        reason: "ディスク容量削減、インストール高速化、Monorepo構成への布石のため"
-      
-      - id: "D014"
-        date: "2026-02-16"
-        decision: "ZG_PROJECT 直下の node_modules は配置しない"
-        reason: "各プロジェクトごとの独立性を保つため（現状はWorkspace構成ではない）"
-
-      - id: "D015"
-        date: "2026-02-16"
-        decision: "ルール上の npm/yarn 完全排除"
-        reason: "開発フローを標準化し、誤用を防ぐため"
-        
-      - id: "D016"
-        date: "2026-02-16"
-        decision: "ディレクトリ移動時は venv を完全再構築する"
-        reason: "venv 内の絶対パス参照が壊れるため、コピーや移動ではなく再作成が必須"
-
-      - id: "D017"
-        date: "2026-02-16"
-        decision: "人格定義のXML化と分離"
-        reason: "システムと人格の責務分離、構造化による読み込み精度向上のため"
-
-      - id: "D018"
-        date: "2026-02-16"
-        decision: "RINA.mdの廃止"
-        reason: "person.mdへの移行完了のため"
-
-      - id: "D019"
-        date: "2026-02-16"
-        decision: ".agent/rules のSystem Definition化"
-        reason: "ルールファイルから人格要素を排除し、純粋なシステム仕様定義として機能させるため"
+      - id: "D022"
+        date: "2026-02-23"
+        decision: "デュアルコア・ワークフロー（戦略と実行の分離）の正式採用"
+        reason: "コスト削減、実行精度の向上、および複数プロジェクトの並列開発を可能にするため"
+      - id: "D023"
+        date: "2026-02-23"
+        decision: "Claude Code CLI 設定のグローバル化（~/.claude/）"
+        reason: "複数プロジェクト間で共通のペルソナ、コマンド、通知システムを維持し、管理を容易にするため"
 
   features:
     completed:
-      - id: "F010"
-        name: "pnpm移行 & ディレクトリクリーンアップ"
+      - id: "F016"
+        name: "Dual-Core Workflow Protocol"
         status: "done"
-        completed_at: "2026-02-16T12:20:00+09:00"
-      - id: "F011"
-        name: "pnpm強制ルールの適用"
+        completed_at: "2026-02-23T14:45:00+09:00"
+      - id: "F017"
+        name: "Global Claude Code CLI Configuration"
         status: "done"
-        completed_at: "2026-02-16T12:25:00+09:00"
-      - id: "F012"
-        name: "Desktop→Developerパス完全移行"
+        completed_at: "2026-02-23T14:40:00+09:00"
+      - id: "F018"
+        name: "Automated Plan Execution Tool (/run-plan)"
         status: "done"
-        completed_at: "2026-02-16T23:25:00+09:00"
-      - id: "F013"
-        name: "Persona Separation (GEMINI.md refactoring)"
-        status: "done"
-        completed_at: "2026-02-16T23:20:00+09:00"
-      - id: "F014"
-        name: "XML Persona Definition (person.md)"
-        status: "done"
-        completed_at: "2026-02-16T23:20:00+09:00"
-      - id: "F015"
-        name: "Rules Layer Refactoring (System Definition)"
-        status: "done"
-        completed_at: "2026-02-16T23:55:00+09:00"
+        completed_at: "2026-02-23T14:30:00+09:00"
 
   cautions:
-    - id: "C006"
-      category: "環境"
-      content: "Google Apps Script プロジェクトは @google/clasp を使用する"
-      reason: "無印の clasp パッケージは pnpm で解決できない場合があるため"
-    - id: "C007"
-      category: "Python"
-      content: "pip install でエンコーディングエラーが出る場合は PYTHONIOENCODING=utf-8 を指定する"
-      reason: "環境によってはデフォルトエンコーディングが正しく認識されずインストールが失敗するため"
+    - id: "C008"
+      category: "運用"
+      content: "実行コア（CLI）へのプラン提示は prompt/plan-fixed/ 経由で行う"
+      reason: "固定されたプランファイルを介すことで、AIの独断を防ぎ、設計通りの実行を担保するため"
