@@ -1,0 +1,4 @@
+.env
+ftp_download/
+__pycache__/
+*.pyc

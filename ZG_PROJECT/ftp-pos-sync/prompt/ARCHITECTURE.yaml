@@ -1,0 +1,24 @@
+completed_features:
+  phase0:
+    name: "調査・データ把握"
+    status: "done"
+    completed_at: "2026-02-26"
+    features:
+      - id: "F001"
+        name: "FTPサンプル取得・形式判定（実物調査）"
+        description: "実サーバーに接続し、ZIP/Shift-JISの事実を突き止めた"
+        file: "src/ftp_sample.py"
+        status: "done"
+
+system_structure:
+  ftp:
+    server: "ぴかいちナビ(FTP)"
+    encoding: "cp932 (Shift-JIS)"
+    compression: "ZIP (拡張子.TXT)"
+    file_list_limit: 1000
+    
+  data_format:
+    type: "CSV"
+    line_1: "メタデータ (店舗CD, 営業日, POS番号等)"
+    line_2: "ヘッダー行 (カラム名)"
+    line_3_plus: "レコードデータ"

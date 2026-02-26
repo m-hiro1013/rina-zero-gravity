@@ -1,0 +1,19 @@
+project:
+  name: "ftp-pos-sync"
+  purpose:
+    primary: "FTPに上がっているPOS圧縮データを自動で取得・解凍・パースし、指定のスプレッドシートに書き込む一気通貫ワークフローの構築"
+  success_criteria:
+    - "毎朝9時ごろのデータを自動で取得・解凍できること"
+    - "パースしたデータを指定のスプレッドシートへ書き込めること"
+    - "処理完了後にFTP上の取得済みデータを削除すること"
+
+tech_stack:
+  language: "Python"
+  framework: "ftplib + python-dotenv + API連携周り(gspread等)"
+
+constraints:
+  - "実データはZIP圧縮（事実: 拡張子TAS1.TXTだが中身はPKヘッダーのZIP）"
+  - "FTP接続・メッセージ・ファイル名はShift-JIS (cp932) でデコードが必要"
+  - "平文FTP（暗号化なし）での接続"
+  - "FTPの表示上限が1000件のため、最新ファイルは名指し取得を推奨"
+  - "FTPの資格情報（IP等含む）は必ず.envで管理する"

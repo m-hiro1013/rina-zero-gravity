@@ -1,0 +1,13 @@
+agents:
+  orchestrator:
+    role: "全体の司令塔。Phase 1〜3の遵守を監督。"
+    status: "active"
+  
+  bookkeeper:
+    role: "セーブデータ(prompt/)の整合性管理。"
+    status: "active"
+
+rules:
+  - ".agent/rules/00-ga-workspace-definition.md"
+  - ".agent/rules/02-security.md"
+  - "ZG_PROJECT/ftp-pos-sync/prompt/PROJECT_SPECIFIC.yaml"
