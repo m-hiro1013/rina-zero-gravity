@@ -22,3 +22,22 @@ system_structure:
     line_1: "メタデータ (店舗CD, 営業日, POS番号等)"
     line_2: "ヘッダー行 (カラム名)"
     line_3_plus: "レコードデータ"
+
+  output_sheets:
+    sheet_1_item_sales:
+      name: "商品出数管理"
+      logic: "店舗CD + メニューCDによる集計（販売数の合算）"
+      columns: ["店舗CD", "部門名称", "分類名称", "ﾒﾆｭｰCD", "ﾒﾆｭｰ名称", "売価(税込)", "売価(税抜)", "原価", "販売数"]
+    
+    sheet_2_trends:
+      name: "曜日・時間帯別傾向"
+      logic: "店舗CD + レシートNoによるグルーピング（1会計 = 1行）"
+      derivation:
+        ym: "営業日から年月を抽出"
+        date: "営業日から日付を抽出"
+        day: "日付から曜日を算出"
+        is_holiday: "Googleカレンダー（日本の祝日）連動判定"
+        arrival: "オーダー日時を来店時間として整形 (HH:mm:ss)"
+        departure: "会計日時を退店時間として整形 (HH:mm:ss)"
+        total_amount: "同じレシートNoの販売金額(税込)を合算"
+      columns: ["店舗CD", "ﾚｼｰﾄNo", "年月", "日付", "曜日", "is_holiday", "オーダー日時", "会計日時", "会計金額"]

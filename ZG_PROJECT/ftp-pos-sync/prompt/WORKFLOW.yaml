@@ -1,88 +1,96 @@
 workflow:
-  version: "1.0.0"
-  last_updated: "2026-02-26 23:10"
+  version: "1.1.0"
+  last_updated: "2026-02-27 06:45:00"
 
   last_session_summary: |
     【今回のセッションで話したこと・決まったこと】
-    - 新プロジェクト `ftp-pos-sync` の立ち上げと「調査ファースト」方針の決定。
-    - 調査用スクリプト `src/ftp_sample.py` の実行により、仕様書（LZH）と実態（ZIP）の乖離を発見。
-    - FTPサーバーの挨拶メッセージやファイル名が Shift-JIS (cp932) であることを特定し、エラーを解消。
-    - ZIP内のファイル構成（7つのCSV：ITEM, NIKKEI等）とデータ構造（1行目メタ、2行目ヘッダー）を確認。
-    - FTPサーバーが一度に1000件しか表示しない制限があることを確認。
-
+    - POSデータ集計において、店舗CD・メニュー名・分類等の重複（1対多、多対1の関係）から生じる分析不能問題を発見。
+    - 解決策として、マスター側で「業態」を持たせ、業態＋店舗CD＋メニューCD＋年月の4つの複合キーで「商品出数管理」を作る方針を決定。
+    - 業態情報を二重管理せず、`report-renewal` プロジェクトのマスターシート `shops` に直接「業態」列を挿入し、GASから `SpreadsheetApp.openById` で直接参照して結合する仕組みを採用。
+    - 表記ゆれを防ぐため、マスターのUI (`master.html`) で「業態」を選択式のドロップダウンに修正した。
+    
     【今後の方向性・これから決めること】
-    - 7つのCSVのうち、どのデータをスプレッドシートのどのシートへ書き込むかを確定する。
-    - 2nd Phase (本実装) として、パースからスプレッドシート書き込み、FTP上のデータ削除までの自動化を実装する。
-
+    - Python側からの実データの大量流し込み (pos_accumulator.py) を実行し、GASの実行上限（6分）に引っかからないか、また負荷に耐えられるかの検証。
+    - FTP上の旧データ削除の自動化（現在はテストのためデータを温存中）。
+    
     【次にやること（実行順序）】
-    1. ひろきくんから「書き込み対象のCSVファイルと項目」の指示をもらう（ITEMかNIKKEIか、あるいは両方か）。
-    2. 書き込み先スプレッドシートの準備（URL、認証用サービスアカウント等）。
-    3. 2nd Phase の詳細ヒアリング（既存データへの追記か上書きか等）。
-    4. 本番用自動化モジュールの設計（ftp_client.py, parser.py, spreadsheet.py）。
+    1. 初回のみ、report-renewal 側の master.html にアクセスし、各店舗に「業態」を手動設定する。
+    2. Pythonスクリプト `pos_accumulator.py` を実行し、FTP上の最新2月分の全データをスプレッドシートの「Sheet1」へ蓄積する。
+    3. 転記スクリプト `runAggregation()` を実行し、「商品出数管理」および「曜日・時間帯別傾向」シートが問題なく生成されるか検証する。
 
   progress:
     current_phase:
-      number: 1
-      name: "1st Phase: 調査・データ把握"
+      number: 2
+      name: "2nd Phase: 転記・集計基盤の構築とマスタ連携"
       status: "in_progress"
     
     current_task:
-      description: "スプレッドシート書き込み対象データの確定待ち"
-      started_at: "2026-02-26 22:45"
+      description: "POSデータ蓄積スクリプト実行とGAS連携の最終検証フェーズ"
+      started_at: "2026-02-26 15:00"
     
     completed_phases:
       - phase: 0
         name: "プロジェクト立ち上げ・要件定義"
         completed_at: "2026-02-26"
+      - phase: 1
+        name: "1st Phase: 調査・データ把握"
+        completed_at: "2026-02-26"
     
     next_tasks:
-      - "スプレッドシート連携仕様のヒアリング (2nd Phase開始)"
-      - "Google Sheets API 認証情報の準備"
-      - "自動化用モジュールの実装"
+      - "既存店舗への「業態」初期値入力（手動）"
+      - "pos_accumulator.py による実データの自動蓄積実行"
+      - "runAggregation() による整形データの生成と目視チェック"
+      - "FTP上のデータ自動削除の有効化"
 
   decisions:
     adopted:
-      - id: "D001"
+      - id: "D007"
         date: "2026-02-26"
-        decision: "調査ファースト・分断プロトコルの採用"
-        reason: "実データの中身が不明なまま本実装すると手戻りが大きいため。"
-      - id: "D003"
+        decision: "Pythonによるローカル監査（audit_menu_codes.py）の実施"
+        reason: "GASの6分制限のため、10万行を超えるPOSデータの全件重複監査がタイムアウトしたため、Python側から直接FTPを叩いて高速監査を行った。"
+      - id: "D008"
         date: "2026-02-26"
-        decision: "文字コードを cp932 に固定"
-        reason: "UTF-8では接続メッセージのデコードで例外が発生したため。"
-      - id: "D004"
-        date: "2026-02-26"
-        decision: "解凍処理はZIP形式（unzip等）で実装"
-        reason: "拡張子はTXTだが、バイナリヘッダー(PK)によりZIPであることが確定したため。"
+        decision: "商品出数管理の集計キーを「業態＋店舗CD＋ﾒﾆｭｰCD＋年月」とする"
+        reason: "CDの重複登録やメニュー名のゆれがあるため、店舗CDとCDの完全一致、かつ月別のトレンドを追えるようにする必要があったため。"
+      - id: "D009"
+        date: "2026-02-27"
+        decision: "業態マスタは report-renewal 側の shops シートで一元管理"
+        reason: "データの二重管理を防ぎ、かつUI（master.html）を使い回すため。"
+      - id: "D010"
+        date: "2026-02-27"
+        decision: "master.html 内の業態入力の選択式（ドロップダウン）化"
+        reason: "テキストの自由入力による「アジアン」「Asian」などの表記ゆれによって集計が分散するのを防ぐため。"
 
   features:
-    completed:
-      - id: "F001"
-        name: "FTPサンプル取得・形式判定（実物調査）"
-        status: "done"
-    in_progress: []
-    planned:
-      - id: "F002"
-        name: "FTP自動取得・差分ダウンロード"
-        status: "planned"
+    in_progress:
       - id: "F003"
-        name: "POSデータパース（複数CSV対応）"
-        status: "planned"
+        name: "POSデータパースと巨大データの処理"
+        status: "in_progress"
       - id: "F004"
-        name: "スプレッドシート自動書き込み"
-        status: "planned"
+        name: "スプレッドシート自動転記＆高度な集計分析"
+        status: "in_progress"
+    planned:
       - id: "F005"
         name: "FTP元データ自動削除"
         status: "planned"
+    completed:
+      - id: "F001"
+        name: "FTPサンプル取得・形式判定（実物調査）"
+      - id: "F002"
+        name: "FTP自動取得・差分ダウンロード"
+      - id: "F006"
+        name: "マスターUIへの業態プルダウンの追加（report-renewal側）"
 
   file_structure:
     created:
-      - "prompt/PROJECT_SPECIFIC.yaml"
-      - "prompt/WORKFLOW.yaml"
-      - "src/ftp_sample.py"
-      - ".env.example"
-    to_create:
-      - "src/ftp_client.py"
-      - "src/extractor.py"
-      - "src/parser.py"
-      - "src/spreadsheet_updater.py"
+      - "src/audit_menu_codes.py"
+      - "gas/転記.gs"
+      - "gas/監査.gs"
+    to_create: []
+    to_modify:
+      - "/report-renewal/gas/masterManager.js"
+      - "/report-renewal/gas/master.html"
+
+  cautions:
+    - "GASで別スプレッドシート（マスター）を参照するため、SpreadsheetApp.openById() の初回実行時に権限の承認ポップアップ許可が必須。"
+    - "マスタUIの選択肢に「その他」はあるが、想定外の業態が出たら select タグの options に配列要素を追加する必要がある。"
