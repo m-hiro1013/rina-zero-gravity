@@ -1,4 +1,10 @@
 
+- セッション: 28 (/save-session Workflow Refinement & Strict Information Density Policy)
+  - date: 2026-02-26
+  - insights:
+    - [Workflow-Design] **SDK-level Context Persistence**: /save-sessionの保存粒度に関する要求として、「簡潔さよりも詳細・網羅性・再現性を最優先する」「ファイル長は無制限とする」というルールを追加。管理ファイルを「ただのメモ」ではなく「SDK相当の公式仕様書」と同格に扱うことで、次回アサインされるAIが高精度のコンテキストを引き継げる。 [+5]
+    - [Workflow-Refactoring] **Template Preservation in Workflow Refinement**: AIがワークフローファイルを抽象的な指示でブラッシュアップする際、過度に抽象化して既存の「具体的な出力テンプレート（YAML等）」「ターミナルプレビュー」「コマンド（// turbo）」を削ぎ落としてしまうアンチパターンがある。既存の実装やフォーマットを100%維持しながら新しいルールを統合することを徹底すべき。 [+6]
+
 - セッション: 27 (Phase 16 - ECC v2 実走検証 & sf-maker 構築)
   - date: 2026-02-24
   - insights:
