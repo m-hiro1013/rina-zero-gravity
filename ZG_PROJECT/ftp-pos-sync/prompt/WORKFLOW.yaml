@@ -1,22 +1,25 @@
 workflow:
-  version: "1.1.0"
-  last_updated: "2026-02-27 06:45:00"
+  version: "1.2.0"
+  last_updated: "2026-02-27 15:25:00"
 
   last_session_summary: |
     【今回のセッションで話したこと・決まったこと】
-    - POSデータ集計において、店舗CD・メニュー名・分類等の重複（1対多、多対1の関係）から生じる分析不能問題を発見。
-    - 解決策として、マスター側で「業態」を持たせ、業態＋店舗CD＋メニューCD＋年月の4つの複合キーで「商品出数管理」を作る方針を決定。
-    - 業態情報を二重管理せず、`report-renewal` プロジェクトのマスターシート `shops` に直接「業態」列を挿入し、GASから `SpreadsheetApp.openById` で直接参照して結合する仕組みを採用。
-    - 表記ゆれを防ぐため、マスターのUI (`master.html`) で「業態」を選択式のドロップダウンに修正した。
-    
+    - 転記.gsの実行前チェック：`.clear()` で毎回全消しになっている問題を発見。
+    - ひろきくんの運用方針の確認：生データ（Sheet1）は膨大になる（10万行/月）ため毎月上書きし、集計データ（商品出数管理、曜日・時間帯別傾向）は月をまたいで蓄積（溜め込み）していく方針を決定。
+    - 複合キーのリスクヘッジ：曜・時間帯別傾向シートで、レシートNoが月ごとにリセットされる可能性を考慮し、複合キーに「年月」を追加。
+    - ダッシュボード構築の要件ヒアリング：時間帯別売上、曜日別売上、フード・ドリンク比率、コース売上比率、カテゴリ別商品ランキングを1つのHTMLページで表示する機能要件を整理。
+    - データの実地調査：ブラウザ・ツールを使用して実データの部門名称、分類名称、時間帯フォーマットを確認。コースや飲み放題が分類名称に含まれる事実を特定。
+
     【今後の方向性・これから決めること】
-    - Python側からの実データの大量流し込み (pos_accumulator.py) を実行し、GASの実行上限（6分）に引っかからないか、また負荷に耐えられるかの検証。
-    - FTP上の旧データ削除の自動化（現在はテストのためデータを温存中）。
-    
+    - データ構造とロジックを優先した、GAS doGet で動くHTML版ダッシュボードを早期実装し、実データでの集計精度を検証する。
+    - pos_accumulator.py の対象月ハードコード（202602）の動的化。
+    - コース判定や商品ランキングにおける除外/包含条件の細部詰め。
+
     【次にやること（実行順序）】
-    1. 初回のみ、report-renewal 側の master.html にアクセスし、各店舗に「業態」を手動設定する。
-    2. Pythonスクリプト `pos_accumulator.py` を実行し、FTP上の最新2月分の全データをスプレッドシートの「Sheet1」へ蓄積する。
-    3. 転記スクリプト `runAggregation()` を実行し、「商品出数管理」および「曜日・時間帯別傾向」シートが問題なく生成されるか検証する。
+    1. 修正・Upsert化した `gas/転記.gs` をGASへコピペデプロイ。
+    2. 既存店舗への「業態」初期値入力（手動）を完了させる。
+    3. `prompt/plan.md` に基づき、`gas/dashboard.gs` と `gas/dashboard.html` の実装を開始。
+    4. 実データを流し込み、ダッシュボードの表示と集計数値を既存の集計シートと照らし合わせて検証。
 
   progress:
     current_phase:
@@ -25,8 +28,8 @@ workflow:
       status: "in_progress"
     
     current_task:
-      description: "POSデータ蓄積スクリプト実行とGAS連携の最終検証フェーズ"
-      started_at: "2026-02-26 15:00"
+      description: "集計シートのUpsert化完了とダッシュボード実装プラン策定"
+      started_at: "2026-02-27 09:00"
     
     completed_phases:
       - phase: 0
@@ -37,10 +40,10 @@ workflow:
         completed_at: "2026-02-26"
     
     next_tasks:
-      - "既存店舗への「業態」初期値入力（手動）"
-      - "pos_accumulator.py による実データの自動蓄積実行"
-      - "runAggregation() による整形データの生成と目視チェック"
-      - "FTP上のデータ自動削除の有効化"
+      - "Upsert型 転記.gs のGASへのコピペ反映"
+      - "plan.md に基づくダッシュボード機能（GS/HTML）の実装"
+      - "pos_accumulator.py による最新データ投入とダッシュボード表示確認"
+      - "FTP上のデータ自動削除の有効化（本番運用開始時）"
 
   decisions:
     adopted:
@@ -60,6 +63,14 @@ workflow:
         date: "2026-02-27"
         decision: "master.html 内の業態入力の選択式（ドロップダウン）化"
         reason: "テキストの自由入力による「アジアン」「Asian」などの表記ゆれによって集計が分散するのを防ぐため。"
+      - id: "D011"
+        date: "2026-02-27"
+        decision: "集計シートをUpsert方式（既存保持・重複上書き）に変更"
+        reason: "生データが10万行/月と肥大するためSheet1を毎月上書き運用とするが、集計累計結果は月をまたいで蓄積させたいため。"
+      - id: "D012"
+        date: "2026-02-27"
+        decision: "曜日・時間帯別傾向の複合キーに「年月」を追加"
+        reason: "レシートNoが店舗ごとに月単位でリセットされる可能性を考慮し、異なる月で同一キーが衝突（上書き）されるのを防ぐため。"
 
   features:
     in_progress:
@@ -68,6 +79,9 @@ workflow:
         status: "in_progress"
       - id: "F004"
         name: "スプレッドシート自動転記＆高度な集計分析"
+        status: "in_progress"
+      - id: "F007"
+        name: "POS分析ダッシュボード（HTML版）の構築"
         status: "in_progress"
     planned:
       - id: "F005"
@@ -83,14 +97,14 @@ workflow:
 
   file_structure:
     created:
-      - "src/audit_menu_codes.py"
-      - "gas/転記.gs"
-      - "gas/監査.gs"
-    to_create: []
+      - "prompt/plan.md"
+      - "prompt/ARCHITECTURE.yaml"
+    to_create:
+      - "gas/dashboard.gs"
+      - "gas/dashboard.html"
     to_modify:
-      - "/report-renewal/gas/masterManager.js"
-      - "/report-renewal/gas/master.html"
+      - "gas/転記.gs"
 
   cautions:
     - "GASで別スプレッドシート（マスター）を参照するため、SpreadsheetApp.openById() の初回実行時に権限の承認ポップアップ許可が必須。"
-    - "マスタUIの選択肢に「その他」はあるが、想定外の業態が出たら select タグの options に配列要素を追加する必要がある。"
+    - "集計シートは現在 Upsert ロジック上、毎回全行読み込んで上書きするため、行数が数万件を超えるとGAS上でのメモリ制限や時間制限を考慮する必要が出てくる可能性がある。"

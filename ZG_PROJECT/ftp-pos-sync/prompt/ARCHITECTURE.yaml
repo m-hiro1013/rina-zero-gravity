@@ -1,3 +1,297 @@
+# ============================================================
+# ftp-pos-sync ARCHITECTURE（システム設計図）
+# ============================================================
+# 最終更新: 2026-02-27 09:12
+# 
+# このファイルは、プロジェクト全体の設計を
+# 「初見のAIエージェントでも即座に理解できる解像度」で記述したものです。
+# ============================================================
+
+# ============================================================
+# 1. システム全体像（データフロー）
+# ============================================================
+
+system_overview:
+  description: |
+    飲食店のPOSレジデータ（ぴかいちナビFTP）を自動取得・解凍・パースし、
+    Googleスプレッドシートに書き込み、GASで集計・分析用シートを自動生成するパイプライン。
+
+  data_flow: |
+    [ぴかいちナビ FTPサーバー]
+        │  ZIP圧縮 (拡張子.TXT だが中身はPKヘッダーのZIP)
+        │  文字コード: Shift-JIS (cp932)
+        │  平文FTP接続（暗号化なし）
+        │  ファイル一覧上限: 1000件
+        ▼
+    [Python: pos_accumulator.py]  ← ローカルPCで実行
+        │  FTP接続 → ZIPダウンロード → 解凍 → ITEM.CSV抽出 → パース
+        │  1ファイルずつ GAS Web API (doPost) へ送信
+        │  初回のみ clear=True で Sheet1 をリセット
+        ▼
+    [Google Sheets: Sheet1（生データ）]  ← 1ヶ月分で約10万行
+        │  運用方針: 毎月上書き（溜め込まない）
+        │  理由: 10万行/月のため、溜め続けるとシートの限界に達する
+        ▼
+    [GAS: 転記.gs - runAggregation()]  ← スプレッドシートのカスタムメニューから手動実行
+        │  Sheet1 の全行を読み込み → 集計 → 2つのシートへ Upsert
+        │
+        ├──▶ [商品出数管理シート]  ← Upsert方式で溜め込み
+        │      複合キー: 業態_店舗CD_ﾒﾆｭｰCD_年月
+        │
+        └──▶ [曜日・時間帯別傾向シート]  ← Upsert方式で溜め込み
+               複合キー: 店舗CD_ﾚｼｰﾄNo_年月
+
+  cross_project_dependency: |
+    本プロジェクトは report-renewal プロジェクトのマスターデータに依存している。
+    GAS の転記.gs 内で SpreadsheetApp.openById() を使い、
+    report-renewal 側の「shops」シートから店舗CD → 業態のマッピングを取得する。
+    これにより業態データの二重管理を防いでいる。
+
+# ============================================================
+# 2. FTPサーバー仕様
+# ============================================================
+
+ftp_server:
+  name: "ぴかいちナビ"
+  encoding: "cp932 (Shift-JIS)"
+  compression: "ZIP (拡張子は .TXT だが、マジックバイト PK で判定)"
+  file_list_limit: 1000
+  data_volume: "1日あたり約20ファイル（全店舗分）"
+  retention: "約50日分（1000件 ÷ 20件/日）"
+  oldest_data_confirmed: "2026-01-05"
+  risk: |
+    1000件の表示上限があるため、50日分を超えるとアルファベット順（店舗CD順）の
+    打ち切りにより最新データが見えなくなる。定期的なデータ削除が必須。
+
+  file_naming: |
+    パターン: {店舗CD}{営業日}{POS番号}TAS1.TXT
+    例: 000010120260105225720TAS1.TXT
+    → 店舗CD: 0000101, 営業日: 20260105, POS番号: 225720
+
+# ============================================================
+# 3. CSVデータ仕様（ITEM.CSV）
+# ============================================================
+
+csv_format:
+  type: "CSV"
+  encoding: "cp932 (Shift-JIS)"
+  structure:
+    line_1: "メタデータ行（店舗CD, 営業日, POS番号など）"
+    line_2: "ヘッダー行（カラム名）"
+    line_3_plus: "レコードデータ（1伝票・1商品・1行）"
+  
+  key_columns:
+    - name: "店舗CD"
+      description: "店舗を一意に識別するコード"
+    - name: "営業日"
+      description: "YYYYMMDD形式の営業日"
+      note: "年月(YYYYMM)の抽出に使用"
+    - name: "ﾒﾆｭｰCD"
+      description: "メニューコード。店舗間で重複あり（要注意）"
+    - name: "ﾒﾆｭｰ名称"
+      description: "メニュー名。店舗間で同コード別名称あり"
+    - name: "ﾚｼｰﾄNo"
+      description: "レシート番号。月をまたいでリセットされる可能性あり"
+    - name: "販売数"
+      description: "販売個数（商品出数管理の集計対象）"
+    - name: "販売金額(税込)"
+      description: "税込金額（曜日・時間帯別傾向の合算対象）"
+    - name: "オーダー日時"
+      description: "来店時刻として使用。末尾6桁がHHmmss"
+    - name: "会計日時"
+      description: "退店時刻として使用。末尾6桁がHHmmss"
+
+  data_quality_issues: |
+    【重要】POSデータ特有の「コードと名前の1対多/多対1問題」
+    - 店舗が各自でレジ設定するため、メニューCDや部門CDが完全に重複・再利用される。
+    - 「コード」のみを主キーに集計すると、異なる店舗のデータが混在して崩壊する。
+    - 必ず「店舗CD」＋「業態」を含めた複合キーで集計すること。
+    - 監査スクリプト（audit_menu_codes.py）で事前に検証済み。
+
+# ============================================================
+# 4. 集計シート設計（Upsert方式）
+# ============================================================
+
+aggregation_design:
+  strategy: |
+    【運用方針】
+    - 生データ（Sheet1）: 毎月上書き（10万行/月の容量制約）
+    - 集計シート: Upsert方式で月をまたいで蓄積
+      → 重複キーは上書き、既存キーは保持
+    
+    【Upsertロジック（両シート共通）】
+    ① 既存シートの全行をメモリに読み込み → 複合キーでMap化
+    ② 新データ（Sheet1の全行）を集計 → 複合キーで新Mapを構築
+    ③ 新Mapの各エントリを既存Mapにマージ（重複は上書き、新規は追加）
+    ④ マージ済みMapをシートに全行書き戻し（clear→write）
+    
+    【注意】④で一旦 .clear() しているが、③でメモリ上にマージ済みなので
+    過去月のデータは消えない。書き戻し時の行数変動に対応するための措置。
+
+  sheet_1_item_sales:
+    name: "商品出数管理"
+    purpose: "メニュー別の販売数を業態・店舗・月ごとに蓄積し、トレンド分析に使う"
+    composite_key: "業態_店舗CD_ﾒﾆｭｰCD_年月"
+    key_example: "居酒屋_00001_1234_202602"
+    key_rationale: |
+      - 業態: 店舗の業態（居酒屋、和食、アジアン等）。report-renewal側のマスタから取得。
+      - 店舗CD: POSレジの店舗コード。
+      - ﾒﾆｭｰCD: メニューコード。店舗間で重複あるため店舗CD＋業態と複合にする。
+      - 年月: YYYYMM。月単位のトレンドを追うため。
+    aggregation_logic: "同じキーの販売数を合算"
+    columns:
+      - "業態"
+      - "店舗CD"
+      - "部門名称"
+      - "分類名称"
+      - "ﾒﾆｭｰCD"
+      - "ﾒﾆｭｰ名称"
+      - "年月"
+      - "売価(税込)"
+      - "売価(税抜)"
+      - "原価"
+      - "販売数"
+
+  sheet_2_trends:
+    name: "曜日・時間帯別傾向"
+    purpose: "1会計（レシート）単位で来退店時間・曜日・祝日を蓄積し、時間帯分析に使う"
+    composite_key: "店舗CD_ﾚｼｰﾄNo_年月"
+    key_example: "00001_000523_202602"
+    key_rationale: |
+      - 店舗CD: POSレジの店舗コード。
+      - ﾚｼｰﾄNo: レシート番号。1会計 = 1行にまとめるためのグルーピングキー。
+      - 年月: YYYYMM。レシートNoが月をまたいでリセットされる可能性があるため追加（2026-02-27決定）。
+    aggregation_logic: "同じキーの販売金額(税込)を合算 → 会計金額"
+    derivation:
+      ym: "営業日(YYYYMMDD)の先頭6桁"
+      date: "営業日の末尾2桁（日）"
+      day: "Date.getDay()で曜日算出（日〜土）"
+      is_holiday: "Googleカレンダー（日本の祝日）連動判定 + 土日判定"
+      arrival: "オーダー日時の末尾6桁をHH:mm:ssに整形"
+      departure: "会計日時の末尾6桁をHH:mm:ssに整形"
+      total_amount: "同じレシートNoの販売金額(税込)を合算"
+    columns:
+      - "店舗CD"
+      - "ﾚｼｰﾄNo"
+      - "年月"
+      - "日付"
+      - "曜日"
+      - "is_holiday"
+      - "オーダー日時"
+      - "会計日時"
+      - "会計金額"
+
+# ============================================================
+# 5. マスターデータ連携（report-renewal プロジェクト）
+# ============================================================
+
+master_data_linkage:
+  description: |
+    業態情報を二重管理せず、report-renewal プロジェクトのマスターシート「shops」から
+    直接ルックアップする仕組み。GASの SpreadsheetApp.openById() を使用。
+  
+  master_spreadsheet_id: "1jl-GuhjOIC91Tpml6uaLe0sxGbVLu7mHFiDfVIyaAvs"
+  master_sheet_name: "shops"
+  lookup_function: "getShopCategoryMap()"
+  
+  shops_sheet_structure:
+    columns:
+      - name: "shop_code"
+        description: "店舗コード（POSの店舗CDと一致）"
+      - name: "shop_id"
+        description: "内部店舗ID"
+      - name: "shop_name"
+        description: "店舗名"
+      - name: "業態"
+        description: "業態（居酒屋、和食、アジアン等）。select タグによる固定リスト入力（表記ゆれ防止）"
+  
+  ui_changes:
+    - "master.html に業態ドロップダウンを追加済み"
+    - "masterManager.js に業態の CRUD 処理を追加済み"
+  
+  cautions:
+    - "SpreadsheetApp.openById() の初回実行時に権限承認のポップアップが表示される"
+    - "業態の選択肢に「その他」があるが、新業態が出た場合はHTML(select)のoptionsに追加が必要"
+
+# ============================================================
+# 6. ファイル構成
+# ============================================================
+
+file_structure:
+  python_scripts:
+    - path: "src/pos_accumulator.py"
+      role: "FTPから当月のPOSデータをダウンロード → 解凍 → パース → GAS Web API経由でSheet1に送信"
+      note: "対象月のパターンが *202602*TAS1.TXT でハードコードされている（要改善）"
+    
+    - path: "src/ftp_sample.py"
+      role: "FTP接続テスト・サンプルデータ取得用スクリプト（Phase 0で使用）"
+      status: "調査完了・保存用"
+    
+    - path: "src/audit_menu_codes.py"
+      role: "FTP上の全データを直接スキャンし、メニューCD・部門CD・分類の重複を監査するスクリプト"
+      status: "調査完了・保存用"
+    
+    - path: "src/ftp_inventory.py"
+      role: "FTP上のファイル一覧を取得するスクリプト"
+      status: "調査完了・保存用"
+    
+    - path: "src/ftp_backtrack_test.py"
+      role: "FTPの過去データ到達テスト（最古データの確認）"
+      status: "調査完了・保存用"
+    
+    - path: "src/ftp_find_oldest_v2.py"
+      role: "最古のFTPファイルを特定するスクリプト v2"
+      status: "調査完了・保存用"
+
+  gas_scripts:
+    - path: "gas/転記.gs"
+      role: "Sheet1の生データを読み込み、2つの集計シートをUpsert方式で生成する"
+      key_functions:
+        - name: "runAggregation()"
+          description: "メインの集計実行関数。商品出数管理 + 曜日時間帯別傾向を生成"
+        - name: "getShopCategoryMap()"
+          description: "report-renewal側のマスターから店舗CD→業態のマッピングを取得"
+        - name: "generateItemSalesSheet()"
+          description: "商品出数管理シートをUpsert方式で生成"
+        - name: "generateTrendSheet()"
+          description: "曜日・時間帯別傾向シートをUpsert方式で生成"
+    
+    - path: "gas/監査.gs"
+      role: "GAS側でのデータ監査スクリプト（GASの6分制限のため大規模監査はPython側で実施）"
+
+  config_files:
+    - path: ".env"
+      role: "FTP接続情報・GAS Web API URL（gitignore対象）"
+    - path: ".env.example"
+      role: ".envのテンプレート"
+    - path: ".gitignore"
+      role: ".env, credentials.json 等の除外設定"
+
+  local_data:
+    - path: "ftp_download/"
+      role: "FTPから取得したサンプルデータの保存先（調査用）"
+      note: "ZIP + 解凍済みCSVが保存されている"
+
+# ============================================================
+# 7. 環境変数（.env）
+# ============================================================
+
+environment_variables:
+  - name: "FTP_HOST"
+    description: "ぴかいちナビFTPサーバーのホスト名"
+  - name: "FTP_USER"
+    description: "FTPユーザー名"
+  - name: "FTP_PASS"
+    description: "FTPパスワード"
+  - name: "FTP_PORT"
+    description: "FTPポート番号（デフォルト: 21）"
+  - name: "GAS_URL"
+    description: "GAS Web App（doPost）のデプロイURL"
+
+# ============================================================
+# 8. 完了済み機能
+# ============================================================
+
 completed_features:
   phase0:
     name: "調査・データ把握"
@@ -10,34 +304,59 @@ completed_features:
         file: "src/ftp_sample.py"
         status: "done"
 
-system_structure:
-  ftp:
-    server: "ぴかいちナビ(FTP)"
-    encoding: "cp932 (Shift-JIS)"
-    compression: "ZIP (拡張子.TXT)"
-    file_list_limit: 1000
-    
-  data_format:
-    type: "CSV"
-    line_1: "メタデータ (店舗CD, 営業日, POS番号等)"
-    line_2: "ヘッダー行 (カラム名)"
-    line_3_plus: "レコードデータ"
+  phase1:
+    name: "FTP自動取得パイプライン"
+    status: "done"
+    completed_at: "2026-02-26"
+    features:
+      - id: "F002"
+        name: "FTP自動取得・差分ダウンロード"
+        description: "指定月のPOSファイルをFTPから自動取得し、GAS経由でSheet1に送信するパイプライン"
+        file: "src/pos_accumulator.py"
+        status: "done"
+      - id: "F006"
+        name: "マスターUIへの業態プルダウンの追加（report-renewal側）"
+        description: "表記ゆれ防止のためmaster.htmlに業態selectタグを追加し、masterManager.jsにCRUD処理を追加"
+        files:
+          - "/report-renewal/gas/master.html"
+          - "/report-renewal/gas/masterManager.js"
+        status: "done"
 
-  output_sheets:
-    sheet_1_item_sales:
-      name: "商品出数管理"
-      logic: "店舗CD + メニューCDによる集計（販売数の合算）"
-      columns: ["店舗CD", "部門名称", "分類名称", "ﾒﾆｭｰCD", "ﾒﾆｭｰ名称", "売価(税込)", "売価(税抜)", "原価", "販売数"]
-    
-    sheet_2_trends:
-      name: "曜日・時間帯別傾向"
-      logic: "店舗CD + レシートNoによるグルーピング（1会計 = 1行）"
-      derivation:
-        ym: "営業日から年月を抽出"
-        date: "営業日から日付を抽出"
-        day: "日付から曜日を算出"
-        is_holiday: "Googleカレンダー（日本の祝日）連動判定"
-        arrival: "オーダー日時を来店時間として整形 (HH:mm:ss)"
-        departure: "会計日時を退店時間として整形 (HH:mm:ss)"
-        total_amount: "同じレシートNoの販売金額(税込)を合算"
-      columns: ["店舗CD", "ﾚｼｰﾄNo", "年月", "日付", "曜日", "is_holiday", "オーダー日時", "会計日時", "会計金額"]
+  phase2_partial:
+    name: "転記・集計基盤の構築（Upsert化完了）"
+    status: "partially_done"
+    completed_at: "2026-02-27"
+    features:
+      - id: "F007"
+        name: "集計シートのUpsert方式への移行"
+        description: |
+          転記.gsの商品出数管理・曜日時間帯別傾向の両シートを、
+          毎回全消し(.clear())→再構築 から Upsert方式（既存保持＋重複上書き）に変更。
+          曜日・時間帯別傾向の複合キーに「年月」を追加（レシートNo月リセット対策）。
+        file: "gas/転記.gs"
+        status: "done"
+
+# ============================================================
+# 9. 未完了・今後の課題
+# ============================================================
+
+pending_items:
+  - id: "P001"
+    name: "pos_accumulator.py の対象月ハードコード問題"
+    description: "パターンが *202602*TAS1.TXT でハードコードされている。引数または環境変数で月を指定可能にすべき。"
+    priority: "medium"
+  
+  - id: "P002"
+    name: "FTP上のデータ自動削除"
+    description: "処理完了後にFTP上の取得済みデータを削除する機能。FTP表示上限1000件対策。現在はテスト中で無効化。"
+    priority: "high"
+  
+  - id: "P003"
+    name: "実データの大量流し込みと負荷テスト"
+    description: "pos_accumulator.py で全店舗・全日の2月データを実際に流し込み、GASの実行上限（6分）に引っかからないか検証する。"
+    priority: "high"
+  
+  - id: "P004"
+    name: "runAggregation() の実行と目視確認"
+    description: "Upsert化後の転記.gsをGASにデプロイし、集計結果が正しく生成されるか目視で確認する。"
+    priority: "high"

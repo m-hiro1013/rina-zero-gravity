@@ -70,15 +70,32 @@ function getShopCategoryMap() {
 }
 
 /**
- * 商品出数管理シート
+ * 商品出数管理シート（Upsert方式: 既存データ保持＋重複キー上書き）
  */
 function generateItemSalesSheet(ss, rows, colMap) {
   const targetSheetName = "商品出数管理";
   let targetSheet = ss.getSheetByName(targetSheetName) || ss.insertSheet(targetSheetName);
-  targetSheet.clear();
   
+  const outputHeaders = ["業態", "店舗CD", "部門名称", "分類名称", "ﾒﾆｭｰCD", "ﾒﾆｭｰ名称", "年月", "売価(税込)", "売価(税抜)", "原価", "販売数"];
+  
+  // ① 既存データをキーで読み込み（過去月のデータを保持するため）
+  const mergedData = {};
+  const lastRow = targetSheet.getLastRow();
+  if (lastRow >= 2) {
+    const existingRows = targetSheet.getRange(2, 1, lastRow - 1, outputHeaders.length).getValues();
+    existingRows.forEach(row => {
+      // 複合キー: 業態_店舗CD_ﾒﾆｭｰCD_年月
+      const key = row[0] + "_" + row[1] + "_" + row[4] + "_" + row[6];
+      const obj = {};
+      outputHeaders.forEach((h, i) => obj[h] = row[i]);
+      mergedData[key] = obj;
+    });
+    console.log("既存データ読み込み: " + Object.keys(mergedData).length + " 件");
+  }
+  
+  // ② 新データを集計
   const shopCatMap = getShopCategoryMap();
-  const aggregation = {};
+  const newAggregation = {};
   
   rows.forEach(row => {
     const shopId = row[colMap["店舗CD"]];
@@ -90,8 +107,8 @@ function generateItemSalesSheet(ss, rows, colMap) {
     // 複合キー: 業態 + 店舗CD + ﾒﾆｭｰCD + 年月
     const key = category + "_" + shopId + "_" + menuId + "_" + ym;
     
-    if (!aggregation[key]) {
-      aggregation[key] = {
+    if (!newAggregation[key]) {
+      newAggregation[key] = {
         "業態": category,
         "店舗CD": shopId,
         "部門名称": row[colMap["部門名称"]],
@@ -105,45 +122,75 @@ function generateItemSalesSheet(ss, rows, colMap) {
         "販売数": 0
       };
     }
-    aggregation[key]["販売数"] += (Number(row[colMap["販売数"]]) || 0);
+    newAggregation[key]["販売数"] += (Number(row[colMap["販売数"]]) || 0);
   });
   
-  const outputHeaders = ["業態", "店舗CD", "部門名称", "分類名称", "ﾒﾆｭｰCD", "ﾒﾆｭｰ名称", "年月", "売価(税込)", "売価(税抜)", "原価", "販売数"];
-  const outputData = [outputHeaders];
+  // ③ Upsert: 新データを既存データにマージ（重複キーは上書き、新規は追加）
+  const newCount = { updated: 0, added: 0 };
+  Object.entries(newAggregation).forEach(([key, val]) => {
+    if (mergedData[key]) {
+      newCount.updated++;
+    } else {
+      newCount.added++;
+    }
+    mergedData[key] = val;
+  });
+  console.log("商品出数管理 Upsert: 上書き " + newCount.updated + " 件, 新規追加 " + newCount.added + " 件");
   
-  Object.values(aggregation).forEach(item => {
+  // ④ マージ済みの全データをシートに書き戻す
+  targetSheet.clear();
+  const outputData = [outputHeaders];
+  Object.values(mergedData).forEach(item => {
     outputData.push(outputHeaders.map(h => item[h]));
   });
   
   targetSheet.getRange(1, 1, outputData.length, outputData[0].length).setValues(outputData);
   formatSheetMiyabi(targetSheet);
+  console.log("商品出数管理: 合計 " + (outputData.length - 1) + " 件書き込み完了");
 }
 
 /**
- * 曜日・時間帯別傾向シート
+ * 曜日・時間帯別傾向シート（Upsert方式: 既存データ保持＋重複キー上書き）
  */
 function generateTrendSheet(ss, rows, colMap) {
   const targetSheetName = "曜日・時間帯別傾向";
   let targetSheet = ss.getSheetByName(targetSheetName) || ss.insertSheet(targetSheetName);
-  targetSheet.clear();
   
+  const outputHeaders = ["店舗CD", "ﾚｼｰﾄNo", "年月", "日付", "曜日", "is_holiday", "オーダー日時", "会計日時", "会計金額"];
+  
+  // ① 既存データをキーで読み込み（過去月のデータを保持するため）
+  const mergedData = {};
+  const lastRow = targetSheet.getLastRow();
+  if (lastRow >= 2) {
+    const existingRows = targetSheet.getRange(2, 1, lastRow - 1, outputHeaders.length).getValues();
+    existingRows.forEach(row => {
+      // 複合キー: 店舗CD_ﾚｼｰﾄNo_年月
+      const key = row[0] + "_" + row[1] + "_" + row[2];
+      const obj = {};
+      outputHeaders.forEach((h, i) => obj[h] = row[i]);
+      mergedData[key] = obj;
+    });
+    console.log("既存データ読み込み: " + Object.keys(mergedData).length + " 件");
+  }
+  
+  // ② 新データを集計
   const holidayCache = {}; // 祝日判定の節約用
-  const aggregation = {};
+  const newAggregation = {};
   
   rows.forEach(row => {
     const shopId = row[colMap["店舗CD"]];
     const receiptNo = row[colMap["ﾚｼｰﾄNo"]];
+    const bizDay = String(row[colMap["営業日"]]); // YYYYMMDD
+    const ym = bizDay.length >= 6 ? bizDay.substring(0, 6) : "";
     
-    // 会計単位で1行にまとめるので 店舗CD + レシートNo がキー
-    const key = shopId + "_" + receiptNo;
+    // 複合キー: 店舗CD + ﾚｼｰﾄNo + 年月（月リセット対策）
+    const key = shopId + "_" + receiptNo + "_" + ym;
     
-    if (!aggregation[key]) {
-      const bizDay = String(row[colMap["営業日"]]); // YYYYMMDD
+    if (!newAggregation[key]) {
       const dateObj = parsePosDate(bizDay);
-      const ym = bizDay.length >= 6 ? bizDay.substring(0, 6) : "";
       const dateStr = bizDay.length >= 8 ? bizDay.substring(6, 8) : "";
       
-      aggregation[key] = {
+      newAggregation[key] = {
         "店舗CD": shopId,
         "ﾚｼｰﾄNo": receiptNo,
         "年月": ym,
@@ -155,18 +202,31 @@ function generateTrendSheet(ss, rows, colMap) {
         "会計金額": 0
       };
     }
-    aggregation[key]["会計金額"] += (Number(row[colMap["販売金額(税込)"]]) || 0);
+    newAggregation[key]["会計金額"] += (Number(row[colMap["販売金額(税込)"]]) || 0);
   });
   
-  const outputHeaders = ["店舗CD", "ﾚｼｰﾄNo", "年月", "日付", "曜日", "is_holiday", "オーダー日時", "会計日時", "会計金額"];
-  const outputData = [outputHeaders];
+  // ③ Upsert: 新データを既存データにマージ（重複キーは上書き、新規は追加）
+  const newCount = { updated: 0, added: 0 };
+  Object.entries(newAggregation).forEach(([key, val]) => {
+    if (mergedData[key]) {
+      newCount.updated++;
+    } else {
+      newCount.added++;
+    }
+    mergedData[key] = val;
+  });
+  console.log("曜日・時間帯別傾向 Upsert: 上書き " + newCount.updated + " 件, 新規追加 " + newCount.added + " 件");
   
-  Object.values(aggregation).forEach(item => {
+  // ④ マージ済みの全データをシートに書き戻す
+  targetSheet.clear();
+  const outputData = [outputHeaders];
+  Object.values(mergedData).forEach(item => {
     outputData.push(outputHeaders.map(h => item[h]));
   });
   
   targetSheet.getRange(1, 1, outputData.length, outputData[0].length).setValues(outputData);
   formatSheetMiyabi(targetSheet);
+  console.log("曜日・時間帯別傾向: 合計 " + (outputData.length - 1) + " 件書き込み完了");
 }
 
 // =======================
