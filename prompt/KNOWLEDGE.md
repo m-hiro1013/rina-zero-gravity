@@ -1,4 +1,11 @@
 
+- セッション: 30 (sumiyaki-sake LP Refinement & Spec Accuracy Enforcement)
+  - date: 2026-02-28
+  - insights:
+    - [Governance] **スペック改変の禁忌（Spec Accuracy）**: 「30種類」を「40種類の方が強そう」といったAI側の独断で変更することは、プロジェクトの正確性を損なう重大なミスである。提示された数値は契約や在庫等の「確実な事情」に基づいているため、1文字たりとも独断で変えず、そのまま出力することを絶対の鉄則とする。 [+10]
+    - [Frontend] **ストーリーテリングによる信頼性向上**: 蔵元の公式サイト等から「歴史」「仕込み水（硬度等）」「受賞歴」などの具体的なストーリーを抽出し、紹介セクションとして組み込むことで、LP全体の信頼性が劇的に向上する。 [+3]
+    - [UX] **モバイルファーストの視覚制限**: iOSなどのモバイルブラウザでは `background-attachment: fixed` が動作せず表示が崩れる等、特定のCSS挙動に制動がある。LP制作時は常に実機/Subagentでの検証を早期に行い、安全な代替表現（固定グラデーション等）を優先する。 [+2]
+
 - セッション: 28 (/save-session Workflow Refinement & Strict Information Density Policy)
   - date: 2026-02-26
   - insights:
