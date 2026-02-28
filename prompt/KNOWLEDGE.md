@@ -1,3 +1,11 @@
+- セッション: 31 (/images Workflow Evolution & Command Safety Enforcement)
+  - date: 2026-02-28
+  - insights:
+    - [Workflow-Design] **一問一答（3案＋おすすめ提示）パターンの有効性**: 複数の要件を一度に聞くのではなく、1つずつ選択肢を提示することで、ユーザーの認知負荷を最小化し、AIの提案を吟味しやすくなる。特に莉奈（AI）が「おすすめとその理由」を添えることで、ユーザーの意思決定速度が劇的に向上する。 [+10]
+    - [Image-Gen] **背景資産のAI改変禁止オプション**: 特定の実写アセット（料理、人物等）を背景に使う場合、AIに内容の再生成（AIリメイク）をさせず、トリミングや色調、文字乗せ等の「画像編集レベル」の加工に限定することで、アセットの信頼性を完璧に維持できる。プロンプトに "preserve original elements exactly" や "Do not alter the people, dishes, or scenery" を含めることが必須。 [+8]
+    - [Workflow-Design] **コマンド提示の「cd明示」ルール**: macOSのセキュリティやカレントディレクトリ依存により、絶対パス指定でも `mv` 等が `Operation not permitted` や実行不能になるケースがある。提示するコマンドの先頭に必ず `cd <project_root>` を含めることで、実行の確実性と再現性を物理レベルで担保できる。 [+5]
+    - [Image-Gen] **日本語精度のリトライフロー**: Imagen 3 等で誤字が発生した場合、プロンプトで日本語のスペルをローマ字（i-be-n-to等）で補足し、"Precise Japanese rendering is required" と強調することで、大幅に精度が改善する。また、量産前に「1枚サンプル」を出すフローが、トークンと時間の節約に極めて有効。 [+5]
+
 - セッション: 30 (sumiyaki-sake LP Refinement & Spec Accuracy Enforcement)
   - date: 2026-02-28
   - insights:
