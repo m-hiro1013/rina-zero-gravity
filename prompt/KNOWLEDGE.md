@@ -1,3 +1,10 @@
+- セッション: 32 (Accidental Data Overwrite & Principle of Accumulation Enforcement)
+  - date: 2026-02-28
+  - insights:
+    - [Governance-Failure] **セーブ時の既存データ喪失（Overwrite-Error）**: `WORKFLOW.yaml` 等の蓄積型ファイルを更新する際、前回の内容を完全に把握せずに「今回のサマリー」だけで上書きしてしまうと、過去の全決定事項や実績が物理的に消失する。これはGA-Workspaceにおける最大級のガバナンス違反である。 [+20]
+    - [Governance-Rule] **記憶累加の原則（Principle of Accumulation）**: 「上書きは破産、追記は財産」という思想の下、如何なる時も既存の `decisions`, `features`, `history` を削除してはならない。必ず既存データの末尾に新情報をマージし、一行ずつ「生存確認」を行う工程をワークフローに組み込む。 [+15]
+    - [Workflow-Safeguard] **セーブプロセスの指差し確認**: Step 2 において、既存データが新しいプランに含まれているか、物理的なチェックリストとして実行することで、ヒューマンエラー（AIエラー）をシステム的に排除できる。 [+10]
+
 - セッション: 31 (/images Workflow Evolution & Command Safety Enforcement)
   - date: 2026-02-28
   - insights:
