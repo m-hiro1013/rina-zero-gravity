@@ -1,0 +1,38 @@
+architecture:
+  project_name: "futodama-setup"
+  description: "M1 Mac上のDocker/Rosetta 2環境でFUTODAMAを動作させ、Z.aiのAPIを各AIツールに提供する環境構成"
+
+  logical_structure:
+    host:
+      device: "Mac M1 (Apple Silicon)"
+      os: "macOS"
+      software:
+        - "Docker Desktop (M1版, Rosetta 2有効)"
+    
+    container:
+      name: "webtop"
+      image: "ghcr.io/sunwood-ai-labs/futodama:latest (amd64)"
+      platform: "linux/amd64"
+      desktop_env: "XFCE"
+      port_mapping: "3333:3000"
+    
+    ai_integration:
+      provider: "Z.ai"
+      api_endpoint: "https://api.z.ai/api/anthropic"
+      tools:
+        - name: "Claude Code"
+          model_mapping:
+            haiku: "glm-4.7-flash"
+            sonnet: "glm-4.7"
+        - name: "OpenClaw"
+          gateway: "Enabled"
+
+  completed_features:
+    phase1_setup:
+      features: []
+
+  data_flow:
+    - step: "User accesses browser at http://localhost:3333"
+    - step: "Docker Desktop routes to webtop container via Rosetta 2"
+    - step: "AI tools inside container call Z.ai API"
+    - step: "Z.ai endpoint maps GLM models to Anthropic-compatible format"

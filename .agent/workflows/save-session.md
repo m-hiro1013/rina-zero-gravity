@@ -19,7 +19,11 @@ description: セッション終了時にWORKFLOW.yamlを更新し、進捗を保
 - prompt/フォルダが存在する
 - WORKFLOW.yaml が存在する
 - KNOWLEDGE.md が存在する（学習フロー用）
-- 既存のコンテキストは**「極力削除せず、蓄積型のファイルとして追記する」**ことを原則とする。
+- 既存のコンテキストは**「極力削除せず、蓄積型のファイルとして追記・再構成する」**ことを原則とする。既存の知見を消して情報を単純化してはならない。
+- **保存場所の原則**:
+  - **進捗・タスク状態**: プロジェクト個別の `WORKFLOW.yaml` で管理。
+  - **反省点・改善点・教訓**: 原則として**グローバル**（`/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md` 等）に保管。
+  - **個別判断**: 「そのプロジェクトにしか関係しない」と確信できる場合のみ個別ファイルに記載。ただし、迷ったらグローバルに蓄積すること。個別に書かれた内容は他プロジェクトで参照されないため、判断は慎重に行う。
 
 ## Step 0: セーブ作業の全体像確認（チェックリスト） ✅
 
@@ -200,14 +204,22 @@ completed_features:
 # +1 = 参考
 ```
 
-### 6-3: KNOWLEDGE.md 更新
+### 6-3: 知見の統合判断（最重要） 🆕
+セッションで得た知見やミスに関する具体的な教訓（ロジック）を、以下の優先順位で蓄積・統合する。
 
-セッションで得た知見やミスに関する具体的な教訓（ロジック）を `prompt/KNOWLEDGE.md` に追記。次回のAIが「同じ轍を踏まない」ようにする。
+1. **グローバル統合（原則）**:
+   - 汎用的な知見、次に活かせる反省、改善ルールは必ず以下へ統合する。
+   - `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md`
+   - `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md`
+   - **迷ったらこちらに書く。** ひろきくんの資産として全プロジェクトで共有される。
 
-### 6-4: 統合判断
-汎用的な知見は以下のグローバルファイルへ統合を徹底するよ！✨
-- `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/KNOWLEDGE.md`
-- `/Users/matsumotohiroki/Developer/rina-zero-gravity/prompt/references/goku.md`
+2. **プロジェクト個別（例外）**:
+   - 「そのプロジェクト固有の仕様」や「他では絶対に使わない技術的詳細」のみ、プロジェクト内の `prompt/KNOWLEDGE.md` に追記。
+   - ここに書いた内容は、他のプロジェクトのAIからは見えないことを忘れない。
+
+### 6-4: 記述ルール
+- **消さない**: 既存の知見やログを削除して「きれいに」しようとしない。
+- **追加と再構成**: 新しい情報を追加し、必要であれば既存の情報をより分かりやすく構造化（再構成）するだけに留める。
 
 ## Step 7: 🎯 最優先指標に基づくセルフチェック
 

@@ -1,0 +1,21 @@
+book:
+  agents:
+    - id: "orchestrator"
+      name: "Orchestrator Agent"
+      role: "全体指揮・プランニング"
+      status: "active"
+    
+    - id: "bookkeeper"
+      name: "BookKeeper Agent"
+      role: "進捗管理・セーブデータ保持"
+      status: "active"
+    
+    - id: "coder"
+      name: "Coder Agent"
+      role: "実装・環境構築"
+      status: "active"
+
+  session_state:
+    current_cycle: 1
+    total_estimated_cycles: 7
+    handoff_to: "coder"

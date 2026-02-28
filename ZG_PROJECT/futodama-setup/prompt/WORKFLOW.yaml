@@ -1,0 +1,56 @@
+workflow:
+  last_session_summary: |
+    【今回のセッションでやったこと】
+    - 要件定義（1問1答）完了
+    - 技術選定・テンプレート確定
+    - prompt/ フォルダの初期化開始
+    
+    【次にやること】
+    - Step 1: Docker Desktop のインストール
+    - Rosetta 2 の有効化
+
+  progress:
+    current_phase:
+      number: 3
+      name: "Operational Verification & Optimization"
+      status: "in_progress"
+    
+    completed_phases:
+      - phase: 1
+        name: "Setup & Requirements"
+        completed_at: "2026-02-24"
+      - phase: 2
+        name: "Environment Implementation"
+        completed_at: "2026-02-24"
+
+  tasks:
+    - id: "STEP1"
+      name: "Docker Desktop インストール"
+      status: "done"
+    - id: "STEP2"
+      name: "Rosetta 2 有効化"
+      status: "done"
+    - id: "STEP3"
+      name: "FUTODAMA クローン"
+      status: "done"
+    - id: "STEP4"
+      name: ".env 設定"
+      status: "done"
+    - id: "STEP5"
+      name: "ビルド・起動"
+      status: "done"
+    - id: "STEP6"
+      name: "動作確認"
+      status: "done"
+    - id: "STEP7"
+      name: "Z.ai 上限設定"
+      status: "in_progress"
+
+  decisions:
+    adopted:
+      - id: "D001"
+        decision: "Haikuランクに GLM-4.7-Flash（無料）を割り当てる"
+        reason: "運用コストを最小化するため"
+      - id: "D002"
+        decision: "Z.aiはプリペイド方式（$30チャージ）で管理する"
+        reason: "月次予算を確実に守るため"

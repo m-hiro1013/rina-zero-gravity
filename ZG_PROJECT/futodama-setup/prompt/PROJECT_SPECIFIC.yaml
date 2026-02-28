@@ -1,0 +1,38 @@
+project:
+  name: "futodama-setup"
+  purpose:
+    primary: "M1 MacにFUTODAMAを導入し、Z.aiのAPIを利用してClaude CodeやOpenClawを低コストで使える環境を構築する"
+  success_criteria:
+    - "Docker DesktopがM1 Macで動作（Rosetta 2有効）"
+    - "FUTODAMAがクローンされ、.env設定が完了"
+    - "Claude Code / OpenClaw がZ.ai経由で動作"
+    - "Z.aiの月次予算が$30以内に制限される"
+
+tech_stack:
+  runtime: "Docker Desktop (Mac M1)"
+  emulation: "Rosetta 2"
+  ai_provider: "Z.ai"
+  models:
+    haiku_rank: "glm-4.7-flash (Free)"
+    sonnet_rank: "glm-4.7"
+    opus_rank: "glm-4.7"
+
+environment:
+  pc: "Mac M1 (Apple Silicon)"
+  docker: "To be installed"
+  zai: "Account & API Key ready"
+  ios: "iPhone ready"
+
+scope:
+  included:
+    - "Step 1: Docker Desktop インストール"
+    - "Step 2: Rosetta 2 有効化"
+    - "Step 3: FUTODAMA クローン"
+    - "Step 4: .env 設定"
+    - "Step 5: ビルド・起動"
+    - "Step 6: 動作確認"
+    - "Step 7: Z.ai 上限設定"
+  excluded:
+    - "Discord連携"
+    - "Tailscale"
+    - "SSH設定"
